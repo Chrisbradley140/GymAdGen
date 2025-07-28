@@ -56,7 +56,7 @@ const FAQ = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-black mb-4">
-            Frequently Asked <span className="text-gradient">Questions</span>
+            Frequently Asked <span className="bg-white text-black px-4 py-2 rounded-lg">Questions</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Everything you need to know about FitnessAds.AI
