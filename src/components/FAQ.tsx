@@ -38,7 +38,7 @@ const FAQ = () => {
   };
 
   return (
-    <section className="py-20 px-6 bg-secondary/10">
+    <section className="py-20 px-6">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-black mb-6">
@@ -49,37 +49,26 @@ const FAQ = () => {
           </p>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-4">
           {faqs.map((faq, index) => (
-            <Card 
-              key={index} 
-              className={`overflow-hidden transition-all duration-300 hover:shadow-lg border-2 ${
-                openIndex === index 
-                  ? 'border-primary/30 bg-primary/5' 
-                  : 'border-muted hover:border-primary/20'
-              }`}
-            >
+            <Card key={index} className="p-6 border-muted">
               <button
                 onClick={() => toggleFAQ(index)}
-                className="w-full p-8 flex justify-between items-center text-left group transition-all duration-200 hover:bg-primary/5"
+                className="w-full flex justify-between items-center text-left"
               >
-                <h3 className="text-xl font-bold pr-6 group-hover:text-primary transition-colors">
-                  {faq.question}
-                </h3>
-                <div className={`flex-shrink-0 transition-all duration-300 ${
-                  openIndex === index ? 'rotate-180' : ''
-                }`}>
-                  <ChevronDown className="w-6 h-6 text-primary" />
-                </div>
+                <h3 className="text-lg font-semibold pr-4">{faq.question}</h3>
+                {openIndex === index ? (
+                  <ChevronUp className="w-5 h-5 text-primary flex-shrink-0" />
+                ) : (
+                  <ChevronDown className="w-5 h-5 text-primary flex-shrink-0" />
+                )}
               </button>
               
-              <div className={`overflow-hidden transition-all duration-300 ${
-                openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-              }`}>
-                <div className="px-8 pb-8 text-muted-foreground leading-relaxed text-lg">
+              {openIndex === index && (
+                <div className="mt-4 text-muted-foreground leading-relaxed">
                   {faq.answer}
                 </div>
-              </div>
+              )}
             </Card>
           ))}
         </div>
