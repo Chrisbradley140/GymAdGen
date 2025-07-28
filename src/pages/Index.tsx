@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -19,6 +20,7 @@ import AdCard from "@/components/AdCard";
 import BenefitCard from "@/components/BenefitCard";
 import ProductDemo from "@/components/ProductDemo";
 import Navigation from "@/components/Navigation";
+import FAQ from "@/components/FAQ";
 
 const Index = () => {
   const [email, setEmail] = useState("");
@@ -64,7 +66,7 @@ const Index = () => {
             Built For Coaches. By a Coach.
           </Badge>
           
-          <h1 className="text-5xl md:text-7xl font-black leading-tight mb-8 animate-fade-in">
+          <h1 className="text-4xl md:text-6xl font-black leading-tight mb-8 animate-fade-in">
             Outperform <span className="text-gradient">'Fitness Marketing Agencies'</span>,<br />
             Canva Templates and ChatGPT<br />
             — With The AI Ad Tool Built for<br />
@@ -245,6 +247,9 @@ const Index = () => {
           </Card>
         </div>
       </section>
+
+      {/* FAQ Section */}
+      <FAQ />
 
       {/* Scarcity Section */}
       <section className="py-20 px-6 bg-gradient-to-r from-primary/10 to-primary/5">
