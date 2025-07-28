@@ -66,14 +66,11 @@ const Index = () => {
           </Badge>
           
           <h1 className="text-5xl md:text-7xl font-black leading-tight mb-8 animate-fade-in">
-            Not Another GPT Tool.<br />
-            This <span className="text-gradient">Prints Scroll-Stopping</span><br />
-            Fitness Ads.
+            Outperform <span className="text-gradient">'Fitness Marketing Agencies'</span>,<br />
+            Canva Templates and ChatGPT<br />
+            — With The AI Ad Tool Built for<br />
+            <span className="text-gradient">Real Fitness Businesses</span>.
           </h1>
-          
-          <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed">
-            Stop wasting money on ads that flop. Get high-converting copy that actually sells your fitness programs.
-          </p>
           
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
             <CTAButton size="lg">Generate Your First Ad</CTAButton>
