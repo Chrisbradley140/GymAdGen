@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -27,7 +28,6 @@ import ResultsShowcase from "@/components/ResultsShowcase";
 import HeroAnimation from "@/components/HeroAnimation";
 
 const Index = () => {
-  const [email, setEmail] = useState("");
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
   const testimonials = [
@@ -271,41 +271,6 @@ const Index = () => {
       {/* FAQ Section */}
       <FAQ />
 
-      {/* Scarcity Section */}
-      <section className="py-12 px-4 bg-gradient-to-r from-primary/10 to-primary/5">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="mb-6">
-            <Badge className="bg-red-600 text-white font-bold px-3 py-1.5 text-sm animate-pulse">
-              LIMITED TIME
-            </Badge>
-          </div>
-          
-          <h2 className="text-3xl md:text-4xl font-black mb-4">
-            Only <span className="text-gradient">50 Early Users</span><br />
-            Get Free Lifetime Access
-          </h2>
-          
-          <p className="text-lg text-muted-foreground mb-6">
-            Skip the $97/month fee. Lock in your spot before we hit capacity.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-3 justify-center items-center max-w-md mx-auto mb-4">
-            <Input 
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="bg-background border-muted"
-            />
-            <CTAButton className="whitespace-nowrap">Join Waitlist</CTAButton>
-          </div>
-          
-          <div className="text-sm text-muted-foreground">
-            🔒 We hate spam too. Unsubscribe anytime.
-          </div>
-        </div>
-      </section>
-
       {/* Final CTA */}
       <section className="py-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
@@ -329,33 +294,10 @@ const Index = () => {
       {/* Professional Footer */}
       <footer className="py-12 px-4 border-t border-muted bg-secondary/10">
         <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-1 gap-8 mb-8">
-            {/* Company Info */}
-            <div className="text-center">
-              <div className="text-2xl font-black mb-4 text-gradient">FitnessAds.ai</div>
-              <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                The only AI-powered ad generation tool built specifically for fitness entrepreneurs. 
-                Create scroll-stopping ads that convert in 90 seconds.
-              </p>
-              <div className="flex justify-center items-center space-x-4">
-                <div className="flex items-center text-sm text-muted-foreground">
-                  <Mail className="w-4 h-4 mr-2" />
-                  hello@fitnessads.ai
-                </div>
-                <div className="flex items-center text-sm text-muted-foreground">
-                  <MapPin className="w-4 h-4 mr-2" />
-                  London, UK
-                </div>
-              </div>
-            </div>
-          </div>
-
           {/* Bottom Section */}
-          <div className="border-t border-muted pt-8">
-            <div className="text-center">
-              <div className="text-sm text-muted-foreground">
-                © 2024 FitnessAds.ai. All rights reserved. Built by coaches, for coaches.
-              </div>
+          <div className="text-center">
+            <div className="text-sm text-muted-foreground">
+              © 2024 FitnessAds.ai. All rights reserved. Built by coaches, for coaches.
             </div>
           </div>
         </div>
