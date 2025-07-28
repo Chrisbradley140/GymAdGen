@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -21,6 +20,7 @@ import BenefitCard from "@/components/BenefitCard";
 import ProductDemo from "@/components/ProductDemo";
 import Navigation from "@/components/Navigation";
 import FAQ from "@/components/FAQ";
+import ResultsShowcase from "@/components/ResultsShowcase";
 
 const Index = () => {
   const [email, setEmail] = useState("");
@@ -178,6 +178,9 @@ const Index = () => {
           <ProductDemo />
         </div>
       </section>
+
+      {/* New Results Showcase Section */}
+      <ResultsShowcase />
 
       {/* Social Proof */}
       <section className="py-12 px-4">
