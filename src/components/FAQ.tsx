@@ -1,10 +1,12 @@
 
-import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const FAQ = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
   const faqs = [
     {
       question: "What exactly is FitnessAds.ai?",
@@ -48,13 +50,9 @@ const FAQ = () => {
     }
   ];
 
-  const toggleFAQ = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-
   return (
-    <section className="py-20 px-6 bg-secondary/10">
-      <div className="max-w-5xl mx-auto">
+    <section className="py-20 px-6 bg-gradient-to-b from-background to-secondary/10">
+      <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-black mb-4">
@@ -65,54 +63,38 @@ const FAQ = () => {
           </p>
         </div>
 
-        {/* FAQ Items */}
-        <div className="space-y-4">
-          {faqs.map((faq, index) => (
-            <div
-              key={index}
-              className={`bg-card border border-border rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg ${
-                openIndex === index ? 'ring-2 ring-primary/20 shadow-md' : ''
-              }`}
-            >
-              <button
-                onClick={() => toggleFAQ(index)}
-                className="w-full p-6 text-left hover:bg-secondary/20 transition-colors duration-200"
+        {/* Modern Accordion FAQ */}
+        <div className="bg-card/50 backdrop-blur-sm rounded-2xl border border-border/50 shadow-lg overflow-hidden">
+          <Accordion type="single" collapsible className="w-full">
+            {faqs.map((faq, index) => (
+              <AccordionItem 
+                key={index} 
+                value={`item-${index}`}
+                className="border-b border-border/50 last:border-b-0"
               >
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold text-foreground pr-4">
+                <AccordionTrigger className="px-6 py-6 text-left hover:bg-secondary/30 transition-colors duration-200 [&[data-state=open]]:bg-secondary/20">
+                  <span className="text-lg font-semibold text-foreground pr-4">
                     {faq.question}
-                  </h3>
-                  <ChevronDown
-                    className={`w-5 h-5 text-primary transition-transform duration-300 flex-shrink-0 ${
-                      openIndex === index ? 'rotate-180' : ''
-                    }`}
-                  />
-                </div>
-              </button>
-              
-              <div
-                className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                  openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                }`}
-              >
-                <div className="px-6 pb-6">
-                  <div className="border-l-4 border-primary/30 pl-4">
-                    <p className="text-muted-foreground leading-relaxed">
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent className="px-6 pb-6 pt-0">
+                  <div className="border-l-4 border-primary/30 pl-6 py-2">
+                    <p className="text-muted-foreground leading-relaxed text-base">
                       {faq.answer}
                     </p>
                   </div>
-                </div>
-              </div>
-            </div>
-          ))}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
 
         {/* Bottom CTA */}
         <div className="text-center mt-12">
-          <p className="text-muted-foreground mb-6">
+          <p className="text-muted-foreground mb-6 text-lg">
             Still have questions? We're here to help.
           </p>
-          <button className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors duration-200">
+          <button className="px-8 py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:bg-primary/90 transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl">
             Contact Support
           </button>
         </div>
