@@ -18,7 +18,6 @@ import CTAButton from "@/components/CTAButton";
 import AdCard from "@/components/AdCard";
 import BenefitCard from "@/components/BenefitCard";
 import ProductDemo from "@/components/ProductDemo";
-import StickyHeader from "@/components/StickyHeader";
 import Navigation from "@/components/Navigation";
 
 const Index = () => {
@@ -57,7 +56,6 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <StickyHeader />
       
       {/* Hero Section */}
       <section className="min-h-screen flex items-center justify-center px-6 py-20 pt-32">
