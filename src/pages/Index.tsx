@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -69,10 +68,6 @@ const Index = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Column - Text and CTA */}
             <div className="text-center lg:text-left">
-              <Badge className="mb-6 bg-primary/10 text-primary border-primary/30 px-3 py-1.5 text-sm font-semibold">
-                Built For Coaches. By a Coach.
-              </Badge>
-              
               <h1 className="text-3xl md:text-5xl lg:text-6xl font-black leading-tight mb-6 animate-fade-in">
                 Not Another GPT Tool.<br />
                 This <span className="text-gradient">Prints Scroll-Stopping</span><br />
@@ -80,7 +75,7 @@ const Index = () => {
               </h1>
               
               <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto lg:mx-0">
-                Built for Coaches. By a Coach. Not an AI intern.
+                Get Money Printing Ads In 20 seconds
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center mb-8">
