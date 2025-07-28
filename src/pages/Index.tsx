@@ -13,7 +13,10 @@ import {
   Star,
   ChevronLeft,
   ChevronRight,
-  Play
+  Play,
+  Mail,
+  MapPin,
+  Phone
 } from "lucide-react";
 import CTAButton from "@/components/CTAButton";
 import AdCard from "@/components/AdCard";
@@ -324,15 +327,66 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-8 px-4 border-t border-muted bg-secondary/20">
-        <div className="max-w-5xl mx-auto text-center">
-          <div className="text-xl font-bold mb-3">FitAd AI</div>
-          <p className="text-muted-foreground mb-4">
-            The only ad generation tool built specifically for fitness entrepreneurs.
-          </p>
-          <div className="text-sm text-muted-foreground">
-            © 2024 FitAd AI. Built by coaches, for coaches.
+      {/* Professional Footer */}
+      <footer className="py-12 px-4 border-t border-muted bg-secondary/10">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-8 mb-8">
+            {/* Company Info */}
+            <div className="md:col-span-2">
+              <div className="text-2xl font-black mb-4 text-gradient">FitnessAds.ai</div>
+              <p className="text-muted-foreground mb-6 max-w-md">
+                The only AI-powered ad generation tool built specifically for fitness entrepreneurs. 
+                Create scroll-stopping ads that convert in 90 seconds.
+              </p>
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center text-sm text-muted-foreground">
+                  <Mail className="w-4 h-4 mr-2" />
+                  hello@fitnessads.ai
+                </div>
+                <div className="flex items-center text-sm text-muted-foreground">
+                  <MapPin className="w-4 h-4 mr-2" />
+                  London, UK
+                </div>
+              </div>
+            </div>
+
+            {/* Product Links */}
+            <div>
+              <h4 className="font-bold mb-4">Product</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><a href="#features" className="hover:text-primary transition-colors">Features</a></li>
+                <li><a href="#pricing" className="hover:text-primary transition-colors">Pricing</a></li>
+                <li><a href="#demo" className="hover:text-primary transition-colors">Demo</a></li>
+                <li><a href="#templates" className="hover:text-primary transition-colors">Templates</a></li>
+                <li><a href="#integrations" className="hover:text-primary transition-colors">Integrations</a></li>
+              </ul>
+            </div>
+
+            {/* Resources */}
+            <div>
+              <h4 className="font-bold mb-4">Resources</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><a href="#blog" className="hover:text-primary transition-colors">Blog</a></li>
+                <li><a href="#case-studies" className="hover:text-primary transition-colors">Case Studies</a></li>
+                <li><a href="#help" className="hover:text-primary transition-colors">Help Center</a></li>
+                <li><a href="#community" className="hover:text-primary transition-colors">Community</a></li>
+                <li><a href="#api" className="hover:text-primary transition-colors">API Docs</a></li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Bottom Section */}
+          <div className="border-t border-muted pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              <div className="text-sm text-muted-foreground mb-4 md:mb-0">
+                © 2024 FitnessAds.ai. All rights reserved. Built by coaches, for coaches.
+              </div>
+              <div className="flex space-x-6 text-sm text-muted-foreground">
+                <a href="#privacy" className="hover:text-primary transition-colors">Privacy Policy</a>
+                <a href="#terms" className="hover:text-primary transition-colors">Terms of Service</a>
+                <a href="#cookies" className="hover:text-primary transition-colors">Cookie Policy</a>
+              </div>
+            </div>
           </div>
         </div>
       </footer>
