@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 
 interface CTAButtonProps {
   children: React.ReactNode;
-  size?: "default" | "sm" | "lg" | "xl";
+  size?: "default" | "sm" | "lg";
   className?: string;
   onClick?: () => void;
 }
@@ -18,7 +18,7 @@ const CTAButton = ({ children, size = "lg", className = "", onClick }: CTAButton
         bg-primary hover:bg-primary/90 text-white font-bold tracking-wide
         transition-all duration-300 transform hover:scale-105 hover:shadow-lg
         glow-orange hover:animate-pulse-glow group
-        ${size === "xl" ? "px-12 py-6 text-xl" : ""}
+        ${size === "lg" ? "px-12 py-6 text-xl" : ""}
         ${className}
       `}
     >
