@@ -1,7 +1,6 @@
 
 import { useState } from "react";
-import { Card } from "@/components/ui/card";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, Plus, Minus } from "lucide-react";
 
 const FAQ = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -38,39 +37,76 @@ const FAQ = () => {
   };
 
   return (
-    <section className="py-20 px-6">
+    <section className="py-24 px-6 bg-gradient-to-b from-background to-background/80">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-black mb-6">
-            Frequently Asked <span className="text-gradient">Questions</span>
+        {/* Header */}
+        <div className="text-center mb-20">
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
+            <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>
+            FAQ
+          </div>
+          <h2 className="text-5xl md:text-6xl font-black mb-8 leading-tight">
+            Got <span className="text-gradient">Questions?</span>
           </h2>
-          <p className="text-xl text-muted-foreground">
-            Everything you need to know about FitnessAds.AI
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Find answers to the most common questions about FitnessAds.AI
           </p>
         </div>
 
-        <div className="space-y-4">
+        {/* FAQ Grid */}
+        <div className="grid gap-6">
           {faqs.map((faq, index) => (
-            <Card key={index} className="p-6 border-muted">
+            <div
+              key={index}
+              className={`group relative overflow-hidden rounded-2xl border border-border/50 transition-all duration-300 hover:border-primary/20 ${
+                openIndex === index ? 'bg-primary/5 border-primary/30' : 'bg-card/50 hover:bg-card/80'
+              }`}
+            >
+              {/* Gradient border effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
               <button
                 onClick={() => toggleFAQ(index)}
-                className="w-full flex justify-between items-center text-left"
+                className="relative w-full p-8 text-left transition-all duration-300"
               >
-                <h3 className="text-lg font-semibold pr-4">{faq.question}</h3>
-                {openIndex === index ? (
-                  <ChevronUp className="w-5 h-5 text-primary flex-shrink-0" />
-                ) : (
-                  <ChevronDown className="w-5 h-5 text-primary flex-shrink-0" />
-                )}
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg md:text-xl font-semibold text-foreground group-hover:text-primary transition-colors pr-6">
+                    {faq.question}
+                  </h3>
+                  
+                  <div className="flex-shrink-0 relative">
+                    {openIndex === index ? (
+                      <Minus className="w-6 h-6 text-primary transition-transform duration-300" />
+                    ) : (
+                      <Plus className="w-6 h-6 text-muted-foreground group-hover:text-primary transition-all duration-300" />
+                    )}
+                  </div>
+                </div>
               </button>
               
-              {openIndex === index && (
-                <div className="mt-4 text-muted-foreground leading-relaxed">
-                  {faq.answer}
+              {/* Answer with smooth animation */}
+              <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+              }`}>
+                <div className="px-8 pb-8">
+                  <div className="w-12 h-px bg-gradient-to-r from-primary to-transparent mb-6"></div>
+                  <p className="text-muted-foreground leading-relaxed text-base md:text-lg">
+                    {faq.answer}
+                  </p>
                 </div>
-              )}
-            </Card>
+              </div>
+            </div>
           ))}
+        </div>
+
+        {/* Bottom CTA */}
+        <div className="text-center mt-16">
+          <p className="text-muted-foreground mb-6">
+            Still have questions? We're here to help.
+          </p>
+          <button className="inline-flex items-center px-8 py-4 rounded-full bg-gradient-to-r from-primary to-red-500 text-white font-semibold hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+            Contact Support
+          </button>
         </div>
       </div>
     </section>
