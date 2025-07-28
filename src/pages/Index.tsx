@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -21,6 +22,7 @@ import ProductDemo from "@/components/ProductDemo";
 import Navigation from "@/components/Navigation";
 import FAQ from "@/components/FAQ";
 import ResultsShowcase from "@/components/ResultsShowcase";
+import HeroAnimation from "@/components/HeroAnimation";
 
 const Index = () => {
   const [email, setEmail] = useState("");
@@ -61,30 +63,43 @@ const Index = () => {
       
       {/* Hero Section */}
       <section className="min-h-screen flex items-center justify-center px-4 py-16 pt-24">
-        <div className="max-w-5xl mx-auto text-center">
-          <Badge className="mb-6 bg-primary/10 text-primary border-primary/30 px-3 py-1.5 text-sm font-semibold">
-            Built For Coaches. By a Coach.
-          </Badge>
-          
-          <h1 className="text-3xl md:text-5xl font-black leading-tight mb-6 animate-fade-in">
-            Outperform <span className="text-gradient">'Fitness Marketing Agencies'</span>,<br />
-            Canva Templates and ChatGPT<br />
-            — With The AI Ad Tool Built for<br />
-            <span className="text-gradient">Real Fitness Businesses</span>.
-          </h1>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <CTAButton size="lg">Generate Your First Ad</CTAButton>
-            <button className="flex items-center text-muted-foreground hover:text-primary transition-colors group">
-              <div className="w-10 h-10 border-2 border-muted rounded-full flex items-center justify-center mr-3 group-hover:border-primary transition-colors">
-                <Play className="w-4 h-4 ml-1" />
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Column - Text and CTA */}
+            <div className="text-center lg:text-left">
+              <Badge className="mb-6 bg-primary/10 text-primary border-primary/30 px-3 py-1.5 text-sm font-semibold">
+                Built For Coaches. By a Coach.
+              </Badge>
+              
+              <h1 className="text-3xl md:text-5xl lg:text-6xl font-black leading-tight mb-6 animate-fade-in">
+                Not Another GPT Tool.<br />
+                This <span className="text-gradient">Prints Scroll-Stopping</span><br />
+                Fitness Ads.
+              </h1>
+              
+              <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto lg:mx-0">
+                Built for Coaches. By a Coach. Not an AI intern.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center mb-8">
+                <CTAButton size="lg">Generate Your First Ad</CTAButton>
+                <button className="flex items-center text-muted-foreground hover:text-primary transition-colors group">
+                  <div className="w-10 h-10 border-2 border-muted rounded-full flex items-center justify-center mr-3 group-hover:border-primary transition-colors">
+                    <Play className="w-4 h-4 ml-1" />
+                  </div>
+                  <span className="text-base font-semibold">Watch 2-min demo</span>
+                </button>
               </div>
-              <span className="text-base font-semibold">Watch 2-min demo</span>
-            </button>
-          </div>
-          
-          <div className="text-sm text-muted-foreground">
-            ✨ No credit card required • Generate ads in 30 seconds
+              
+              <div className="text-sm text-muted-foreground">
+                ✨ No credit card required • Generate ads in 30 seconds
+              </div>
+            </div>
+
+            {/* Right Column - Animation */}
+            <div className="flex justify-center lg:justify-end">
+              <HeroAnimation />
+            </div>
           </div>
         </div>
       </section>
