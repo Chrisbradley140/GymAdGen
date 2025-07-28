@@ -55,8 +55,8 @@ const FAQ = () => {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-black mb-4">
-            Frequently Asked <span className="bg-white text-black px-3 py-1 rounded-lg transform rotate-2 inline-block">Questions</span>
+          <h2 className="text-2xl md:text-3xl font-black mb-4">
+            Frequently Asked <span className="bg-red-600 text-white px-3 py-1 rounded-lg transform -rotate-2 inline-block">Questions</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Everything you need to know about FitnessAds.AI
@@ -87,16 +87,6 @@ const FAQ = () => {
               </AccordionItem>
             ))}
           </Accordion>
-        </div>
-
-        {/* Bottom CTA */}
-        <div className="text-center mt-12">
-          <p className="text-muted-foreground mb-6 text-lg">
-            Still have questions? We're here to help.
-          </p>
-          <button className="px-8 py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:bg-primary/90 transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl">
-            Contact Support
-          </button>
         </div>
       </div>
     </section>
