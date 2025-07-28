@@ -21,7 +21,7 @@ const Navigation = () => {
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <img 
-            src="/lovable-uploads/f2e23576-ebce-4361-9bb7-ddb8fe6c5fc5.png" 
+            src="/lovable-uploads/c4cf7462-6a0c-4f7b-ac89-546cd215771a.png" 
             alt="FitnessAds.AI Logo" 
             className="w-8 h-8"
           />
