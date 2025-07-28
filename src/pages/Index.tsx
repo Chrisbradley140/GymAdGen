@@ -85,16 +85,6 @@ const Index = () => {
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center mb-8">
                 <CTAButton size="lg">Generate Your First Ad</CTAButton>
-                <button className="flex items-center text-muted-foreground hover:text-primary transition-colors group">
-                  <div className="w-10 h-10 border-2 border-muted rounded-full flex items-center justify-center mr-3 group-hover:border-primary transition-colors">
-                    <Play className="w-4 h-4 ml-1" />
-                  </div>
-                  <span className="text-base font-semibold">Watch 2-min demo</span>
-                </button>
-              </div>
-              
-              <div className="text-sm text-muted-foreground">
-                ✨ No credit card required • Generate ads in 30 seconds
               </div>
             </div>
 
