@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { ChevronDown, Plus, Minus } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 const FAQ = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -37,62 +37,54 @@ const FAQ = () => {
   };
 
   return (
-    <section className="py-24 px-6 bg-gradient-to-b from-background to-background/80">
-      <div className="max-w-4xl mx-auto">
+    <section className="py-20 px-6 bg-secondary/10">
+      <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-20">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
-            <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>
-            FAQ
-          </div>
-          <h2 className="text-5xl md:text-6xl font-black mb-8 leading-tight">
-            Got <span className="text-gradient">Questions?</span>
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-black mb-4">
+            Frequently Asked <span className="text-gradient">Questions</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Find answers to the most common questions about FitnessAds.AI
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Everything you need to know about FitnessAds.AI
           </p>
         </div>
 
-        {/* FAQ Grid */}
-        <div className="grid gap-6">
+        {/* FAQ Items */}
+        <div className="space-y-4">
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className={`group relative overflow-hidden rounded-2xl border border-border/50 transition-all duration-300 hover:border-primary/20 ${
-                openIndex === index ? 'bg-primary/5 border-primary/30' : 'bg-card/50 hover:bg-card/80'
+              className={`bg-card border border-border rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg ${
+                openIndex === index ? 'ring-2 ring-primary/20 shadow-md' : ''
               }`}
             >
-              {/* Gradient border effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              
               <button
                 onClick={() => toggleFAQ(index)}
-                className="relative w-full p-8 text-left transition-all duration-300"
+                className="w-full p-6 text-left hover:bg-secondary/20 transition-colors duration-200"
               >
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg md:text-xl font-semibold text-foreground group-hover:text-primary transition-colors pr-6">
+                  <h3 className="text-lg font-semibold text-foreground pr-4">
                     {faq.question}
                   </h3>
-                  
-                  <div className="flex-shrink-0 relative">
-                    {openIndex === index ? (
-                      <Minus className="w-6 h-6 text-primary transition-transform duration-300" />
-                    ) : (
-                      <Plus className="w-6 h-6 text-muted-foreground group-hover:text-primary transition-all duration-300" />
-                    )}
-                  </div>
+                  <ChevronDown
+                    className={`w-5 h-5 text-primary transition-transform duration-300 flex-shrink-0 ${
+                      openIndex === index ? 'rotate-180' : ''
+                    }`}
+                  />
                 </div>
               </button>
               
-              {/* Answer with smooth animation */}
-              <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-              }`}>
-                <div className="px-8 pb-8">
-                  <div className="w-12 h-px bg-gradient-to-r from-primary to-transparent mb-6"></div>
-                  <p className="text-muted-foreground leading-relaxed text-base md:text-lg">
-                    {faq.answer}
-                  </p>
+              <div
+                className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                  openIndex === index ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'
+                }`}
+              >
+                <div className="px-6 pb-6">
+                  <div className="border-l-4 border-primary/30 pl-4">
+                    <p className="text-muted-foreground leading-relaxed">
+                      {faq.answer}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -100,11 +92,11 @@ const FAQ = () => {
         </div>
 
         {/* Bottom CTA */}
-        <div className="text-center mt-16">
+        <div className="text-center mt-12">
           <p className="text-muted-foreground mb-6">
             Still have questions? We're here to help.
           </p>
-          <button className="inline-flex items-center px-8 py-4 rounded-full bg-gradient-to-r from-primary to-red-500 text-white font-semibold hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+          <button className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors duration-200">
             Contact Support
           </button>
         </div>
