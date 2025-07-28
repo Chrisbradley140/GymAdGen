@@ -76,7 +76,7 @@ const Index = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
-            <CTAButton size="xl">Generate Your First Ad</CTAButton>
+            <CTAButton size="lg">Generate Your First Ad</CTAButton>
             <button className="flex items-center text-muted-foreground hover:text-primary transition-colors group">
               <div className="w-12 h-12 border-2 border-muted rounded-full flex items-center justify-center mr-3 group-hover:border-primary transition-colors">
                 <Play className="w-5 h-5 ml-1" />
@@ -297,7 +297,7 @@ const Index = () => {
             Stop competing on price. Start dominating with copy that converts like crazy.
           </p>
           
-          <CTAButton size="xl">Generate Your First Ad</CTAButton>
+          <CTAButton size="lg">Generate Your First Ad</CTAButton>
           
           <div className="mt-8 text-sm text-muted-foreground">
             Join 500+ fitness entrepreneurs already crushing it
