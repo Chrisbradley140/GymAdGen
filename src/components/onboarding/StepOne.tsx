@@ -73,9 +73,6 @@ const StepOne: React.FC<StepOneProps> = ({ data, updateData }) => {
           placeholder="https://your-website.com"
           className="w-full"
         />
-        <p className="text-sm text-muted-foreground">
-          Used for GPT scan to understand your brand better
-        </p>
       </div>
     </div>
   );
