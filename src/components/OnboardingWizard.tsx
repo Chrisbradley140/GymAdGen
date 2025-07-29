@@ -2,17 +2,16 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/components/ui/use-toast';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Save } from 'lucide-react';
 import StepOne from './onboarding/StepOne';
 import StepTwo from './onboarding/StepTwo';
 import StepThree from './onboarding/StepThree';
 import StepFour from './onboarding/StepFour';
 import StepFive from './onboarding/StepFive';
 import StepSix from './onboarding/StepSix';
+import OnboardingLayout from './onboarding/OnboardingLayout';
+import StepIndicator from './onboarding/StepIndicator';
 
 interface OnboardingData {
   business_name: string;
@@ -56,10 +55,29 @@ const initialData: OnboardingData = {
   magic_wand_result: '',
 };
 
+const stepTitles = [
+  'Brand Foundation',
+  'Visual Identity', 
+  'Campaign Strategy',
+  'Social Presence',
+  'Brand Voice',
+  'Customer Psychology'
+];
+
+const stepSubtitles = [
+  'Let\'s start with the basics of your brand',
+  'Define your visual identity and target audience',
+  'Choose your campaign types and approach',
+  'Optional enhancers for better targeting',
+  'Your unique brand language and tone',
+  'Understand your customer\'s mindset'
+];
+
 const OnboardingWizard: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [data, setData] = useState<OnboardingData>(initialData);
   const [loading, setLoading] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
 
@@ -142,21 +160,30 @@ const OnboardingWizard: React.FC<{ onComplete: () => void }> = ({ onComplete }) 
   };
 
   const handleNext = async () => {
+    setIsAnimating(true);
     await saveProgress();
-    if (currentStep < totalSteps) {
-      setCurrentStep(currentStep + 1);
-    } else {
-      toast({
-        title: "Onboarding Complete!",
-        description: "Welcome to FitAd AI. Let's create your first ad!",
-      });
-      onComplete();
-    }
+    
+    setTimeout(() => {
+      if (currentStep < totalSteps) {
+        setCurrentStep(currentStep + 1);
+      } else {
+        toast({
+          title: "🎉 Onboarding Complete!",
+          description: "Welcome to FitAd AI. Let's create your first ad!",
+        });
+        onComplete();
+      }
+      setIsAnimating(false);
+    }, 300);
   };
 
   const handleBack = () => {
     if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
+      setIsAnimating(true);
+      setTimeout(() => {
+        setCurrentStep(currentStep - 1);
+        setIsAnimating(false);
+      }, 300);
     }
   };
 
@@ -165,80 +192,125 @@ const OnboardingWizard: React.FC<{ onComplete: () => void }> = ({ onComplete }) 
   };
 
   const renderStep = () => {
+    const stepProps = { data, updateData };
+    
     switch (currentStep) {
-      case 1:
-        return <StepOne data={data} updateData={updateData} />;
-      case 2:
-        return <StepTwo data={data} updateData={updateData} />;
-      case 3:
-        return <StepThree data={data} updateData={updateData} />;
-      case 4:
-        return <StepFour data={data} updateData={updateData} />;
-      case 5:
-        return <StepFive data={data} updateData={updateData} />;
-      case 6:
-        return <StepSix data={data} updateData={updateData} />;
-      default:
-        return <StepOne data={data} updateData={updateData} />;
+      case 1: return <StepOne {...stepProps} />;
+      case 2: return <StepTwo {...stepProps} />;
+      case 3: return <StepThree {...stepProps} />;
+      case 4: return <StepFour {...stepProps} />;
+      case 5: return <StepFive {...stepProps} />;
+      case 6: return <StepSix {...stepProps} />;
+      default: return <StepOne {...stepProps} />;
     }
   };
 
-  const progress = (currentStep / totalSteps) * 100;
+  const canProceed = () => {
+    switch (currentStep) {
+      case 1: return data.business_name.trim() !== '';
+      case 6: 
+        return data.main_problem.trim() !== '' && 
+               data.failed_solutions.trim() !== '' && 
+               data.client_words.trim() !== '' && 
+               data.magic_wand_result.trim() !== '';
+      default: return true;
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted p-4">
-      <div className="max-w-2xl mx-auto">
-        {/* Progress Header */}
-        <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold mb-4">Welcome to FitAd AI</h1>
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <span className="text-sm text-muted-foreground">Step {currentStep} of {totalSteps}</span>
-            <div className="flex-1 max-w-md">
-              <Progress value={progress} className="h-2" />
+    <OnboardingLayout brandColor={data.brand_colors}>
+      {/* Header */}
+      <div className="text-center mb-12">
+        <h1 className="text-4xl md:text-5xl font-black mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+          Welcome to FitAd AI
+        </h1>
+        <p className="text-xl text-gray-300 mb-8">
+          Let's build your perfect ad-generating machine
+        </p>
+        
+        <StepIndicator 
+          currentStep={currentStep} 
+          totalSteps={totalSteps} 
+          stepTitles={stepTitles}
+        />
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
+          {/* Left Column - Illustration/Preview */}
+          <div className="hidden lg:block">
+            <div className="sticky top-8">
+              <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
+                <div className="aspect-square bg-gradient-to-br from-primary/20 to-primary/5 rounded-2xl flex items-center justify-center">
+                  <div className="text-6xl opacity-50">
+                    {currentStep === 1 && '🚀'}
+                    {currentStep === 2 && '🎨'}
+                    {currentStep === 3 && '🎯'}
+                    {currentStep === 4 && '📱'}
+                    {currentStep === 5 && '💬'}
+                    {currentStep === 6 && '🧠'}
+                  </div>
+                </div>
+                <div className="mt-6">
+                  <h3 className="text-xl font-bold text-white mb-2">
+                    {stepTitles[currentStep - 1]}
+                  </h3>
+                  <p className="text-gray-300">
+                    {stepSubtitles[currentStep - 1]}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column - Form */}
+          <div className={`transition-all duration-300 ${isAnimating ? 'opacity-50 translate-x-4' : 'opacity-100 translate-x-0'}`}>
+            <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
+              <div className="mb-8">
+                <h2 className="text-2xl font-bold text-white mb-2">
+                  {stepTitles[currentStep - 1]}
+                </h2>
+                <p className="text-gray-300">
+                  {stepSubtitles[currentStep - 1]}
+                </p>
+              </div>
+
+              {renderStep()}
+            </div>
+
+            {/* Navigation */}
+            <div className="flex justify-between items-center mt-8">
+              <button
+                onClick={handleBack}
+                disabled={currentStep === 1}
+                className="flex items-center gap-2 px-6 py-3 text-white/70 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <ChevronLeft className="w-5 h-5" />
+                Back
+              </button>
+              
+              <div className="flex items-center gap-4">
+                {/* Save Progress Badge */}
+                <div className="flex items-center gap-2 text-sm text-gray-300">
+                  <Save className="w-4 h-4" />
+                  Auto-saving progress
+                </div>
+
+                <button
+                  onClick={handleNext}
+                  disabled={loading || !canProceed()}
+                  className="flex items-center gap-2 px-8 py-4 bg-primary hover:bg-primary/90 text-white font-bold rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                >
+                  {loading ? "Saving..." : currentStep === totalSteps ? "Complete Setup" : "Continue"}
+                  {!loading && <ChevronRight className="w-5 h-5" />}
+                </button>
+              </div>
             </div>
           </div>
         </div>
-
-        {/* Step Content */}
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle className="text-center">
-              {currentStep === 1 && "Brand Basics"}
-              {currentStep === 2 && "Brand Identity"}
-              {currentStep === 3 && "Campaign Type"}
-              {currentStep === 4 && "Optional Enhancers"}
-              {currentStep === 5 && "Brand Language"}
-              {currentStep === 6 && "Disruptive Ad Psychology"}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {renderStep()}
-          </CardContent>
-        </Card>
-
-        {/* Navigation */}
-        <div className="flex justify-between items-center">
-          <Button
-            variant="outline"
-            onClick={handleBack}
-            disabled={currentStep === 1}
-            className="flex items-center gap-2"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            Back
-          </Button>
-          
-          <Button
-            onClick={handleNext}
-            disabled={loading}
-            className="flex items-center gap-2"
-          >
-            {loading ? "Saving..." : currentStep === totalSteps ? "Complete" : "Next"}
-            {!loading && <ChevronRight className="w-4 h-4" />}
-          </Button>
-        </div>
       </div>
-    </div>
+    </OnboardingLayout>
   );
 };
 
