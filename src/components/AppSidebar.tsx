@@ -27,14 +27,6 @@ import {
   SidebarGroupLabel,
   useSidebar,
 } from "@/components/ui/sidebar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 export function AppSidebar() {
   const { user, signOut } = useAuth();
@@ -51,67 +43,19 @@ export function AppSidebar() {
     { name: "Account", path: "/account", icon: User },
   ];
 
-  const handleSignOut = async () => {
-    await signOut();
-    navigate('/');
-  };
-
   const isActivePath = (path: string) => location.pathname === path;
 
   return (
     <Sidebar className="border-r border-border">
       <SidebarHeader className="border-b border-border p-6">
-        <div className="flex items-center justify-between w-full">
-          <div className="flex items-center gap-3">
-            <img 
-              src="/lovable-uploads/c4cf7462-6a0c-4f7b-ac89-546cd215771a.png" 
-              alt="FitnessAds.AI Logo" 
-              className="w-10 h-10"
-            />
-            {state === "expanded" && (
-              <span className="text-xl font-bold">FITNESSADS.AI</span>
-            )}
-          </div>
-          
-          {user && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="flex items-center gap-2"
-                >
-                  <User className="w-4 h-4" />
-                  {state === "expanded" && (
-                    <ChevronDown className="w-4 h-4" />
-                  )}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56 bg-popover">
-                <DropdownMenuLabel className="text-muted-foreground">
-                  {user.email}
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                {navigationItems.map((item) => (
-                  <DropdownMenuItem
-                    key={item.path}
-                    onClick={() => navigate(item.path)}
-                    className="flex items-center gap-3 cursor-pointer h-10 px-3"
-                  >
-                    <item.icon className="w-5 h-5" />
-                    <span className="text-sm">{item.name}</span>
-                  </DropdownMenuItem>
-                ))}
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={handleSignOut}
-                  className="flex items-center gap-3 cursor-pointer text-destructive focus:text-destructive h-10 px-3"
-                >
-                  <LogOut className="w-5 h-5" />
-                  <span className="text-sm">Logout</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+        <div className="flex items-center gap-3">
+          <img 
+            src="/lovable-uploads/c4cf7462-6a0c-4f7b-ac89-546cd215771a.png" 
+            alt="FitnessAds.AI Logo" 
+            className="w-10 h-10"
+          />
+          {state === "expanded" && (
+            <span className="text-xl font-bold">FITNESSADS.AI</span>
           )}
         </div>
       </SidebarHeader>
@@ -129,7 +73,11 @@ export function AppSidebar() {
                   >
                     <button
                       onClick={() => navigate(item.path)}
-                      className="flex items-center gap-4 w-full h-12 px-4 text-base font-medium rounded-lg transition-all hover:bg-accent"
+                      className={`flex items-center gap-4 w-full h-12 px-4 text-base font-medium rounded-lg transition-all ${
+                        isActivePath(item.path) 
+                          ? 'bg-primary text-primary-foreground shadow-sm' 
+                          : 'hover:bg-accent hover:text-accent-foreground'
+                      }`}
                     >
                       <item.icon className="w-6 h-6" />
                       {state === "expanded" && <span className="text-base">{item.name}</span>}
@@ -143,7 +91,7 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="border-t border-border p-4">
-        {/* Footer is now empty since user profile moved to header */}
+        {/* Footer is now empty since user profile moved to top right */}
       </SidebarFooter>
     </Sidebar>
   );
