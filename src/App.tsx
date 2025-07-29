@@ -5,7 +5,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
-import Navigation from "./components/Navigation";
 import { AppLayout } from "./components/AppLayout";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
@@ -41,12 +40,7 @@ const PublicRoute = ({ children }: { children: React.ReactNode }) => {
     return <div>Loading...</div>;
   }
   
-  return (
-    <>
-      <Navigation />
-      {children}
-    </>
-  );
+  return <>{children}</>;
 };
 
 function App() {
