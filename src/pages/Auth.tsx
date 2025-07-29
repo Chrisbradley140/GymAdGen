@@ -79,10 +79,10 @@ const Auth = () => {
         } else {
           toast({
             title: "Account created!",
-            description: "Please check your email to verify your account.",
+            description: "Please check your email to verify your account. Once verified, you'll be taken to the onboarding wizard.",
           });
-          // Don't redirect immediately for signup, let them verify email first
-          setIsLogin(true);
+          // For new signups, we'll let the auth state change handler in the context
+          // redirect them to onboarding once they're authenticated
         }
       }
     } catch (err) {
