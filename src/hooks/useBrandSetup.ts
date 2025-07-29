@@ -38,13 +38,18 @@ export const useBrandSetup = () => {
 
     try {
       setLoading(true);
+      console.log('Fetching onboarding data for user:', user.id);
+      
+      // Use maybeSingle() instead of single() to handle cases where no data exists
       const { data: onboardingData, error } = await supabase
         .from('user_onboarding')
         .select('*')
         .eq('user_id', user.id)
-        .single();
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
 
-      if (error && error.code !== 'PGRST116') {
+      if (error) {
         console.error('Error fetching onboarding data:', error);
         toast({
           title: "Error",
@@ -53,6 +58,8 @@ export const useBrandSetup = () => {
         });
         return;
       }
+
+      console.log('Fetched onboarding data:', onboardingData);
 
       if (onboardingData) {
         setData({
@@ -76,6 +83,9 @@ export const useBrandSetup = () => {
           client_words: onboardingData.client_words || '',
           magic_wand_result: onboardingData.magic_wand_result || ''
         });
+      } else {
+        console.log('No onboarding data found for user');
+        setData(null);
       }
     } catch (error) {
       console.error('Error fetching onboarding data:', error);
@@ -90,10 +100,15 @@ export const useBrandSetup = () => {
   };
 
   const updateOnboardingData = async (updatedData: OnboardingData) => {
-    if (!user || !data?.id) return;
+    if (!user || !data?.id) {
+      console.error('Cannot update: missing user or data ID');
+      return false;
+    }
 
     try {
       setSaving(true);
+      console.log('Updating onboarding data:', updatedData);
+      
       const { error } = await supabase
         .from('user_onboarding')
         .update({
@@ -114,7 +129,8 @@ export const useBrandSetup = () => {
           main_problem: updatedData.main_problem,
           failed_solutions: updatedData.failed_solutions,
           client_words: updatedData.client_words,
-          magic_wand_result: updatedData.magic_wand_result
+          magic_wand_result: updatedData.magic_wand_result,
+          updated_at: new Date().toISOString()
         })
         .eq('id', data.id);
 
