@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -106,7 +105,7 @@ const BrandSetup = () => {
   if (!currentData) return null;
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container px-4 py-8">
       <div className="mb-8">
         <div className="flex justify-between items-start mb-2">
           <div>
@@ -144,7 +143,7 @@ const BrandSetup = () => {
         </div>
       </div>
 
-      <div className="grid gap-6 max-w-4xl mx-auto">
+      <div className="grid gap-6">
         {/* General Info Section */}
         <Card>
           <Collapsible open={openSections.general} onOpenChange={() => toggleSection('general')}>
