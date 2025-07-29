@@ -11,8 +11,18 @@ import {
   FileText, 
   User,
   Menu,
-  X
+  X,
+  ChevronDown,
+  LogOut
 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const AppNavigation = () => {
   const { user, signOut } = useAuth();
@@ -66,17 +76,43 @@ const AppNavigation = () => {
             ))}
           </div>
 
-          {/* User Info & Logout */}
+          {/* Desktop User Dropdown */}
           <div className="hidden md:flex items-center gap-4">
             {user && (
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <User className="w-4 h-4" />
-                <span>{user.email}</span>
-              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm" className="flex items-center gap-2">
+                    <User className="w-4 h-4" />
+                    <span>{user.email}</span>
+                    <ChevronDown className="w-4 h-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56 bg-popover">
+                  <DropdownMenuLabel className="text-muted-foreground">
+                    {user.email}
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  {navigationItems.map((item) => (
+                    <DropdownMenuItem
+                      key={item.path}
+                      onClick={() => navigate(item.path)}
+                      className="flex items-center gap-2 cursor-pointer"
+                    >
+                      <item.icon className="w-4 h-4" />
+                      {item.name}
+                    </DropdownMenuItem>
+                  ))}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={handleSignOut}
+                    className="flex items-center gap-2 cursor-pointer text-destructive focus:text-destructive"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             )}
-            <Button variant="outline" size="sm" onClick={handleSignOut}>
-              Logout
-            </Button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -122,8 +158,9 @@ const AppNavigation = () => {
                   variant="outline" 
                   size="sm" 
                   onClick={handleSignOut}
-                  className="w-full"
+                  className="w-full flex items-center gap-2"
                 >
+                  <LogOut className="w-4 h-4" />
                   Logout
                 </Button>
               </div>
