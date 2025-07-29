@@ -38,6 +38,87 @@ export type Database = {
         }
         Relationships: []
       }
+      user_onboarding: {
+        Row: {
+          brand_colors: string | null
+          brand_words: string | null
+          business_name: string | null
+          campaign_types: string[] | null
+          client_words: string | null
+          competitor_urls: string | null
+          completed_at: string | null
+          created_at: string
+          failed_solutions: string | null
+          id: string
+          instagram_reel_url: string | null
+          logo_url: string | null
+          magic_wand_result: string | null
+          main_problem: string | null
+          meta_account: string | null
+          offer_type: string | null
+          seasonal_launch_options: string[] | null
+          step_completed: number | null
+          target_market: string | null
+          updated_at: string
+          user_id: string
+          voice_tone_style: string | null
+          website_url: string | null
+          words_to_avoid: string | null
+        }
+        Insert: {
+          brand_colors?: string | null
+          brand_words?: string | null
+          business_name?: string | null
+          campaign_types?: string[] | null
+          client_words?: string | null
+          competitor_urls?: string | null
+          completed_at?: string | null
+          created_at?: string
+          failed_solutions?: string | null
+          id?: string
+          instagram_reel_url?: string | null
+          logo_url?: string | null
+          magic_wand_result?: string | null
+          main_problem?: string | null
+          meta_account?: string | null
+          offer_type?: string | null
+          seasonal_launch_options?: string[] | null
+          step_completed?: number | null
+          target_market?: string | null
+          updated_at?: string
+          user_id: string
+          voice_tone_style?: string | null
+          website_url?: string | null
+          words_to_avoid?: string | null
+        }
+        Update: {
+          brand_colors?: string | null
+          brand_words?: string | null
+          business_name?: string | null
+          campaign_types?: string[] | null
+          client_words?: string | null
+          competitor_urls?: string | null
+          completed_at?: string | null
+          created_at?: string
+          failed_solutions?: string | null
+          id?: string
+          instagram_reel_url?: string | null
+          logo_url?: string | null
+          magic_wand_result?: string | null
+          main_problem?: string | null
+          meta_account?: string | null
+          offer_type?: string | null
+          seasonal_launch_options?: string[] | null
+          step_completed?: number | null
+          target_market?: string | null
+          updated_at?: string
+          user_id?: string
+          voice_tone_style?: string | null
+          website_url?: string | null
+          words_to_avoid?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

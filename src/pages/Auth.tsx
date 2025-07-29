@@ -9,6 +9,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/components/ui/use-toast';
 import { ArrowLeft } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -29,6 +30,21 @@ const Auth = () => {
     }
   }, [user, navigate]);
 
+  const checkOnboardingStatus = async (userId: string) => {
+    const { data, error } = await supabase
+      .from('user_onboarding')
+      .select('completed_at')
+      .eq('user_id', userId)
+      .single();
+
+    if (error && error.code !== 'PGRST116') {
+      console.error('Error checking onboarding status:', error);
+      return false;
+    }
+
+    return data?.completed_at !== null;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -44,7 +60,17 @@ const Auth = () => {
             title: "Welcome back!",
             description: "You have been successfully logged in.",
           });
-          navigate('/');
+          
+          // Check if user has completed onboarding
+          const { data: { user } } = await supabase.auth.getUser();
+          if (user) {
+            const hasCompletedOnboarding = await checkOnboardingStatus(user.id);
+            if (!hasCompletedOnboarding) {
+              navigate('/onboarding');
+            } else {
+              navigate('/');
+            }
+          }
         }
       } else {
         const { error } = await signUp(email, password, fullName);
@@ -55,6 +81,7 @@ const Auth = () => {
             title: "Account created!",
             description: "Please check your email to verify your account.",
           });
+          // Don't redirect immediately for signup, let them verify email first
           setIsLogin(true);
         }
       }
