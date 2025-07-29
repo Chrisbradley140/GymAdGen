@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
-import { ChevronLeft, ChevronRight, Save } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import StepOne from './onboarding/StepOne';
 import StepTwo from './onboarding/StepTwo';
 import StepThree from './onboarding/StepThree';
@@ -222,7 +222,7 @@ const OnboardingWizard: React.FC<{ onComplete: () => void }> = ({ onComplete }) 
       {/* Header */}
       <div className="text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-black mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-          Welcome to FitAd AI
+          Welcome to FITNESSADS.AI
         </h1>
         <p className="text-xl text-gray-300 mb-8">
           Let's build your perfect ad-generating machine
@@ -236,77 +236,40 @@ const OnboardingWizard: React.FC<{ onComplete: () => void }> = ({ onComplete }) 
       </div>
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
-          {/* Left Column - Illustration/Preview */}
-          <div className="hidden lg:block">
-            <div className="sticky top-8">
-              <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
-                <div className="aspect-square bg-gradient-to-br from-primary/20 to-primary/5 rounded-2xl flex items-center justify-center">
-                  <div className="text-6xl opacity-50">
-                    {currentStep === 1 && '🚀'}
-                    {currentStep === 2 && '🎨'}
-                    {currentStep === 3 && '🎯'}
-                    {currentStep === 4 && '📱'}
-                    {currentStep === 5 && '💬'}
-                    {currentStep === 6 && '🧠'}
-                  </div>
-                </div>
-                <div className="mt-6">
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    {stepTitles[currentStep - 1]}
-                  </h3>
-                  <p className="text-gray-300">
-                    {stepSubtitles[currentStep - 1]}
-                  </p>
-                </div>
-              </div>
+      <div className="max-w-4xl mx-auto">
+        <div className={`transition-all duration-300 ${isAnimating ? 'opacity-50 translate-x-4' : 'opacity-100 translate-x-0'}`}>
+          <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
+            <div className="mb-8">
+              <h2 className="text-2xl font-bold text-white mb-2">
+                {stepTitles[currentStep - 1]}
+              </h2>
+              <p className="text-gray-300">
+                {stepSubtitles[currentStep - 1]}
+              </p>
             </div>
+
+            {renderStep()}
           </div>
 
-          {/* Right Column - Form */}
-          <div className={`transition-all duration-300 ${isAnimating ? 'opacity-50 translate-x-4' : 'opacity-100 translate-x-0'}`}>
-            <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
-              <div className="mb-8">
-                <h2 className="text-2xl font-bold text-white mb-2">
-                  {stepTitles[currentStep - 1]}
-                </h2>
-                <p className="text-gray-300">
-                  {stepSubtitles[currentStep - 1]}
-                </p>
-              </div>
+          {/* Navigation */}
+          <div className="flex justify-between items-center mt-8">
+            <button
+              onClick={handleBack}
+              disabled={currentStep === 1}
+              className="flex items-center gap-2 px-6 py-3 text-white/70 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <ChevronLeft className="w-5 h-5" />
+              Back
+            </button>
 
-              {renderStep()}
-            </div>
-
-            {/* Navigation */}
-            <div className="flex justify-between items-center mt-8">
-              <button
-                onClick={handleBack}
-                disabled={currentStep === 1}
-                className="flex items-center gap-2 px-6 py-3 text-white/70 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <ChevronLeft className="w-5 h-5" />
-                Back
-              </button>
-              
-              <div className="flex items-center gap-4">
-                {/* Save Progress Badge */}
-                <div className="flex items-center gap-2 text-sm text-gray-300">
-                  <Save className="w-4 h-4" />
-                  Auto-saving progress
-                </div>
-
-                <button
-                  onClick={handleNext}
-                  disabled={loading || !canProceed()}
-                  className="flex items-center gap-2 px-8 py-4 bg-primary hover:bg-primary/90 text-white font-bold rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
-                >
-                  {loading ? "Saving..." : currentStep === totalSteps ? "Complete Setup" : "Continue"}
-                  {!loading && <ChevronRight className="w-5 h-5" />}
-                </button>
-              </div>
-            </div>
+            <button
+              onClick={handleNext}
+              disabled={loading || !canProceed()}
+              className="flex items-center gap-2 px-8 py-4 bg-primary hover:bg-primary/90 text-white font-bold rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+            >
+              {loading ? "Saving..." : currentStep === totalSteps ? "Complete Setup" : "Continue"}
+              {!loading && <ChevronRight className="w-5 h-5" />}
+            </button>
           </div>
         </div>
       </div>
