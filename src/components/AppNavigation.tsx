@@ -68,7 +68,7 @@ const AppNavigation = () => {
             </span>
           </div>
 
-          {/* Desktop Tabs */}
+          {/* Desktop Navigation Tabs */}
           <div className="hidden lg:flex items-center">
             <div className="flex items-center bg-muted/30 rounded-2xl p-2 backdrop-blur-sm">
               {navigationItems.map((item, index) => (
