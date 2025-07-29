@@ -81,8 +81,12 @@ const Auth = () => {
             title: "Account created!",
             description: "Welcome! You'll now be taken to the onboarding wizard.",
           });
-          // For new signups without email verification, the auth state change handler 
-          // will automatically redirect them to onboarding
+          
+          // For new signups, immediately redirect to onboarding
+          // Small delay to ensure the toast is visible
+          setTimeout(() => {
+            navigate('/onboarding');
+          }, 1000);
         }
       }
     } catch (err) {
