@@ -3,7 +3,7 @@ import React from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Upload } from 'lucide-react';
+import { Upload, X } from 'lucide-react';
 
 interface StepOneProps {
   data: {
@@ -20,6 +20,15 @@ const StepOne: React.FC<StepOneProps> = ({ data, updateData }) => {
     if (file) {
       // For now, just store the file name. In a real app, you'd upload to Supabase Storage
       updateData({ logo_url: file.name });
+    }
+  };
+
+  const handleRemoveLogo = () => {
+    updateData({ logo_url: '' });
+    // Clear the file input
+    const fileInput = document.getElementById('logo_upload') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
     }
   };
 
@@ -56,9 +65,20 @@ const StepOne: React.FC<StepOneProps> = ({ data, updateData }) => {
             className="hidden"
           />
           {data.logo_url && (
-            <span className="text-sm text-muted-foreground">
-              {data.logo_url}
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">
+                {data.logo_url}
+              </span>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={handleRemoveLogo}
+                className="h-6 w-6 p-0 hover:bg-destructive hover:text-destructive-foreground"
+              >
+                <X className="w-3 h-3" />
+              </Button>
+            </div>
           )}
         </div>
       </div>
