@@ -16,10 +16,21 @@ const Navigation = () => {
     }
   };
 
+  const handleLogoClick = () => {
+    if (user) {
+      navigate('/dashboard');
+    } else {
+      navigate('/');
+    }
+  };
+
   return (
     <nav className="fixed top-0 w-full bg-background/95 backdrop-blur-sm border-b border-muted z-50">
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <div className="flex items-center gap-2">
+        <div 
+          className="flex items-center gap-2 cursor-pointer"
+          onClick={handleLogoClick}
+        >
           <img 
             src="/lovable-uploads/c4cf7462-6a0c-4f7b-ac89-546cd215771a.png" 
             alt="FitnessAds.AI Logo" 
