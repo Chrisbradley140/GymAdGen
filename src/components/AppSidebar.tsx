@@ -59,37 +59,46 @@ export function AppSidebar() {
   const isActivePath = (path: string) => location.pathname === path;
 
   return (
-    <Sidebar className="border-r border-border">
-      <SidebarHeader className="border-b border-border p-4">
-        <div className="flex items-center gap-2">
+    <Sidebar className="border-r border-border w-64">
+      <SidebarHeader className="border-b border-border p-6">
+        <div className="flex items-center gap-3">
           <img 
             src="/lovable-uploads/c4cf7462-6a0c-4f7b-ac89-546cd215771a.png" 
             alt="FitnessAds.AI Logo" 
-            className="w-8 h-8"
+            className="w-10 h-10"
           />
           {state === "expanded" && (
-            <span className="text-xl font-bold">FITNESSADS.AI</span>
+            <span className="text-xl font-bold text-foreground">FITNESSADS.AI</span>
           )}
         </div>
       </SidebarHeader>
 
-      <SidebarContent>
+      <SidebarContent className="py-4">
         <SidebarGroup>
-          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
+          <SidebarGroupLabel className="px-6 py-2 text-sm font-medium text-muted-foreground uppercase tracking-wider">
+            Navigation
+          </SidebarGroupLabel>
+          <SidebarGroupContent className="px-3">
+            <SidebarMenu className="space-y-1">
               {navigationItems.map((item) => (
                 <SidebarMenuItem key={item.path}>
                   <SidebarMenuButton 
                     asChild
                     isActive={isActivePath(item.path)}
+                    className="h-12 px-3 rounded-lg transition-all duration-200 hover:bg-accent/50"
                   >
                     <button
                       onClick={() => navigate(item.path)}
-                      className="flex items-center gap-2 w-full"
+                      className={`flex items-center gap-3 w-full text-left ${
+                        isActivePath(item.path) 
+                          ? 'bg-primary text-primary-foreground font-medium' 
+                          : 'text-foreground hover:text-accent-foreground'
+                      }`}
                     >
-                      <item.icon className="w-4 h-4" />
-                      {state === "expanded" && <span>{item.name}</span>}
+                      <item.icon className="w-5 h-5 flex-shrink-0" />
+                      {state === "expanded" && (
+                        <span className="text-sm font-medium">{item.name}</span>
+                      )}
                     </button>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -105,13 +114,13 @@ export function AppSidebar() {
             <DropdownMenuTrigger asChild>
               <Button 
                 variant="outline" 
-                size="sm" 
-                className="flex items-center gap-2 w-full justify-start"
+                size="default"
+                className="flex items-center gap-3 w-full justify-start h-12 px-3 rounded-lg"
               >
-                <User className="w-4 h-4" />
+                <User className="w-5 h-5 flex-shrink-0" />
                 {state === "expanded" && (
                   <>
-                    <span className="truncate">{user.email}</span>
+                    <span className="truncate text-sm font-medium">{user.email}</span>
                     <ChevronDown className="w-4 h-4 ml-auto" />
                   </>
                 )}
