@@ -305,25 +305,34 @@ const Index = () => {
               You don't need another AI that can write a 5/10 ad for any industry under the sun.
               You need one that knows your buyers inside out. What they think, feel, and fear at the exact moment they see your ad.
             </p>
-            
-            {/* Bullet Points */}
-            <div className="space-y-3">
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-primary rounded-full"></div>
-                <p className="text-lg text-foreground font-medium">1000's of real gym + online coaching ads</p>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-primary rounded-full"></div>
-                <p className="text-lg text-foreground font-medium">Real lead data</p>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-primary rounded-full"></div>
-                <p className="text-lg text-foreground font-medium">Real buying behaviour</p>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-primary rounded-full"></div>
-                <p className="text-lg text-foreground font-medium">And it writes ads in your voice, your tone, your values</p>
-              </div>
+          </div>
+          
+          {/* Bullet Points with specific layout */}
+          <div 
+            className="space-y-3 absolute"
+            style={{
+              width: '442px',
+              height: '184px',
+              top: '410px',
+              left: '100px',
+              opacity: 1
+            }}
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 bg-primary rounded-full"></div>
+              <p className="text-lg text-foreground font-medium">1000's of real gym + online coaching ads</p>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 bg-primary rounded-full"></div>
+              <p className="text-lg text-foreground font-medium">Real lead data</p>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 bg-primary rounded-full"></div>
+              <p className="text-lg text-foreground font-medium">Real buying behaviour</p>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 bg-primary rounded-full"></div>
+              <p className="text-lg text-foreground font-medium">And it writes ads in your voice, your tone, your values</p>
             </div>
           </div>
         </div>
