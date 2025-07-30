@@ -58,19 +58,19 @@ const ResultsShowcase = () => {
   ];
 
   return (
-    <section className="py-16 px-4 bg-gray-950">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-black text-white mb-6">
+    <section className="py-12 px-4 bg-gray-950">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl md:text-4xl font-black text-white mb-4">
             The Ads That Print Money Every Season.
           </h2>
-          <p className="text-xl text-gray-300 max-w-4xl mx-auto mb-8">
+          <p className="text-lg text-gray-300 max-w-3xl mx-auto mb-6">
             From Black Friday to the New Year Waitlist – the exact campaigns that built fitness empires are now built into FitnessAds.ai.
           </p>
-          <h3 className="text-2xl font-bold text-white mb-8">Results Like This:</h3>
+          <h3 className="text-xl font-bold text-white mb-6">Results Like This:</h3>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-6">
           {performanceData.map((block, index) => (
             <PerformanceBlock
               key={index}
