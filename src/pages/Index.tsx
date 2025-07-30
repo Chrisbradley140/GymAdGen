@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -217,7 +218,8 @@ const Index = () => {
                   variant="outline" 
                   size="default"
                   onClick={handleAuthAction}
-                  className="flex items-center gap-2 bg-white/10 border-white/20 text-white hover:bg-white/20"
+                  className="flex items-center gap-2 text-white border-white/20 hover:bg-white/10"
+                  style={{ backgroundColor: '#FF3600' }}
                 >
                   Login
                 </Button>
