@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -109,17 +108,17 @@ const Index = () => {
   ];
 
   const rightBadgePhrases = [
-    "Are you tired of feeling stuck?",
-    "Unlock your full potential",
-    "Step into your power",
-    "Game-changing offer",
-    "Crush your goals",
-    "Discover the secret to success",
-    "Live the life you deserve",
-    "What if I told you...",
-    "It's not your fault",
-    "Join a community of like-minded individuals",
-    "Click the link below to get started"
+    { text: "Are you tired of feeling stuck?", emoji: "/lovable-uploads/69dabc08-2452-496f-ac48-0dad845c1dfc.png", position: "right" },
+    { text: "Unlock your full potential", emoji: "/lovable-uploads/b961eb77-8e35-4f7e-8a0d-a0f9553521eb.png", position: "left" },
+    { text: "Step into your power", emoji: "/lovable-uploads/8121fafe-68cb-4b4d-bf20-95de4b036af6.png", position: "right" },
+    { text: "Game-changing offer", emoji: "/lovable-uploads/f26e7236-8c35-439d-92cc-2d57048e5e01.png", position: "left" },
+    { text: "Crush your goals", position: "right" },
+    { text: "Discover the secret to success", position: "left" },
+    { text: "Live the life you deserve", position: "right" },
+    { text: "What if I told you...", position: "left" },
+    { text: "It's not your fault", position: "right" },
+    { text: "Join a community of like-minded individuals", position: "left" },
+    { text: "Click the link below to get started", position: "right" }
   ];
 
   const nextTestimonial = () => {
@@ -355,12 +354,21 @@ const Index = () => {
             {/* Right Side - Right Badges (extreme right positioning) */}
             <div className="lg:absolute lg:right-0 lg:top-0 lg:w-80 lg:pt-16">
               <div className="flex flex-col gap-3 items-start">
-                {rightBadgePhrases.map((phrase, index) => (
+                {rightBadgePhrases.map((item, index) => (
                   <div
                     key={index}
-                    className="bg-gray-700/50 backdrop-blur-sm border border-gray-600/30 rounded-full px-4 py-2 text-white/80 text-sm hover:bg-gray-600/50 transition-all duration-200 hover:scale-105"
+                    className={`bg-gray-700/50 backdrop-blur-sm border border-gray-600/30 rounded-full px-4 py-2 text-white/80 text-sm hover:bg-gray-600/50 transition-all duration-200 hover:scale-105 flex items-center gap-3 ${
+                      item.position === 'right' ? 'flex-row' : 'flex-row-reverse'
+                    }`}
                   >
-                    {phrase}
+                    <span className="whitespace-nowrap">{item.text}</span>
+                    {item.emoji && (
+                      <img 
+                        src={item.emoji} 
+                        alt="emoji" 
+                        className="w-6 h-6 flex-shrink-0"
+                      />
+                    )}
                   </div>
                 ))}
               </div>
