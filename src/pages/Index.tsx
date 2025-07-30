@@ -367,13 +367,13 @@ const Index = () => {
           </div>
 
           {/* Bottom Paragraph */}
-          <div className="flex justify-center">
-            <div className="w-full max-w-4xl ml-auto mr-0">
+          <div className="flex justify-start pl-[50%]">
+            <div className="w-full max-w-2xl">
               <p 
                 className="font-inter font-normal text-left"
                 style={{
-                  fontSize: '20px',
-                  lineHeight: '28px',
+                  fontSize: '16px',
+                  lineHeight: '24px',
                   letterSpacing: '0px',
                   verticalAlign: 'middle',
                   color: '#FFFFFF'
