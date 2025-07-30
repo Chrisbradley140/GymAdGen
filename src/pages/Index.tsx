@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -327,7 +328,7 @@ const Index = () => {
         
         <div className="max-w-6xl mx-auto relative z-10">
           {/* Top Section with Badges */}
-          <div className="flex flex-col lg:flex-row gap-8 mb-12 relative">
+          <div className="flex flex-col lg:flex-row gap-8 mb-8 relative">
             {/* Left Side - Heading and Description */}
             <div className="lg:w-3/5">
               <h2 className="text-xl md:text-2xl font-black text-white mb-6 font-klein">
@@ -367,13 +368,13 @@ const Index = () => {
           </div>
 
           {/* Bottom Paragraph */}
-          <div className="flex justify-start pl-[50%]">
+          <div className="flex justify-start pl-[50%] -mt-4">
             <div className="w-full max-w-2xl">
               <p 
                 className="font-inter font-normal text-left"
                 style={{
-                  fontSize: '16px',
-                  lineHeight: '24px',
+                  fontSize: '18px',
+                  lineHeight: '26px',
                   letterSpacing: '0px',
                   verticalAlign: 'middle',
                   color: '#FFFFFF'
