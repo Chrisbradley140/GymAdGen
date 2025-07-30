@@ -327,7 +327,7 @@ const Index = () => {
         
         <div className="max-w-6xl mx-auto relative z-10">
           {/* Top Section with Badges */}
-          <div className="flex flex-col lg:flex-row gap-8 mb-12">
+          <div className="flex flex-col lg:flex-row gap-8 mb-12 relative">
             {/* Left Side - Heading and Description */}
             <div className="lg:w-3/5">
               <h2 className="text-4xl md:text-5xl font-black text-white mb-6 font-klein">
@@ -351,9 +351,9 @@ const Index = () => {
               </div>
             </div>
 
-            {/* Right Side - Right Badges (moved further right) */}
-            <div className="lg:w-2/5 lg:pl-8 lg:pt-16">
-              <div className="flex flex-col gap-3 items-start max-w-md ml-auto">
+            {/* Right Side - Right Badges (extreme right positioning) */}
+            <div className="lg:absolute lg:right-0 lg:top-0 lg:w-80 lg:pt-16">
+              <div className="flex flex-col gap-3 items-end">
                 {rightBadgePhrases.map((phrase, index) => (
                   <div
                     key={index}
