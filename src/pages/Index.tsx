@@ -325,18 +325,10 @@ const Index = () => {
               </div>
             </div>
 
-            {/* New Layout Section */}
-            <div 
-              className="relative mt-16"
-              style={{
-                width: '600px',
-                height: '180px',
-                marginLeft: '100px',
-                opacity: 1
-              }}
-            >
+            {/* New Layout Section - Left Aligned */}
+            <div className="mt-16">
               <p 
-                className="text-white font-klein"
+                className="text-white font-klein max-w-[600px]"
                 style={{
                   fontFamily: 'Klein Condensed Trial',
                   fontWeight: '800',
