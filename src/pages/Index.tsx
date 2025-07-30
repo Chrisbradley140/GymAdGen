@@ -143,6 +143,10 @@ const Index = () => {
     setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
 
+  const setCurrentStep = (arg0: number) => {
+    throw new Error("Function not implemented.");
+  }
+
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section with integrated navigation */}
@@ -347,7 +351,10 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ChatGPT Drive Section */}
+      {/* New Results Showcase Section - moved before ChatGPT Drive section */}
+      <ResultsShowcase />
+
+      {/* ChatGPT Drive Section - moved after Results Showcase */}
       <section 
         className="py-16 px-4 relative overflow-hidden"
         style={{
@@ -455,9 +462,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-
-      {/* New Results Showcase Section */}
-      <ResultsShowcase />
 
       {/* FAQ Section */}
       <FAQ />
