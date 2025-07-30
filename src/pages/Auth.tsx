@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -96,9 +97,20 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex">
+    <div 
+      className="min-h-screen flex relative"
+      style={{
+        backgroundImage: `url('/lovable-uploads/c2ac9539-dfe7-4758-a5a0-46a4b95f3b84.png')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      {/* Dark overlay for better readability */}
+      <div className="absolute inset-0 bg-black/60"></div>
+      
       {/* Left Side - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 bg-background relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/2 bg-background/30 backdrop-blur-sm relative overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="grid grid-cols-8 grid-rows-8 h-full w-full">
@@ -141,7 +153,7 @@ const Auth = () => {
         {/* Back Button */}
         <button
           onClick={() => navigate('/')}
-          className="absolute top-6 left-6 flex items-center text-muted-foreground hover:text-primary transition-colors"
+          className="absolute top-6 left-6 flex items-center text-muted-foreground hover:text-primary transition-colors z-20"
         >
           <ArrowLeft className="w-5 h-5 mr-2" />
           Back to Home
@@ -149,7 +161,7 @@ const Auth = () => {
       </div>
 
       {/* Right Side - Form */}
-      <div className="flex-1 lg:w-1/2 flex items-center justify-center p-8 bg-card">
+      <div className="flex-1 lg:w-1/2 flex items-center justify-center p-8 bg-card/30 backdrop-blur-sm relative z-10">
         <div className="w-full max-w-md">
           {/* Mobile Back Button */}
           <button
@@ -161,7 +173,7 @@ const Auth = () => {
           </button>
 
           {/* Form Container with Glass Effect */}
-          <div className="bg-gray-700/30 backdrop-blur-sm border border-gray-600/30 rounded-xl p-8 hover:bg-gray-600/20 transition-all duration-300">
+          <div className="bg-gray-700/50 backdrop-blur-md border border-gray-600/50 rounded-xl p-8 hover:bg-gray-600/40 transition-all duration-300">
             {/* Form Header */}
             <div className="text-center mb-8">
               <div className="text-sm text-muted-foreground mb-2">
