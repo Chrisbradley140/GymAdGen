@@ -285,10 +285,19 @@ const Index = () => {
         </div>
       </section>
 
-      {/* New Section - After Hero */}
+      {/* New Section - After Hero with specific desktop layout */}
       <section className="py-16 px-4 bg-background">
         <div className="max-w-6xl mx-auto">
-          <div className="text-left">
+          <div 
+            className="text-left relative"
+            style={{
+              width: '820px',
+              height: '210px',
+              marginTop: '50px',
+              marginLeft: '100px',
+              opacity: 1
+            }}
+          >
             <h2 className="text-3xl md:text-4xl font-black text-foreground mb-6 font-klein">
               This isn't chatGpt wearing gym leggings that make it's glutes look bigger
             </h2>
