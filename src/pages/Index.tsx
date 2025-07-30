@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -63,31 +64,56 @@ const Index = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="min-h-screen flex items-center justify-center px-4 py-16 pt-24">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left Column - Text and CTA */}
-            <div className="text-center lg:text-left">
-              <h1 className="text-3xl md:text-5xl lg:text-6xl font-black leading-tight mb-6 animate-fade-in">
-                Not Another GPT Tool.<br />
-                This <span className="text-gradient">Prints Scroll-Stopping</span><br />
-                Fitness Ads.
-              </h1>
-              
-              <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto lg:mx-0">
-                Get Money Printing Ads In 20 seconds
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center mb-8">
-                <CTAButton size="lg">Generate Your First Ad</CTAButton>
-              </div>
-            </div>
-
-            {/* Right Column - Animation */}
-            <div className="flex justify-center lg:justify-end">
-              <HeroAnimation />
+      <section className="min-h-screen flex items-center justify-center px-4 py-16 pt-24 relative overflow-hidden">
+        {/* Grid Pattern Background */}
+        <div 
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px)
+            `,
+            backgroundSize: '40px 40px'
+          }}
+        ></div>
+        
+        <div className="max-w-5xl mx-auto text-center relative z-10">
+          {/* Top Badge */}
+          <div className="mb-8">
+            <div className="inline-block bg-secondary/30 rounded-full px-4 py-2 border border-muted">
+              <span className="text-sm text-muted-foreground">
+                The FIRST fitness MARKETING AI TOOL MADE BY{" "}
+                <span className="font-bold text-primary">GYMS OWNERS & ONLINE COACHES</span>
+              </span>
             </div>
           </div>
+
+          {/* Main Headline */}
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight mb-8 text-white">
+            Outperform 'Fitness Marketing Agencies', Canva Templates and ChatGPT —{" "}
+            <br className="hidden md:block" />
+            With The AI Ad Tool Built for Real Fitness Businesses.
+          </h1>
+
+          {/* Subheadline CTA */}
+          <div className="mb-8">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-xl md:text-2xl font-semibold text-white">
+              <span>Get Money Printing Ads In</span>
+              <div className="bg-primary px-4 py-2 rounded-full">
+                <span className="text-white font-bold">20 seconds</span>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA Button */}
+          <div className="mb-12">
+            <CTAButton size="lg">Generate Your First Ad</CTAButton>
+          </div>
+
+          {/* Footer Tagline */}
+          <p className="text-sm md:text-base text-muted-foreground/80 max-w-2xl mx-auto">
+            No more ChatGPT garbage that sounds like it was written by your nan.
+          </p>
         </div>
       </section>
 
