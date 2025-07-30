@@ -19,7 +19,11 @@ import {
   Phone,
   User,
   ChevronDown,
-  LogOut
+  LogOut,
+  LayoutDashboard,
+  Library,
+  Settings,
+  FileText
 } from "lucide-react";
 import {
   DropdownMenu,
