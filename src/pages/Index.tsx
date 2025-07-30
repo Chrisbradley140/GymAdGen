@@ -13,4 +13,4 @@ import ResultsShowcase from "@/components/ResultsShowcase";
 import FAQ from "@/components/FAQ";
 import Navigation from "@/components/Navigation";
 import HeroAnimation from "@/components/HeroAnimation";
-import ProductDemo from "@/
+import ProductDemo from "@/components/ProductDemo";
