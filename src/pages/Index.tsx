@@ -330,7 +330,7 @@ const Index = () => {
           <div className="flex flex-col lg:flex-row gap-8 mb-12 relative">
             {/* Left Side - Heading and Description */}
             <div className="lg:w-3/5">
-              <h2 className="text-3xl md:text-4xl font-black text-white mb-6 font-klein">
+              <h2 className="text-2xl md:text-3xl font-black text-white mb-6 font-klein">
                 <span className="block">Recognise Any of This</span>
                 <span className="block">ChatGPT Drive?</span>
               </h2>
@@ -362,13 +362,6 @@ const Index = () => {
                     {phrase}
                   </div>
                 ))}
-              </div>
-              
-              {/* New text below right side badges */}
-              <div className="mt-8">
-                <p className="text-white/70 leading-relaxed text-sm">
-                  AI is only as good as the data sets you give it. And my Daddy (Sabri Suby) runs a digital marketing agency that's generated over $7.8 billion (with a B) in ROAS. We've taken that data and fed it into Kong. Creating a large language model (LLM) on the best-performing ad copy and creatives from over $200m in ad spend.
-                </p>
               </div>
             </div>
           </div>
