@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -91,7 +90,7 @@ const Index = () => {
 
           {/* Marketing Tool Description */}
           <div className="mb-8">
-            <p className="text-sm text-muted-foreground font-klein">
+            <p className="text-sm text-white font-klein">
               <span className="text-white">The FIRST fitness MARKETING AI TOOL MADE BY</span>{" "}
               <span className="font-bold text-primary">GYMS OWNERS & ONLINE COACHES</span>
             </p>
@@ -118,14 +117,20 @@ const Index = () => {
           <div className="mb-8">
             <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-xl md:text-2xl font-semibold text-white font-klein">
               <span>Get Money Printing Ads In</span>
-              <div className="bg-primary px-4 py-2 rounded-full">
+              <div 
+                className="px-4 py-2 rounded-md"
+                style={{ backgroundColor: '#FE0010' }}
+              >
                 <span className="text-white font-bold font-klein">20 seconds</span>
               </div>
             </div>
           </div>
 
           {/* Footer Tagline */}
-          <p className="text-sm md:text-base text-muted-foreground/80 max-w-2xl mx-auto font-klein">
+          <p 
+            className="text-base md:text-lg text-white max-w-2xl mx-auto font-semibold"
+            style={{ fontFamily: "'Klein Condensed Trial', sans-serif" }}
+          >
             No more ChatGPT garbage that sounds like it was written by your nan.
           </p>
         </div>
