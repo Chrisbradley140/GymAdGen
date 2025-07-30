@@ -331,7 +331,7 @@ const Index = () => {
           <div className="flex flex-col lg:flex-row gap-8 mb-8 relative">
             {/* Left Side - Heading and Description */}
             <div className="lg:w-3/5">
-              <h2 className="text-xl md:text-2xl font-black text-white mb-6 font-klein">
+              <h2 className="text-2xl md:text-4xl font-black text-white mb-6 font-klein">
                 <span className="block">Recognise Any of This</span>
                 <span className="block">ChatGPT Drive?</span>
               </h2>
@@ -367,8 +367,8 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Bottom Paragraph */}
-          <div className="flex justify-start pl-[50%] -mt-4">
+          {/* Bottom Paragraph - moved higher up */}
+          <div className="flex justify-start pl-[50%] -mt-16">
             <div className="w-full max-w-2xl">
               <p 
                 className="font-inter font-normal text-left"
