@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -94,9 +95,35 @@ const Index = () => {
     }
   ];
 
-  const leftColumnPhrases = [];
+  const leftColumnPhrases = [
+    "This isn't just another program",
+    "We're not like the other guys",
+    "Results guaranteed - or your money back",
+    "Revolutionary breakthrough system",
+    "Transform your life in 30 days",
+    "Limited time exclusive offer",
+    "Proven by thousands worldwide",
+    "Premium quality guaranteed",
+    "Instant results possible",
+    "Life-changing opportunity",
+    "Award-winning method",
+    "Sound familiar?"
+  ];
 
-  const rightColumnPhrases = [];
+  const rightColumnPhrases = [
+    "Game-changing offer",
+    "Live the life you deserve", 
+    "Effortless transformation",
+    "Join our exclusive community",
+    "One weird trick doctors hate",
+    "Breakthrough secret revealed",
+    "Make money while you sleep",
+    "Unlock your true potential",
+    "Celebrity-endorsed method",
+    "Industry-leading results",
+    "Free bonus included",
+    "Change your destiny today"
+  ];
 
   const nextTestimonial = () => {
     setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
@@ -309,19 +336,10 @@ const Index = () => {
               <span className="block">Recognise Any of This</span>
               <span className="block">ChatGPT Drive?</span>
             </h2>
-            <p className="text-lg text-white/90 max-w-3xl leading-relaxed px-4 mb-8">
+            <p className="text-lg text-white/90 max-w-3xl leading-relaxed px-4">
               You've seen these clichés everywhere. Generic, soulless copy that screams "I used AI" from a mile away. 
               Your audience is tired of it. They scroll past it. They ignore it.
             </p>
-            
-            {/* Added Image */}
-            <div className="flex justify-center mb-12">
-              <img 
-                src="/lovable-uploads/70e0547f-46de-494e-9079-bfb9bc5f8f30.png" 
-                alt="Common ChatGPT clichés" 
-                className="max-w-full h-auto rounded-lg shadow-lg"
-              />
-            </div>
           </div>
 
           {/* Middle Split Content */}
