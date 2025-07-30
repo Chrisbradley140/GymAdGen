@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { 
   Target, 
   Zap, 
@@ -15,19 +16,58 @@ import {
   Play,
   Mail,
   MapPin,
-  Phone
+  Phone,
+  User,
+  ChevronDown,
+  LogOut
 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import CTAButton from "@/components/CTAButton";
 import AdCard from "@/components/AdCard";
 import BenefitCard from "@/components/BenefitCard";
 import ProductDemo from "@/components/ProductDemo";
-import Navigation from "@/components/Navigation";
 import FAQ from "@/components/FAQ";
 import ResultsShowcase from "@/components/ResultsShowcase";
 import HeroAnimation from "@/components/HeroAnimation";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleAuthAction = () => {
+    if (user) {
+      signOut();
+    } else {
+      navigate('/auth');
+    }
+  };
+
+  const handleLogoClick = () => {
+    if (user) {
+      navigate('/dashboard');
+    } else {
+      navigate('/');
+    }
+  };
+
+  const navigationItems = [
+    { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
+    { name: "Ad Generator", path: "/generate", icon: Zap },
+    { name: "Campaign Library", path: "/library", icon: Library },
+    { name: "Brand Setup", path: "/brand-setup", icon: Settings },
+    { name: "Export PDF", path: "/export", icon: FileText },
+    { name: "Account", path: "/account", icon: User },
+  ];
 
   const testimonials = [
     {
@@ -60,11 +100,9 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
-      
-      {/* Hero Section */}
+      {/* Hero Section with integrated navigation */}
       <section 
-        className="min-h-screen flex items-center justify-center px-4 py-16 pt-24 relative overflow-hidden font-klein"
+        className="min-h-screen flex flex-col px-4 py-6 relative overflow-hidden font-klein"
         style={{
           backgroundImage: `url('/lovable-uploads/bee63c12-d6f3-4277-9edb-5f0fc8c01595.png')`,
           backgroundSize: 'cover',
@@ -75,63 +113,130 @@ const Index = () => {
         {/* Dark overlay for better text readability */}
         <div className="absolute inset-0 bg-black/20"></div>
         
-        <div className="max-w-5xl mx-auto text-center relative z-10">
-          {/* Center Logo */}
-          <div className="mb-8">
-            <div className="flex justify-center mb-8">
+        {/* Navigation Header */}
+        <nav className="relative z-50 w-full">
+          <div className="container mx-auto flex justify-between items-center">
+            <div 
+              className="flex items-center gap-2 cursor-pointer"
+              onClick={handleLogoClick}
+            >
               <img 
-                src="/lovable-uploads/36e2fe4a-6176-4447-8958-b3608de4485e.png" 
+                src="/lovable-uploads/c4cf7462-6a0c-4f7b-ac89-546cd215771a.png" 
                 alt="FitnessAds.AI Logo" 
-                className="w-20 h-20 rounded-full shadow-lg glow-orange"
+                className="w-8 h-8"
               />
+              <span className="text-xl font-bold text-white">FITNESSADS.AI</span>
+            </div>
+            
+            <div className="flex items-center gap-4">
+              {user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="flex items-center gap-2 bg-white/10 border-white/20 text-white hover:bg-white/20">
+                      <User className="w-4 h-4" />
+                      <span className="hidden sm:inline">{user.email}</span>
+                      <ChevronDown className="w-4 h-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56 bg-popover">
+                    <DropdownMenuLabel className="text-muted-foreground">
+                      {user.email}
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    {navigationItems.map((item) => (
+                      <DropdownMenuItem
+                        key={item.path}
+                        onClick={() => navigate(item.path)}
+                        className="flex items-center gap-2 cursor-pointer"
+                      >
+                        <item.icon className="w-4 h-4" />
+                        {item.name}
+                      </DropdownMenuItem>
+                    ))}
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={handleAuthAction}
+                      className="flex items-center gap-2 cursor-pointer text-destructive focus:text-destructive"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Button 
+                  variant="outline" 
+                  size="default"
+                  onClick={handleAuthAction}
+                  className="flex items-center gap-2 bg-white/10 border-white/20 text-white hover:bg-white/20"
+                >
+                  Login
+                </Button>
+              )}
             </div>
           </div>
+        </nav>
 
-          {/* Marketing Tool Description */}
-          <div className="mb-8">
-            <p className="text-sm text-white font-klein">
-              <span className="text-white">The FIRST fitness MARKETING AI TOOL MADE BY</span>{" "}
-              <span className="font-bold" style={{ color: '#FE0010' }}>GYMS OWNERS & ONLINE COACHES</span>
-            </p>
-          </div>
-
-          {/* Main Headline */}
-          <h1 
-            className="font-klein font-extrabold text-white text-center mb-8"
-            style={{
-              fontSize: '42px',
-              fontWeight: '800',
-              lineHeight: '52px',
-              letterSpacing: '-2px',
-            }}
-          >
-            Outperform 'Fitness Marketing Agencies', Canva
-            <br className="block" />
-            Templates and ChatGPT — With The AI Ad Tool
-            <br className="block" />
-            Built for Real Fitness Businesses.
-          </h1>
-
-          {/* Subheadline CTA */}
-          <div className="mb-8">
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-2xl md:text-3xl font-semibold text-white font-klein">
-              <span>Get Money Printing Ads In</span>
-              <div 
-                className="px-6 py-3 rounded-md"
-                style={{ backgroundColor: '#FE0010' }}
-              >
-                <span className="text-white font-bold font-klein text-2xl md:text-3xl">20 seconds</span>
+        {/* Hero Content */}
+        <div className="flex-1 flex items-center justify-center relative z-10">
+          <div className="max-w-5xl mx-auto text-center">
+            {/* Center Logo */}
+            <div className="mb-8">
+              <div className="flex justify-center mb-8">
+                <img 
+                  src="/lovable-uploads/36e2fe4a-6176-4447-8958-b3608de4485e.png" 
+                  alt="FitnessAds.AI Logo" 
+                  className="w-20 h-20 rounded-full shadow-lg glow-orange"
+                />
               </div>
             </div>
-          </div>
 
-          {/* Footer Tagline */}
-          <p 
-            className="text-base md:text-lg text-white max-w-2xl mx-auto font-semibold"
-            style={{ fontFamily: "'Klein Condensed Trial', sans-serif" }}
-          >
-            No more ChatGPT garbage that sounds like it was written by your nan.
-          </p>
+            {/* Marketing Tool Description */}
+            <div className="mb-8">
+              <p className="text-sm text-white font-klein">
+                <span className="text-white">The FIRST fitness MARKETING AI TOOL MADE BY</span>{" "}
+                <span className="font-bold" style={{ color: '#FE0010' }}>GYMS OWNERS & ONLINE COACHES</span>
+              </p>
+            </div>
+
+            {/* Main Headline */}
+            <h1 
+              className="font-klein font-extrabold text-white text-center mb-8"
+              style={{
+                fontSize: '42px',
+                fontWeight: '800',
+                lineHeight: '52px',
+                letterSpacing: '-2px',
+              }}
+            >
+              Outperform 'Fitness Marketing Agencies', Canva
+              <br className="block" />
+              Templates and ChatGPT — With The AI Ad Tool
+              <br className="block" />
+              Built for Real Fitness Businesses.
+            </h1>
+
+            {/* Subheadline CTA */}
+            <div className="mb-8">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-2xl md:text-3xl font-semibold text-white font-klein">
+                <span>Get Money Printing Ads In</span>
+                <div 
+                  className="px-6 py-3 rounded-md"
+                  style={{ backgroundColor: '#FE0010' }}
+                >
+                  <span className="text-white font-bold font-klein text-2xl md:text-3xl">20 seconds</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer Tagline */}
+            <p 
+              className="text-base md:text-lg text-white max-w-2xl mx-auto font-semibold"
+              style={{ fontFamily: "'Klein Condensed Trial', sans-serif" }}
+            >
+              No more ChatGPT garbage that sounds like it was written by your nan.
+            </p>
+          </div>
         </div>
       </section>
 
