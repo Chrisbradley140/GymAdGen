@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -292,7 +291,8 @@ const Index = () => {
 
       {/* Section After Hero - Left Aligned and Responsive */}
       <section 
-        className="px-4 py-16 bg-gray-950"
+        className="px-4 py-16"
+        style={{ backgroundColor: '#2B2932' }}
       >
         <div className="max-w-6xl mx-auto">
           <div className="text-left">
