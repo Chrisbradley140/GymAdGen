@@ -403,9 +403,10 @@ const Index = () => {
       {/* Final CTA */}
       <section className="py-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
+          <p className="text-lg mb-4">🔥 What you are waiting for? 🔥</p>
+          
           <h2 className="text-3xl md:text-5xl font-black mb-6 leading-tight">
-            This Isn't a Tool.<br />
-            It's a <span className="text-gradient">Fitness Ad Weapon.</span>
+            Still Reading
           </h2>
           
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
