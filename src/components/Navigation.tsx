@@ -60,7 +60,11 @@ const Navigation = () => {
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="flex items-center gap-2">
+                <Button 
+                  variant="outline" 
+                  className="flex items-center gap-2 border-2"
+                  style={{ borderColor: '#FE0010', color: '#FE0010' }}
+                >
                   <User className="w-4 h-4" />
                   <span className="hidden sm:inline">{user.email}</span>
                   <ChevronDown className="w-4 h-4" />

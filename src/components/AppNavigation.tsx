@@ -81,7 +81,12 @@ const AppNavigation = () => {
             {user && (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" className="flex items-center gap-2">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="flex items-center gap-2 border-2"
+                    style={{ borderColor: '#FE0010', color: '#FE0010' }}
+                  >
                     <User className="w-4 h-4" />
                     <span>{user.email}</span>
                     <ChevronDown className="w-4 h-4" />
@@ -149,7 +154,7 @@ const AppNavigation = () => {
               {/* Mobile User Info & Logout */}
               <div className="border-t border-border pt-4 mt-4">
                 {user && (
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2 px-3">
+                  <div className="flex items-center gap-2 text-sm mb-2 px-3" style={{ color: '#FE0010' }}>
                     <User className="w-4 h-4" />
                     <span>{user.email}</span>
                   </div>
