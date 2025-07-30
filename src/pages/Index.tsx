@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -330,34 +329,31 @@ const Index = () => {
           {/* Top Section with Badges */}
           <div className="flex flex-col lg:flex-row gap-8 mb-12">
             {/* Left Side - Heading and Description */}
-            <div className="lg:w-1/2">
+            <div className="lg:w-3/5">
               <h2 className="text-4xl md:text-5xl font-black text-white mb-6 font-klein">
                 <span className="block">Recognise Any of This</span>
                 <span className="block">ChatGPT Drive?</span>
               </h2>
-              <p className="text-lg text-white/90 leading-relaxed">
-                You've seen these clichés everywhere. Generic, soulless copy that screams "I used AI" from a mile away. 
-                Your audience is tired of it. They scroll past it. They ignore it.
+              <p className="text-lg text-white/90 leading-relaxed mb-8">
+                What's the secret sauce? How can I give ChatGPT a wedgie so bad his cousin Claude feels it? PLUS, make better ads that beat 99% of copywriters? It's in my proprietary private data set. Lemme explain…
               </p>
               
               {/* Left Badges - Vertical Layout */}
-              <div className="mt-8">
-                <div className="flex flex-col gap-3 items-start max-w-md">
-                  {badgePhrases.map((phrase, index) => (
-                    <div
-                      key={index}
-                      className="bg-gray-700/50 backdrop-blur-sm border border-gray-600/30 rounded-full px-4 py-2 text-white/80 text-sm hover:bg-gray-600/50 transition-all duration-200 hover:scale-105"
-                    >
-                      {phrase}
-                    </div>
-                  ))}
-                </div>
+              <div className="flex flex-col gap-3 items-start max-w-md">
+                {badgePhrases.map((phrase, index) => (
+                  <div
+                    key={index}
+                    className="bg-gray-700/50 backdrop-blur-sm border border-gray-600/30 rounded-full px-4 py-2 text-white/80 text-sm hover:bg-gray-600/50 transition-all duration-200 hover:scale-105"
+                  >
+                    {phrase}
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Right Side - Right Badges */}
-            <div className="lg:w-1/2 lg:pt-16">
-              <div className="flex flex-col gap-3 items-start max-w-md">
+            {/* Right Side - Right Badges (moved further right) */}
+            <div className="lg:w-2/5 lg:pl-8 lg:pt-16">
+              <div className="flex flex-col gap-3 items-start max-w-md ml-auto">
                 {rightBadgePhrases.map((phrase, index) => (
                   <div
                     key={index}
