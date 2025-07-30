@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -89,23 +88,21 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Top Badge */}
+          {/* Marketing Tool Description */}
           <div className="mb-8">
-            <div className="inline-block bg-secondary/30 rounded-full px-4 py-2 border border-muted">
-              <span className="text-sm text-muted-foreground font-klein">
-                The FIRST fitness MARKETING AI TOOL MADE BY{" "}
-                <span className="font-bold text-primary">GYMS OWNERS & ONLINE COACHES</span>
-              </span>
-            </div>
+            <p className="text-sm text-muted-foreground font-klein">
+              <span className="text-white">The FIRST fitness MARKETING AI TOOL MADE BY</span>{" "}
+              <span className="font-bold text-primary">GYMS OWNERS & ONLINE COACHES</span>
+            </p>
           </div>
 
           {/* Main Headline */}
           <h1 
             className="font-klein font-extrabold text-white text-center mb-8"
             style={{
-              fontSize: '60px',
+              fontSize: '48px',
               fontWeight: '800',
-              lineHeight: '77px',
+              lineHeight: '58px',
               letterSpacing: '-2px',
             }}
           >
