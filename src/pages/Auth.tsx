@@ -157,121 +157,124 @@ const Auth = () => {
             Back to Home
           </button>
 
-          {/* Form Header */}
-          <div className="text-center mb-8">
-            <div className="text-sm text-muted-foreground mb-2">
-              {isLogin ? 'WELCOME BACK' : 'GET STARTED'}
+          {/* Form Container with Glass Effect */}
+          <div className="bg-gray-700/30 backdrop-blur-sm border border-gray-600/30 rounded-xl p-8 hover:bg-gray-600/20 transition-all duration-300">
+            {/* Form Header */}
+            <div className="text-center mb-8">
+              <div className="text-sm text-muted-foreground mb-2">
+                {isLogin ? 'WELCOME BACK' : 'GET STARTED'}
+              </div>
+              <h2 className="text-3xl font-bold text-card-foreground">
+                {isLogin ? 'Log in to FitnessAds.ai' : 'Create your account'}
+              </h2>
             </div>
-            <h2 className="text-3xl font-bold text-card-foreground">
-              {isLogin ? 'Log in to FitnessAds.ai' : 'Create your account'}
-            </h2>
-          </div>
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {!isLogin && (
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {!isLogin && (
+                <div className="space-y-2">
+                  <Label htmlFor="fullName" className="text-sm font-medium text-card-foreground">
+                    Full Name
+                  </Label>
+                  <Input
+                    id="fullName"
+                    type="text"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    placeholder="Enter your full name"
+                    required={!isLogin}
+                    className="h-12 bg-background/50 backdrop-blur-sm border-border/50"
+                  />
+                </div>
+              )}
+              
               <div className="space-y-2">
-                <Label htmlFor="fullName" className="text-sm font-medium text-card-foreground">
-                  Full Name
+                <Label htmlFor="email" className="text-sm font-medium text-card-foreground">
+                  Email
                 </Label>
                 <Input
-                  id="fullName"
-                  type="text"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  placeholder="Enter your full name"
-                  required={!isLogin}
-                  className="h-12 bg-background border-border"
-                />
-              </div>
-            )}
-            
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium text-card-foreground">
-                Email
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="johnsondoe@nomail.com"
-                required
-                className="h-12 bg-background border-border"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-sm font-medium text-card-foreground">
-                Password
-              </Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••••••••••"
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="johnsondoe@nomail.com"
                   required
-                  className="h-12 bg-background border-border pr-12"
+                  className="h-12 bg-background/50 backdrop-blur-sm border-border/50"
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                >
-                  {showPassword ? (
-                    <EyeOff className="w-5 h-5" />
-                  ) : (
-                    <Eye className="w-5 h-5" />
-                  )}
-                </button>
               </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-sm font-medium text-card-foreground">
+                  Password
+                </Label>
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••••••••••"
+                    required
+                    className="h-12 bg-background/50 backdrop-blur-sm border-border/50 pr-12"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="w-5 h-5" />
+                    ) : (
+                      <Eye className="w-5 h-5" />
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {isLogin && (
+                <div className="text-left">
+                  <button
+                    type="button"
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    Forgot Password?
+                  </button>
+                </div>
+              )}
+
+              {error && (
+                <Alert variant="destructive" className="bg-destructive/20 backdrop-blur-sm border-destructive/30">
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              )}
+
+              <Button 
+                type="submit" 
+                className="w-full h-12 text-base font-medium bg-primary/90 backdrop-blur-sm hover:bg-primary"
+                disabled={loading}
+              >
+                {loading ? 'Loading...' : (isLogin ? 'Sign in' : 'Sign up')}
+              </Button>
+            </form>
+
+            <div className="mt-6 text-center">
+              <span className="text-muted-foreground text-sm">
+                {isLogin ? "New User? " : "Already have an account? "}
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsLogin(!isLogin);
+                  setError('');
+                  setEmail('');
+                  setPassword('');
+                  setFullName('');
+                }}
+                className="text-primary hover:underline font-medium text-sm"
+              >
+                {isLogin ? "SIGN UP HERE" : "SIGN IN HERE"}
+              </button>
             </div>
-
-            {isLogin && (
-              <div className="text-left">
-                <button
-                  type="button"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Forgot Password?
-                </button>
-              </div>
-            )}
-
-            {error && (
-              <Alert variant="destructive">
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )}
-
-            <Button 
-              type="submit" 
-              className="w-full h-12 text-base font-medium"
-              disabled={loading}
-            >
-              {loading ? 'Loading...' : (isLogin ? 'Sign in' : 'Sign up')}
-            </Button>
-          </form>
-
-          <div className="mt-6 text-center">
-            <span className="text-muted-foreground text-sm">
-              {isLogin ? "New User? " : "Already have an account? "}
-            </span>
-            <button
-              type="button"
-              onClick={() => {
-                setIsLogin(!isLogin);
-                setError('');
-                setEmail('');
-                setPassword('');
-                setFullName('');
-              }}
-              className="text-primary hover:underline font-medium text-sm"
-            >
-              {isLogin ? "SIGN UP HERE" : "SIGN IN HERE"}
-            </button>
           </div>
         </div>
       </div>
