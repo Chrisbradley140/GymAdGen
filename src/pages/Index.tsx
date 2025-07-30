@@ -122,12 +122,10 @@ const Index = () => {
   ];
 
   const floatingEmojis = [
-    { src: "/lovable-uploads/0e7dfd69-d2c4-4337-9a53-f7083d24feef.png", top: "10%", right: "-60px" },
-    { src: "/lovable-uploads/380a2309-f988-4fc4-94e0-0efd0501082a.png", top: "25%", right: "-80px" },
-    { src: "/lovable-uploads/b08c3395-c0c6-48d2-a16d-838dc51a2d36.png", top: "40%", right: "-70px" },
-    { src: "/lovable-uploads/156100f0-a562-4072-927d-e95b76e42ab5.png", top: "55%", right: "-90px" },
-    { src: "/lovable-uploads/0e7dfd69-d2c4-4337-9a53-f7083d24feef.png", top: "70%", right: "-50px" },
-    { src: "/lovable-uploads/380a2309-f988-4fc4-94e0-0efd0501082a.png", top: "85%", right: "-75px" }
+    { src: "/lovable-uploads/0e7dfd69-d2c4-4337-9a53-f7083d24feef.png", top: "20%", left: "-60px" },
+    { src: "/lovable-uploads/380a2309-f988-4fc4-94e0-0efd0501082a.png", top: "60%", left: "-50px" },
+    { src: "/lovable-uploads/b08c3395-c0c6-48d2-a16d-838dc51a2d36.png", top: "30%", right: "-60px" },
+    { src: "/lovable-uploads/156100f0-a562-4072-927d-e95b76e42ab5.png", top: "70%", right: "-70px" }
   ];
 
   const nextTestimonial = () => {
@@ -381,10 +379,10 @@ const Index = () => {
                   key={index}
                   src={emoji.src}
                   alt="emoji"
-                  className="absolute w-8 h-8 animate-bounce"
+                  className="absolute w-12 h-12 animate-bounce"
                   style={{
                     top: emoji.top,
-                    right: emoji.right,
+                    ...(emoji.left ? { left: emoji.left } : { right: emoji.right }),
                     animationDelay: `${index * 0.5}s`,
                     animationDuration: '2s'
                   }}
