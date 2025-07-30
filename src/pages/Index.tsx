@@ -324,6 +324,33 @@ const Index = () => {
                 <p className="text-lg text-white font-medium">And it writes ads in your voice, your tone, your values</p>
               </div>
             </div>
+
+            {/* New Layout Section */}
+            <div 
+              className="relative mt-16"
+              style={{
+                width: '600px',
+                height: '180px',
+                marginLeft: '100px',
+                opacity: 1
+              }}
+            >
+              <p 
+                className="text-white font-klein"
+                style={{
+                  fontFamily: 'Klein Condensed Trial',
+                  fontWeight: '800',
+                  fontSize: '26px',
+                  lineHeight: '36px',
+                  letterSpacing: '0px',
+                  verticalAlign: 'middle'
+                }}
+              >
+                It doesn't write generic garbage. It writes stuff that converts. Fast. We've tested them all.
+                <br /><br />
+                But it's hard to make good ad creative at scale. And the bottleneck is creative, until now…
+              </p>
+            </div>
           </div>
         </div>
       </section>
