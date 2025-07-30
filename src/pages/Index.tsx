@@ -286,8 +286,17 @@ const Index = () => {
       </section>
 
       {/* New Section - After Hero with specific desktop layout */}
-      <section className="py-16 px-4 bg-background">
-        <div className="max-w-6xl mx-auto">
+      <section 
+        className="px-4 bg-background relative"
+        style={{
+          width: '1440px',
+          height: '854px',
+          top: '888px',
+          opacity: 1,
+          margin: '0 auto'
+        }}
+      >
+        <div className="max-w-6xl mx-auto h-full">
           <div 
             className="text-left relative"
             style={{
