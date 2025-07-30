@@ -1,109 +1,95 @@
-
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
-import { LogOut, User, ChevronDown, LayoutDashboard, Zap, Library, Settings, FileText } from "lucide-react";
-import {
+import { User, ChevronDown, LogOut } from "lucide-react";
+import { 
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import CTAButton from "./CTAButton";
 
 const Navigation = () => {
-  const { user, signOut } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const handleAuthAction = () => {
-    if (user) {
-      signOut();
-    } else {
+  const handleLogout = async () => {
+    try {
+      await logout();
       navigate('/auth');
+    } catch (error) {
+      console.error("Logout failed:", error);
     }
   };
-
-  const handleLogoClick = () => {
-    if (user) {
-      navigate('/dashboard');
-    } else {
-      navigate('/');
-    }
-  };
-
-  const navigationItems = [
-    { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
-    { name: "Ad Generator", path: "/generate", icon: Zap },
-    { name: "Campaign Library", path: "/library", icon: Library },
-    { name: "Brand Setup", path: "/brand-setup", icon: Settings },
-    { name: "Export PDF", path: "/export", icon: FileText },
-    { name: "Account", path: "/account", icon: User },
-  ];
 
   return (
-    <nav className="fixed top-0 w-full bg-background/95 backdrop-blur-sm border-b border-muted z-50">
-      <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <div 
-          className="flex items-center gap-2 cursor-pointer"
-          onClick={handleLogoClick}
-        >
-          <img 
-            src="/lovable-uploads/c4cf7462-6a0c-4f7b-ac89-546cd215771a.png" 
-            alt="FitnessAds.AI Logo" 
-            className="w-8 h-8"
-          />
-          <span className="text-xl font-bold">FITNESSADS.AI</span>
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
+      <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-8">
+          <div className="flex items-center gap-3">
+            <img 
+              src="/lovable-uploads/36e2fe4a-6176-4447-8958-b3608de4485e.png" 
+              alt="FitnessAds.AI Logo" 
+              className="w-8 h-8 rounded-full"
+            />
+            <span className="text-xl font-bold text-primary">FitnessAds.AI</span>
+          </div>
+
+          <div className="hidden md:flex items-center gap-6">
+            <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">
+              Features
+            </a>
+            <a href="#testimonials" className="text-muted-foreground hover:text-foreground transition-colors">
+              Testimonials
+            </a>
+            <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors">
+              Pricing
+            </a>
+          </div>
         </div>
-        
+
         <div className="flex items-center gap-4">
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button 
-                  variant="outline" 
-                  className="flex items-center gap-2 border-2"
-                  style={{ borderColor: '#FE0010', color: '#FE0010' }}
+                  className="flex items-center gap-2 text-white border-2"
+                  style={{ backgroundColor: '#FE0010', borderColor: '#FE0010' }}
                 >
                   <User className="w-4 h-4" />
                   <span className="hidden sm:inline">{user.email}</span>
                   <ChevronDown className="w-4 h-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56 bg-popover">
-                <DropdownMenuLabel className="text-muted-foreground">
-                  {user.email}
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                {navigationItems.map((item) => (
-                  <DropdownMenuItem
-                    key={item.path}
-                    onClick={() => navigate(item.path)}
-                    className="flex items-center gap-2 cursor-pointer"
-                  >
-                    <item.icon className="w-4 h-4" />
-                    {item.name}
-                  </DropdownMenuItem>
-                ))}
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={handleAuthAction}
-                  className="flex items-center gap-2 cursor-pointer text-destructive focus:text-destructive"
-                >
-                  <LogOut className="w-4 h-4" />
-                  Logout
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => navigate('/dashboard')}>
+                  Dashboard
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate('/account')}>
+                  Account Settings
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Sign Out
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button 
-              variant="outline" 
-              size="default"
-              onClick={handleAuthAction}
-              className="flex items-center gap-2"
-            >
-              Login
-            </Button>
+            <div className="flex items-center gap-3">
+              <Button 
+                variant="ghost" 
+                onClick={() => navigate('/auth')}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                Sign In
+              </Button>
+              <CTAButton onClick={() => navigate('/auth')}>
+                Get Started
+              </CTAButton>
+            </div>
           )}
         </div>
       </div>
