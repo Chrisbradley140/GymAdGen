@@ -325,8 +325,8 @@ const Index = () => {
           backgroundAttachment: 'fixed'
         }}
       >
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-black/80"></div>
+        {/* Dark overlay with increased opacity */}
+        <div className="absolute inset-0 bg-black/90"></div>
         
         <div className="max-w-6xl mx-auto relative z-10">
           {/* Top Section */}
