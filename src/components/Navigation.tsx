@@ -60,7 +60,7 @@ const Navigation = () => {
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="flex items-center gap-2">
+                <Button variant="outline" className="flex items-center gap-2 bg-primary/20 border-primary text-primary hover:bg-primary/30 hover:text-primary">
                   <User className="w-4 h-4" />
                   <span className="hidden sm:inline">{user.email}</span>
                   <ChevronDown className="w-4 h-4" />
@@ -96,7 +96,7 @@ const Navigation = () => {
               variant="outline" 
               size="default"
               onClick={handleAuthAction}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 bg-primary/20 border-primary text-primary hover:bg-primary/30 hover:text-primary"
             >
               Login
             </Button>

@@ -77,6 +77,17 @@ const Index = () => {
         ></div>
         
         <div className="max-w-5xl mx-auto text-center relative z-10">
+          {/* Center Logo */}
+          <div className="mb-8">
+            <div className="flex justify-center mb-8">
+              <img 
+                src="/lovable-uploads/36e2fe4a-6176-4447-8958-b3608de4485e.png" 
+                alt="FitnessAds.AI Logo" 
+                className="w-20 h-20 rounded-full shadow-lg glow-orange"
+              />
+            </div>
+          </div>
+
           {/* Top Badge */}
           <div className="mb-8">
             <div className="inline-block bg-secondary/30 rounded-full px-4 py-2 border border-muted">
@@ -110,11 +121,6 @@ const Index = () => {
                 <span className="text-white font-bold font-klein">20 seconds</span>
               </div>
             </div>
-          </div>
-
-          {/* CTA Button */}
-          <div className="mb-12">
-            <CTAButton size="lg">Generate Your First Ad</CTAButton>
           </div>
 
           {/* Footer Tagline */}
