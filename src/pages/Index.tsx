@@ -92,7 +92,7 @@ const Index = () => {
           <div className="mb-8">
             <p className="text-sm text-white font-klein">
               <span className="text-white">The FIRST fitness MARKETING AI TOOL MADE BY</span>{" "}
-              <span className="font-bold text-primary">GYMS OWNERS & ONLINE COACHES</span>
+              <span className="font-bold" style={{ color: '#FE0010' }}>GYMS OWNERS & ONLINE COACHES</span>
             </p>
           </div>
 
@@ -115,13 +115,13 @@ const Index = () => {
 
           {/* Subheadline CTA */}
           <div className="mb-8">
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-xl md:text-2xl font-semibold text-white font-klein">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-2xl md:text-3xl font-semibold text-white font-klein">
               <span>Get Money Printing Ads In</span>
               <div 
-                className="px-4 py-2 rounded-md"
+                className="px-6 py-3 rounded-md"
                 style={{ backgroundColor: '#FE0010' }}
               >
-                <span className="text-white font-bold font-klein">20 seconds</span>
+                <span className="text-white font-bold font-klein text-2xl md:text-3xl">20 seconds</span>
               </div>
             </div>
           </div>
