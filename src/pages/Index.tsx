@@ -394,56 +394,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Benefits Section */}
-      <section className="py-12 px-4">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-black mb-4">
-              Stop Bleeding Money on <span className="text-gradient">Bad Ads</span>
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Built specifically for fitness entrepreneurs who are tired of ads that don't convert
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            <BenefitCard
-              icon={DollarSign}
-              title="Stop Wasting Money"
-              description="End the cycle of throwing cash at ads that get ignored. Every ad this tool generates is built to convert."
-            />
-            
-            <BenefitCard
-              icon={Target}
-              title="Write Like a Pro"
-              description="Get copy that reads like you hired a $5K/month copywriter. Hooks that stop thumbs, bodies that build desire."
-            />
-            
-            <BenefitCard
-              icon={TrendingUp}
-              title="Scale Your Revenue"
-              description="Turn your best-performing ads into profit machines. Consistent results, predictable growth."
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Product Demo */}
-      <section className="py-12 px-4 bg-secondary/20">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-black mb-4">
-              Watch It <span className="text-gradient">Transform</span> Your Input
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              From basic info to high-converting ad copy in seconds
-            </p>
-          </div>
-
-          <ProductDemo />
-        </div>
-      </section>
-
       {/* New Results Showcase Section */}
       <ResultsShowcase />
 
