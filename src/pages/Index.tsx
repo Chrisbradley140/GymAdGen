@@ -356,18 +356,8 @@ const Index = () => {
 
       {/* ChatGPT Drive Section - moved after Results Showcase */}
       <section 
-        className="py-16 px-4 relative overflow-hidden"
-        style={{
-          backgroundImage: `url('/lovable-uploads/5ab46530-2ea7-444d-b47c-765e37a84154.png')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          backgroundAttachment: 'fixed'
-        }}
+        className="py-16 px-4 relative overflow-hidden bg-secondary"
       >
-        {/* Dark overlay with 40% opacity */}
-        <div className="absolute inset-0 bg-black/40"></div>
-        
         <div className="max-w-6xl mx-auto relative z-10">
           {/* Top Section with Badges */}
           <div className="flex flex-col lg:flex-row gap-8 mb-8 relative">
