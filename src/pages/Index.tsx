@@ -324,9 +324,9 @@ const Index = () => {
             </p>
           </div>
 
-          {/* Badges Section */}
+          {/* Badges Section - Vertical Layout */}
           <div className="mb-12">
-            <div className="flex flex-wrap gap-3 justify-start">
+            <div className="flex flex-col gap-3 items-start max-w-md">
               {badgePhrases.map((phrase, index) => (
                 <div
                   key={index}
