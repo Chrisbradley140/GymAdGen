@@ -23,9 +23,9 @@ const Auth = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Redirect to home if user is already logged in
+    // Redirect to dashboard if user is already logged in
     if (user) {
-      navigate('/');
+      navigate('/dashboard');
     }
   }, [user, navigate]);
 
@@ -67,7 +67,7 @@ const Auth = () => {
             if (!hasCompletedOnboarding) {
               navigate('/onboarding');
             } else {
-              navigate('/');
+              navigate('/dashboard');
             }
           }
         }
