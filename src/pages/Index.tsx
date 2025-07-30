@@ -94,6 +94,36 @@ const Index = () => {
     }
   ];
 
+  const leftColumnPhrases = [
+    "😌 This isn't just another program",
+    "🥳 We're not like the other guys",
+    "✅ Results guaranteed - or your money back",
+    "🚀 Revolutionary breakthrough system",
+    "💪 Transform your life in 30 days",
+    "🔥 Limited time exclusive offer",
+    "🎯 Proven by thousands worldwide",
+    "💎 Premium quality guaranteed",
+    "⚡ Instant results possible",
+    "🌟 Life-changing opportunity",
+    "🏆 Award-winning method",
+    "📈 Sound familiar?"
+  ];
+
+  const rightColumnPhrases = [
+    "😎 Game-changing offer",
+    "🤑 Live the life you deserve", 
+    "😴 Effortless transformation",
+    "🎪 Join our exclusive community",
+    "🦄 One weird trick doctors hate",
+    "🎉 Breakthrough secret revealed",
+    "💰 Make money while you sleep",
+    "🔓 Unlock your true potential",
+    "⭐ Celebrity-endorsed method",
+    "🏅 Industry-leading results",
+    "🎁 Free bonus included",
+    "🌈 Change your destiny today"
+  ];
+
   const nextTestimonial = () => {
     setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
   };
@@ -280,6 +310,74 @@ const Index = () => {
               cta="Get My Food Freedom Guide"
               performance="+312% ROAS"
             />
+          </div>
+        </div>
+      </section>
+
+      {/* ChatGPT Drive Section */}
+      <section 
+        className="py-16 px-4 relative overflow-hidden"
+        style={{
+          backgroundImage: `url('/lovable-uploads/bee63c12-d6f3-4277-9edb-5f0fc8c01595.png')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed'
+        }}
+      >
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black/80"></div>
+        
+        <div className="max-w-6xl mx-auto relative z-10">
+          {/* Top Section */}
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-6 font-klein">
+              Recognise Any of This ChatGPT Drive?
+            </h2>
+            <p className="text-lg text-white/90 max-w-3xl mx-auto leading-relaxed px-4">
+              You've seen these clichés everywhere. Generic, soulless copy that screams "I used AI" from a mile away. 
+              Your audience is tired of it. They scroll past it. They ignore it.
+            </p>
+          </div>
+
+          {/* Middle Split Content */}
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            {/* Left Column */}
+            <div className="space-y-3">
+              <div className="flex flex-wrap gap-3">
+                {leftColumnPhrases.map((phrase, index) => (
+                  <div
+                    key={index}
+                    className="bg-gray-700/50 backdrop-blur-sm border border-gray-600/30 rounded-full px-4 py-2 text-white/80 text-sm hover:bg-gray-600/50 transition-all duration-200 hover:scale-105"
+                  >
+                    {phrase}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right Column */}
+            <div className="space-y-3">
+              <div className="flex flex-wrap gap-3">
+                {rightColumnPhrases.map((phrase, index) => (
+                  <div
+                    key={index}
+                    className="bg-gray-700/50 backdrop-blur-sm border border-gray-600/30 rounded-full px-4 py-2 text-white/80 text-sm hover:bg-gray-600/50 transition-all duration-200 hover:scale-105"
+                  >
+                    {phrase}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Paragraph */}
+          <div className="text-center">
+            <p className="text-white/70 max-w-4xl mx-auto leading-relaxed text-sm px-4">
+              AI is only as good as the data sets you give it. ChatGPT was trained on billions of web pages filled with 
+              generic marketing drivel. Kong was trained exclusively on high-converting fitness ads that actually made money. 
+              The difference? Kong doesn't sound like every other AI tool because it learned from winners, not wannabes.
+            </p>
           </div>
         </div>
       </section>
