@@ -285,27 +285,13 @@ const Index = () => {
         </div>
       </section>
 
-      {/* New Section - After Hero with fixed layout */}
+      {/* Section After Hero - Left Aligned and Responsive */}
       <section 
-        className="px-4 py-16 relative"
-        style={{
-          backgroundColor: '#2B2932',
-          width: '1440px',
-          minHeight: '854px',
-          margin: '0 auto',
-          opacity: 1
-        }}
+        className="px-4 py-16"
+        style={{ backgroundColor: '#2B2932' }}
       >
-        <div className="max-w-6xl mx-auto h-full">
-          <div 
-            className="text-left relative"
-            style={{
-              width: '820px',
-              marginTop: '50px',
-              marginLeft: '100px',
-              opacity: 1
-            }}
-          >
+        <div className="max-w-6xl mx-auto">
+          <div className="text-left">
             <h2 className="text-3xl md:text-4xl font-black text-white mb-6 font-klein">
               This isn't chatGpt wearing gym leggings that make it's glutes look bigger
             </h2>
@@ -313,33 +299,25 @@ const Index = () => {
               You don't need another AI that can write a 5/10 ad for any industry under the sun.
               You need one that knows your buyers inside out. What they think, feel, and fear at the exact moment they see your ad.
             </p>
-          </div>
-          
-          {/* Bullet Points with specific layout */}
-          <div 
-            className="space-y-3 absolute"
-            style={{
-              width: '442px',
-              top: '410px',
-              left: '100px',
-              opacity: 1
-            }}
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <p className="text-lg text-white font-medium">1000's of real gym + online coaching ads</p>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <p className="text-lg text-white font-medium">Real lead data</p>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <p className="text-lg text-white font-medium">Real buying behaviour</p>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <p className="text-lg text-white font-medium">And it writes ads in your voice, your tone, your values</p>
+            
+            {/* Bullet Points */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-primary rounded-full"></div>
+                <p className="text-lg text-white font-medium">1000's of real gym + online coaching ads</p>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-primary rounded-full"></div>
+                <p className="text-lg text-white font-medium">Real lead data</p>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-primary rounded-full"></div>
+                <p className="text-lg text-white font-medium">Real buying behaviour</p>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-primary rounded-full"></div>
+                <p className="text-lg text-white font-medium">And it writes ads in your voice, your tone, your values</p>
+              </div>
             </div>
           </div>
         </div>
