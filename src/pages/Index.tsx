@@ -363,15 +363,20 @@ const Index = () => {
                   </div>
                 ))}
               </div>
+              
+              {/* New text below right side badges */}
+              <div className="mt-8">
+                <p className="text-white/70 leading-relaxed text-sm">
+                  AI is only as good as the data sets you give it. And my Daddy (Sabri Suby) runs a digital marketing agency that's generated over $7.8 billion (with a B) in ROAS. We've taken that data and fed it into Kong. Creating a large language model (LLM) on the best-performing ad copy and creatives from over $200m in ad spend.
+                </p>
+              </div>
             </div>
           </div>
 
           {/* Bottom Paragraph */}
           <div className="text-center">
             <p className="text-white/70 max-w-4xl mx-auto leading-relaxed text-sm px-4">
-              AI is only as good as the data sets you give it. ChatGPT was trained on billions of web pages filled with 
-              generic marketing drivel. Kong was trained exclusively on high-converting fitness ads that actually made money. 
-              The difference? Kong doesn't sound like every other AI tool because it learned from winners, not wannabes.
+              AI is only as good as the data sets you give it. And my Daddy (Sabri Suby) runs a digital marketing agency that's generated over $7.8 billion (with a B) in ROAS. We've taken that data and fed it into Kong. Creating a large language model (LLM) on the best-performing ad copy and creatives from over $200m in ad spend.
             </p>
           </div>
         </div>
