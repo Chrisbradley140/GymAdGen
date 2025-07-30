@@ -285,6 +285,21 @@ const Index = () => {
         </div>
       </section>
 
+      {/* New Section - After Hero */}
+      <section className="py-16 px-4 bg-background">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-left">
+            <h2 className="text-3xl md:text-4xl font-black text-foreground mb-6 font-klein">
+              This isn't chatGpt wearing gym leggings that make it's glutes look bigger
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-3xl leading-relaxed">
+              You don't need another AI that can write a 5/10 ad for any industry under the sun.
+              You need one that knows your buyers inside out. What they think, feel, and fear at the exact moment they see your ad.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* ChatGPT Drive Section */}
       <section 
         className="py-16 px-4 relative overflow-hidden"
