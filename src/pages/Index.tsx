@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -95,34 +94,17 @@ const Index = () => {
     }
   ];
 
-  const leftColumnPhrases = [
+  const badgePhrases = [
     "This isn't just another program",
     "We're not like the other guys",
     "Results guaranteed - or your money back",
-    "Revolutionary breakthrough system",
-    "Transform your life in 30 days",
-    "Limited time exclusive offer",
-    "Proven by thousands worldwide",
-    "Premium quality guaranteed",
-    "Instant results possible",
-    "Life-changing opportunity",
-    "Award-winning method",
-    "Sound familiar?"
-  ];
-
-  const rightColumnPhrases = [
-    "Game-changing offer",
-    "Live the life you deserve", 
-    "Effortless transformation",
-    "Join our exclusive community",
-    "One weird trick doctors hate",
-    "Breakthrough secret revealed",
-    "Make money while you sleep",
-    "Unlock your true potential",
-    "Celebrity-endorsed method",
-    "Industry-leading results",
-    "Free bonus included",
-    "Change your destiny today"
+    "Our proven system has helped thousands",
+    "You're just one step away",
+    "Ready to take things to the next level?",
+    "Sound familiar?",
+    "It's time to stop settling",
+    "No fluff - just results",
+    "Don't wait - act now"
   ];
 
   const nextTestimonial = () => {
@@ -342,34 +324,17 @@ const Index = () => {
             </p>
           </div>
 
-          {/* Middle Split Content */}
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
-            {/* Left Column */}
-            <div className="space-y-3">
-              <div className="flex flex-wrap gap-3">
-                {leftColumnPhrases.map((phrase, index) => (
-                  <div
-                    key={index}
-                    className="bg-gray-700/50 backdrop-blur-sm border border-gray-600/30 rounded-full px-4 py-2 text-white/80 text-sm hover:bg-gray-600/50 transition-all duration-200 hover:scale-105"
-                  >
-                    {phrase}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Right Column */}
-            <div className="space-y-3">
-              <div className="flex flex-wrap gap-3">
-                {rightColumnPhrases.map((phrase, index) => (
-                  <div
-                    key={index}
-                    className="bg-gray-700/50 backdrop-blur-sm border border-gray-600/30 rounded-full px-4 py-2 text-white/80 text-sm hover:bg-gray-600/50 transition-all duration-200 hover:scale-105"
-                  >
-                    {phrase}
-                  </div>
-                ))}
-              </div>
+          {/* Badges Section */}
+          <div className="mb-12">
+            <div className="flex flex-wrap gap-3 justify-start">
+              {badgePhrases.map((phrase, index) => (
+                <div
+                  key={index}
+                  className="bg-gray-700/50 backdrop-blur-sm border border-gray-600/30 rounded-full px-4 py-2 text-white/80 text-sm hover:bg-gray-600/50 transition-all duration-200 hover:scale-105"
+                >
+                  {phrase}
+                </div>
+              ))}
             </div>
           </div>
 
