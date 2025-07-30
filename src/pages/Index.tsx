@@ -309,10 +309,19 @@ const Index = () => {
               <span className="block">Recognise Any of This</span>
               <span className="block">ChatGPT Drive?</span>
             </h2>
-            <p className="text-lg text-white/90 max-w-3xl leading-relaxed px-4">
+            <p className="text-lg text-white/90 max-w-3xl leading-relaxed px-4 mb-8">
               You've seen these clichés everywhere. Generic, soulless copy that screams "I used AI" from a mile away. 
               Your audience is tired of it. They scroll past it. They ignore it.
             </p>
+            
+            {/* Added Image */}
+            <div className="flex justify-center mb-12">
+              <img 
+                src="/lovable-uploads/70e0547f-46de-494e-9079-bfb9bc5f8f30.png" 
+                alt="Common ChatGPT clichés" 
+                className="max-w-full h-auto rounded-lg shadow-lg"
+              />
+            </div>
           </div>
 
           {/* Middle Split Content */}
