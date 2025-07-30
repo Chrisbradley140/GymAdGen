@@ -5,8 +5,20 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Plus, Minus } from "lucide-react";
+import { useState } from "react";
 
 const FAQ = () => {
+  const [openItems, setOpenItems] = useState<string[]>([]);
+
+  const handleValueChange = (value: string) => {
+    setOpenItems(prev => 
+      prev.includes(value) 
+        ? prev.filter(item => item !== value)
+        : [...prev, value]
+    );
+  };
+
   const faqs = [
     {
       question: "What exactly is FitnessAds.ai?",
@@ -63,25 +75,42 @@ const FAQ = () => {
           </p>
         </div>
 
-        {/* Modern Accordion FAQ */}
-        <div className="bg-card/50 backdrop-blur-sm rounded-2xl border border-border/50 shadow-lg overflow-hidden">
-          <Accordion type="single" collapsible className="w-full">
+        {/* Enhanced FAQ Accordion */}
+        <div className="space-y-4">
+          <Accordion type="single" collapsible className="w-full space-y-4">
             {faqs.map((faq, index) => (
               <AccordionItem 
                 key={index} 
                 value={`item-${index}`}
-                className="border-b border-border/50 last:border-b-0"
+                className="border-0 bg-card/80 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group"
               >
-                <AccordionTrigger className="px-6 py-6 text-left hover:bg-secondary/30 transition-colors duration-200 [&[data-state=open]]:bg-secondary/20">
-                  <span className="text-lg font-semibold text-foreground pr-4">
-                    {faq.question}
-                  </span>
+                <AccordionTrigger 
+                  className="px-8 py-6 text-left hover:no-underline hover:bg-secondary/20 transition-colors duration-200 [&[data-state=open]]:bg-secondary/30 [&>svg]:hidden"
+                  onClick={() => handleValueChange(`item-${index}`)}
+                >
+                  <div className="flex items-center justify-between w-full">
+                    <span className="text-lg font-bold text-foreground pr-6 group-hover:text-primary transition-colors duration-200">
+                      {faq.question}
+                    </span>
+                    <div className="flex-shrink-0 ml-auto">
+                      {openItems.includes(`item-${index}`) ? (
+                        <Minus className="h-6 w-6 text-primary transition-transform duration-200" />
+                      ) : (
+                        <Plus className="h-6 w-6 text-muted-foreground group-hover:text-primary transition-colors duration-200" />
+                      )}
+                    </div>
+                  </div>
                 </AccordionTrigger>
-                <AccordionContent className="px-6 pb-6 pt-0">
-                  <div className="border-l-4 border-primary/30 pl-6 py-2">
-                    <p className="text-muted-foreground leading-relaxed text-base">
-                      {faq.answer}
-                    </p>
+                <AccordionContent className="px-8 pb-8 pt-2">
+                  <div className="bg-secondary/10 backdrop-blur-sm rounded-xl p-6 border border-border/20">
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0 w-1 h-full bg-gradient-to-b from-primary to-primary/50 rounded-full"></div>
+                      <div className="flex-1">
+                        <p className="text-foreground/90 leading-relaxed text-base font-medium">
+                          {faq.answer}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </AccordionContent>
               </AccordionItem>
