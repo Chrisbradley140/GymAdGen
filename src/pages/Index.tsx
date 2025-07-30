@@ -353,7 +353,7 @@ const Index = () => {
 
             {/* Right Side - Right Badges (extreme right positioning) */}
             <div className="lg:absolute lg:right-0 lg:top-0 lg:w-80 lg:pt-16">
-              <div className="flex flex-col gap-3 items-end">
+              <div className="flex flex-col gap-3 items-start">
                 {rightBadgePhrases.map((phrase, index) => (
                   <div
                     key={index}
