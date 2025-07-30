@@ -64,7 +64,7 @@ const Index = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="min-h-screen flex items-center justify-center px-4 py-16 pt-24 relative overflow-hidden">
+      <section className="min-h-screen flex items-center justify-center px-4 py-16 pt-24 relative overflow-hidden font-klein">
         {/* Grid Pattern Background */}
         <div 
           className="absolute inset-0 opacity-10"
@@ -81,7 +81,7 @@ const Index = () => {
           {/* Top Badge */}
           <div className="mb-8">
             <div className="inline-block bg-secondary/30 rounded-full px-4 py-2 border border-muted">
-              <span className="text-sm text-muted-foreground">
+              <span className="text-sm text-muted-foreground font-klein">
                 The FIRST fitness MARKETING AI TOOL MADE BY{" "}
                 <span className="font-bold text-primary">GYMS OWNERS & ONLINE COACHES</span>
               </span>
@@ -89,7 +89,7 @@ const Index = () => {
           </div>
 
           {/* Main Headline */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight mb-8 text-white">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight mb-8 text-white font-klein">
             Outperform 'Fitness Marketing Agencies', Canva Templates and ChatGPT —{" "}
             <br className="hidden md:block" />
             With The AI Ad Tool Built for Real Fitness Businesses.
@@ -97,10 +97,10 @@ const Index = () => {
 
           {/* Subheadline CTA */}
           <div className="mb-8">
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-xl md:text-2xl font-semibold text-white">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-xl md:text-2xl font-semibold text-white font-klein">
               <span>Get Money Printing Ads In</span>
               <div className="bg-primary px-4 py-2 rounded-full">
-                <span className="text-white font-bold">20 seconds</span>
+                <span className="text-white font-bold font-klein">20 seconds</span>
               </div>
             </div>
           </div>
@@ -111,7 +111,7 @@ const Index = () => {
           </div>
 
           {/* Footer Tagline */}
-          <p className="text-sm md:text-base text-muted-foreground/80 max-w-2xl mx-auto">
+          <p className="text-sm md:text-base text-muted-foreground/80 max-w-2xl mx-auto font-klein">
             No more ChatGPT garbage that sounds like it was written by your nan.
           </p>
         </div>
