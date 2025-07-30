@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -52,15 +53,17 @@ const BrandSetup = () => {
 
   if (!data) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">No Brand Setup Found</h1>
-          <p className="text-muted-foreground mb-6">
-            It looks like you haven't completed the onboarding process yet.
-          </p>
-          <Button onClick={() => navigate('/onboarding')}>
-            Complete Onboarding
-          </Button>
+      <div className="min-h-screen bg-background">
+        <div className="container mx-auto px-4 py-12">
+          <div className="text-center max-w-2xl mx-auto">
+            <h1 className="text-4xl font-bold mb-6 text-gradient">No Brand Setup Found</h1>
+            <p className="text-xl text-muted-foreground mb-8">
+              It looks like you haven't completed the onboarding process yet.
+            </p>
+            <Button size="lg" onClick={() => navigate('/onboarding')} className="px-8 py-3 text-lg">
+              Complete Onboarding
+            </Button>
+          </div>
         </div>
       </div>
     );
@@ -105,175 +108,203 @@ const BrandSetup = () => {
   if (!currentData) return null;
 
   return (
-    <div className="container px-4 py-8">
-      <div className="mb-8">
-        <div className="flex justify-between items-start mb-2">
-          <div>
-            <h1 className="text-3xl font-bold">Brand Setup</h1>
-            <p className="text-muted-foreground">
-              View and update your brand settings to improve ad personalization
-            </p>
-          </div>
-          <div className="flex gap-2">
-            {isEditing ? (
-              <>
-                <Button 
-                  variant="outline" 
-                  onClick={handleCancel}
-                  disabled={saving}
-                >
-                  <X className="w-4 h-4 mr-1" />
-                  Cancel
+    <div className="min-h-screen bg-background">
+      <div className="container px-4 py-12">
+        <div className="mb-12">
+          <div className="flex justify-between items-start mb-6">
+            <div>
+              <h1 className="text-4xl font-bold mb-4 text-gradient">Brand Setup</h1>
+              <p className="text-xl text-muted-foreground">
+                View and update your brand settings to improve ad personalization
+              </p>
+            </div>
+            <div className="flex gap-3">
+              {isEditing ? (
+                <>
+                  <Button 
+                    variant="outline" 
+                    size="lg"
+                    onClick={handleCancel}
+                    disabled={saving}
+                    className="px-6 py-2 text-base"
+                  >
+                    <X className="w-5 h-5 mr-2" />
+                    Cancel
+                  </Button>
+                  <Button 
+                    size="lg"
+                    onClick={handleSave}
+                    disabled={saving}
+                    className="px-6 py-2 text-base"
+                  >
+                    <Save className="w-5 h-5 mr-2" />
+                    {saving ? 'Saving...' : 'Save Changes'}
+                  </Button>
+                </>
+              ) : (
+                <Button size="lg" onClick={handleEdit} className="px-6 py-2 text-base">
+                  <Edit className="w-5 h-5 mr-2" />
+                  Edit Info
                 </Button>
-                <Button 
-                  onClick={handleSave}
-                  disabled={saving}
-                >
-                  <Save className="w-4 h-4 mr-1" />
-                  {saving ? 'Saving...' : 'Save Changes'}
-                </Button>
-              </>
-            ) : (
-              <Button onClick={handleEdit}>
-                <Edit className="w-4 h-4 mr-1" />
-                Edit Info
-              </Button>
-            )}
+              )}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="grid gap-6">
-        {/* General Info Section */}
-        <Card>
-          <Collapsible open={openSections.general} onOpenChange={() => toggleSection('general')}>
-            <CollapsibleTrigger asChild>
-              <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors">
-                <CardTitle className="flex items-center justify-between">
-                  General Information
-                  <div className="text-sm text-muted-foreground">
-                    {openSections.general ? '−' : '+'}
-                  </div>
-                </CardTitle>
-                <CardDescription>
-                  Your business name, logo, website, and brand colors
-                </CardDescription>
-              </CardHeader>
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <CardContent>
-                <GeneralInfoSection
-                  data={currentData}
-                  isEditing={isEditing}
-                  onUpdate={handleFieldUpdate}
-                />
-              </CardContent>
-            </CollapsibleContent>
-          </Collapsible>
-        </Card>
+        <div className="grid gap-8 max-w-5xl">
+          {/* General Info Section */}
+          <Card className="border-2 hover:shadow-2xl hover:shadow-primary/20 transition-all duration-300 hover:-translate-y-1 bg-card/50 backdrop-blur-sm">
+            <Collapsible open={openSections.general} onOpenChange={() => toggleSection('general')}>
+              <CollapsibleTrigger asChild>
+                <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors pb-6">
+                  <CardTitle className="flex items-center justify-between text-2xl">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 rounded-lg bg-primary/10">
+                        <Edit className="w-6 h-6 text-primary" />
+                      </div>
+                      General Information
+                    </div>
+                    <div className="text-lg text-muted-foreground">
+                      {openSections.general ? '−' : '+'}
+                    </div>
+                  </CardTitle>
+                  <CardDescription className="text-base pl-11">
+                    Your business name, logo, website, and brand colors
+                  </CardDescription>
+                </CardHeader>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <CardContent className="pt-0">
+                  <GeneralInfoSection
+                    data={currentData}
+                    isEditing={isEditing}
+                    onUpdate={handleFieldUpdate}
+                  />
+                </CardContent>
+              </CollapsibleContent>
+            </Collapsible>
+          </Card>
 
-        {/* Audience & Offer Section */}
-        <Card>
-          <Collapsible open={openSections.audience} onOpenChange={() => toggleSection('audience')}>
-            <CollapsibleTrigger asChild>
-              <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors">
-                <CardTitle className="flex items-center justify-between">
-                  Audience & Offer
-                  <div className="text-sm text-muted-foreground">
-                    {openSections.audience ? '−' : '+'}
-                  </div>
-                </CardTitle>
-                <CardDescription>
-                  Target market, offer type, and campaign preferences
-                </CardDescription>
-              </CardHeader>
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <CardContent>
-                <AudienceOfferSection
-                  data={currentData}
-                  isEditing={isEditing}
-                  onUpdate={handleFieldUpdate}
-                />
-              </CardContent>
-            </CollapsibleContent>
-          </Collapsible>
-        </Card>
+          {/* Audience & Offer Section */}
+          <Card className="border-2 hover:shadow-2xl hover:shadow-primary/20 transition-all duration-300 hover:-translate-y-1 bg-card/50 backdrop-blur-sm">
+            <Collapsible open={openSections.audience} onOpenChange={() => toggleSection('audience')}>
+              <CollapsibleTrigger asChild>
+                <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors pb-6">
+                  <CardTitle className="flex items-center justify-between text-2xl">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 rounded-lg bg-primary/10">
+                        <Zap className="w-6 h-6 text-primary" />
+                      </div>
+                      Audience & Offer
+                    </div>
+                    <div className="text-lg text-muted-foreground">
+                      {openSections.audience ? '−' : '+'}
+                    </div>
+                  </CardTitle>
+                  <CardDescription className="text-base pl-11">
+                    Target market, offer type, and campaign preferences
+                  </CardDescription>
+                </CardHeader>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <CardContent className="pt-0">
+                  <AudienceOfferSection
+                    data={currentData}
+                    isEditing={isEditing}
+                    onUpdate={handleFieldUpdate}
+                  />
+                </CardContent>
+              </CollapsibleContent>
+            </Collapsible>
+          </Card>
 
-        {/* Brand Voice & Tone Section */}
-        <Card>
-          <Collapsible open={openSections.voice} onOpenChange={() => toggleSection('voice')}>
-            <CollapsibleTrigger asChild>
-              <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors">
-                <CardTitle className="flex items-center justify-between">
-                  Brand Voice & Tone
-                  <div className="text-sm text-muted-foreground">
-                    {openSections.voice ? '−' : '+'}
-                  </div>
-                </CardTitle>
-                <CardDescription>
-                  Voice style, social accounts, and language preferences
-                </CardDescription>
-              </CardHeader>
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <CardContent>
-                <BrandVoiceSection
-                  data={currentData}
-                  isEditing={isEditing}
-                  onUpdate={handleFieldUpdate}
-                />
-              </CardContent>
-            </CollapsibleContent>
-          </Collapsible>
-        </Card>
+          {/* Brand Voice & Tone Section */}
+          <Card className="border-2 hover:shadow-2xl hover:shadow-primary/20 transition-all duration-300 hover:-translate-y-1 bg-card/50 backdrop-blur-sm">
+            <Collapsible open={openSections.voice} onOpenChange={() => toggleSection('voice')}>
+              <CollapsibleTrigger asChild>
+                <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors pb-6">
+                  <CardTitle className="flex items-center justify-between text-2xl">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 rounded-lg bg-primary/10">
+                        <RefreshCw className="w-6 h-6 text-primary" />
+                      </div>
+                      Brand Voice & Tone
+                    </div>
+                    <div className="text-lg text-muted-foreground">
+                      {openSections.voice ? '−' : '+'}
+                    </div>
+                  </CardTitle>
+                  <CardDescription className="text-base pl-11">
+                    Voice style, social accounts, and language preferences
+                  </CardDescription>
+                </CardHeader>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <CardContent className="pt-0">
+                  <BrandVoiceSection
+                    data={currentData}
+                    isEditing={isEditing}
+                    onUpdate={handleFieldUpdate}
+                  />
+                </CardContent>
+              </CollapsibleContent>
+            </Collapsible>
+          </Card>
 
-        {/* Disruptive Ad Psychology Section */}
-        <Card>
-          <Collapsible open={openSections.psychology} onOpenChange={() => toggleSection('psychology')}>
-            <CollapsibleTrigger asChild>
-              <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors">
-                <CardTitle className="flex items-center justify-between">
-                  Disruptive Ad Psychology
-                  <div className="text-sm text-muted-foreground">
-                    {openSections.psychology ? '−' : '+'}
-                  </div>
-                </CardTitle>
-                <CardDescription>
-                  Customer pain points, failed attempts, and desired outcomes
-                </CardDescription>
-              </CardHeader>
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <CardContent>
-                <PsychologySection
-                  data={currentData}
-                  isEditing={isEditing}
-                  onUpdate={handleFieldUpdate}
-                />
-              </CardContent>
-            </CollapsibleContent>
-          </Collapsible>
-        </Card>
+          {/* Disruptive Ad Psychology Section */}
+          <Card className="border-2 hover:shadow-2xl hover:shadow-primary/20 transition-all duration-300 hover:-translate-y-1 bg-card/50 backdrop-blur-sm">
+            <Collapsible open={openSections.psychology} onOpenChange={() => toggleSection('psychology')}>
+              <CollapsibleTrigger asChild>
+                <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors pb-6">
+                  <CardTitle className="flex items-center justify-between text-2xl">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 rounded-lg bg-primary/10">
+                        <Zap className="w-6 h-6 text-primary" />
+                      </div>
+                      Disruptive Ad Psychology
+                    </div>
+                    <div className="text-lg text-muted-foreground">
+                      {openSections.psychology ? '−' : '+'}
+                    </div>
+                  </CardTitle>
+                  <CardDescription className="text-base pl-11">
+                    Customer pain points, failed attempts, and desired outcomes
+                  </CardDescription>
+                </CardHeader>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <CardContent className="pt-0">
+                  <PsychologySection
+                    data={currentData}
+                    isEditing={isEditing}
+                    onUpdate={handleFieldUpdate}
+                  />
+                </CardContent>
+              </CollapsibleContent>
+            </Collapsible>
+          </Card>
 
-        {/* Action Buttons */}
-        <div className="flex justify-center gap-4">
-          <Button 
-            variant="outline" 
-            onClick={() => navigate('/onboarding')} 
-            className="flex items-center gap-2"
-          >
-            <RefreshCw className="w-4 h-4" />
-            Retake Onboarding Quiz
-          </Button>
-          
-          <Button 
-            onClick={() => navigate('/generate')} 
-            className="flex items-center gap-2"
-          >
-            <Zap className="w-4 h-4" />
-            Regenerate Ads
-          </Button>
+          {/* Action Buttons */}
+          <div className="flex justify-center gap-6 pt-8">
+            <Button 
+              variant="outline" 
+              size="lg"
+              onClick={() => navigate('/onboarding')} 
+              className="flex items-center gap-2 px-8 py-3 text-base"
+            >
+              <RefreshCw className="w-5 h-5" />
+              Retake Onboarding Quiz
+            </Button>
+            
+            <Button 
+              size="lg"
+              onClick={() => navigate('/generate')} 
+              className="flex items-center gap-2 px-8 py-3 text-base"
+            >
+              <Zap className="w-5 h-5" />
+              Regenerate Ads
+            </Button>
+          </div>
         </div>
       </div>
     </div>
