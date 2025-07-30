@@ -4,11 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/components/ui/use-toast';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Eye, EyeOff } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
 const Auth = () => {
@@ -18,6 +17,7 @@ const Auth = () => {
   const [fullName, setFullName] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   
   const { signIn, signUp, user } = useAuth();
   const navigate = useNavigate();
@@ -97,33 +97,83 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted flex items-center justify-center p-4">
-      {/* Back Button */}
-      <button
-        onClick={() => navigate('/')}
-        className="absolute top-6 left-6 flex items-center text-muted-foreground hover:text-primary transition-colors"
-      >
-        <ArrowLeft className="w-5 h-5 mr-2" />
-        Back to Home
-      </button>
+    <div className="min-h-screen flex">
+      {/* Left Side - Branding */}
+      <div className="hidden lg:flex lg:w-1/2 bg-background relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="grid grid-cols-8 grid-rows-8 h-full w-full">
+            {Array.from({ length: 64 }).map((_, i) => (
+              <div key={i} className="border border-muted-foreground/20"></div>
+            ))}
+          </div>
+        </div>
+        
+        {/* Content */}
+        <div className="relative z-10 flex flex-col justify-center px-12 py-16">
+          {/* Logo */}
+          <div className="flex items-center mb-16">
+            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center mr-3">
+              <div className="text-primary-foreground font-bold text-xl">🔥</div>
+            </div>
+            <span className="text-2xl font-bold text-foreground">FITNESSADS.AI</span>
+          </div>
+          
+          {/* Main Heading */}
+          <div className="mb-8">
+            <h1 className="text-5xl font-bold text-foreground leading-tight mb-6">
+              Your Brand. Your Voice. AI Generated Campaigns That{' '}
+              <span className="text-primary">Perform</span>
+            </h1>
+            
+            {/* Decorative Lines */}
+            <div className="flex items-center space-x-4 mt-8">
+              <div className="h-1 w-16 bg-primary"></div>
+              <div className="h-1 w-8 bg-primary/60"></div>
+              <div className="h-1 w-4 bg-primary/30"></div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Back Button */}
+        <button
+          onClick={() => navigate('/')}
+          className="absolute top-6 left-6 flex items-center text-muted-foreground hover:text-primary transition-colors"
+        >
+          <ArrowLeft className="w-5 h-5 mr-2" />
+          Back to Home
+        </button>
+      </div>
 
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">
-            {isLogin ? 'Welcome Back' : 'Create Account'}
-          </CardTitle>
-          <CardDescription>
-            {isLogin 
-              ? 'Sign in to your FitnessAds.AI account' 
-              : 'Join FitnessAds.AI to create powerful fitness ads'
-            }
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Right Side - Form */}
+      <div className="flex-1 lg:w-1/2 flex items-center justify-center p-8 bg-card">
+        <div className="w-full max-w-md">
+          {/* Mobile Back Button */}
+          <button
+            onClick={() => navigate('/')}
+            className="lg:hidden flex items-center text-muted-foreground hover:text-primary transition-colors mb-8"
+          >
+            <ArrowLeft className="w-5 h-5 mr-2" />
+            Back to Home
+          </button>
+
+          {/* Form Header */}
+          <div className="text-center mb-8">
+            <div className="text-sm text-muted-foreground mb-2">
+              {isLogin ? 'WELCOME BACK' : 'GET STARTED'}
+            </div>
+            <h2 className="text-3xl font-bold text-card-foreground">
+              {isLogin ? 'Log in to FitnessAds.ai' : 'Create your account'}
+            </h2>
+          </div>
+
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-6">
             {!isLogin && (
               <div className="space-y-2">
-                <Label htmlFor="fullName">Full Name</Label>
+                <Label htmlFor="fullName" className="text-sm font-medium text-card-foreground">
+                  Full Name
+                </Label>
                 <Input
                   id="fullName"
                   type="text"
@@ -131,33 +181,64 @@ const Auth = () => {
                   onChange={(e) => setFullName(e.target.value)}
                   placeholder="Enter your full name"
                   required={!isLogin}
+                  className="h-12 bg-background border-border"
                 />
               </div>
             )}
             
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-sm font-medium text-card-foreground">
+                Email
+              </Label>
               <Input
                 id="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
+                placeholder="johnsondoe@nomail.com"
                 required
+                className="h-12 bg-background border-border"
               />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter your password"
-                required
-              />
+              <Label htmlFor="password" className="text-sm font-medium text-card-foreground">
+                Password
+              </Label>
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••••••••••"
+                  required
+                  className="h-12 bg-background border-border pr-12"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  {showPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
+                </button>
+              </div>
             </div>
+
+            {isLogin && (
+              <div className="text-left">
+                <button
+                  type="button"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Forgot Password?
+                </button>
+              </div>
+            )}
 
             {error && (
               <Alert variant="destructive">
@@ -167,14 +248,17 @@ const Auth = () => {
 
             <Button 
               type="submit" 
-              className="w-full"
+              className="w-full h-12 text-base font-medium"
               disabled={loading}
             >
-              {loading ? 'Loading...' : (isLogin ? 'Sign In' : 'Sign Up')}
+              {loading ? 'Loading...' : (isLogin ? 'Sign in' : 'Sign up')}
             </Button>
           </form>
 
-          <div className="mt-4 text-center">
+          <div className="mt-6 text-center">
+            <span className="text-muted-foreground text-sm">
+              {isLogin ? "New User? " : "Already have an account? "}
+            </span>
             <button
               type="button"
               onClick={() => {
@@ -184,16 +268,13 @@ const Auth = () => {
                 setPassword('');
                 setFullName('');
               }}
-              className="text-primary hover:underline"
+              className="text-primary hover:underline font-medium text-sm"
             >
-              {isLogin 
-                ? "Don't have an account? Sign up" 
-                : "Already have an account? Sign in"
-              }
+              {isLogin ? "SIGN UP HERE" : "SIGN IN HERE"}
             </button>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 };
