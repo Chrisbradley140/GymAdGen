@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -95,33 +96,33 @@ const Index = () => {
   ];
 
   const leftColumnPhrases = [
-    "😌 This isn't just another program",
-    "🥳 We're not like the other guys",
-    "✅ Results guaranteed - or your money back",
-    "🚀 Revolutionary breakthrough system",
-    "💪 Transform your life in 30 days",
-    "🔥 Limited time exclusive offer",
-    "🎯 Proven by thousands worldwide",
-    "💎 Premium quality guaranteed",
-    "⚡ Instant results possible",
-    "🌟 Life-changing opportunity",
-    "🏆 Award-winning method",
-    "📈 Sound familiar?"
+    "This isn't just another program",
+    "We're not like the other guys",
+    "Results guaranteed - or your money back",
+    "Revolutionary breakthrough system",
+    "Transform your life in 30 days",
+    "Limited time exclusive offer",
+    "Proven by thousands worldwide",
+    "Premium quality guaranteed",
+    "Instant results possible",
+    "Life-changing opportunity",
+    "Award-winning method",
+    "Sound familiar?"
   ];
 
   const rightColumnPhrases = [
-    "😎 Game-changing offer",
-    "🤑 Live the life you deserve", 
-    "😴 Effortless transformation",
-    "🎪 Join our exclusive community",
-    "🦄 One weird trick doctors hate",
-    "🎉 Breakthrough secret revealed",
-    "💰 Make money while you sleep",
-    "🔓 Unlock your true potential",
-    "⭐ Celebrity-endorsed method",
-    "🏅 Industry-leading results",
-    "🎁 Free bonus included",
-    "🌈 Change your destiny today"
+    "Game-changing offer",
+    "Live the life you deserve", 
+    "Effortless transformation",
+    "Join our exclusive community",
+    "One weird trick doctors hate",
+    "Breakthrough secret revealed",
+    "Make money while you sleep",
+    "Unlock your true potential",
+    "Celebrity-endorsed method",
+    "Industry-leading results",
+    "Free bonus included",
+    "Change your destiny today"
   ];
 
   const nextTestimonial = () => {
@@ -325,16 +326,17 @@ const Index = () => {
           backgroundAttachment: 'fixed'
         }}
       >
-        {/* Dark overlay with reduced opacity for better background visibility */}
-        <div className="absolute inset-0 bg-black/50"></div>
+        {/* Dark overlay with 40% opacity */}
+        <div className="absolute inset-0 bg-black/40"></div>
         
         <div className="max-w-6xl mx-auto relative z-10">
           {/* Top Section */}
-          <div className="text-center mb-12">
+          <div className="text-left mb-12">
             <h2 className="text-4xl md:text-5xl font-black text-white mb-6 font-klein">
-              Recognise Any of This ChatGPT Drive?
+              <span className="block">Recognise Any of This</span>
+              <span className="block">ChatGPT Drive?</span>
             </h2>
-            <p className="text-lg text-white/90 max-w-3xl mx-auto leading-relaxed px-4">
+            <p className="text-lg text-white/90 max-w-3xl leading-relaxed px-4">
               You've seen these clichés everywhere. Generic, soulless copy that screams "I used AI" from a mile away. 
               Your audience is tired of it. They scroll past it. They ignore it.
             </p>
