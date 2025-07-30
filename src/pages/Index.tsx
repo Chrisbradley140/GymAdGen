@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -105,6 +106,20 @@ const Index = () => {
     "It's time to stop settling",
     "No fluff - just results",
     "Don't wait - act now"
+  ];
+
+  const rightBadgePhrases = [
+    "Are you tired of feeling stuck?",
+    "Unlock your full potential",
+    "Step into your power",
+    "Game-changing offer",
+    "Crush your goals",
+    "Discover the secret to success",
+    "Live the life you deserve",
+    "What if I told you...",
+    "It's not your fault",
+    "Join a community of like-minded individuals",
+    "Click the link below to get started"
   ];
 
   const nextTestimonial = () => {
@@ -312,29 +327,46 @@ const Index = () => {
         <div className="absolute inset-0 bg-black/40"></div>
         
         <div className="max-w-6xl mx-auto relative z-10">
-          {/* Top Section */}
-          <div className="text-left mb-12">
-            <h2 className="text-4xl md:text-5xl font-black text-white mb-6 font-klein">
-              <span className="block">Recognise Any of This</span>
-              <span className="block">ChatGPT Drive?</span>
-            </h2>
-            <p className="text-lg text-white/90 max-w-3xl leading-relaxed px-4">
-              You've seen these clichés everywhere. Generic, soulless copy that screams "I used AI" from a mile away. 
-              Your audience is tired of it. They scroll past it. They ignore it.
-            </p>
-          </div>
-
-          {/* Badges Section - Vertical Layout */}
-          <div className="mb-12">
-            <div className="flex flex-col gap-3 items-start max-w-md">
-              {badgePhrases.map((phrase, index) => (
-                <div
-                  key={index}
-                  className="bg-gray-700/50 backdrop-blur-sm border border-gray-600/30 rounded-full px-4 py-2 text-white/80 text-sm hover:bg-gray-600/50 transition-all duration-200 hover:scale-105"
-                >
-                  {phrase}
+          {/* Top Section with Badges */}
+          <div className="flex flex-col lg:flex-row gap-8 mb-12">
+            {/* Left Side - Heading and Description */}
+            <div className="lg:w-1/2">
+              <h2 className="text-4xl md:text-5xl font-black text-white mb-6 font-klein">
+                <span className="block">Recognise Any of This</span>
+                <span className="block">ChatGPT Drive?</span>
+              </h2>
+              <p className="text-lg text-white/90 leading-relaxed">
+                You've seen these clichés everywhere. Generic, soulless copy that screams "I used AI" from a mile away. 
+                Your audience is tired of it. They scroll past it. They ignore it.
+              </p>
+              
+              {/* Left Badges - Vertical Layout */}
+              <div className="mt-8">
+                <div className="flex flex-col gap-3 items-start max-w-md">
+                  {badgePhrases.map((phrase, index) => (
+                    <div
+                      key={index}
+                      className="bg-gray-700/50 backdrop-blur-sm border border-gray-600/30 rounded-full px-4 py-2 text-white/80 text-sm hover:bg-gray-600/50 transition-all duration-200 hover:scale-105"
+                    >
+                      {phrase}
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+            </div>
+
+            {/* Right Side - Right Badges */}
+            <div className="lg:w-1/2 lg:pt-16">
+              <div className="flex flex-col gap-3 items-start max-w-md">
+                {rightBadgePhrases.map((phrase, index) => (
+                  <div
+                    key={index}
+                    className="bg-gray-700/50 backdrop-blur-sm border border-gray-600/30 rounded-full px-4 py-2 text-white/80 text-sm hover:bg-gray-600/50 transition-all duration-200 hover:scale-105"
+                  >
+                    {phrase}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
