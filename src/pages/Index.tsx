@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -108,9 +109,11 @@ const Index = () => {
               letterSpacing: '-2px',
             }}
           >
-            Outperform 'Fitness Marketing Agencies', Canva Templates and ChatGPT —{" "}
-            <br className="hidden md:block" />
-            With The AI Ad Tool Built for Real Fitness Businesses.
+            Outperform 'Fitness Marketing Agencies', Canva
+            <br className="block" />
+            Templates and ChatGPT — With The AI Ad Tool
+            <br className="block" />
+            Built for Real Fitness Businesses.
           </h1>
 
           {/* Subheadline CTA */}
