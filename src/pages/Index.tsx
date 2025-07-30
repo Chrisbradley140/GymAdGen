@@ -409,7 +409,7 @@ const Index = () => {
           </h2>
           
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Stop competing on price. Start dominating with copy that converts like crazy.
+            You've seen what generic AI can do. Now meet the weapon built for fitness business owners who want better clients, cheaper leads, and profitable ads fast.
           </p>
           
           <CTAButton size="lg">Generate Your First Ad</CTAButton>
