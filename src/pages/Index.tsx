@@ -292,7 +292,7 @@ const Index = () => {
       {/* Section After Hero - Left Aligned and Responsive */}
       <section 
         className="px-4 py-16"
-        style={{ backgroundColor: '#2B2932' }}
+        style={{ backgroundColor: '#1a1820' }}
       >
         <div className="max-w-6xl mx-auto">
           <div className="text-left">
