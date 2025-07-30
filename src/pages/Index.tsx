@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -88,7 +87,11 @@ const Index = () => {
                 
                 {/* Logo Content */}
                 <div className="relative z-10">
-                  <Zap className="w-10 h-10 md:w-12 md:h-12 text-white" strokeWidth={2.5} />
+                  <img 
+                    src="/lovable-uploads/913e2668-707b-4395-bee9-9b3a07831d31.png" 
+                    alt="FitAd AI Logo" 
+                    className="w-10 h-10 md:w-12 md:h-12"
+                  />
                 </div>
               </div>
             </div>
