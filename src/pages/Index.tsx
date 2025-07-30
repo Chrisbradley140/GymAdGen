@@ -300,6 +300,11 @@ const Index = () => {
               You need one that knows your buyers inside out. What they think, feel, and fear at the exact moment they see your ad.
             </p>
             
+            {/* New Heading for Bullet Points */}
+            <h3 className="text-xl md:text-2xl font-bold text-white mb-4 font-klein">
+              FitnessAds.ai was trained on
+            </h3>
+            
             {/* Bullet Points */}
             <div className="space-y-3">
               <div className="flex items-center gap-3">
