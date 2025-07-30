@@ -285,15 +285,15 @@ const Index = () => {
         </div>
       </section>
 
-      {/* New Section - After Hero with specific desktop layout */}
+      {/* New Section - After Hero with fixed layout */}
       <section 
-        className="px-4 bg-background relative"
+        className="px-4 py-16 relative"
         style={{
+          backgroundColor: '#2B2932',
           width: '1440px',
-          height: '854px',
-          top: '888px',
-          opacity: 1,
-          margin: '0 auto'
+          minHeight: '854px',
+          margin: '0 auto',
+          opacity: 1
         }}
       >
         <div className="max-w-6xl mx-auto h-full">
@@ -301,16 +301,15 @@ const Index = () => {
             className="text-left relative"
             style={{
               width: '820px',
-              height: '210px',
               marginTop: '50px',
               marginLeft: '100px',
               opacity: 1
             }}
           >
-            <h2 className="text-3xl md:text-4xl font-black text-foreground mb-6 font-klein">
+            <h2 className="text-3xl md:text-4xl font-black text-white mb-6 font-klein">
               This isn't chatGpt wearing gym leggings that make it's glutes look bigger
             </h2>
-            <p className="text-lg text-muted-foreground max-w-3xl leading-relaxed mb-8">
+            <p className="text-lg text-white/90 max-w-3xl leading-relaxed mb-8">
               You don't need another AI that can write a 5/10 ad for any industry under the sun.
               You need one that knows your buyers inside out. What they think, feel, and fear at the exact moment they see your ad.
             </p>
@@ -321,7 +320,6 @@ const Index = () => {
             className="space-y-3 absolute"
             style={{
               width: '442px',
-              height: '184px',
               top: '410px',
               left: '100px',
               opacity: 1
@@ -329,19 +327,19 @@ const Index = () => {
           >
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <p className="text-lg text-foreground font-medium">1000's of real gym + online coaching ads</p>
+              <p className="text-lg text-white font-medium">1000's of real gym + online coaching ads</p>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <p className="text-lg text-foreground font-medium">Real lead data</p>
+              <p className="text-lg text-white font-medium">Real lead data</p>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <p className="text-lg text-foreground font-medium">Real buying behaviour</p>
+              <p className="text-lg text-white font-medium">Real buying behaviour</p>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <p className="text-lg text-foreground font-medium">And it writes ads in your voice, your tone, your values</p>
+              <p className="text-lg text-white font-medium">And it writes ads in your voice, your tone, your values</p>
             </div>
           </div>
         </div>
