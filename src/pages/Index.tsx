@@ -287,7 +287,7 @@ const Index = () => {
 
       {/* ChatGPT Drive Section */}
       <section 
-        className="py-16 px-4 relative overflow-hidden"
+        className="py-8 md:py-16 px-4 relative overflow-hidden"
         style={{
           backgroundImage: `url('/lovable-uploads/5ab46530-2ea7-444d-b47c-765e37a84154.png')`,
           backgroundSize: 'cover',
@@ -300,37 +300,42 @@ const Index = () => {
         <div className="absolute inset-0 bg-black/40"></div>
         
         <div className="max-w-6xl mx-auto relative z-10">
-          {/* Top Section with Badges */}
-          <div className="flex flex-col lg:flex-row gap-8 mb-8 relative">
-            {/* Left Side - Heading and Description */}
-            <div className="lg:w-3/5 relative">
-              <h2 className="text-2xl md:text-4xl font-black text-white mb-6 font-klein">
-                <span className="block">Recognise Any of This</span>
-                <span className="block">ChatGPT Drive?</span>
-              </h2>
-              <p className="text-lg text-white/90 leading-relaxed mb-8">
-                What's the secret sauce? How can I give ChatGPT a wedgie so bad his cousin Claude feels it? PLUS, make better ads that beat 99% of copywriters? It's in my proprietary private data set. Lemme explain…
-              </p>
+          {/* Main Content Container */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+            {/* Left Side - Heading, Description, and Left Badges */}
+            <div className="lg:col-span-7 space-y-6 md:space-y-8">
+              {/* Heading */}
+              <div>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-4 md:mb-6 font-klein">
+                  <span className="block">Recognise Any of This</span>
+                  <span className="block">ChatGPT Drive?</span>
+                </h2>
+                <p className="text-base md:text-lg text-white/90 leading-relaxed mb-6 md:mb-8 max-w-2xl">
+                  What's the secret sauce? How can I give ChatGPT a wedgie so bad his cousin Claude feels it? PLUS, make better ads that beat 99% of copywriters? It's in my proprietary private data set. Lemme explain…
+                </p>
+              </div>
               
-              {/* Left Badges - Vertical Layout with floating emojis */}
-              <div className="flex flex-col gap-3 items-start max-w-md relative">
-                {badgePhrases.map((phrase, index) => (
-                  <div
-                    key={index}
-                    className="bg-gray-700/30 backdrop-blur-sm border border-gray-600/30 rounded-lg px-4 py-2 text-sm hover:bg-gray-600/40 transition-all duration-200 hover:scale-105"
-                    style={{ color: '#FFFFFF' }}
-                  >
-                    {phrase}
-                  </div>
-                ))}
+              {/* Left Badges with floating emojis */}
+              <div className="relative">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl">
+                  {badgePhrases.map((phrase, index) => (
+                    <div
+                      key={index}
+                      className="bg-gray-700/30 backdrop-blur-sm border border-gray-600/30 rounded-lg px-3 md:px-4 py-2 text-sm hover:bg-gray-600/40 transition-all duration-200 hover:scale-105"
+                      style={{ color: '#FFFFFF' }}
+                    >
+                      {phrase}
+                    </div>
+                  ))}
+                </div>
                 
-                {/* Left Floating Emojis */}
+                {/* Left Floating Emojis - Hidden on mobile, adjusted for tablet and desktop */}
                 {leftFloatingEmojis.map((emoji, index) => (
                   <img
                     key={index}
                     src={emoji.src}
                     alt="emoji"
-                    className="absolute w-12 h-12 animate-bounce"
+                    className="hidden lg:block absolute w-16 h-16 animate-bounce"
                     style={{
                       top: emoji.top,
                       ...(emoji.left ? { left: emoji.left } : { right: emoji.right }),
@@ -343,52 +348,54 @@ const Index = () => {
             </div>
 
             {/* Right Side - Right Badges with floating emojis */}
-            <div className="lg:absolute lg:right-0 lg:top-0 lg:w-80 lg:pt-16 relative">
-              <div className="flex flex-col gap-3 items-start">
-                {rightBadgePhrases.map((phrase, index) => (
-                  <div
+            <div className="lg:col-span-5 relative">
+              <div className="space-y-6 md:space-y-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
+                  {rightBadgePhrases.map((phrase, index) => (
+                    <div
+                      key={index}
+                      className="bg-gray-700/30 backdrop-blur-sm border border-gray-600/30 rounded-lg px-3 md:px-4 py-2 text-sm hover:bg-gray-600/40 transition-all duration-200 hover:scale-105"
+                      style={{ color: '#FFFFFF' }}
+                    >
+                      {phrase}
+                    </div>
+                  ))}
+                </div>
+                
+                {/* Right Floating Emojis - Hidden on mobile, adjusted for tablet and desktop */}
+                {floatingEmojis.map((emoji, index) => (
+                  <img
                     key={index}
-                    className="bg-gray-700/30 backdrop-blur-sm border border-gray-600/30 rounded-lg px-4 py-2 text-sm hover:bg-gray-600/40 transition-all duration-200 hover:scale-105"
-                    style={{ color: '#FFFFFF' }}
-                  >
-                    {phrase}
-                  </div>
+                    src={emoji.src}
+                    alt="emoji"
+                    className="hidden lg:block absolute w-16 h-16 animate-bounce"
+                    style={{
+                      top: emoji.top,
+                      ...(emoji.left ? { left: emoji.left } : { right: emoji.right }),
+                      animationDelay: `${index * 0.5}s`,
+                      animationDuration: '2s'
+                    }}
+                  />
                 ))}
               </div>
-              
-              {/* Right Floating Emojis */}
-              {floatingEmojis.map((emoji, index) => (
-                <img
-                  key={index}
-                  src={emoji.src}
-                  alt="emoji"
-                  className="absolute w-12 h-12 animate-bounce"
-                  style={{
-                    top: emoji.top,
-                    ...(emoji.left ? { left: emoji.left } : { right: emoji.right }),
-                    animationDelay: `${index * 0.5}s`,
-                    animationDuration: '2s'
-                  }}
-                />
-              ))}
             </div>
           </div>
 
-          {/* Bottom Paragraph - moved higher up */}
-          <div className="flex justify-start pl-[50%] -mt-16">
-            <div className="w-full max-w-2xl">
-              <p 
-                className="font-inter font-normal text-left"
-                style={{
-                  fontSize: '18px',
-                  lineHeight: '26px',
-                  letterSpacing: '0px',
-                  verticalAlign: 'middle',
-                  color: '#FFFFFF'
-                }}
-              >
-                AI is only as good as the data sets you give it. And my Daddy (Sabri Suby) runs a digital marketing agency that's generated over $7.8 billion (with a B) in ROAS. We've taken that data and fed it into Kong. Creating a large language model (LLM) on the best-performing ad copy and creatives from over $200m in ad spend.
-              </p>
+          {/* Bottom Paragraph - Now responsive */}
+          <div className="mt-8 lg:mt-12">
+            <div className="lg:pl-[50%] lg:-mt-8">
+              <div className="w-full lg:max-w-2xl">
+                <p 
+                  className="font-inter font-normal text-left text-base md:text-lg leading-relaxed md:leading-loose"
+                  style={{
+                    letterSpacing: '0px',
+                    verticalAlign: 'middle',
+                    color: '#FFFFFF'
+                  }}
+                >
+                  AI is only as good as the data sets you give it. And my Daddy (Sabri Suby) runs a digital marketing agency that's generated over $7.8 billion (with a B) in ROAS. We've taken that data and fed it into Kong. Creating a large language model (LLM) on the best-performing ad copy and creatives from over $200m in ad spend.
+                </p>
+              </div>
             </div>
           </div>
         </div>
