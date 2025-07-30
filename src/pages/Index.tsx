@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -344,7 +343,7 @@ const Index = () => {
                 {badgePhrases.map((phrase, index) => (
                   <div
                     key={index}
-                    className="bg-gray-700/30 backdrop-blur-sm border border-gray-600/30 rounded px-4 py-2 text-sm hover:bg-gray-600/40 transition-all duration-200 hover:scale-105"
+                    className="bg-gray-700/30 backdrop-blur-sm border border-gray-600/30 rounded-md px-4 py-2 text-sm hover:bg-gray-600/40 transition-all duration-200 hover:scale-105"
                     style={{ color: '#FFFFFF' }}
                   >
                     {phrase}
@@ -359,7 +358,7 @@ const Index = () => {
                 {rightBadgePhrases.map((phrase, index) => (
                   <div
                     key={index}
-                    className="bg-gray-700/30 backdrop-blur-sm border border-gray-600/30 rounded px-4 py-2 text-sm hover:bg-gray-600/40 transition-all duration-200 hover:scale-105"
+                    className="bg-gray-700/30 backdrop-blur-sm border border-gray-600/30 rounded-md px-4 py-2 text-sm hover:bg-gray-600/40 transition-all duration-200 hover:scale-105"
                     style={{ color: '#FFFFFF' }}
                   >
                     {phrase}
