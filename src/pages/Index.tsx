@@ -330,7 +330,7 @@ const Index = () => {
           <div className="flex flex-col lg:flex-row gap-8 mb-12 relative">
             {/* Left Side - Heading and Description */}
             <div className="lg:w-3/5">
-              <h2 className="text-2xl md:text-3xl font-black text-white mb-6 font-klein">
+              <h2 className="text-xl md:text-2xl font-black text-white mb-6 font-klein">
                 <span className="block">Recognise Any of This</span>
                 <span className="block">ChatGPT Drive?</span>
               </h2>
@@ -367,19 +367,21 @@ const Index = () => {
           </div>
 
           {/* Bottom Paragraph */}
-          <div className="text-left">
-            <p 
-              className="max-w-4xl mx-auto px-4 font-inter font-normal"
-              style={{
-                fontSize: '26px',
-                lineHeight: '36px',
-                letterSpacing: '0px',
-                verticalAlign: 'middle',
-                color: '#FFFFFF'
-              }}
-            >
-              AI is only as good as the data sets you give it. And my Daddy (Sabri Suby) runs a digital marketing agency that's generated over $7.8 billion (with a B) in ROAS. We've taken that data and fed it into Kong. Creating a large language model (LLM) on the best-performing ad copy and creatives from over $200m in ad spend.
-            </p>
+          <div className="flex justify-center">
+            <div className="w-full max-w-4xl ml-auto mr-0">
+              <p 
+                className="font-inter font-normal text-left"
+                style={{
+                  fontSize: '20px',
+                  lineHeight: '28px',
+                  letterSpacing: '0px',
+                  verticalAlign: 'middle',
+                  color: '#FFFFFF'
+                }}
+              >
+                AI is only as good as the data sets you give it. And my Daddy (Sabri Suby) runs a digital marketing agency that's generated over $7.8 billion (with a B) in ROAS. We've taken that data and fed it into Kong. Creating a large language model (LLM) on the best-performing ad copy and creatives from over $200m in ad spend.
+              </p>
+            </div>
           </div>
         </div>
       </section>
