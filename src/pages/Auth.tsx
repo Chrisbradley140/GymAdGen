@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -113,8 +112,12 @@ const Auth = () => {
         <div className="relative z-10 flex flex-col justify-center px-12 py-16">
           {/* Logo */}
           <div className="flex items-center mb-16">
-            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center mr-3">
-              <div className="text-primary-foreground font-bold text-xl">🔥</div>
+            <div className="w-12 h-12 flex items-center justify-center mr-3">
+              <img 
+                src="/lovable-uploads/1b22bfb8-d910-46a5-bc37-d85de327a193.png" 
+                alt="FitnessAds.ai Logo" 
+                className="w-full h-full object-contain"
+              />
             </div>
             <span className="text-2xl font-bold text-foreground">FITNESSADS.AI</span>
           </div>
