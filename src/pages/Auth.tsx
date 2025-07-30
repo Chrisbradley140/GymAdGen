@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -105,11 +106,11 @@ const Auth = () => {
         backgroundRepeat: 'no-repeat'
       }}
     >
-      {/* Dark overlay for better readability */}
-      <div className="absolute inset-0 bg-black/30"></div>
+      {/* Much lighter overlay for better background visibility */}
+      <div className="absolute inset-0 bg-black/15"></div>
       
       {/* Left Side - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 bg-background/20 backdrop-blur-sm relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/2 bg-background/10 backdrop-blur-sm relative overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="grid grid-cols-8 grid-rows-8 h-full w-full">
@@ -160,7 +161,7 @@ const Auth = () => {
       </div>
 
       {/* Right Side - Form */}
-      <div className="flex-1 lg:w-1/2 flex items-center justify-center p-8 bg-card/20 backdrop-blur-sm relative z-10">
+      <div className="flex-1 lg:w-1/2 flex items-center justify-center p-8 bg-card/10 backdrop-blur-sm relative z-10">
         <div className="w-full max-w-md">
           {/* Mobile Back Button */}
           <button
@@ -172,7 +173,7 @@ const Auth = () => {
           </button>
 
           {/* Form Container with Glass Effect */}
-          <div className="bg-gray-700/50 backdrop-blur-md border border-gray-600/50 rounded-xl p-8 hover:bg-gray-600/40 transition-all duration-300">
+          <div className="bg-gray-700/40 backdrop-blur-md border border-gray-600/40 rounded-xl p-8 hover:bg-gray-600/30 transition-all duration-300">
             {/* Form Header */}
             <div className="text-center mb-8">
               <div className="text-sm text-muted-foreground mb-2">
@@ -197,7 +198,7 @@ const Auth = () => {
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="Enter your full name"
                     required={!isLogin}
-                    className="h-12 bg-background/50 backdrop-blur-sm border-border/50"
+                    className="h-12 bg-background/40 backdrop-blur-sm border-border/40"
                   />
                 </div>
               )}
@@ -213,7 +214,7 @@ const Auth = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="johnsondoe@nomail.com"
                   required
-                  className="h-12 bg-background/50 backdrop-blur-sm border-border/50"
+                  className="h-12 bg-background/40 backdrop-blur-sm border-border/40"
                 />
               </div>
               
@@ -229,7 +230,7 @@ const Auth = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••••••••••"
                     required
-                    className="h-12 bg-background/50 backdrop-blur-sm border-border/50 pr-12"
+                    className="h-12 bg-background/40 backdrop-blur-sm border-border/40 pr-12"
                   />
                   <button
                     type="button"
