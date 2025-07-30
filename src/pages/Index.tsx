@@ -286,10 +286,7 @@ const Index = () => {
       </section>
 
       {/* New Section - After Hero with specific desktop layout */}
-      <section 
-        className="py-16 px-4"
-        style={{ backgroundColor: '#2B2932' }}
-      >
+      <section className="py-16 px-4 bg-background">
         <div className="max-w-6xl mx-auto">
           <div 
             className="text-left relative"
@@ -301,10 +298,10 @@ const Index = () => {
               opacity: 1
             }}
           >
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-6 font-klein">
+            <h2 className="text-3xl md:text-4xl font-black text-foreground mb-6 font-klein">
               This isn't chatGpt wearing gym leggings that make it's glutes look bigger
             </h2>
-            <p className="text-lg text-white/90 max-w-3xl leading-relaxed mb-8">
+            <p className="text-lg text-muted-foreground max-w-3xl leading-relaxed mb-8">
               You don't need another AI that can write a 5/10 ad for any industry under the sun.
               You need one that knows your buyers inside out. What they think, feel, and fear at the exact moment they see your ad.
             </p>
@@ -323,19 +320,19 @@ const Index = () => {
           >
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <p className="text-lg text-white font-medium">1000's of real gym + online coaching ads</p>
+              <p className="text-lg text-foreground font-medium">1000's of real gym + online coaching ads</p>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <p className="text-lg text-white font-medium">Real lead data</p>
+              <p className="text-lg text-foreground font-medium">Real lead data</p>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <p className="text-lg text-white font-medium">Real buying behaviour</p>
+              <p className="text-lg text-foreground font-medium">Real buying behaviour</p>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <p className="text-lg text-white font-medium">And it writes ads in your voice, your tone, your values</p>
+              <p className="text-lg text-foreground font-medium">And it writes ads in your voice, your tone, your values</p>
             </div>
           </div>
         </div>
