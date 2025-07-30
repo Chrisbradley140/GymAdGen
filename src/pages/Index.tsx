@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -100,9 +101,9 @@ const Index = () => {
           <h1 
             className="font-klein font-extrabold text-white text-center mb-8"
             style={{
-              fontSize: '48px',
+              fontSize: '42px',
               fontWeight: '800',
-              lineHeight: '58px',
+              lineHeight: '52px',
               letterSpacing: '-2px',
             }}
           >
