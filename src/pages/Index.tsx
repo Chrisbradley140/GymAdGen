@@ -368,7 +368,15 @@ const Index = () => {
 
           {/* Bottom Paragraph */}
           <div className="text-center">
-            <p className="text-white/70 max-w-4xl mx-auto leading-relaxed text-sm px-4">
+            <p 
+              className="text-white/70 max-w-4xl mx-auto px-4 font-inter font-normal"
+              style={{
+                fontSize: '26px',
+                lineHeight: '36px',
+                letterSpacing: '0px',
+                verticalAlign: 'middle'
+              }}
+            >
               AI is only as good as the data sets you give it. And my Daddy (Sabri Suby) runs a digital marketing agency that's generated over $7.8 billion (with a B) in ROAS. We've taken that data and fed it into Kong. Creating a large language model (LLM) on the best-performing ad copy and creatives from over $200m in ad spend.
             </p>
           </div>
