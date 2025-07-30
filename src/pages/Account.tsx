@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -40,7 +39,7 @@ const Account = () => {
           </p>
         </div>
 
-        <div className="grid gap-6 max-w-4xl mx-auto">
+        <div className="grid gap-6 max-w-4xl">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
