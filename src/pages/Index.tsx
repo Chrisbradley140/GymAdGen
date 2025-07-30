@@ -128,6 +128,13 @@ const Index = () => {
     { src: "/lovable-uploads/156100f0-a562-4072-927d-e95b76e42ab5.png", top: "70%", right: "-70px" }
   ];
 
+  const leftFloatingEmojis = [
+    { src: "/lovable-uploads/b4a1dafd-17d8-4e57-be39-7bba36123b1e.png", top: "15%", left: "-60px" },
+    { src: "/lovable-uploads/bb03f84d-37a1-4b96-b1f4-573b3c7c8ce6.png", top: "45%", left: "-50px" },
+    { src: "/lovable-uploads/8fc795c7-b7fa-477b-940a-aa5a24328099.png", top: "25%", right: "-60px" },
+    { src: "/lovable-uploads/3f3b8dbd-5ce2-430a-a79e-f092a8d6e332.png", top: "65%", right: "-70px" }
+  ];
+
   const nextTestimonial = () => {
     setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
   };
@@ -336,7 +343,7 @@ const Index = () => {
           {/* Top Section with Badges */}
           <div className="flex flex-col lg:flex-row gap-8 mb-8 relative">
             {/* Left Side - Heading and Description */}
-            <div className="lg:w-3/5">
+            <div className="lg:w-3/5 relative">
               <h2 className="text-2xl md:text-4xl font-black text-white mb-6 font-klein">
                 <span className="block">Recognise Any of This</span>
                 <span className="block">ChatGPT Drive?</span>
@@ -345,16 +352,32 @@ const Index = () => {
                 What's the secret sauce? How can I give ChatGPT a wedgie so bad his cousin Claude feels it? PLUS, make better ads that beat 99% of copywriters? It's in my proprietary private data set. Lemme explain…
               </p>
               
-              {/* Left Badges - Vertical Layout */}
-              <div className="flex flex-col gap-3 items-start max-w-md">
+              {/* Left Badges - Vertical Layout with floating emojis */}
+              <div className="flex flex-col gap-3 items-start max-w-md relative">
                 {badgePhrases.map((phrase, index) => (
                   <div
                     key={index}
-                    className="bg-gray-700/30 backdrop-blur-sm border border-gray-600/30 rounded-md px-4 py-2 text-sm hover:bg-gray-600/40 transition-all duration-200 hover:scale-105"
+                    className="bg-gray-700/30 backdrop-blur-sm border border-gray-600/30 rounded-lg px-4 py-2 text-sm hover:bg-gray-600/40 transition-all duration-200 hover:scale-105"
                     style={{ color: '#FFFFFF' }}
                   >
                     {phrase}
                   </div>
+                ))}
+                
+                {/* Left Floating Emojis */}
+                {leftFloatingEmojis.map((emoji, index) => (
+                  <img
+                    key={index}
+                    src={emoji.src}
+                    alt="emoji"
+                    className="absolute w-12 h-12 animate-bounce"
+                    style={{
+                      top: emoji.top,
+                      ...(emoji.left ? { left: emoji.left } : { right: emoji.right }),
+                      animationDelay: `${index * 0.5}s`,
+                      animationDuration: '2s'
+                    }}
+                  />
                 ))}
               </div>
             </div>
@@ -365,7 +388,7 @@ const Index = () => {
                 {rightBadgePhrases.map((phrase, index) => (
                   <div
                     key={index}
-                    className="bg-gray-700/30 backdrop-blur-sm border border-gray-600/30 rounded-md px-4 py-2 text-sm hover:bg-gray-600/40 transition-all duration-200 hover:scale-105"
+                    className="bg-gray-700/30 backdrop-blur-sm border border-gray-600/30 rounded-lg px-4 py-2 text-sm hover:bg-gray-600/40 transition-all duration-200 hover:scale-105"
                     style={{ color: '#FFFFFF' }}
                   >
                     {phrase}
@@ -373,7 +396,7 @@ const Index = () => {
                 ))}
               </div>
               
-              {/* Floating Emojis */}
+              {/* Right Floating Emojis */}
               {floatingEmojis.map((emoji, index) => (
                 <img
                   key={index}
