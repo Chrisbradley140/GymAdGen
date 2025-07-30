@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -77,6 +78,22 @@ const Index = () => {
         ></div>
         
         <div className="max-w-5xl mx-auto text-center relative z-10">
+          {/* Center Glowing Logo */}
+          <div className="mb-12">
+            <div className="relative inline-block">
+              <div className="w-20 h-20 md:w-24 md:h-24 mx-auto bg-primary rounded-2xl flex items-center justify-center relative overflow-hidden">
+                {/* Glow Effect */}
+                <div className="absolute inset-0 bg-primary rounded-2xl blur-xl opacity-50 scale-110"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-primary to-red-500 rounded-2xl opacity-80"></div>
+                
+                {/* Logo Content */}
+                <div className="relative z-10">
+                  <Zap className="w-10 h-10 md:w-12 md:h-12 text-white" strokeWidth={2.5} />
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Top Badge */}
           <div className="mb-8">
             <div className="inline-block bg-secondary/30 rounded-full px-4 py-2 border border-muted">
