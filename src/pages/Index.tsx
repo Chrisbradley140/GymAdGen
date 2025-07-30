@@ -330,7 +330,7 @@ const Index = () => {
           <div className="flex flex-col lg:flex-row gap-8 mb-12 relative">
             {/* Left Side - Heading and Description */}
             <div className="lg:w-3/5">
-              <h2 className="text-4xl md:text-5xl font-black text-white mb-6 font-klein">
+              <h2 className="text-3xl md:text-4xl font-black text-white mb-6 font-klein">
                 <span className="block">Recognise Any of This</span>
                 <span className="block">ChatGPT Drive?</span>
               </h2>
