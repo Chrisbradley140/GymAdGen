@@ -406,7 +406,7 @@ const Index = () => {
           <p className="text-lg mb-4">🔥 What you are waiting for? 🔥</p>
           
           <h2 className="text-3xl md:text-5xl font-black mb-6 leading-tight">
-            Still <span className="bg-white text-black px-3 py-1 rounded-lg transform rotate-2 inline-block">Reading</span>
+            Still <span className="bg-white text-black px-3 py-1 rounded-lg transform -rotate-2 inline-block">Reading</span>
           </h2>
           
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
@@ -414,10 +414,6 @@ const Index = () => {
           </p>
           
           <CTAButton size="lg">Generate Your First Ad</CTAButton>
-          
-          <div className="mt-6 text-sm text-muted-foreground">
-            Join 500+ fitness entrepreneurs already crushing it
-          </div>
         </div>
       </section>
 
