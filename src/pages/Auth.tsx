@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -107,10 +106,10 @@ const Auth = () => {
       }}
     >
       {/* Dark overlay for better readability */}
-      <div className="absolute inset-0 bg-black/60"></div>
+      <div className="absolute inset-0 bg-black/30"></div>
       
       {/* Left Side - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 bg-background/30 backdrop-blur-sm relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/2 bg-background/20 backdrop-blur-sm relative overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="grid grid-cols-8 grid-rows-8 h-full w-full">
@@ -161,7 +160,7 @@ const Auth = () => {
       </div>
 
       {/* Right Side - Form */}
-      <div className="flex-1 lg:w-1/2 flex items-center justify-center p-8 bg-card/30 backdrop-blur-sm relative z-10">
+      <div className="flex-1 lg:w-1/2 flex items-center justify-center p-8 bg-card/20 backdrop-blur-sm relative z-10">
         <div className="w-full max-w-md">
           {/* Mobile Back Button */}
           <button
