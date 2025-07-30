@@ -285,46 +285,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* How It Works / Product Proof */}
-      <section className="py-12 px-4 bg-secondary/20">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-black mb-4">
-              From Weak Copy → <span className="text-gradient">Profit-Pulling Ads</span>
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              See how real fitness entrepreneurs turned their ad disasters into money-makers
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            <AdCard
-              label="Weight Loss Coach"
-              hook="Stop Counting Calories. Start Dropping Pounds."
-              body="This 15-minute morning ritual burns fat while you drink your coffee. No gym. No starving. Just results."
-              cta="Get Your Fat-Burning Blueprint (Free)"
-              performance="+284% CTR"
-            />
-            
-            <AdCard
-              label="Strength Coach"
-              hook="Weak at 40? This Changes Everything."
-              body="Former weakling shows you how to build impressive strength without living in the gym."
-              cta="Download My Strength System"
-              performance="+195% Leads"
-            />
-            
-            <AdCard
-              label="Nutrition Coach"
-              hook="Eat Pizza. Lose Weight. (Here's How)"
-              body="The 'backwards' nutrition approach that melts fat while you enjoy your favorite foods."
-              cta="Get My Food Freedom Guide"
-              performance="+312% ROAS"
-            />
-          </div>
-        </div>
-      </section>
-
       {/* ChatGPT Drive Section */}
       <section 
         className="py-16 px-4 relative overflow-hidden"
