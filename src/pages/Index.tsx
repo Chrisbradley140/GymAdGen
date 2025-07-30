@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -89,7 +88,15 @@ const Index = () => {
           </div>
 
           {/* Main Headline */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight mb-8 text-white font-klein">
+          <h1 
+            className="font-klein font-extrabold text-white text-center mb-8"
+            style={{
+              fontSize: '60px',
+              fontWeight: '800',
+              lineHeight: '77px',
+              letterSpacing: '-2px',
+            }}
+          >
             Outperform 'Fitness Marketing Agencies', Canva Templates and ChatGPT —{" "}
             <br className="hidden md:block" />
             With The AI Ad Tool Built for Real Fitness Businesses.
