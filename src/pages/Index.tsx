@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -95,35 +94,9 @@ const Index = () => {
     }
   ];
 
-  const leftColumnPhrases = [
-    "This isn't just another program",
-    "We're not like the other guys",
-    "Results guaranteed - or your money back",
-    "Revolutionary breakthrough system",
-    "Transform your life in 30 days",
-    "Limited time exclusive offer",
-    "Proven by thousands worldwide",
-    "Premium quality guaranteed",
-    "Instant results possible",
-    "Life-changing opportunity",
-    "Award-winning method",
-    "Sound familiar?"
-  ];
+  const leftColumnPhrases = [];
 
-  const rightColumnPhrases = [
-    "Game-changing offer",
-    "Live the life you deserve", 
-    "Effortless transformation",
-    "Join our exclusive community",
-    "One weird trick doctors hate",
-    "Breakthrough secret revealed",
-    "Make money while you sleep",
-    "Unlock your true potential",
-    "Celebrity-endorsed method",
-    "Industry-leading results",
-    "Free bonus included",
-    "Change your destiny today"
-  ];
+  const rightColumnPhrases = [];
 
   const nextTestimonial = () => {
     setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
