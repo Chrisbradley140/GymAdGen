@@ -473,9 +473,9 @@ const Index = () => {
               <h2 className="text-3xl md:text-4xl font-black text-white mb-6 font-klein leading-tight">
                 The cost to advertise
                 <br />
-                on <span className="text-primary">FACEBOOK</span> has
+                on <span style={{ color: '#1478ED' }}>FACEBOOK</span> has
                 <br />
-                almost doubled!
+                <span className="bg-white text-black px-3 py-1 rounded-lg">almost doubled!</span>
               </h2>
               <p className="text-lg text-white/90 leading-relaxed mb-6">
                 The cost of traffic is going to keep going up. The businesses that will win are the ones that can get the most leverage from traffic.
