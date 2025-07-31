@@ -475,6 +475,7 @@ const Index = () => {
                 <br />
                 on <span style={{ color: '#1478ED' }}>FACEBOOK</span> has
                 <br />
+                <br />
                 <span className="bg-white text-black px-3 py-1 rounded-lg">almost doubled!</span>
               </h2>
               <p className="text-lg text-white/90 leading-relaxed mb-6">
