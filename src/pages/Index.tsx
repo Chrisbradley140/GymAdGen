@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -460,6 +459,39 @@ const Index = () => {
               >
                 AI is only as good as the data sets you give it. And my Daddy (Sabri Suby) runs a digital marketing agency that's generated over $7.8 billion (with a B) in ROAS. We've taken that data and fed it into Kong. Creating a large language model (LLM) on the best-performing ad copy and creatives from over $200m in ad spend.
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* New Facebook Cost Section */}
+      <section className="py-16 px-4 bg-background">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col lg:flex-row items-center gap-12">
+            {/* Left Side - Content */}
+            <div className="lg:w-1/2">
+              <h2 className="text-3xl md:text-4xl font-black text-white mb-6 font-klein leading-tight">
+                The cost to advertise
+                <br />
+                on <span className="text-primary">FACEBOOK</span> has
+                <br />
+                almost doubled!
+              </h2>
+              <p className="text-lg text-white/90 leading-relaxed mb-6">
+                The cost of traffic is going to keep going up. The businesses that will win are the ones that can get the most leverage from traffic.
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Source: enhencer.com
+              </p>
+            </div>
+
+            {/* Right Side - Chart Image */}
+            <div className="lg:w-1/2 flex justify-center">
+              <img 
+                src="/lovable-uploads/e5c0642e-d7f1-491f-933b-10802e0174d2.png" 
+                alt="Facebook advertising cost chart showing increase from $7.29 in 2017 to $13.20 in 2024"
+                className="max-w-full h-auto rounded-lg shadow-lg"
+              />
             </div>
           </div>
         </div>
