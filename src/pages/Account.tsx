@@ -273,13 +273,16 @@ const Account = () => {
                         )}
                       />
                       
-                      <Button 
-                        type="submit" 
-                        disabled={isChangingPassword}
-                        className="w-full"
-                      >
-                        {isChangingPassword ? "Updating Password..." : "Update Password"}
-                      </Button>
+                      <div className="flex justify-end">
+                        <Button 
+                          type="submit" 
+                          disabled={isChangingPassword}
+                          variant="outline"
+                          className="text-base px-6 py-2"
+                        >
+                          {isChangingPassword ? "Updating Password..." : "Update Password"}
+                        </Button>
+                      </div>
                     </form>
                   </Form>
                 </div>
