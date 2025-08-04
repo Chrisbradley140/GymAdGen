@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -174,7 +175,7 @@ const Index = () => {
                 alt="FitnessAds.AI Logo" 
                 className="w-8 h-8"
               />
-              <span className="text-xl font-bold text-white">FITNESSADS.AI</span>
+              <span className="text-xl font-bold text-white font-klein">FITNESSADS.AI</span>
             </div>
             
             <div className="flex items-center gap-4">
@@ -250,15 +251,7 @@ const Index = () => {
             </div>
 
             {/* Main Headline */}
-            <h1 
-              className="font-klein font-extrabold text-white text-center mb-8"
-              style={{
-                fontSize: '42px',
-                fontWeight: '800',
-                lineHeight: '52px',
-                letterSpacing: '-2px',
-              }}
-            >
+            <h1 className="font-klein font-extrabold text-white text-center mb-8 text-3xl md:text-4xl lg:text-5xl leading-tight">
               Outperform 'Fitness Marketing Agencies', Canva
               <br className="block" />
               Templates and ChatGPT — With The AI Ad Tool
@@ -280,10 +273,7 @@ const Index = () => {
             </div>
 
             {/* Footer Tagline */}
-            <p 
-              className="text-base md:text-lg text-white max-w-2xl mx-auto font-semibold"
-              style={{ fontFamily: "'Klein Condensed Trial', sans-serif" }}
-            >
+            <p className="text-base md:text-lg text-white max-w-2xl mx-auto font-semibold font-klein">
               No more ChatGPT garbage that sounds like it was written by your nan.
             </p>
           </div>
@@ -332,17 +322,7 @@ const Index = () => {
 
             {/* New Layout Section - Left Aligned */}
             <div className="mt-16">
-              <p 
-                className="text-white font-klein max-w-[600px]"
-                style={{
-                  fontFamily: 'Klein Condensed Trial',
-                  fontWeight: '800',
-                  fontSize: '26px',
-                  lineHeight: '36px',
-                  letterSpacing: '0px',
-                  verticalAlign: 'middle'
-                }}
-              >
+              <p className="text-white font-klein max-w-[600px] text-xl md:text-2xl font-bold leading-relaxed">
                 It doesn't write generic garbage. It writes stuff that converts. Fast. We've tested them all.
                 <br /><br />
                 But it's hard to make good ad creative at scale. And the bottleneck is creative, until now…
@@ -447,16 +427,7 @@ const Index = () => {
           {/* Bottom Paragraph - moved higher up */}
           <div className="flex justify-start pl-[50%] -mt-16">
             <div className="w-full max-w-2xl">
-              <p 
-                className="font-inter font-normal text-left"
-                style={{
-                  fontSize: '18px',
-                  lineHeight: '26px',
-                  letterSpacing: '0px',
-                  verticalAlign: 'middle',
-                  color: '#FFFFFF'
-                }}
-              >
+              <p className="font-inter font-normal text-left text-lg leading-relaxed text-white">
                 AI is only as good as the data sets you give it. And my Daddy (Sabri Suby) runs a digital marketing agency that's generated over $7.8 billion (with a B) in ROAS. We've taken that data and fed it into Kong. Creating a large language model (LLM) on the best-performing ad copy and creatives from over $200m in ad spend.
               </p>
             </div>
@@ -506,7 +477,7 @@ const Index = () => {
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-lg mb-4">🔥 What you are waiting for? 🔥</p>
           
-          <h2 className="text-3xl md:text-5xl font-black mb-6 leading-tight">
+          <h2 className="text-3xl md:text-5xl font-black mb-6 leading-tight font-klein">
             Still <span className="bg-white text-black px-3 py-1 rounded-lg transform -rotate-2 inline-block">Reading</span>
           </h2>
           
