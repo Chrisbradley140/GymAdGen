@@ -33,7 +33,12 @@ const AdGenerator = () => {
   // Onboarding completion check
   useEffect(() => {
     const checkOnboardingStatus = async () => {
-      if (!user) return;
+      if (!user) {
+        console.log('No user found in checkOnboardingStatus');
+        return;
+      }
+      
+      console.log('Checking onboarding status for user:', user.id);
       
       try {
         const { data: onboardingData, error } = await supabase
@@ -41,6 +46,8 @@ const AdGenerator = () => {
           .select('step_completed')
           .eq('user_id', user.id)
           .maybeSingle();
+
+        console.log('Onboarding query result:', { onboardingData, error });
 
         if (error) {
           console.error('Error checking onboarding status:', error);
@@ -51,12 +58,17 @@ const AdGenerator = () => {
         const stepCompleted = onboardingData?.step_completed || 0;
         const isComplete = stepCompleted >= 6;
         
+        console.log('Onboarding status calculated:', { stepCompleted, isComplete });
+        
         setOnboardingStatus({ isComplete, stepCompleted });
 
         // Auto-redirect if onboarding incomplete
         if (!isComplete) {
+          console.log('Redirecting to onboarding - step completed:', stepCompleted);
           navigate('/onboarding');
           return;
+        } else {
+          console.log('Onboarding complete - allowing access to generator');
         }
       } catch (error) {
         console.error('Error checking onboarding status:', error);
