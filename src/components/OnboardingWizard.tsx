@@ -73,7 +73,7 @@ const stepSubtitles = [
   'Understand your customer\'s mindset'
 ];
 
-const OnboardingWizard: React.FC<{ onComplete: () => void; retakeQuiz?: boolean }> = ({ onComplete, retakeQuiz = false }) => {
+const OnboardingWizard: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [data, setData] = useState<OnboardingData>(initialData);
   const [loading, setLoading] = useState(false);
@@ -123,10 +123,7 @@ const OnboardingWizard: React.FC<{ onComplete: () => void; retakeQuiz?: boolean 
           client_words: existingData.client_words || '',
           magic_wand_result: existingData.magic_wand_result || '',
         });
-        // Only restore step progress if not retaking the quiz
-        if (!retakeQuiz) {
-          setCurrentStep(existingData.step_completed + 1);
-        }
+        setCurrentStep(existingData.step_completed + 1);
       }
     } catch (error) {
       console.error('Error loading onboarding data:', error);
