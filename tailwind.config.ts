@@ -56,7 +56,7 @@ export default {
 			},
 			fontFamily: {
 				'inter': ['Inter', 'sans-serif'],
-				'klein': ['Barlow Condensed', 'Arial', 'sans-serif'],
+				'klein': ['Klein Condensed', 'Barlow Condensed', 'Arial', 'sans-serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
