@@ -32,7 +32,8 @@ export const useAdGeneration = () => {
             failed_solutions: brandData.failed_solutions,
             client_words: brandData.client_words,
             magic_wand_result: brandData.magic_wand_result,
-            campaign_types: brandData.campaign_types
+            campaign_types: brandData.campaign_types,
+            website_url: brandData.website_url
           }
         }
       });

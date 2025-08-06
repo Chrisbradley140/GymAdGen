@@ -23,6 +23,11 @@ serve(async (req) => {
       throw new Error('OpenAI API key not configured');
     }
 
+    // Build the homepage URL instruction
+    const homepageInstruction = brandData.website_url 
+      ? `\n\nHomepage URL: ${brandData.website_url}\nPlease scan this fitness business homepage and extract the brand tone, unique selling points, and core offers. Use this to guide ad copy tone and positioning. If you cannot extract meaningful information from this URL, fall back to the brand information provided below.`
+      : '';
+
     const prompt = `
 Brand: ${brandData.business_name}
 Target Market: ${brandData.target_market}
@@ -34,7 +39,7 @@ Main Problem Client Faces: ${brandData.main_problem}
 Failed Solutions They've Tried: ${brandData.failed_solutions}
 How Clients Describe Their Problem: ${brandData.client_words}
 Dream Outcome: ${brandData.magic_wand_result}
-Campaign Types: ${brandData.campaign_types.join(', ')}
+Campaign Types: ${brandData.campaign_types?.join(', ') || 'Not specified'}${homepageInstruction}
 
 ${systemPrompt}
 `;
