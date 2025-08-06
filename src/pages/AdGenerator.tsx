@@ -10,6 +10,7 @@ import { AdBlock } from "@/components/ad-generator/AdBlock";
 import { useAdGeneration } from "@/hooks/useAdGeneration";
 import { useBrandSetup } from "@/hooks/useBrandSetup";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const AdGenerator = () => {
   const { user, loading: authLoading } = useAuth();
@@ -17,33 +18,58 @@ const AdGenerator = () => {
   const { data: brandData, loading: brandLoading } = useBrandSetup();
   const { generateContent } = useAdGeneration();
   const { toast } = useToast();
-  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState<boolean | null>(null);
+  const [onboardingStatus, setOnboardingStatus] = useState<{
+    isComplete: boolean;
+    stepCompleted: number;
+  } | null>(null);
 
+  // Auth redirect check
   useEffect(() => {
     if (!authLoading && !user) {
       navigate('/auth');
     }
   }, [user, authLoading, navigate]);
 
+  // Onboarding completion check
   useEffect(() => {
     const checkOnboardingStatus = async () => {
       if (!user) return;
       
       try {
-        // Check if user has completed onboarding
-        setHasCompletedOnboarding(brandData !== null);
+        const { data: onboardingData, error } = await supabase
+          .from('user_onboarding')
+          .select('step_completed')
+          .eq('user_id', user.id)
+          .maybeSingle();
+
+        if (error) {
+          console.error('Error checking onboarding status:', error);
+          setOnboardingStatus({ isComplete: false, stepCompleted: 0 });
+          return;
+        }
+
+        const stepCompleted = onboardingData?.step_completed || 0;
+        const isComplete = stepCompleted >= 6;
+        
+        setOnboardingStatus({ isComplete, stepCompleted });
+
+        // Auto-redirect if onboarding incomplete
+        if (!isComplete) {
+          navigate('/onboarding');
+          return;
+        }
       } catch (error) {
         console.error('Error checking onboarding status:', error);
-        setHasCompletedOnboarding(false);
+        setOnboardingStatus({ isComplete: false, stepCompleted: 0 });
       }
     };
 
-    if (user && !brandLoading) {
+    if (user && !authLoading) {
       checkOnboardingStatus();
     }
-  }, [user, brandData, brandLoading]);
+  }, [user, authLoading, navigate]);
 
-  if (authLoading || brandLoading || hasCompletedOnboarding === null) {
+  if (authLoading || onboardingStatus === null) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="flex items-center gap-2">
@@ -58,7 +84,8 @@ const AdGenerator = () => {
     return null;
   }
 
-  if (!hasCompletedOnboarding) {
+  // This fallback UI shouldn't be reached due to auto-redirect, but kept for safety
+  if (!onboardingStatus.isComplete) {
     return (
       <div className="min-h-screen bg-background">
         <div className="container mx-auto px-4 py-12">
@@ -66,9 +93,14 @@ const AdGenerator = () => {
             <h1 className="text-4xl font-bold mb-6">Complete Your Setup</h1>
             <p className="text-xl text-muted-foreground mb-8">
               You need to complete the onboarding process before you can generate ads.
+              {onboardingStatus.stepCompleted > 0 && (
+                <span className="block mt-2 text-sm">
+                  Step {onboardingStatus.stepCompleted} of 6 completed.
+                </span>
+              )}
             </p>
             <Button size="lg" onClick={() => navigate('/onboarding')} className="px-8 py-3 text-lg">
-              Complete Onboarding
+              {onboardingStatus.stepCompleted > 0 ? 'Continue Onboarding' : 'Start Onboarding'}
             </Button>
           </div>
         </div>
