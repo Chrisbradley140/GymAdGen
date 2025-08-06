@@ -141,6 +141,9 @@ const OnboardingWizard: React.FC<{ onComplete: () => void }> = ({ onComplete }) 
           user_id: user.id,
           step_completed: currentStep,
           ...data,
+        }, {
+          onConflict: 'user_id',
+          ignoreDuplicates: false
         });
 
       if (error) {
@@ -170,6 +173,9 @@ const OnboardingWizard: React.FC<{ onComplete: () => void }> = ({ onComplete }) 
           step_completed: 6, // Explicitly set to 6 for completion
           ...data,
           completed_at: new Date().toISOString(),
+        }, {
+          onConflict: 'user_id',
+          ignoreDuplicates: false
         });
 
       if (error) {
