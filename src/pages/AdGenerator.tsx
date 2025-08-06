@@ -197,105 +197,76 @@ Make them engaging, clear, and easy to execute with common props/settings.
   };
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
-      {/* Background gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5"></div>
-      
-      <div className="container mx-auto px-4 py-8 relative z-10">
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="mb-16 text-center animate-fade-in">
-          <div className="inline-flex items-center gap-3 mb-6 px-6 py-3 bg-primary/10 rounded-full border border-primary/20">
-            <div className="w-2 h-2 bg-primary rounded-full animate-pulse-glow"></div>
-            <span className="text-sm font-medium text-primary">AI-Powered Content Generation</span>
-          </div>
-          
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-gradient leading-tight">
-            Let's build your next
-            <br />
-            <span className="text-primary">client getting campaign</span>
+        <div className="mb-12 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+            Let's build your next client getting campaign
           </h1>
-          
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Generate high-converting ads tailored to your brand using AI. Each piece of content is created based on your brand setup and target audience.
           </p>
-          
-          {/* Floating elements for visual interest */}
-          <div className="absolute top-20 left-10 w-20 h-20 bg-primary/10 rounded-full blur-xl animate-pulse"></div>
-          <div className="absolute top-40 right-20 w-32 h-32 bg-accent/10 rounded-full blur-xl animate-pulse delay-1000"></div>
         </div>
 
         {/* Ad Generation Blocks */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
-            <AdBlock
-              title="Ad Caption Generator"
-              description="Generate a full Instagram/Facebook ad caption with Hook → Pain Mirror → Belief Breaker → CTA structure"
-              icon={<MessageSquare className="w-6 h-6 text-primary" />}
-              onGenerate={generateAdCaption}
-              placeholder="Your generated ad caption will appear here..."
-            />
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+          <AdBlock
+            title="Ad Caption Generator"
+            description="Generate a full Instagram/Facebook ad caption with Hook → Pain Mirror → Belief Breaker → CTA structure"
+            icon={<MessageSquare className="w-6 h-6 text-primary" />}
+            onGenerate={generateAdCaption}
+            placeholder="Your generated ad caption will appear here..."
+          />
 
-          <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            <AdBlock
-              title="Headline Options Generator"
-              description="Output 3-5 punchy headlines for ads, lead forms, and landing pages based on your offer"
-              icon={<Type className="w-6 h-6 text-primary" />}
-              onGenerate={generateHeadlineOptions}
-              placeholder="Your headline options will appear here..."
-            />
-          </div>
+          <AdBlock
+            title="Headline Options Generator"
+            description="Output 3-5 punchy headlines for ads, lead forms, and landing pages based on your offer"
+            icon={<Type className="w-6 h-6 text-primary" />}
+            onGenerate={generateHeadlineOptions}
+            placeholder="Your headline options will appear here..."
+          />
 
-          <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
-            <AdBlock
-              title="Campaign Name Generator"
-              description="Suggest creative campaign titles that feel clever, seasonal, or results-driven"
-              icon={<Tag className="w-6 h-6 text-primary" />}
-              onGenerate={generateCampaignName}
-              placeholder="Your campaign name suggestions will appear here..."
-            />
-          </div>
+          <AdBlock
+            title="Campaign Name Generator"
+            description="Suggest creative campaign titles that feel clever, seasonal, or results-driven"
+            icon={<Tag className="w-6 h-6 text-primary" />}
+            onGenerate={generateCampaignName}
+            placeholder="Your campaign name suggestions will appear here..."
+          />
 
-          <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
-            <AdBlock
-              title="IG Story Ad Generator"
-              description="Create a 3-frame Instagram Story ad: Problem/Hook → Breakthrough → CTA"
-              icon={<FaInstagram className="w-6 h-6 text-[#E4405F]" />}
-              onGenerate={generateIGStoryAd}
-              placeholder="Your Instagram Story ad sequence will appear here..."
-            />
-          </div>
+          <AdBlock
+            title="IG Story Ad Generator"
+            description="Create a 3-frame Instagram Story ad: Problem/Hook → Breakthrough → CTA"
+            icon={<FaInstagram className="w-6 h-6 text-[#E4405F]" />}
+            onGenerate={generateIGStoryAd}
+            placeholder="Your Instagram Story ad sequence will appear here..."
+          />
 
-          <div className="animate-fade-in md:col-span-2 lg:col-span-1" style={{ animationDelay: '0.5s' }}>
-            <AdBlock
-              title="Creative Prompt Generator"
-              description="Generate 1-2 sentence visual ideas for reels, carousels, or image ads"
-              icon={<Camera className="w-6 h-6 text-primary" />}
-              onGenerate={generateCreativePrompt}
-              placeholder="Your creative visual prompts will appear here..."
-            />
-          </div>
+          <AdBlock
+            title="Creative Prompt Generator"
+            description="Generate 1-2 sentence visual ideas for reels, carousels, or image ads"
+            icon={<Camera className="w-6 h-6 text-primary" />}
+            onGenerate={generateCreativePrompt}
+            placeholder="Your creative visual prompts will appear here..."
+          />
         </div>
 
         {/* Future Features Placeholder */}
-        <div className="mt-20 text-center animate-fade-in" style={{ animationDelay: '0.6s' }}>
-          <Card className="max-w-2xl mx-auto border-dashed border-2 border-primary/20 bg-gradient-to-r from-primary/5 to-accent/5 backdrop-blur-sm hover-lift">
+        <div className="mt-16 text-center">
+          <Card className="max-w-2xl mx-auto border-dashed border-2 border-muted-foreground/20">
             <CardHeader>
-              <CardTitle className="text-2xl text-primary">Coming Soon</CardTitle>
-              <CardDescription className="text-lg">
+              <CardTitle className="text-muted-foreground">Coming Soon</CardTitle>
+              <CardDescription>
                 Export to PDF, Campaign Library, and more advanced features are in development
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex justify-center gap-4">
-                <Button variant="outline" disabled className="border-primary/30 text-primary/60">
+                <Button variant="outline" disabled>
                   Export PDF
                 </Button>
-                <Button 
-                  variant="outline" 
-                  onClick={() => navigate('/library')}
-                  className="border-primary/50 text-primary hover:bg-primary/10"
-                >
+                <Button variant="outline" onClick={() => navigate('/library')}>
                   View Library
                 </Button>
               </div>
