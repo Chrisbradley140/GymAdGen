@@ -53,8 +53,14 @@ const ComparisonTable = () => {
                 <h3 className="text-xl font-bold mb-2" style={{ color: '#FFFFFF' }}>Old Way</h3>
               </div>
               {comparisonData.map((item, index) => (
-                <div key={index} className="p-4 rounded-lg" style={{ backgroundColor: '#FF5440' }}>
-                  <div className="flex items-start gap-3">
+                <div key={index} className="rounded-lg" style={{ 
+                  backgroundColor: '#FF5440',
+                  width: '496px',
+                  height: '96px',
+                  padding: '20px 16px',
+                  borderRadius: '8px'
+                }}>
+                  <div className="flex items-start" style={{ gap: '16px' }}>
                     <X className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: '#FFFFFF' }} />
                     <p className="font-medium" style={{ color: '#FFFFFF' }}>{item.oldWay}</p>
                   </div>
@@ -71,8 +77,14 @@ const ComparisonTable = () => {
                 <h3 className="text-xl font-bold mb-2" style={{ color: '#242229' }}>FitnessAds.ai</h3>
               </div>
               {comparisonData.map((item, index) => (
-                <div key={index} className="p-4 rounded-lg" style={{ backgroundColor: '#00DD7B' }}>
-                  <div className="flex items-start gap-3">
+                <div key={index} className="rounded-lg" style={{ 
+                  backgroundColor: '#00DD7B',
+                  width: '496px',
+                  height: '96px',
+                  padding: '20px 16px',
+                  borderRadius: '8px'
+                }}>
+                  <div className="flex items-start" style={{ gap: '16px' }}>
                     <Check className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: '#242229' }} />
                     <p className="font-medium" style={{ color: '#242229' }}>{item.newWay}</p>
                   </div>
@@ -93,8 +105,14 @@ const ComparisonTable = () => {
               <h3 className="text-xl font-bold mb-2" style={{ color: '#FFFFFF' }}>Old Way</h3>
             </div>
             {comparisonData.map((item, index) => (
-              <div key={index} className="p-4 rounded-lg" style={{ backgroundColor: '#FF5440' }}>
-                <div className="flex items-start gap-3">
+              <div key={index} className="rounded-lg" style={{ 
+                backgroundColor: '#FF5440',
+                width: '496px',
+                height: '96px',
+                padding: '20px 16px',
+                borderRadius: '8px'
+              }}>
+                <div className="flex items-start" style={{ gap: '16px' }}>
                   <X className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: '#FFFFFF' }} />
                   <p className="font-medium" style={{ color: '#FFFFFF' }}>{item.oldWay}</p>
                 </div>
@@ -111,8 +129,14 @@ const ComparisonTable = () => {
               <h3 className="text-xl font-bold mb-2" style={{ color: '#242229' }}>FitnessAds.ai</h3>
             </div>
             {comparisonData.map((item, index) => (
-              <div key={index} className="p-4 rounded-lg" style={{ backgroundColor: '#00DD7B' }}>
-                <div className="flex items-start gap-3">
+              <div key={index} className="rounded-lg" style={{ 
+                backgroundColor: '#00DD7B',
+                width: '496px',
+                height: '96px',
+                padding: '20px 16px',
+                borderRadius: '8px'
+              }}>
+                <div className="flex items-start" style={{ gap: '16px' }}>
                   <Check className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: '#242229' }} />
                   <p className="font-medium" style={{ color: '#242229' }}>{item.newWay}</p>
                 </div>
