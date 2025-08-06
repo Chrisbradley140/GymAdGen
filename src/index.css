@@ -195,6 +195,12 @@ All colors MUST be HSL.
     --sidebar-ring: 13 100% 50%;
 
     --radius: 0.5rem;
+
+    /* Custom comparison table colors */
+    --comparison-red: 11 100% 62%; /* #FF5440 */
+    --comparison-red-foreground: 0 0% 100%; /* #FFFFFF */
+    --comparison-green: 154 100% 43%; /* #00DD7B */
+    --comparison-green-foreground: 246 14% 14%; /* #242229 */
   }
 }
 
