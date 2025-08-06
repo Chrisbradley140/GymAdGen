@@ -75,4 +75,16 @@ All colors MUST be HSL.
   .hover-lift {
     @apply transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl;
   }
+  
+  .animation-delay-100 {
+    animation-delay: 0.1s;
+  }
+  
+  .animation-delay-200 {
+    animation-delay: 0.2s;
+  }
+  
+  .animation-delay-300 {
+    animation-delay: 0.3s;
+  }
 }

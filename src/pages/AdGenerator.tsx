@@ -217,6 +217,7 @@ Make them engaging, clear, and easy to execute with common props/settings.
             icon={<MessageSquare className="w-6 h-6 text-primary" />}
             onGenerate={generateAdCaption}
             placeholder="Your generated ad caption will appear here..."
+            contentType="ad_caption"
           />
 
           <AdBlock
@@ -225,6 +226,7 @@ Make them engaging, clear, and easy to execute with common props/settings.
             icon={<Type className="w-6 h-6 text-primary" />}
             onGenerate={generateHeadlineOptions}
             placeholder="Your headline options will appear here..."
+            contentType="headline"
           />
 
           <AdBlock
@@ -233,6 +235,7 @@ Make them engaging, clear, and easy to execute with common props/settings.
             icon={<Tag className="w-6 h-6 text-primary" />}
             onGenerate={generateCampaignName}
             placeholder="Your campaign name suggestions will appear here..."
+            contentType="campaign_name"
           />
 
           <AdBlock
@@ -241,6 +244,7 @@ Make them engaging, clear, and easy to execute with common props/settings.
             icon={<FaInstagram className="w-6 h-6 text-[#E4405F]" />}
             onGenerate={generateIGStoryAd}
             placeholder="Your Instagram Story ad sequence will appear here..."
+            contentType="ig_story"
           />
 
           <AdBlock
@@ -248,6 +252,7 @@ Make them engaging, clear, and easy to execute with common props/settings.
             description="Generate 1-2 sentence visual ideas for reels, carousels, or image ads"
             icon={<Camera className="w-6 h-6 text-primary" />}
             onGenerate={generateCreativePrompt}
+            contentType="creative_prompt"
             placeholder="Your creative visual prompts will appear here..."
           />
         </div>

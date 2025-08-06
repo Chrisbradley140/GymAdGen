@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Copy, RefreshCw, Save, Zap } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { useSavedContent, ContentType } from "@/hooks/useSavedContent";
 
 interface AdBlockProps {
   title: string;
@@ -12,12 +14,14 @@ interface AdBlockProps {
   icon: React.ReactNode;
   onGenerate: () => Promise<string>;
   placeholder?: string;
+  contentType: ContentType;
 }
 
-export function AdBlock({ title, description, icon, onGenerate, placeholder }: AdBlockProps) {
+export function AdBlock({ title, description, icon, onGenerate, placeholder, contentType }: AdBlockProps) {
   const [content, setContent] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const { toast } = useToast();
+  const { saveContent, isSaving } = useSavedContent();
 
   const handleGenerate = async () => {
     setIsGenerating(true);
@@ -58,12 +62,15 @@ export function AdBlock({ title, description, icon, onGenerate, placeholder }: A
     }
   };
 
-  const handleSave = () => {
-    // Placeholder for save functionality
-    toast({
-      title: "Saved",
-      description: `${title} saved to your library!`,
-    });
+  const handleSave = async () => {
+    if (!content.trim()) return;
+    
+    await saveContent(
+      contentType,
+      title,
+      content,
+      { generatedAt: new Date().toISOString() }
+    );
   };
 
   const handleRegenerate = () => {
@@ -88,27 +95,49 @@ export function AdBlock({ title, description, icon, onGenerate, placeholder }: A
         <Button
           onClick={handleGenerate}
           disabled={isGenerating}
-          className="w-full flex items-center gap-2 text-base py-3"
+          className="w-full flex items-center gap-2 text-base py-3 relative overflow-hidden"
         >
-          <Zap className="w-4 h-4" />
-          {isGenerating ? "Generating..." : "Generate"}
+          {isGenerating ? (
+            <>
+              <LoadingSpinner size="sm" className="text-primary-foreground" />
+              <span className="animate-pulse">Generating</span>
+              <span className="animate-pulse animation-delay-100">.</span>
+              <span className="animate-pulse animation-delay-200">.</span>
+              <span className="animate-pulse animation-delay-300">.</span>
+            </>
+          ) : (
+            <>
+              <Zap className="w-4 h-4" />
+              Generate
+            </>
+          )}
         </Button>
 
         {content && (
-          <div className="space-y-3">
-            <Textarea
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              className="min-h-[200px] resize-none"
-              placeholder={placeholder}
-            />
+          <div className="space-y-3 animate-fade-in">
+            <div className="relative">
+              <Textarea
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                className="min-h-[200px] resize-none transition-all duration-300 focus:ring-2 focus:ring-primary/50"
+                placeholder={placeholder}
+              />
+              {isGenerating && (
+                <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center rounded-md">
+                  <div className="flex flex-col items-center gap-2">
+                    <LoadingSpinner size="lg" className="text-primary" />
+                    <span className="text-sm text-muted-foreground">Creating your content...</span>
+                  </div>
+                </div>
+              )}
+            </div>
             
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={handleCopy}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 hover:bg-primary/10 transition-colors"
               >
                 <Copy className="w-4 h-4" />
                 Copy
@@ -119,9 +148,9 @@ export function AdBlock({ title, description, icon, onGenerate, placeholder }: A
                 size="sm"
                 onClick={handleRegenerate}
                 disabled={isGenerating}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 hover:bg-primary/10 transition-colors"
               >
-                <RefreshCw className="w-4 h-4" />
+                <RefreshCw className={`w-4 h-4 ${isGenerating ? 'animate-spin' : ''}`} />
                 Regenerate
               </Button>
               
@@ -129,9 +158,14 @@ export function AdBlock({ title, description, icon, onGenerate, placeholder }: A
                 variant="outline"
                 size="sm"
                 onClick={handleSave}
-                className="flex items-center gap-2"
+                disabled={isSaving || !content.trim()}
+                className="flex items-center gap-2 hover:bg-primary/10 transition-colors"
               >
-                <Save className="w-4 h-4" />
+                {isSaving ? (
+                  <LoadingSpinner size="sm" />
+                ) : (
+                  <Save className="w-4 h-4" />
+                )}
                 Save
               </Button>
             </div>
