@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Zap, Facebook, Instagram, Video, FileText, Loader2 } from "lucide-react";
+import { Zap, Video, FileText, Loader2 } from "lucide-react";
+import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { AdBlock } from "@/components/ad-generator/AdBlock";
 import { useAdGeneration } from "@/hooks/useAdGeneration";
 import { useBrandSetup } from "@/hooks/useBrandSetup";
@@ -153,7 +154,7 @@ Include specific visual cues and transitions. Make it authentic and relatable to
           <AdBlock
             title="Facebook Ad"
             description="Generate compelling Facebook ad copy with headline and body text optimized for conversions"
-            icon={<Facebook className="w-6 h-6 text-primary" />}
+            icon={<FaFacebook className="w-6 h-6 text-[#1877F2]" />}
             onGenerate={generateFacebookAd}
             placeholder="Your generated Facebook ad will appear here..."
           />
@@ -161,7 +162,7 @@ Include specific visual cues and transitions. Make it authentic and relatable to
           <AdBlock
             title="Instagram Story Slides"
             description="Create 3-5 engaging Instagram Story slides that guide your audience through your funnel"
-            icon={<Instagram className="w-6 h-6 text-primary" />}
+            icon={<FaInstagram className="w-6 h-6 text-[#E4405F]" />}
             onGenerate={generateInstagramStory}
             placeholder="Your Instagram Story sequence will appear here..."
           />
