@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Zap, Video, FileText, Loader2 } from "lucide-react";
-import { FaFacebook, FaInstagram } from "react-icons/fa";
+import { Type, Tag, Camera, MessageSquare, Loader2 } from "lucide-react";
+import { FaInstagram } from "react-icons/fa";
 import { AdBlock } from "@/components/ad-generator/AdBlock";
 import { useAdGeneration } from "@/hooks/useAdGeneration";
 import { useBrandSetup } from "@/hooks/useBrandSetup";
@@ -76,64 +76,124 @@ const AdGenerator = () => {
     );
   }
 
-  const generateFacebookAd = async (): Promise<string> => {
+  const generateAdCaption = async (): Promise<string> => {
     const systemPrompt = `
-Create a high-converting Facebook ad with a compelling headline and engaging body copy.
+Create a high-converting Instagram/Facebook ad caption following this exact structure:
+
+HOOK → PAIN MIRROR → BELIEF BREAKER → CTA
+
+Use the user's brand voice, target market problems, and offer details to create engaging copy.
+
 Format your response as:
 
-HEADLINE: [compelling headline that grabs attention]
+HOOK: [Attention-grabbing opener that stops the scroll]
 
-BODY: [engaging body copy that addresses the main problem, mentions failed solutions, and presents the offer as the solution. Include a strong call-to-action.]
+PAIN MIRROR: [Acknowledge their main problem and failed solutions they've tried]
 
-Keep the headline under 40 characters and body under 125 words for optimal Facebook performance.
+BELIEF BREAKER: [Challenge common misconceptions, present your unique angle]
+
+CTA: [Clear, compelling call-to-action with specific next steps]
+
+Keep it authentic, conversational, and aligned with the brand voice. Use emojis sparingly but effectively.
 `;
     
-    return await generateContent('facebook-ad', systemPrompt);
+    return await generateContent('ad-caption', systemPrompt);
   };
 
-  const generateInstagramStory = async (): Promise<string> => {
+  const generateHeadlineOptions = async (): Promise<string> => {
     const systemPrompt = `
-Create 3-5 Instagram Story slides for a fitness campaign. Each slide should be engaging and lead to the next.
+Generate 3-5 punchy, attention-grabbing headlines for ads, lead forms, and landing pages.
+
+Focus on the target audience's main frustrations and the transformation your offer provides.
+
 Format your response as:
 
-SLIDE 1: [Hook slide - grab attention with a question or bold statement]
+HEADLINE 1: [Result-focused headline]
 
-SLIDE 2: [Problem slide - highlight the main problem they face]
+HEADLINE 2: [Problem-focused headline] 
 
-SLIDE 3: [Solution slide - present your offer as the solution]
+HEADLINE 3: [Curiosity-driven headline]
 
-SLIDE 4: [Social proof or urgency slide]
+HEADLINE 4: [Social proof/testimonial headline]
 
-SLIDE 5: [Call-to-action slide with clear next steps]
+HEADLINE 5: [Urgency/scarcity headline]
 
-Keep each slide concise (1-2 sentences max) as they'll be displayed as text overlays on images.
+Each headline should be under 40 characters for optimal ad performance. Make them punchy, benefit-driven, and conversion-focused.
 `;
     
-    return await generateContent('instagram-story', systemPrompt);
+    return await generateContent('headline-options', systemPrompt);
   };
 
-  const generateReelsScript = async (): Promise<string> => {
+  const generateCampaignName = async (): Promise<string> => {
     const systemPrompt = `
-Create a 30-60 second Instagram Reels script that's engaging and conversion-focused.
+Suggest 5 creative campaign titles that feel clever, seasonal, or results-driven.
+
+Think along the lines of "Postcode Power Hour" - catchy, memorable, and relevant to the target market.
+
 Format your response as:
 
-HOOK (0-3 seconds): [Attention-grabbing opener]
+CAMPAIGN 1: [Clever/witty campaign name]
 
-SETUP (3-15 seconds): [Present the problem/situation]
+CAMPAIGN 2: [Results-driven campaign name]
 
-CONTENT (15-45 seconds): [Provide value, show solution]
+CAMPAIGN 3: [Seasonal/timely campaign name]
 
-CTA (45-60 seconds): [Clear call-to-action]
+CAMPAIGN 4: [Transformation-focused campaign name]
 
-Include specific visual cues and transitions. Make it authentic and relatable to your target audience.
+CAMPAIGN 5: [Community/movement campaign name]
+
+Make them memorable, brandable, and aligned with the business type and target audience.
 `;
     
-    return await generateContent('reels-script', systemPrompt);
+    return await generateContent('campaign-name', systemPrompt);
   };
 
-  const generateLandingPageCopy = async (): Promise<string> => {
-    // Placeholder for now as requested
-    return "Landing page copy generation will be available soon. This feature is currently in development.";
+  const generateIGStoryAd = async (): Promise<string> => {
+    const systemPrompt = `
+Create a 3-frame Instagram Story ad sequence that guides viewers through your funnel.
+
+Structure:
+Frame 1: Problem or hook that grabs attention
+Frame 2: Breakthrough moment or solution reveal  
+Frame 3: Clear call-to-action
+
+Format your response as:
+
+FRAME 1: [Problem/hook - make them stop scrolling]
+
+FRAME 2: [Breakthrough moment - the "aha" moment]
+
+FRAME 3: [Clear CTA - specific next steps]
+
+Keep each frame concise (1-2 sentences max) as they'll be text overlays on visuals. Make it flow naturally from problem to solution to action.
+`;
+    
+    return await generateContent('ig-story-ad', systemPrompt);
+  };
+
+  const generateCreativePrompt = async (): Promise<string> => {
+    const systemPrompt = `
+Generate 1-2 sentence visual ideas for a reel, carousel, or image ad.
+
+Provide specific, actionable creative direction that a content creator could immediately implement.
+
+Format your response as:
+
+VISUAL IDEA 1: [Specific visual concept with clear direction]
+
+VISUAL IDEA 2: [Alternative visual approach]
+
+VISUAL IDEA 3: [Third creative option]
+
+Examples: 
+- "Coach points at whiteboard labeled '3 Fat Loss Lies' while shaking head disapprovingly"
+- "Split screen showing 'before' morning routine vs 'after' optimized routine"
+- "Person dramatically throws scale in trash, then shows progress photos on phone"
+
+Make them engaging, clear, and easy to execute with common props/settings.
+`;
+    
+    return await generateContent('creative-prompt', systemPrompt);
   };
 
   return (
@@ -150,37 +210,45 @@ Include specific visual cues and transitions. Make it authentic and relatable to
         </div>
 
         {/* Ad Generation Blocks */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
           <AdBlock
-            title="Facebook Ad"
-            description="Generate compelling Facebook ad copy with headline and body text optimized for conversions"
-            icon={<FaFacebook className="w-6 h-6 text-[#1877F2]" />}
-            onGenerate={generateFacebookAd}
-            placeholder="Your generated Facebook ad will appear here..."
+            title="Ad Caption Generator"
+            description="Generate a full Instagram/Facebook ad caption with Hook → Pain Mirror → Belief Breaker → CTA structure"
+            icon={<MessageSquare className="w-6 h-6 text-primary" />}
+            onGenerate={generateAdCaption}
+            placeholder="Your generated ad caption will appear here..."
           />
 
           <AdBlock
-            title="Instagram Story Slides"
-            description="Create 3-5 engaging Instagram Story slides that guide your audience through your funnel"
+            title="Headline Options Generator"
+            description="Output 3-5 punchy headlines for ads, lead forms, and landing pages based on your offer"
+            icon={<Type className="w-6 h-6 text-primary" />}
+            onGenerate={generateHeadlineOptions}
+            placeholder="Your headline options will appear here..."
+          />
+
+          <AdBlock
+            title="Campaign Name Generator"
+            description="Suggest creative campaign titles that feel clever, seasonal, or results-driven"
+            icon={<Tag className="w-6 h-6 text-primary" />}
+            onGenerate={generateCampaignName}
+            placeholder="Your campaign name suggestions will appear here..."
+          />
+
+          <AdBlock
+            title="IG Story Ad Generator"
+            description="Create a 3-frame Instagram Story ad: Problem/Hook → Breakthrough → CTA"
             icon={<FaInstagram className="w-6 h-6 text-[#E4405F]" />}
-            onGenerate={generateInstagramStory}
-            placeholder="Your Instagram Story sequence will appear here..."
+            onGenerate={generateIGStoryAd}
+            placeholder="Your Instagram Story ad sequence will appear here..."
           />
 
           <AdBlock
-            title="Reels Script"
-            description="Generate a 30-60 second Instagram Reels script with hooks, transitions, and clear CTAs"
-            icon={<Video className="w-6 h-6 text-primary" />}
-            onGenerate={generateReelsScript}
-            placeholder="Your Reels script with timing and visual cues will appear here..."
-          />
-
-          <AdBlock
-            title="Landing Page Copy"
-            description="Coming soon - Generate high-converting landing page copy that matches your ads"
-            icon={<FileText className="w-6 h-6 text-muted-foreground" />}
-            onGenerate={generateLandingPageCopy}
-            placeholder="Landing page copy generation coming soon..."
+            title="Creative Prompt Generator"
+            description="Generate 1-2 sentence visual ideas for reels, carousels, or image ads"
+            icon={<Camera className="w-6 h-6 text-primary" />}
+            onGenerate={generateCreativePrompt}
+            placeholder="Your creative visual prompts will appear here..."
           />
         </div>
 
