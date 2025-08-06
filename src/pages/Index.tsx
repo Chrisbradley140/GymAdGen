@@ -41,6 +41,7 @@ import ProductDemo from "@/components/ProductDemo";
 import FAQ from "@/components/FAQ";
 import ResultsShowcase from "@/components/ResultsShowcase";
 import HeroAnimation from "@/components/HeroAnimation";
+import ComparisonTable from "@/components/ComparisonTable";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -468,6 +469,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Comparison Table Section */}
+      <ComparisonTable />
 
       {/* FAQ Section */}
       <FAQ />
