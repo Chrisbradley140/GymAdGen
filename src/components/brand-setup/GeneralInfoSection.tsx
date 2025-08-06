@@ -68,7 +68,12 @@ export const GeneralInfoSection: React.FC<GeneralInfoSectionProps> = ({
         ) : (
           <p className="text-muted-foreground">
             {data.website_url ? (
-              <a href={data.website_url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+              <a 
+                href={data.website_url.startsWith('http') ? data.website_url : `https://${data.website_url}`} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-blue-500 hover:underline"
+              >
                 {data.website_url}
               </a>
             ) : (
