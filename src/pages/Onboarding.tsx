@@ -7,7 +7,7 @@ const Onboarding = () => {
   const navigate = useNavigate();
 
   const handleComplete = () => {
-    navigate('/');
+    navigate('/dashboard');
   };
 
   return <OnboardingWizard onComplete={handleComplete} />;
