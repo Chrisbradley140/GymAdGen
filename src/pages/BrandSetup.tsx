@@ -142,10 +142,21 @@ const BrandSetup = () => {
                   </Button>
                 </>
               ) : (
-                <Button size="lg" onClick={handleEdit} className="px-6 py-2 text-base">
-                  <Edit className="w-5 h-5 mr-2" />
-                  Edit Info
-                </Button>
+                <>
+                  <Button 
+                    variant="outline" 
+                    size="lg"
+                    onClick={() => navigate('/onboarding')} 
+                    className="flex items-center gap-2 px-6 py-2 text-base"
+                  >
+                    <RefreshCw className="w-5 h-5" />
+                    Retake Onboarding Quiz
+                  </Button>
+                  <Button size="lg" onClick={handleEdit} className="px-6 py-2 text-base">
+                    <Edit className="w-5 h-5 mr-2" />
+                    Edit Info
+                  </Button>
+                </>
               )}
             </div>
           </div>
@@ -284,27 +295,6 @@ const BrandSetup = () => {
             </Collapsible>
           </Card>
 
-          {/* Action Buttons */}
-          <div className="flex justify-center gap-6 pt-8">
-            <Button 
-              variant="outline" 
-              size="lg"
-              onClick={() => navigate('/onboarding')} 
-              className="flex items-center gap-2 px-8 py-3 text-base"
-            >
-              <RefreshCw className="w-5 h-5" />
-              Retake Onboarding Quiz
-            </Button>
-            
-            <Button 
-              size="lg"
-              onClick={() => navigate('/generate')} 
-              className="flex items-center gap-2 px-8 py-3 text-base"
-            >
-              <Zap className="w-5 h-5" />
-              Regenerate Ads
-            </Button>
-          </div>
         </div>
       </div>
     </div>
