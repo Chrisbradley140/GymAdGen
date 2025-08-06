@@ -46,7 +46,7 @@ export function AppSidebar() {
   const isActivePath = (path: string) => location.pathname === path;
 
   return (
-    <Sidebar className="border-r border-border">
+    <Sidebar className="border-r border-border" collapsible="icon" variant="sidebar">
       <SidebarHeader className="border-b border-border p-6">
         <div className="flex items-center gap-3">
           <img 
