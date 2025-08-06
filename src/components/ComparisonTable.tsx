@@ -3,27 +3,27 @@ import { Check, X } from "lucide-react";
 const ComparisonTable = () => {
   const comparisonData = [
     {
-      oldWay: "Generic copywriting formulas that every coach uses",
-      newWay: "AI trained on $200M+ of real fitness ad data"
+      oldWay: "Wait weeks on an agency",
+      newWay: "Instant ads, made for you"
     },
     {
-      oldWay: "Trial and error with your ad budget", 
-      newWay: "Proven templates from 7-figure fitness businesses"
+      oldWay: "Copy & Paste Canva Ads", 
+      newWay: "Bold, original, on-brand ads"
     },
     {
-      oldWay: "Hiring expensive copywriters or agencies",
-      newWay: "Generate unlimited ads in 20 seconds"
+      oldWay: "£2k/month retainers",
+      newWay: "£39/month, cancel anytime"
     },
     {
-      oldWay: "ChatGPT generic responses for any industry",
-      newWay: "Purpose-built for fitness psychology & buyer behavior"
+      oldWay: "Zero ROAS tracking",
+      newWay: "Built-in performance tracking"
     },
     {
-      oldWay: "Months of A/B testing to find what works",
-      newWay: "Skip straight to the winners with proven frameworks"
+      oldWay: "Generic GPT tools",
+      newWay: "Trained on real fitness ad data"
     },
     {
-      oldWay: "Copying competitors and hoping for the best",
+      oldWay: "Waste precious time and money on sh*tty agencies",
       newWay: "Access to elite agency-level strategies & copy"
     }
   ];
@@ -79,7 +79,7 @@ const ComparisonTable = () => {
                 </div>
               ))}
               <div className="p-6 rounded-xl text-center" style={{ backgroundColor: '#00DD7B' }}>
-                <p className="font-bold text-lg" style={{ color: '#242229' }}>🥇 RECORD-BREAKING MONTHS AND PROFITS</p>
+                <p className="font-bold text-lg" style={{ color: '#242229' }}>🤑 RECORD-BREAKING MONTHS AND PROFITS</p>
               </div>
             </div>
           </div>
@@ -119,7 +119,7 @@ const ComparisonTable = () => {
               </div>
             ))}
             <div className="p-6 rounded-xl text-center" style={{ backgroundColor: '#00DD7B' }}>
-              <p className="font-bold text-lg" style={{ color: '#242229' }}>🥇 RECORD-BREAKING MONTHS AND PROFITS</p>
+              <p className="font-bold text-lg" style={{ color: '#242229' }}>🤑 RECORD-BREAKING MONTHS AND PROFITS</p>
             </div>
           </div>
         </div>
