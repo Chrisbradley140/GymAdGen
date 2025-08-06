@@ -141,7 +141,6 @@ const OnboardingWizard: React.FC<{ onComplete: () => void }> = ({ onComplete }) 
           user_id: user.id,
           step_completed: currentStep,
           ...data,
-          completed_at: currentStep === totalSteps ? new Date().toISOString() : null,
         });
 
       if (error) {
@@ -159,9 +158,44 @@ const OnboardingWizard: React.FC<{ onComplete: () => void }> = ({ onComplete }) 
     }
   };
 
+  const saveCompletedOnboarding = async () => {
+    if (!user) return;
+    
+    setLoading(true);
+    try {
+      const { error } = await supabase
+        .from('user_onboarding')
+        .upsert({
+          user_id: user.id,
+          step_completed: 6, // Explicitly set to 6 for completion
+          ...data,
+          completed_at: new Date().toISOString(),
+        });
+
+      if (error) {
+        console.error('Error saving completed onboarding data:', error);
+        toast({
+          title: "Error",
+          description: "Failed to complete onboarding. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Error saving completed onboarding data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleNext = async () => {
     setIsAnimating(true);
-    await saveProgress();
+    
+    // If this is the final step, mark as completed
+    if (currentStep === totalSteps) {
+      await saveCompletedOnboarding();
+    } else {
+      await saveProgress();
+    }
     
     setTimeout(() => {
       if (currentStep < totalSteps) {
