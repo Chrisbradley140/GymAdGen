@@ -45,7 +45,9 @@ const AdGenerator = () => {
           .from('user_onboarding')
           .select('step_completed')
           .eq('user_id', user.id)
-          .maybeSingle();
+          .order('updated_at', { ascending: false })
+          .limit(1)
+          .single();
 
         console.log('Onboarding query result:', { onboardingData, error });
 
