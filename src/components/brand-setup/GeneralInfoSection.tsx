@@ -29,15 +29,29 @@ export const GeneralInfoSection: React.FC<GeneralInfoSectionProps> = ({
     
     const colors = data.brand_colors.split(',').map(c => c.trim());
     return (
-      <div className="flex items-center gap-2 flex-wrap">
-        {colors.map((color, index) => (
-          <div
-            key={index}
-            className="w-8 h-8 rounded-lg border border-gray-200"
-            style={{ backgroundColor: color.startsWith('#') ? color : `#${color}` }}
-            title={color}
-          />
-        ))}
+      <div className="flex items-center gap-3 flex-wrap">
+        {colors.map((color, index) => {
+          // Handle both hex colors (#FF0000) and color names (red)
+          const isHex = color.startsWith('#');
+          const colorValue = isHex ? color : color.toLowerCase();
+          
+          return (
+            <div key={index} className="flex items-center gap-2">
+              <div
+                className="w-10 h-10 rounded-lg border-2 border-muted shadow-sm ring-1 ring-black/10"
+                style={{ 
+                  backgroundColor: isHex ? color : colorValue,
+                  // Fallback for invalid colors
+                  background: isHex ? color : `var(--${colorValue}, ${colorValue})`
+                }}
+                title={color}
+              />
+              <span className="text-xs text-muted-foreground font-mono">
+                {color}
+              </span>
+            </div>
+          );
+        })}
       </div>
     );
   };
@@ -105,10 +119,18 @@ export const GeneralInfoSection: React.FC<GeneralInfoSectionProps> = ({
         ) : (
           <div className="flex items-center gap-2">
             {data.logo_url ? (
-              <>
-                <Eye className="w-4 h-4" />
-                <span className="text-muted-foreground">{data.logo_url}</span>
-              </>
+              <div className="flex items-center gap-3">
+                <Eye className="w-4 h-4 text-primary" />
+                <a 
+                  href={data.logo_url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline cursor-pointer flex items-center gap-1"
+                >
+                  {data.logo_url}
+                  <span className="text-xs text-muted-foreground">(click to view)</span>
+                </a>
+              </div>
             ) : (
               <p className="text-muted-foreground">No logo uploaded</p>
             )}
@@ -125,11 +147,17 @@ export const GeneralInfoSection: React.FC<GeneralInfoSectionProps> = ({
             placeholder="#FF0000, #00FF00, #0000FF or Red, Green, Blue"
           />
         ) : (
-          <div className="flex items-center gap-4">
-            {renderBrandColors()}
-            <span className="text-sm text-muted-foreground">
-              {data.brand_colors || 'No colors specified'}
-            </span>
+          <div className="space-y-3">
+            {data.brand_colors ? (
+              <>
+                {renderBrandColors()}
+                <p className="text-sm text-muted-foreground">
+                  {data.brand_colors}
+                </p>
+              </>
+            ) : (
+              <p className="text-muted-foreground">No colors specified</p>
+            )}
           </div>
         )}
       </div>
