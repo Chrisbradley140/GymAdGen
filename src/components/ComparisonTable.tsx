@@ -63,7 +63,7 @@ const ComparisonTable = () => {
                 </div>
               ))}
               {/* Arrow pointing down */}
-              <div className="flex justify-center py-4 relative z-10">
+              <div className="flex justify-center relative z-10">
                 <ArrowDown className="w-8 h-8" style={{ color: '#FF5440' }} />
               </div>
               <div className="p-6 rounded-xl text-center w-[85%] max-w-xs mx-auto relative z-10" style={{ backgroundColor: '#FF5440' }}>
@@ -85,7 +85,7 @@ const ComparisonTable = () => {
                 </div>
               ))}
               {/* Arrow pointing down */}
-              <div className="flex justify-center py-4 relative z-10">
+              <div className="flex justify-center relative z-10">
                 <ArrowDown className="w-8 h-8" style={{ color: '#00DD7B' }} />
               </div>
               <div className="p-6 rounded-xl text-center w-[85%] max-w-xs mx-auto relative z-10" style={{ backgroundColor: '#00DD7B' }}>
@@ -111,7 +111,7 @@ const ComparisonTable = () => {
               </div>
             ))}
             {/* Arrow pointing down */}
-            <div className="flex justify-center py-4 relative z-10">
+            <div className="flex justify-center relative z-10">
               <ArrowDown className="w-8 h-8" style={{ color: '#FF5440' }} />
             </div>
             <div className="p-6 rounded-xl text-center w-[85%] max-w-xs mx-auto relative z-10" style={{ backgroundColor: '#FF5440' }}>
@@ -133,7 +133,7 @@ const ComparisonTable = () => {
               </div>
             ))}
             {/* Arrow pointing down */}
-            <div className="flex justify-center py-4 relative z-10">
+            <div className="flex justify-center relative z-10">
               <ArrowDown className="w-8 h-8" style={{ color: '#00DD7B' }} />
             </div>
             <div className="p-6 rounded-xl text-center w-[85%] max-w-xs mx-auto relative z-10" style={{ backgroundColor: '#00DD7B' }}>
