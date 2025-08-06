@@ -23,7 +23,10 @@ serve(async (req) => {
       throw new Error('OpenAI API key not configured');
     }
 
-    const prompt = `
+    const websiteContext = brandData.website_url ? 
+      `\nHomepage URL: ${brandData.website_url}\n\nScan this homepage and extract the brand's unique selling points (USP), tone of voice, and positioning. Use these insights to shape the ad copy tone and style. If you cannot extract useful information from this URL, fall back to the brand data provided below.\n` : '';
+
+    const prompt = `${websiteContext}
 Brand: ${brandData.business_name}
 Target Market: ${brandData.target_market}
 Voice & Tone: ${brandData.voice_tone_style}
@@ -46,7 +49,7 @@ ${systemPrompt}
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4o',
+        model: 'gpt-4.1-2025-04-14',
         messages: [
           { 
             role: 'system', 
