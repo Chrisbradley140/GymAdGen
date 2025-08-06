@@ -23,7 +23,7 @@ const StepFour: React.FC<StepFourProps> = ({ data, updateData }) => {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="instagram_reel_url">Instagram Reel URL (Optional)</Label>
+        <Label htmlFor="instagram_reel_url">Instagram Reel URL</Label>
         <Input
           id="instagram_reel_url"
           type="url"
@@ -51,20 +51,6 @@ const StepFour: React.FC<StepFourProps> = ({ data, updateData }) => {
         </p>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="competitor_urls">Competitor URLs or "Ads That Worked" (Optional)</Label>
-        <Textarea
-          id="competitor_urls"
-          value={data.competitor_urls}
-          onChange={(e) => updateData({ competitor_urls: e.target.value })}
-          placeholder="Enter URLs of competitor ads or successful ads, one per line"
-          rows={4}
-          className="w-full"
-        />
-        <p className="text-sm text-muted-foreground">
-          Help us understand what works in your industry
-        </p>
-      </div>
     </div>
   );
 };

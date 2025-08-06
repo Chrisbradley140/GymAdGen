@@ -207,7 +207,7 @@ const OnboardingWizard: React.FC<{ onComplete: () => void }> = ({ onComplete }) 
 
   const canProceed = () => {
     switch (currentStep) {
-      case 1: return data.business_name.trim() !== '';
+      case 1: return data.business_name.trim() !== '' && data.website_url.trim() !== '';
       case 2: 
         return data.brand_colors.trim() !== '' && 
                data.target_market.trim() !== '' && 
