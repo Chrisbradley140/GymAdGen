@@ -208,6 +208,18 @@ const OnboardingWizard: React.FC<{ onComplete: () => void }> = ({ onComplete }) 
   const canProceed = () => {
     switch (currentStep) {
       case 1: return data.business_name.trim() !== '';
+      case 2: 
+        return data.brand_colors.trim() !== '' && 
+               data.target_market.trim() !== '' && 
+               data.voice_tone_style.trim() !== '';
+      case 3: 
+        return data.offer_type.trim() !== '' && 
+               data.campaign_types.length > 0;
+      case 4: 
+        return data.instagram_reel_url.trim() !== '';
+      case 5: 
+        return data.brand_words.trim() !== '' && 
+               data.words_to_avoid.trim() !== '';
       case 6: 
         return data.main_problem.trim() !== '' && 
                data.failed_solutions.trim() !== '' && 
