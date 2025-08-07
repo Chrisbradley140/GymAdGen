@@ -74,11 +74,12 @@ const stepSubtitles = [
   'Understand your customer\'s mindset'
 ];
 
-const OnboardingWizard: React.FC<{ onComplete: () => void; forceRestart?: boolean }> = ({ onComplete, forceRestart = false }) => {
+const OnboardingWizard: React.FC<{ onComplete: () => void; forceRestart?: boolean; onCancel?: () => void }> = ({ onComplete, forceRestart = false, onCancel }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [data, setData] = useState<OnboardingData>(initialData);
   const [loading, setLoading] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [hasExistingData, setHasExistingData] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
 
@@ -103,28 +104,32 @@ const OnboardingWizard: React.FC<{ onComplete: () => void; forceRestart?: boolea
         return;
       }
 
-      if (existingData && !forceRestart) {
-        setData({
-          business_name: existingData.business_name || '',
-          logo_url: existingData.logo_url || '',
-          website_url: existingData.website_url || '',
-          brand_colors: existingData.brand_colors || '',
-          target_market: existingData.target_market || '',
-          voice_tone_style: existingData.voice_tone_style || '',
-          offer_type: existingData.offer_type || '',
-          campaign_types: existingData.campaign_types || [],
-          seasonal_launch_options: existingData.seasonal_launch_options || [],
-          instagram_reel_url: existingData.instagram_reel_url || '',
-          meta_account: existingData.meta_account || '',
-          competitor_urls: existingData.competitor_urls || '',
-          brand_words: existingData.brand_words || '',
-          words_to_avoid: existingData.words_to_avoid || '',
-          main_problem: existingData.main_problem || '',
-          failed_solutions: existingData.failed_solutions || '',
-          client_words: existingData.client_words || '',
-          magic_wand_result: existingData.magic_wand_result || '',
-        });
-        setCurrentStep(existingData.step_completed + 1);
+      if (existingData) {
+        setHasExistingData(true);
+        
+        if (!forceRestart) {
+          setData({
+            business_name: existingData.business_name || '',
+            logo_url: existingData.logo_url || '',
+            website_url: existingData.website_url || '',
+            brand_colors: existingData.brand_colors || '',
+            target_market: existingData.target_market || '',
+            voice_tone_style: existingData.voice_tone_style || '',
+            offer_type: existingData.offer_type || '',
+            campaign_types: existingData.campaign_types || [],
+            seasonal_launch_options: existingData.seasonal_launch_options || [],
+            instagram_reel_url: existingData.instagram_reel_url || '',
+            meta_account: existingData.meta_account || '',
+            competitor_urls: existingData.competitor_urls || '',
+            brand_words: existingData.brand_words || '',
+            words_to_avoid: existingData.words_to_avoid || '',
+            main_problem: existingData.main_problem || '',
+            failed_solutions: existingData.failed_solutions || '',
+            client_words: existingData.client_words || '',
+            magic_wand_result: existingData.magic_wand_result || '',
+          });
+          setCurrentStep(existingData.step_completed + 1);
+        }
       }
     } catch (error) {
       console.error('Error loading onboarding data:', error);
@@ -328,14 +333,25 @@ const OnboardingWizard: React.FC<{ onComplete: () => void; forceRestart?: boolea
 
           {/* Navigation */}
           <div className="flex justify-between items-center mt-8">
-            <button
-              onClick={handleBack}
-              disabled={currentStep === 1}
-              className="flex items-center gap-2 px-6 py-3 text-white/70 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <ChevronLeft className="w-5 h-5" />
-              Back
-            </button>
+            <div className="flex items-center gap-4">
+              <button
+                onClick={handleBack}
+                disabled={currentStep === 1}
+                className="flex items-center gap-2 px-6 py-3 text-white/70 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <ChevronLeft className="w-5 h-5" />
+                Back
+              </button>
+              
+              {hasExistingData && forceRestart && onCancel && (
+                <button
+                  onClick={onCancel}
+                  className="flex items-center gap-2 px-6 py-3 text-white/70 hover:text-white transition-colors"
+                >
+                  Cancel Quiz
+                </button>
+              )}
+            </div>
 
             <button
               onClick={handleNext}

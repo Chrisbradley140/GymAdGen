@@ -12,7 +12,11 @@ const Onboarding = () => {
     navigate('/dashboard');
   };
 
-  return <OnboardingWizard onComplete={handleComplete} forceRestart={forceRestart} />;
+  const handleCancel = () => {
+    navigate('/brand-setup');
+  };
+
+  return <OnboardingWizard onComplete={handleComplete} forceRestart={forceRestart} onCancel={handleCancel} />;
 };
 
 export default Onboarding;
