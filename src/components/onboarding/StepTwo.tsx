@@ -15,14 +15,25 @@ interface StepTwoProps {
 
 const StepTwo: React.FC<StepTwoProps> = ({ data, updateData }) => {
   const targetMarkets = [
-    "Fitness Enthusiasts",
+    "General Population (Fat Loss & Fitness)",
     "Busy Professionals",
-    "New Moms",
-    "Seniors",
-    "Athletes",
-    "Weight Loss Seekers",
-    "Bodybuilders",
-    "Yoga Practitioners",
+    "Parents / Mums / Dads",
+    "Men Over 30",
+    "Women Over 30",
+    "Menopause / Perimenopause",
+    "Pre/Postnatal Women",
+    "Beginners (New to Fitness)",
+    "Advanced Lifters / Athletes",
+    "People with Injuries / Rehab Clients",
+    "Over 40s / Over 50s",
+    "Transformation Seekers (6–12 Week Programs)",
+    "Strength & Performance Clients",
+    "Body Confidence / Mental Health Focus",
+    "Time-Poor / At-Home Clients",
+    "LGBTQ+ Inclusive Fitness",
+    "Wedding / Holiday Shred Clients",
+    "Ex-Gym Members Returning After a Break",
+    "Local Community Members (Geo-Specific)",
     "Other"
   ];
 
