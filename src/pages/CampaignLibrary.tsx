@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Library, Zap } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import CampaignCard from "@/components/campaign-library/CampaignCard";
-import CampaignFilters from "@/components/campaign-library/CampaignFilters";
+import { Input } from "@/components/ui/input";
 import CampaignDetailView from "@/components/campaign-library/CampaignDetailView";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
@@ -29,10 +29,6 @@ const CampaignLibrary = () => {
 
   // Filter state
   const [search, setSearch] = useState("");
-  const [dateFrom, setDateFrom] = useState<Date>();
-  const [dateTo, setDateTo] = useState<Date>();
-  const [offerType, setOfferType] = useState("all");
-  const [toneStyle, setToneStyle] = useState("all");
 
   // Check onboarding and load campaigns
   useEffect(() => {
@@ -62,22 +58,18 @@ const CampaignLibrary = () => {
   const loadCampaigns = async () => {
     const filters = {
       search: search || undefined,
-      dateFrom: dateFrom?.toISOString(),
-      dateTo: dateTo?.toISOString(),
-      offerType: offerType !== "all" ? offerType : undefined,
-      toneStyle: toneStyle !== "all" ? toneStyle : undefined,
     };
 
     const campaignData = await getCampaigns(filters);
     setCampaigns(campaignData);
   };
 
-  // Reload campaigns when filters change
+  // Reload campaigns when search changes
   useEffect(() => {
     if (isOnboardingComplete) {
       loadCampaigns();
     }
-  }, [search, dateFrom, dateTo, offerType, toneStyle, isOnboardingComplete]);
+  }, [search, isOnboardingComplete]);
 
   const handleViewDetails = async (campaign: Campaign) => {
     const campaignWithContent = await getCampaignWithContent(campaign.id);
@@ -119,12 +111,8 @@ const CampaignLibrary = () => {
     });
   };
 
-  const clearFilters = () => {
+  const clearSearch = () => {
     setSearch("");
-    setDateFrom(undefined);
-    setDateTo(undefined);
-    setOfferType("all");
-    setToneStyle("all");
   };
 
   if (loading) {
@@ -166,21 +154,15 @@ const CampaignLibrary = () => {
           </p>
         </div>
 
-        {/* Filters */}
+        {/* Search */}
         <div className="mb-6">
-          <CampaignFilters
-            search={search}
-            onSearchChange={setSearch}
-            dateFrom={dateFrom}
-            dateTo={dateTo}
-            onDateFromChange={setDateFrom}
-            onDateToChange={setDateTo}
-            offerType={offerType}
-            onOfferTypeChange={setOfferType}
-            toneStyle={toneStyle}
-            onToneStyleChange={setToneStyle}
-            onClearFilters={clearFilters}
-          />
+          <div className="max-w-md">
+            <Input
+              placeholder="Search campaigns..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
         </div>
 
         {/* Loading State */}

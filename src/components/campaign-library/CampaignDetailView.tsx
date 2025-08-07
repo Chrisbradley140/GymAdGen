@@ -110,12 +110,6 @@ const CampaignDetailView = ({
                 {campaign.description || "Campaign details and generated content"}
               </p>
               <div className="flex gap-2 mt-2">
-                {campaign.offer_type && (
-                  <Badge variant="outline">{campaign.offer_type}</Badge>
-                )}
-                {campaign.tone_style && (
-                  <Badge variant="secondary">{campaign.tone_style}</Badge>
-                )}
                 <Badge variant="outline">
                   Created {formatDistanceToNow(new Date(campaign.created_at), { addSuffix: true })}
                 </Badge>

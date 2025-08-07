@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+
 import { Eye, Trash2 } from "lucide-react";
 import { Campaign } from "@/hooks/useCampaigns";
 import { formatDistanceToNow } from "date-fns";
@@ -23,14 +23,6 @@ const CampaignCard = ({ campaign, onViewDetails, onDelete }: CampaignCardProps) 
             <CardDescription className="mt-1">
               {campaign.description || "No description provided"}
             </CardDescription>
-          </div>
-          <div className="flex gap-2">
-            {campaign.offer_type && (
-              <Badge variant="outline">{campaign.offer_type}</Badge>
-            )}
-            {campaign.tone_style && (
-              <Badge variant="secondary">{campaign.tone_style}</Badge>
-            )}
           </div>
         </div>
       </CardHeader>
