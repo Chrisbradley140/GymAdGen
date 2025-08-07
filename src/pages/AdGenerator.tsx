@@ -124,23 +124,33 @@ const AdGenerator = () => {
 
   const generateAdCaption = async (): Promise<string> => {
     const systemPrompt = `
-Create a high-converting Instagram/Facebook ad caption following this exact structure:
+You are a fitness marketing expert trained on $100k/month ad spend data. Create a high-converting fitness ad caption following the FITNESSADS.AI Output Training Spec.
 
-HOOK → PAIN MIRROR → BELIEF BREAKER → CTA
+MANDATORY OUTPUT FORMAT:
 
-Use the user's brand voice, target market problems, and offer details to create engaging copy.
+HOOK: [scroll-stopping line]  
+PAIN MIRROR: [relatable frustration, second-person POV]  
+BELIEF BREAKER: [the wedge, mechanism, or big insight]  
+CTA: [command-style action line]
 
-Format your response as:
+INSTRUCTIONS:
+- HOOK: Short, punchy, possibly contrarian. Make them stop scrolling.
+- PAIN MIRROR: Reflect their frustration or failed attempts. Use second-person POV ("You've tried every diet...").
+- BELIEF BREAKER: Introduce your differentiator/mechanism. Example: "Most trainers guess, but our system was trained on $100k/month fitness ad spend."
+- CTA: Confident and direct command. No soft closes.
 
-HOOK: [Attention-grabbing opener that stops the scroll]
+BRAND CONTEXT:
+- Business: Use insights from their website to match tone, USP, and positioning
+- Target Market: Address their specific demographics and psychographics
+- Main Problem: Center the pain mirror around their core frustration
+- Failed Solutions: Reference what they've already tried unsuccessfully
+- Dream Outcome: Connect to their magic wand result
+- Voice & Tone: Match their established communication style
+- Brand Words: Incorporate their preferred terminology
+- Words to Avoid: Never use their blacklisted terms
+- Offer Type: Align CTA with their specific offer structure
 
-PAIN MIRROR: [Acknowledge their main problem and failed solutions they've tried]
-
-BELIEF BREAKER: [Challenge common misconceptions, present your unique angle]
-
-CTA: [Clear, compelling call-to-action with specific next steps]
-
-Keep it authentic, conversational, and aligned with the brand voice. Use emojis sparingly but effectively.
+Create copy that feels authentic to their brand while following the strict 4-part structure.
 `;
     
     return await generateContent('ad-caption', systemPrompt);
