@@ -26,7 +26,6 @@ const CampaignLibrary = () => {
   const [selectedCampaign, setSelectedCampaign] = useState<CampaignWithContent | null>(null);
   const [showDetailView, setShowDetailView] = useState(false);
   const [isOnboardingComplete, setIsOnboardingComplete] = useState(false);
-  const [isLoadingDetails, setIsLoadingDetails] = useState(false);
 
   // Filter state
   const [search, setSearch] = useState("");
@@ -81,28 +80,10 @@ const CampaignLibrary = () => {
   }, [search, dateFrom, dateTo, offerType, toneStyle, isOnboardingComplete]);
 
   const handleViewDetails = async (campaign: Campaign) => {
-    try {
-      setIsLoadingDetails(true);
-      const campaignWithContent = await getCampaignWithContent(campaign.id);
-      if (campaignWithContent) {
-        setSelectedCampaign(campaignWithContent);
-        setShowDetailView(true);
-      } else {
-        toast({
-          title: "Error",
-          description: "Failed to load campaign details. Please try again.",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error('Error loading campaign details:', error);
-      toast({
-        title: "Error",
-        description: "Failed to load campaign details. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoadingDetails(false);
+    const campaignWithContent = await getCampaignWithContent(campaign.id);
+    if (campaignWithContent) {
+      setSelectedCampaign(campaignWithContent);
+      setShowDetailView(true);
     }
   };
 
@@ -206,14 +187,14 @@ const CampaignLibrary = () => {
         </div>
 
         {/* Loading State */}
-        {(isLoading || isLoadingDetails) && (
+        {isLoading && (
           <div className="flex justify-center py-8">
             <LoadingSpinner />
           </div>
         )}
 
         {/* Campaigns Grid */}
-        {!isLoading && !isLoadingDetails && campaigns.length > 0 && (
+        {!isLoading && campaigns.length > 0 && (
           <div className="grid gap-6">
             {campaigns.map((campaign) => (
               <CampaignCard
@@ -228,7 +209,7 @@ const CampaignLibrary = () => {
         )}
 
         {/* Empty State */}
-        {!isLoading && !isLoadingDetails && campaigns.length === 0 && (
+        {!isLoading && campaigns.length === 0 && (
           <Card className="text-center py-12">
             <CardContent>
               <Library className="w-16 h-16 mx-auto mb-4 opacity-50" />
