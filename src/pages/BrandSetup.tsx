@@ -108,7 +108,7 @@ const BrandSetup = () => {
   if (!currentData) return null;
 
   return (
-    <div className="min-h-screen bg-background relative">
+    <div className="min-h-screen bg-background">
       <div className="container px-4 py-12">
         <div className="mb-12">
           <div className="flex justify-between items-start mb-6">
@@ -142,10 +142,21 @@ const BrandSetup = () => {
                   </Button>
                 </>
               ) : (
-                <Button size="lg" onClick={handleEdit} className="px-6 py-2 text-base">
-                  <Edit className="w-5 h-5 mr-2" />
-                  Edit Info
-                </Button>
+                <>
+                  <Button 
+                    variant="outline" 
+                    size="lg"
+                    onClick={() => navigate('/onboarding')} 
+                    className="flex items-center gap-2 px-6 py-2 text-base"
+                  >
+                    <RefreshCw className="w-5 h-5" />
+                    Retake Onboarding Quiz
+                  </Button>
+                  <Button size="lg" onClick={handleEdit} className="px-6 py-2 text-base">
+                    <Edit className="w-5 h-5 mr-2" />
+                    Edit Info
+                  </Button>
+                </>
               )}
             </div>
           </div>
@@ -286,21 +297,6 @@ const BrandSetup = () => {
 
         </div>
       </div>
-      
-      {/* Retake Onboarding Button - Fixed position at bottom left */}
-      {!isEditing && (
-        <div className="fixed bottom-8 left-8 z-10">
-          <Button 
-            variant="outline" 
-            size="lg"
-            onClick={() => navigate('/onboarding')} 
-            className="flex items-center gap-2 px-6 py-2 text-base shadow-lg"
-          >
-            <RefreshCw className="w-5 h-5" />
-            Retake Onboarding Quiz
-          </Button>
-        </div>
-      )}
     </div>
   );
 };
