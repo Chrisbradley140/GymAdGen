@@ -18,7 +18,7 @@ const StepFour: React.FC<StepFourProps> = ({ data, updateData }) => {
     <div className="space-y-6">
 
       <div className="space-y-2">
-        <Label htmlFor="instagram_reel_url">Instagram Reel URL</Label>
+        <Label htmlFor="instagram_reel_url">Add the URL of your favourite speaking to the camera/talking head style reel</Label>
         <Input
           id="instagram_reel_url"
           type="url"
@@ -28,12 +28,12 @@ const StepFour: React.FC<StepFourProps> = ({ data, updateData }) => {
           className="w-full"
         />
         <p className="text-sm text-muted-foreground">
-          For tone scanning and style analysis
+          For scanning your tone and generating ads in your voice
         </p>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="meta_account">Meta Account (Optional)</Label>
+        <Label htmlFor="meta_account">Your instagram/Tik Tok/Facebook @</Label>
         <Input
           id="meta_account"
           value={data.meta_account}
@@ -42,7 +42,7 @@ const StepFour: React.FC<StepFourProps> = ({ data, updateData }) => {
           className="w-full"
         />
         <p className="text-sm text-muted-foreground">
-          Your Facebook or Instagram handle
+          I suggest adding your strongest platform
         </p>
       </div>
 
