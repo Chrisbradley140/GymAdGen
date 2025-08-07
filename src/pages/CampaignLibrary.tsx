@@ -87,9 +87,6 @@ const CampaignLibrary = () => {
     }
   };
 
-  const handleRegenerate = (campaign: Campaign) => {
-    navigate('/generate', { state: { campaignId: campaign.id } });
-  };
 
   const handleDelete = async (campaignId: string) => {
     const success = await deleteCampaign(campaignId);
@@ -201,7 +198,6 @@ const CampaignLibrary = () => {
                 key={campaign.id}
                 campaign={campaign}
                 onViewDetails={handleViewDetails}
-                onRegenerate={handleRegenerate}
                 onDelete={handleDelete}
               />
             ))}

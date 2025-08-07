@@ -1,18 +1,17 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Eye, RefreshCw, Trash2 } from "lucide-react";
+import { Eye, Trash2 } from "lucide-react";
 import { Campaign } from "@/hooks/useCampaigns";
 import { formatDistanceToNow } from "date-fns";
 
 interface CampaignCardProps {
   campaign: Campaign;
   onViewDetails: (campaign: Campaign) => void;
-  onRegenerate: (campaign: Campaign) => void;
   onDelete: (campaignId: string) => void;
 }
 
-const CampaignCard = ({ campaign, onViewDetails, onRegenerate, onDelete }: CampaignCardProps) => {
+const CampaignCard = ({ campaign, onViewDetails, onDelete }: CampaignCardProps) => {
   const formattedDate = formatDistanceToNow(new Date(campaign.created_at), { addSuffix: true });
 
   return (
@@ -44,10 +43,6 @@ const CampaignCard = ({ campaign, onViewDetails, onRegenerate, onDelete }: Campa
             <Button variant="outline" size="sm" onClick={() => onViewDetails(campaign)}>
               <Eye className="w-4 h-4 mr-1" />
               View Details
-            </Button>
-            <Button variant="outline" size="sm" onClick={() => onRegenerate(campaign)}>
-              <RefreshCw className="w-4 h-4 mr-1" />
-              Regenerate
             </Button>
             <Button 
               variant="outline" 
