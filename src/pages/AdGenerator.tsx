@@ -159,41 +159,53 @@ Create copy that feels authentic to their brand while following the strict 4-par
   const generateHeadlineOptions = async (): Promise<string> => {
     const voiceTone = brandData?.voice_tone_style || 'Bold';
     
-    // Voice tone style conditioning
+    // Enhanced voice tone patterns for fitness marketing
     const voicePatterns = {
-      'Bold': 'Use direct, confident, commanding language. Examples: "Stop Making This Mistake", "The Truth About...", "Here\'s What Works"',
-      'Playful': 'Use fun, cheeky, conversational language. Examples: "Oops! You\'re Doing It Wrong", "Plot Twist...", "Nobody Told You This"',
-      'Premium': 'Use sophisticated, exclusive, high-value language. Examples: "The Elite Method", "Exclusive Access...", "Reserved for Members Only"',
-      'Aggressive': 'Use intense, urgent, confrontational language. Examples: "Enough Excuses", "Time\'s Running Out", "Last Warning"'
+      'Bold': 'Direct, commanding, no-nonsense. Examples: "Drop 15lbs in 8 weeks", "Build muscle after 40", "Transform in 12 weeks without cardio"',
+      'Playful': 'Cheeky, fun, conversational but still results-focused. Examples: "The lazy way to six-pack abs", "Cheat your way to 15% body fat", "Skip cardio, keep curves"', 
+      'Premium': 'Exclusive, sophisticated, high-value positioning. Examples: "Elite transformation protocol", "Executive body recomp system", "VIP metabolism reset method"',
+      'Aggressive': 'Intense, urgent, confrontational with deadlines. Examples: "Drop 2 dress sizes by summer", "Burn fat faster than ever", "Destroy your plateau in 30 days"'
     };
 
-    const systemPrompt = `You are an elite fitness marketer with 10+ years creating high-converting headlines for transformation programs, personal trainers, and fitness brands.
+    const systemPrompt = `You are an elite fitness marketer who has generated millions in revenue from transformation programs. Create 3-5 scroll-stopping headlines that would make fitness professionals rich.
 
 VOICE TONE: ${voiceTone}
 ${voicePatterns[voiceTone as keyof typeof voicePatterns]}
 
-Create 5 headline options that sound like they were written by a seasoned fitness industry insider - NOT generic AI copy.
+🚫 STRICT PROHIBITIONS (NEVER USE):
+- "Feel better", "More energy", "What if..."
+- "Sound familiar?", "Let's be real", "Struggling with..."
+- Soft rhetorical questions or Canva-style inspiration
+- Em dashes (—) or double hyphens (--)
+- Vague wellness language
+- Generic GPT phrases
 
-MANDATORY PROVEN ANGLES (use 1-2 per headline):
-- FRUSTRATION: Target specific fitness plateaus, slow results, confusing advice
-- BELIEF BREAKER: Challenge fitness myths ("cardio for fat loss", "spot reduction", "no pain no gain")
-- URGENCY: Summer body deadlines, wedding prep, age-related metabolism changes
+✅ MANDATORY REQUIREMENTS (EVERY HEADLINE MUST HAVE):
+- Specific numbers (timeframes, weight loss, body fat %)
+- Direct outcomes ("lose X lbs", "build X muscle", "drop X sizes")
+- Wedges/differentiators ("without cardio", "without meal plans", "without gym")
+- Second-person direct address ("you", "your")
+- 60-70 characters max (campaign-worthy length)
 
-FITNESS MARKETER LANGUAGE RULES:
-- Use insider terms: "plateau", "body recomp", "metabolic damage", "training age"
-- Reference real struggles: stubborn belly fat, muscle confusion, calorie cycling fails
-- Include transformation timeframes: "30-day", "12-week", "summer ready"
-- Use fitness-specific pain points: scales lying, clothes not fitting, energy crashes
+🎯 PROVEN ANGLES TO INCORPORATE:
+- FRUSTRATION: Plateaus, slow results, confusing advice, failed diets
+- BELIEF BREAKER: Challenge myths about cardio, spot reduction, extreme dieting
+- URGENCY: Summer deadlines, wedding prep, metabolism slowing with age
 
-FORMAT: Numbered list, each headline under 40 characters, conversion-focused with built-in urgency.
+FITNESS INSIDER LANGUAGE:
+- Transformation timeframes: "30-day", "12-week", "90-day"
+- Body composition terms: "body recomp", "lean muscle", "stubborn fat"
+- Real pain points: "plateau", "skinny fat", "metabolic damage"
+- Differentiators: "without cardio", "eating pizza", "20 minutes"
 
-1. [Headline]
-2. [Headline]
-3. [Headline]
-4. [Headline]
-5. [Headline]
+FORMAT EXAMPLE:
+1. Drop 15lbs in 8 weeks without cardio
+2. Build muscle after 40 (even with bad knees)  
+3. The 20-minute method busy moms use to lose belly fat
+4. How Sarah lost 25lbs eating pizza twice a week
+5. Transform your body in 90 days (no gym required)
 
-Write like a fitness marketer who's actually transformed thousands of bodies - not like ChatGPT.`;
+Create headlines that fitness professionals would pay thousands for because they convert browsers into buyers.`;
 
     return await generateContent('headline-options', systemPrompt);
   };
