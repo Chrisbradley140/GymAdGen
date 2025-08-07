@@ -213,7 +213,7 @@ const BrandSetup = () => {
                     </div>
                   </CardTitle>
                   <CardDescription className="text-base pl-11">
-                    Target market, offer type, and campaign preferences
+                    Offer type and campaign preferences
                   </CardDescription>
                 </CardHeader>
               </CollapsibleTrigger>
@@ -279,7 +279,7 @@ const BrandSetup = () => {
                     </div>
                   </CardTitle>
                   <CardDescription className="text-base pl-11">
-                    Customer pain points, failed attempts, and desired outcomes
+                    Target market, customer pain points, failed attempts, and desired outcomes
                   </CardDescription>
                 </CardHeader>
               </CollapsibleTrigger>

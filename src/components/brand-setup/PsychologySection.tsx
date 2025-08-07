@@ -1,6 +1,7 @@
 
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { OnboardingData } from "@/hooks/useBrandSetup";
 
 interface PsychologySectionProps {
@@ -14,8 +15,52 @@ export const PsychologySection: React.FC<PsychologySectionProps> = ({
   isEditing, 
   onUpdate 
 }) => {
+  const targetMarkets = [
+    "General Population (Fat Loss & Fitness)",
+    "Busy Professionals",
+    "Parents / Mums / Dads",
+    "Men Over 30",
+    "Women Over 30",
+    "Menopause / Perimenopause",
+    "Pre/Postnatal Women",
+    "Beginners (New to Fitness)",
+    "Advanced Lifters / Athletes",
+    "People with Injuries / Rehab Clients",
+    "Over 40s / Over 50s",
+    "Transformation Seekers (6–12 Week Programs)",
+    "Strength & Performance Clients",
+    "Body Confidence / Mental Health Focus",
+    "Time-Poor / At-Home Clients",
+    "LGBTQ+ Inclusive Fitness",
+    "Wedding / Holiday Shred Clients",
+    "Ex-Gym Members Returning After a Break",
+    "Local Community Members (Geo-Specific)",
+    "Other"
+  ];
   return (
-    <div className="space-y-6">
+  <div className="space-y-6">
+      <div className="space-y-2">
+        <Label>Target Market</Label>
+        {isEditing ? (
+          <Select 
+            value={data.target_market}
+            onValueChange={(value) => onUpdate('target_market', value)}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select your target market" />
+            </SelectTrigger>
+            <SelectContent>
+              {targetMarkets.map((market) => (
+                <SelectItem key={market} value={market}>
+                  {market}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        ) : (
+          <p className="text-muted-foreground">{data.target_market || 'Not specified'}</p>
+        )}
+      </div>
       <div className="space-y-2">
         <Label>What's the #1 problem you solve?</Label>
         {isEditing ? (
