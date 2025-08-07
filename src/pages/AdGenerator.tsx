@@ -312,28 +312,6 @@ Make them engaging, clear, and easy to execute with common props/settings.
             placeholder="Your creative visual prompts will appear here..."
           />
         </div>
-
-        {/* Future Features Placeholder */}
-        <div className="mt-16 text-center">
-          <Card className="max-w-2xl mx-auto border-dashed border-2 border-muted-foreground/20">
-            <CardHeader>
-              <CardTitle className="text-muted-foreground">Coming Soon</CardTitle>
-              <CardDescription>
-                Export to PDF, Campaign Library, and more advanced features are in development
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex justify-center gap-4">
-                <Button variant="outline" disabled>
-                  Export PDF
-                </Button>
-                <Button variant="outline" onClick={() => navigate('/library')}>
-                  View Library
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
       </div>
     </div>
   );
