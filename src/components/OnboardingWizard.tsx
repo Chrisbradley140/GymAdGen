@@ -32,6 +32,7 @@ interface OnboardingData {
   failed_solutions: string;
   client_words: string;
   magic_wand_result: string;
+  website_tone_scan?: string;
 }
 
 const initialData: OnboardingData = {
@@ -154,10 +155,32 @@ const OnboardingWizard: React.FC<{ onComplete: () => void }> = ({ onComplete }) 
           variant: "destructive",
         });
       }
+
+      // Trigger website analysis in background after Step 1 completion
+      if (currentStep === 1 && data.website_url) {
+        triggerWebsiteAnalysis();
+      }
     } catch (error) {
       console.error('Error saving onboarding data:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const triggerWebsiteAnalysis = async () => {
+    if (!user || !data.website_url) return;
+    
+    try {
+      console.log('Triggering website tone analysis...');
+      await supabase.functions.invoke('analyze-website-tone', {
+        body: {
+          website_url: data.website_url,
+          user_id: user.id
+        }
+      });
+    } catch (error) {
+      console.error('Website analysis failed:', error);
+      // Fail silently - this is a background enhancement
     }
   };
 

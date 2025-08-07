@@ -95,6 +95,7 @@ export type Database = {
           updated_at: string
           user_id: string
           voice_tone_style: string | null
+          website_tone_scan: string | null
           website_url: string | null
           words_to_avoid: string | null
         }
@@ -121,6 +122,7 @@ export type Database = {
           updated_at?: string
           user_id: string
           voice_tone_style?: string | null
+          website_tone_scan?: string | null
           website_url?: string | null
           words_to_avoid?: string | null
         }
@@ -147,6 +149,7 @@ export type Database = {
           updated_at?: string
           user_id?: string
           voice_tone_style?: string | null
+          website_tone_scan?: string | null
           website_url?: string | null
           words_to_avoid?: string | null
         }

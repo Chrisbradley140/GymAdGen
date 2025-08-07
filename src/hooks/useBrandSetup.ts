@@ -24,6 +24,7 @@ export interface OnboardingData {
   failed_solutions: string;
   client_words: string;
   magic_wand_result: string;
+  website_tone_scan?: string;
 }
 
 export const useBrandSetup = () => {
@@ -81,7 +82,8 @@ export const useBrandSetup = () => {
           main_problem: onboardingData.main_problem || '',
           failed_solutions: onboardingData.failed_solutions || '',
           client_words: onboardingData.client_words || '',
-          magic_wand_result: onboardingData.magic_wand_result || ''
+          magic_wand_result: onboardingData.magic_wand_result || '',
+          website_tone_scan: onboardingData.website_tone_scan || ''
         });
       } else {
         console.log('No onboarding data found for user');
