@@ -113,7 +113,7 @@ const Account = () => {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-12">
         <div className="mb-12">
-          <h1 className="text-4xl font-bold mb-4 text-gradient">Account Settings</h1>
+          <h1 className="text-4xl font-klein font-extrabold text-white mb-4">Account Settings</h1>
           <p className="text-lg text-muted-foreground">
             Manage your profile and account preferences
           </p>

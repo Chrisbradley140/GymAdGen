@@ -113,7 +113,7 @@ const BrandSetup = () => {
         <div className="mb-12">
           <div className="flex justify-between items-start mb-6">
             <div>
-              <h1 className="text-4xl font-bold mb-4 text-gradient">Brand Setup</h1>
+              <h1 className="text-4xl font-klein font-extrabold text-white mb-4">Brand Setup</h1>
               <p className="text-xl text-muted-foreground">
                 View and update your brand settings to improve ad personalization
               </p>

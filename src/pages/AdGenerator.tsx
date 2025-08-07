@@ -124,7 +124,7 @@ const AdGenerator = () => {
       <div className="min-h-screen bg-background">
         <div className="container mx-auto px-4 py-12">
           <div className="text-center max-w-2xl mx-auto">
-            <h1 className="text-4xl font-bold mb-6">Complete Your Setup</h1>
+            <h1 className="text-4xl font-klein font-extrabold text-white mb-6">Let's build your next client getting campaign</h1>
             <p className="text-xl text-muted-foreground mb-8">
               You need to complete the onboarding process before you can generate ads.
               {onboardingStatus.stepCompleted > 0 && (
@@ -464,7 +464,7 @@ Each concept must be a complete creative brief that a video editor could execute
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-12 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-klein font-extrabold text-white mb-4">
             Let's build your next client getting campaign
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">

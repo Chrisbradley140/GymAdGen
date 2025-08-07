@@ -238,4 +238,11 @@ All colors MUST be HSL.
   .animation-delay-300 {
     animation-delay: 0.3s;
   }
+
+  /* Page heading styles */
+  .page-heading {
+    font-family: 'Klein Condensed', 'Barlow Condensed', 'Arial', sans-serif;
+    font-weight: 800;
+    color: white;
+  }
 }
