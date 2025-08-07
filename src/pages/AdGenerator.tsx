@@ -133,42 +133,11 @@ PAIN MIRROR: [relatable frustration, second-person POV]
 BELIEF BREAKER: [the wedge, mechanism, or big insight]  
 CTA: [command-style action line]
 
-BRAND TONE ENFORCEMENT:
-Write this as if the user is a fitness coach or gym owner with this tone: [voice_tone_style] — e.g. bold, raw, friendly, hype-driven, edgy, etc.
-
-VOICE EMULATION GOAL:
-The ad must sound like the user themselves said it out loud — short sentences, preferred punctuation, no fluff.
-
-FORBIDDEN PHRASES TO AVOID:
-- "Sound familiar?"
-- "Let's be real…"
-- "With just a few clicks…"
-- "Here's the thing…"
-- Em dashes (—) or double hyphens (--)
-- Generic GPT-style questions or soft closings
-- Any phrases from the words_to_avoid list
-
-REQUIRED BRAND VIBE:
-The output should feel like:
-- A gym owner who cracked ads
-- A no-BS marketer
-- Hormozi meets Gymshark founder
-
-BRAND WORDS INTEGRATION:
-- MUST include phrases from: brand_words
-- NEVER use phrases from: words_to_avoid
-
 INSTRUCTIONS:
 - HOOK: Short, punchy, possibly contrarian. Make them stop scrolling.
 - PAIN MIRROR: Reflect their frustration or failed attempts. Use second-person POV ("You've tried every diet...").
 - BELIEF BREAKER: Introduce your differentiator/mechanism. Example: "Most trainers guess, but our system was trained on $100k/month fitness ad spend."
 - CTA: Confident and direct command. No soft closes.
-
-FINAL FILTER PASS:
-- Strip all GPT-y phrases
-- Remove emojis (unless specifically requested)
-- Rewrite soft intros or vague language
-- Ensure it sounds like a real person, not AI
 
 BRAND CONTEXT:
 - Business: Use insights from their website to match tone, USP, and positioning
@@ -177,9 +146,11 @@ BRAND CONTEXT:
 - Failed Solutions: Reference what they've already tried unsuccessfully
 - Dream Outcome: Connect to their magic wand result
 - Voice & Tone: Match their established communication style
+- Brand Words: Incorporate their preferred terminology
+- Words to Avoid: Never use their blacklisted terms
 - Offer Type: Align CTA with their specific offer structure
 
-Create copy that feels authentic to their brand while following the strict 4-part structure and voice calibration spec.
+Create copy that feels authentic to their brand while following the strict 4-part structure.
 `;
     
     return await generateContent('ad-caption', systemPrompt);
@@ -188,27 +159,6 @@ Create copy that feels authentic to their brand while following the strict 4-par
   const generateHeadlineOptions = async (): Promise<string> => {
     const systemPrompt = `
 Generate 3-5 punchy, attention-grabbing headlines for ads, lead forms, and landing pages.
-
-BRAND TONE ENFORCEMENT:
-Write this as if the user is a fitness coach or gym owner with this tone: [voice_tone_style] — e.g. bold, raw, friendly, hype-driven, edgy, etc.
-
-FORBIDDEN PHRASES TO AVOID:
-- "Sound familiar?"
-- "Let's be real…"
-- "With just a few clicks…"
-- "Here's the thing…"
-- Em dashes (—) or double hyphens (--)
-- Generic GPT-style questions or soft closings
-- Any phrases from the words_to_avoid list
-
-REQUIRED BRAND VIBE:
-- A gym owner who cracked ads
-- A no-BS marketer
-- Hormozi meets Gymshark founder
-
-BRAND WORDS INTEGRATION:
-- MUST include phrases from: brand_words
-- NEVER use phrases from: words_to_avoid
 
 Focus on the target audience's main frustrations and the transformation your offer provides.
 
@@ -225,11 +175,6 @@ HEADLINE 4: [Social proof/testimonial headline]
 HEADLINE 5: [Urgency/scarcity headline]
 
 Each headline should be under 40 characters for optimal ad performance. Make them punchy, benefit-driven, and conversion-focused.
-
-FINAL FILTER PASS:
-- Strip all GPT-y phrases
-- Remove emojis (unless specifically requested)
-- Ensure it sounds like a real person, not AI
 `;
     
     return await generateContent('headline-options', systemPrompt);
@@ -238,27 +183,6 @@ FINAL FILTER PASS:
   const generateCampaignName = async (): Promise<string> => {
     const systemPrompt = `
 Suggest 5 creative campaign titles that feel clever, seasonal, or results-driven.
-
-BRAND TONE ENFORCEMENT:
-Write this as if the user is a fitness coach or gym owner with this tone: [voice_tone_style] — e.g. bold, raw, friendly, hype-driven, edgy, etc.
-
-FORBIDDEN PHRASES TO AVOID:
-- "Sound familiar?"
-- "Let's be real…"
-- "With just a few clicks…"
-- "Here's the thing…"
-- Em dashes (—) or double hyphens (--)
-- Generic GPT-style questions or soft closings
-- Any phrases from the words_to_avoid list
-
-REQUIRED BRAND VIBE:
-- A gym owner who cracked ads
-- A no-BS marketer
-- Hormozi meets Gymshark founder
-
-BRAND WORDS INTEGRATION:
-- MUST include phrases from: brand_words
-- NEVER use phrases from: words_to_avoid
 
 Think along the lines of "Postcode Power Hour" - catchy, memorable, and relevant to the target market.
 
@@ -275,11 +199,6 @@ CAMPAIGN 4: [Transformation-focused campaign name]
 CAMPAIGN 5: [Community/movement campaign name]
 
 Make them memorable, brandable, and aligned with the business type and target audience.
-
-FINAL FILTER PASS:
-- Strip all GPT-y phrases
-- Remove emojis (unless specifically requested)
-- Ensure it sounds like a real person, not AI
 `;
     
     return await generateContent('campaign-name', systemPrompt);
@@ -288,27 +207,6 @@ FINAL FILTER PASS:
   const generateIGStoryAd = async (): Promise<string> => {
     const systemPrompt = `
 Create a 3-frame Instagram Story ad sequence that guides viewers through your funnel.
-
-BRAND TONE ENFORCEMENT:
-Write this as if the user is a fitness coach or gym owner with this tone: [voice_tone_style] — e.g. bold, raw, friendly, hype-driven, edgy, etc.
-
-FORBIDDEN PHRASES TO AVOID:
-- "Sound familiar?"
-- "Let's be real…"
-- "With just a few clicks…"
-- "Here's the thing…"
-- Em dashes (—) or double hyphens (--)
-- Generic GPT-style questions or soft closings
-- Any phrases from the words_to_avoid list
-
-REQUIRED BRAND VIBE:
-- A gym owner who cracked ads
-- A no-BS marketer
-- Hormozi meets Gymshark founder
-
-BRAND WORDS INTEGRATION:
-- MUST include phrases from: brand_words
-- NEVER use phrases from: words_to_avoid
 
 Structure:
 Frame 1: Problem or hook that grabs attention
@@ -324,11 +222,6 @@ FRAME 2: [Breakthrough moment - the "aha" moment]
 FRAME 3: [Clear CTA - specific next steps]
 
 Keep each frame concise (1-2 sentences max) as they'll be text overlays on visuals. Make it flow naturally from problem to solution to action.
-
-FINAL FILTER PASS:
-- Strip all GPT-y phrases
-- Remove emojis (unless specifically requested)
-- Ensure it sounds like a real person, not AI
 `;
     
     return await generateContent('ig-story-ad', systemPrompt);
@@ -337,27 +230,6 @@ FINAL FILTER PASS:
   const generateCreativePrompt = async (): Promise<string> => {
     const systemPrompt = `
 Generate 1-2 sentence visual ideas for a reel, carousel, or image ad.
-
-BRAND TONE ENFORCEMENT:
-Write this as if the user is a fitness coach or gym owner with this tone: [voice_tone_style] — e.g. bold, raw, friendly, hype-driven, edgy, etc.
-
-FORBIDDEN PHRASES TO AVOID:
-- "Sound familiar?"
-- "Let's be real…"
-- "With just a few clicks…"
-- "Here's the thing…"
-- Em dashes (—) or double hyphens (--)
-- Generic GPT-style questions or soft closings
-- Any phrases from the words_to_avoid list
-
-REQUIRED BRAND VIBE:
-- A gym owner who cracked ads
-- A no-BS marketer
-- Hormozi meets Gymshark founder
-
-BRAND WORDS INTEGRATION:
-- MUST include phrases from: brand_words
-- NEVER use phrases from: words_to_avoid
 
 Provide specific, actionable creative direction that a content creator could immediately implement.
 
@@ -375,11 +247,6 @@ Examples:
 - "Person dramatically throws scale in trash, then shows progress photos on phone"
 
 Make them engaging, clear, and easy to execute with common props/settings.
-
-FINAL FILTER PASS:
-- Strip all GPT-y phrases
-- Remove emojis (unless specifically requested)
-- Ensure it sounds like a real person, not AI
 `;
     
     return await generateContent('creative-prompt', systemPrompt);
