@@ -214,43 +214,96 @@ Create headlines that fitness professionals would pay thousands for because they
     const voiceTone = brandData?.voice_tone_style || 'Bold';
     const offerType = brandData?.offer_type || '';
     const mainProblem = brandData?.main_problem || '';
+    const targetMarket = brandData?.target_market || '';
+    const failedSolutions = brandData?.failed_solutions || '';
+    const campaignTypes = brandData?.campaign_types || [];
+    const seasonalOptions = brandData?.seasonal_launch_options || [];
+    
+    // Build seasonal context
+    let seasonalContext = '';
+    if (seasonalOptions.length > 0) {
+      const seasonal = seasonalOptions.join(', ');
+      if (seasonal.includes('Summer')) seasonalContext += 'SEASONAL PRIORITY: Summer themes (Summer Shred, Beach Body, Bikini Ready). ';
+      if (seasonal.includes('January') || seasonal.includes('New Year')) seasonalContext += 'SEASONAL PRIORITY: New Year themes (Resolution Reset, New Year Burnout Fix, January Jump-Start). ';
+      if (seasonal.includes('Back to School')) seasonalContext += 'SEASONAL PRIORITY: Back-to-School themes (September Shred, Back-to-School Belly Drop, Student Strong). ';
+      if (seasonal.includes('Holiday')) seasonalContext += 'SEASONAL PRIORITY: Holiday themes (Holiday Hustle, Thanksgiving Turnaround, Christmas Challenge). ';
+    }
+    
+    // Build audience-specific context
+    let audienceContext = '';
+    if (targetMarket.toLowerCase().includes('busy moms') || targetMarket.toLowerCase().includes('mothers')) {
+      audienceContext = 'AUDIENCE FOCUS: Mom-specific angles (Mom Squad Strong, Mama Method, Mom Boss Challenge). ';
+    } else if (targetMarket.toLowerCase().includes('executive') || targetMarket.toLowerCase().includes('professional')) {
+      audienceContext = 'AUDIENCE FOCUS: Professional angles (Executive Edge, CEO Strong, Professional Power). ';
+    } else if (targetMarket.toLowerCase().includes('over 40') || targetMarket.toLowerCase().includes('40+')) {
+      audienceContext = 'AUDIENCE FOCUS: Over-40 angles (40+ Uprising, Midlife Method, Prime Time Protocol). ';
+    }
+    
+    // Build pain point context
+    let painContext = '';
+    if (mainProblem.toLowerCase().includes('cardio') || failedSolutions.toLowerCase().includes('cardio')) {
+      painContext = 'PAIN ANGLE: Anti-cardio focus (No-Cardio Commitment, Cardio-Free Challenge, Zero-Cardio Zone). ';
+    }
+    if (mainProblem.toLowerCase().includes('time') || mainProblem.toLowerCase().includes('busy')) {
+      painContext += 'PAIN ANGLE: Time-focused (15-Minute Method, Busy Body Blitz, Quick Results). ';
+    }
+    if (mainProblem.toLowerCase().includes('plateau') || failedSolutions.toLowerCase().includes('plateau')) {
+      painContext += 'PAIN ANGLE: Plateau-busting (Plateau Buster, Breakthrough Protocol, Stalled Strong). ';
+    }
+    
+    // Build campaign type context
+    let campaignContext = '';
+    if (campaignTypes.includes('Reactivation Campaign')) {
+      campaignContext = 'CAMPAIGN TYPE: Reactivation focus (Comeback Challenge, Return Strong, Revival Reset). ';
+    } else if (campaignTypes.includes('Time-Sensitive Promo')) {
+      campaignContext = 'CAMPAIGN TYPE: Urgency focus (Last Call Lean, Final Week Fury, Deadline Demolition). ';
+    }
     
     const systemPrompt = `You are a direct-response fitness marketer who creates campaigns that generate millions in revenue. Create 3-5 bold, conversion-focused campaign names that fitness professionals would pay thousands for.
 
+BRAND INPUTS:
 VOICE TONE: ${voiceTone}
 OFFER TYPE: ${offerType}
-MAIN CLIENT PROBLEM: ${mainProblem}
+TARGET MARKET: ${targetMarket}
+MAIN PROBLEM: ${mainProblem}
+FAILED SOLUTIONS: ${failedSolutions}
+
+${seasonalContext}
+${audienceContext}
+${painContext}
+${campaignContext}
 
 🚫 STRICT PROHIBITIONS (NEVER USE):
-- Vague terms: "Fitness Journey", "Wellness Reset", "Healthy Lifestyle"
+- Vague terms: "Fitness Journey", "Wellness Reset", "Healthy Lifestyle", "Better You"
 - Self-help book style: "Consistency Code", "Mindset Mastery", "Inner Strength"
-- Generic gym flyers: "Get Fit Now", "Transform Today", "New You"
-- Overly long phrases (keep it 2-5 words max)
-- Soft wellness language
+- Generic gym flyers: "Get Fit Now", "Transform Today", "New You", "Ultimate Guide"
+- Blog-style phrases: "How to", "Guide to", "Secrets of"
+- Soft wellness language: "Gentle", "Nurturing", "Balanced"
+- More than 5 words (prioritize 2-3 words for maximum impact)
 
 ✅ MANDATORY REQUIREMENTS:
-- 2-5 words maximum (brandable and sticky)
-- Direct-response marketing feel (scroll-stopping, high ROAS)
-- Campaign-worthy (sounds like real marketing campaigns)
-- Incorporate specific pain points or solutions
-- Use seasonal angles when relevant
-- Include "no-cardio", "without gym" style differentiators when applicable
+- EXACTLY 2-5 words (shorter = more brandable)
+- Direct-response marketing feel (scroll-stopping, high ROAS energy)
+- Campaign-worthy (sounds like real marketing campaigns worth $$$)
+- Incorporate seasonal themes if provided above
+- Match audience demographics if specified
+- Address specific pain points mentioned
+- Use power words: Shred, Blast, Demolish, Protocol, Method, Challenge, System
 
-🎯 PROVEN CAMPAIGN FORMULAS:
-- SEASONAL: "Summer Shred", "Back-to-School Burn", "Holiday Hustle"
-- NO-CARDIO ANGLES: "No-Cardio Commitment", "Cardio-Free Challenge", "Zero-Cardio Zone"
-- TIME-BASED: "30-Day Demolition", "12-Week Domination", "Weekend Warrior"
-- BODY-FOCUSED: "Belly Blitz", "Metabolism Makeover", "Plateau Buster"
-- COMMUNITY: "Mom Squad Strong", "Executive Edge", "Over-40 Uprising"
+🎯 TONE-SPECIFIC FORMULAS:
+BOLD/AGGRESSIVE: "Beast Mode", "Savage Shred", "Demolition Days", "Fat Fury"
+DIRECT + WARM: "Mama Strong", "Gentle Giant", "Warm Warrior", "Kind Crush"
+EDGY/HYPE: "Anti-Cardio Club", "Lazy Lean", "Cheat Code", "Rebel Results"
+CONFIDENT: "Power Protocol", "Elite Edge", "Champion Challenge", "Victory Method"
 
-FORMAT EXAMPLES:
-1. Summer Shred Challenge
-2. No-Cardio Commitment  
-3. Plateau Buster Protocol
-4. Mom Squad Strong
-5. 12-Week Domination
+FORMAT (provide 3-5 names):
+1. [2-3 word power name]
+2. [Seasonal/audience specific name]
+3. [Pain-point focused name]
+4. [Offer-type aligned name]
+5. [Bold brandable name]
 
-Create campaign names that sound like they belong on high-converting fitness ads, not gym bulletin boards.`;
+These must sound like they belong on high-converting fitness ads that generate 6-figure launches, not gym bulletin boards.`;
     
     return await generateContent('campaign-name', systemPrompt);
   };
