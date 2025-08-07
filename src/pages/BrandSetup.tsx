@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -142,21 +141,10 @@ const BrandSetup = () => {
                   </Button>
                 </>
               ) : (
-                <>
-                  <Button 
-                    variant="outline" 
-                    size="lg"
-                    onClick={() => navigate('/onboarding')} 
-                    className="flex items-center gap-2 px-6 py-2 text-base"
-                  >
-                    <RefreshCw className="w-5 h-5" />
-                    Retake Onboarding Quiz
-                  </Button>
-                  <Button size="lg" onClick={handleEdit} className="px-6 py-2 text-base">
-                    <Edit className="w-5 h-5 mr-2" />
-                    Edit Info
-                  </Button>
-                </>
+                <Button size="lg" onClick={handleEdit} className="px-6 py-2 text-base">
+                  <Edit className="w-5 h-5 mr-2" />
+                  Edit Info
+                </Button>
               )}
             </div>
           </div>
@@ -263,7 +251,7 @@ const BrandSetup = () => {
           </Card>
 
           {/* Disruptive Ad Psychology Section */}
-          <Card className="border-2 hover:shadow-2xl hover:shadow-primary/20 transition-all duration-300 hover:-translate-y-1 bg-card/50 backdrop-blur-sm">
+          <Card className="border-2 hover:shadow-2xl hover:shadow-primary/20 transition-all duration-300 hover:-translate-y-1 bg-card/50 backdrop-blur-sm relative">
             <Collapsible open={openSections.psychology} onOpenChange={() => toggleSection('psychology')}>
               <CollapsibleTrigger asChild>
                 <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors pb-6">
@@ -284,7 +272,7 @@ const BrandSetup = () => {
                 </CardHeader>
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <CardContent className="pt-0">
+                <CardContent className="pt-0 pb-16">
                   <PsychologySection
                     data={currentData}
                     isEditing={isEditing}
@@ -293,6 +281,20 @@ const BrandSetup = () => {
                 </CardContent>
               </CollapsibleContent>
             </Collapsible>
+            
+            {!isEditing && (
+              <div className="absolute bottom-4 left-6">
+                <Button 
+                  variant="outline" 
+                  size="lg"
+                  onClick={() => navigate('/onboarding')} 
+                  className="flex items-center gap-2 px-6 py-2 text-base"
+                >
+                  <RefreshCw className="w-5 h-5" />
+                  Retake Onboarding Quiz
+                </Button>
+              </div>
+            )}
           </Card>
 
         </div>
