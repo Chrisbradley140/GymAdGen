@@ -26,6 +26,7 @@ interface OnboardingData {
   instagram_reel_url: string;
   meta_account: string;
   competitor_urls: string;
+  coaching_style: string;
   brand_words: string;
   words_to_avoid: string;
   main_problem: string;
@@ -48,6 +49,7 @@ const initialData: OnboardingData = {
   instagram_reel_url: '',
   meta_account: '',
   competitor_urls: '',
+  coaching_style: '',
   brand_words: '',
   words_to_avoid: '',
   main_problem: '',
@@ -121,6 +123,7 @@ const OnboardingWizard: React.FC<{ onComplete: () => void; forceRestart?: boolea
           instagram_reel_url: existingData.instagram_reel_url || '',
           meta_account: existingData.meta_account || '',
           competitor_urls: existingData.competitor_urls || '',
+          coaching_style: (existingData as any).coaching_style || '',
           brand_words: existingData.brand_words || '',
           words_to_avoid: existingData.words_to_avoid || '',
           main_problem: existingData.main_problem || '',
@@ -288,7 +291,8 @@ const OnboardingWizard: React.FC<{ onComplete: () => void; forceRestart?: boolea
       case 4: 
         return data.instagram_reel_url.trim() !== '';
       case 5: 
-        return data.brand_words.trim() !== '' && 
+        return data.coaching_style.trim() !== '' && 
+               data.brand_words.trim() !== '' && 
                data.words_to_avoid.trim() !== '';
       case 6: 
         return data.target_market.trim() !== '' && 

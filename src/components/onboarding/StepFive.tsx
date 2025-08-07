@@ -2,9 +2,11 @@
 import React from 'react';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
 
 interface StepFiveProps {
   data: {
+    coaching_style: string;
     brand_words: string;
     words_to_avoid: string;
   };
@@ -17,6 +19,20 @@ const StepFive: React.FC<StepFiveProps> = ({ data, updateData }) => {
       <div className="text-center mb-6">
         <p className="text-muted-foreground">
           Help us understand your brand language and voice
+        </p>
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="coaching_style">Describe your coaching style in 3 words</Label>
+        <Input
+          id="coaching_style"
+          value={data.coaching_style}
+          onChange={(e) => updateData({ coaching_style: e.target.value })}
+          placeholder="Motivational, supportive, results-driven..."
+          className="w-full"
+        />
+        <p className="text-sm text-muted-foreground">
+          Three words that best describe how you coach your clients
         </p>
       </div>
 
