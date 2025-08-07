@@ -49,6 +49,21 @@ export const BrandVoiceSection: React.FC<BrandVoiceSectionProps> = ({
       </div>
 
       <div className="space-y-2">
+        <Label>Describe your coaching style in 3 words</Label>
+        {isEditing ? (
+          <Input
+            value={data.coaching_style}
+            onChange={(e) => onUpdate('coaching_style', e.target.value)}
+            placeholder="Motivational, supportive, results-driven..."
+          />
+        ) : (
+          <p className="text-muted-foreground whitespace-pre-wrap">
+            {data.coaching_style || 'Not provided'}
+          </p>
+        )}
+      </div>
+
+      <div className="space-y-2">
         <Label>Reel URL</Label>
         {isEditing ? (
           <Input

@@ -18,6 +18,7 @@ export interface OnboardingData {
   instagram_reel_url: string;
   meta_account: string;
   competitor_urls: string;
+  coaching_style: string;
   brand_words: string;
   words_to_avoid: string;
   main_problem: string;
@@ -77,6 +78,7 @@ export const useBrandSetup = () => {
           instagram_reel_url: onboardingData.instagram_reel_url || '',
           meta_account: onboardingData.meta_account || '',
           competitor_urls: onboardingData.competitor_urls || '',
+          coaching_style: onboardingData.coaching_style || '',
           brand_words: onboardingData.brand_words || '',
           words_to_avoid: onboardingData.words_to_avoid || '',
           main_problem: onboardingData.main_problem || '',
@@ -126,6 +128,7 @@ export const useBrandSetup = () => {
           instagram_reel_url: updatedData.instagram_reel_url,
           meta_account: updatedData.meta_account,
           competitor_urls: updatedData.competitor_urls,
+          coaching_style: updatedData.coaching_style,
           brand_words: updatedData.brand_words,
           words_to_avoid: updatedData.words_to_avoid,
           main_problem: updatedData.main_problem,
