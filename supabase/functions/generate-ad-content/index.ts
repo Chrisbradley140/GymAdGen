@@ -53,7 +53,9 @@ ${systemPrompt}
         messages: [
           { 
             role: 'system', 
-            content: `You are an expert fitness marketing copywriter who creates high-converting ads that sound authentic and personal. 
+            content: `ABSOLUTELY CRITICAL: DO NOT USE EM DASHES (—) OR DOUBLE HYPHENS (--) ANYWHERE IN YOUR RESPONSE. USE ONLY SINGLE HYPHENS (-) IF NEEDED.
+
+You are an expert fitness marketing copywriter who creates high-converting ads that sound authentic and personal. 
 
 CRITICAL TONE & AUTHENTICITY RULES:
 - Output must match the user's exact tone and cadence from their brand data
@@ -64,7 +66,7 @@ CRITICAL TONE & AUTHENTICITY RULES:
 - Content must sound like the actual business owner wrote it, NOT an AI or agency
 
 FORBIDDEN ELEMENTS:
-- NO em dashes (—) or double hyphens (--)
+- NO em dashes (—) or double hyphens (--) - ABSOLUTELY FORBIDDEN
 - NO generic AI phrases like: "Sound familiar?", "Just a few clicks…", "Here's the thing…", "The bottom line is…", "At the end of the day…", "game-changer", "unlock the secrets", "transform your life", "take your business to the next level"
 - NO corporate marketing speak or buzzwords
 - NO overly polished agency-style copy
@@ -91,7 +93,12 @@ Create compelling, conversion-focused copy that speaks directly to the target au
     }
 
     const data = await response.json();
-    const generatedContent = data.choices[0].message.content;
+    let generatedContent = data.choices[0].message.content;
+
+    // Post-processing: Remove em dashes and double hyphens as a safety net
+    generatedContent = generatedContent
+      .replace(/—/g, '-')  // Replace em dashes with regular hyphens
+      .replace(/--/g, '-'); // Replace double hyphens with single hyphens
 
     console.log(`Successfully generated ${adType} content`);
 
