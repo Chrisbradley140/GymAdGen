@@ -57,7 +57,7 @@ const initialData: OnboardingData = {
 };
 
 const stepTitles = [
-  'Brand Foundation',
+  'Business Foundation',
   'Visual Identity', 
   'Campaign Strategy',
   'Social Presence',
@@ -69,7 +69,7 @@ const stepSubtitles = [
   'Let\'s start with the basics of your brand',
   'Define your visual identity and target audience',
   'Choose your campaign types and approach',
-  'Optional enhancers for better targeting',
+  'These enhancers help us create more targeted and effective ads- Updated',
   'Your unique brand language and tone',
   'Understand your customer\'s mindset'
 ];

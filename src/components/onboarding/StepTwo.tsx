@@ -47,7 +47,7 @@ const StepTwo: React.FC<StepTwoProps> = ({ data, updateData }) => {
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <Label htmlFor="brand_colors">Brand Colors</Label>
+        <Label htmlFor="brand_colors">Brand Colours</Label>
         <Input
           id="brand_colors"
           value={data.brand_colors}

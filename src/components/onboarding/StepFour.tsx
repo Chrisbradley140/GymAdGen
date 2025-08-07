@@ -16,11 +16,6 @@ interface StepFourProps {
 const StepFour: React.FC<StepFourProps> = ({ data, updateData }) => {
   return (
     <div className="space-y-6">
-      <div className="text-center mb-6">
-        <p className="text-muted-foreground">
-          These optional enhancers help us create more targeted and effective ads
-        </p>
-      </div>
 
       <div className="space-y-2">
         <Label htmlFor="instagram_reel_url">Instagram Reel URL</Label>
