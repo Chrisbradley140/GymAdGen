@@ -50,7 +50,7 @@ const Dashboard = () => {
   const stats = [
     { label: "Total Ads Generated", value: "12", icon: Target },
     { label: "Average CTR", value: "4.2%", icon: TrendingUp },
-    { label: "Est. Revenue", value: "$2,340", icon: DollarSign },
+    { label: "Est. Revenue", value: "£2,340", icon: DollarSign },
   ];
 
   return (
@@ -104,19 +104,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Recent Activity */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
-            <CardDescription>Your latest ad campaigns and performance</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-center py-8 text-muted-foreground">
-              <Library className="w-12 h-12 mx-auto mb-4 opacity-50" />
-              <p>No recent activity yet. Generate your first ad to get started!</p>
-            </div>
-          </CardContent>
-        </Card>
       </div>
     </div>
   );
