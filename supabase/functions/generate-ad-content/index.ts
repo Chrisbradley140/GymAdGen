@@ -53,19 +53,7 @@ ${systemPrompt}
         messages: [
           { 
             role: 'system', 
-            content: `You are an expert fitness marketing copywriter who creates high-converting ads. Use the brand information provided to create compelling, conversion-focused copy that speaks directly to the target audience.
-
-CRITICAL TONE AND STYLE REQUIREMENTS:
-- Output must match the user's exact tone and cadence from their voice_tone_style
-- Naturally weave in their brand_words throughout the content
-- Completely avoid all words/phrases listed in words_to_avoid
-- Use sentence structure that matches their preferred style (short/long)
-- NEVER use em dashes (—) or double hyphens (--)
-- NEVER use generic AI phrases like "Sound familiar?", "Just a few clicks...", "Here's the thing...", "Imagine if...", "What if I told you...", "The truth is...", "Let me ask you this...", etc.
-- The content must sound like the actual business owner wrote it, not an AI or marketing agency
-- Use authentic, conversational language that reflects their unique voice
-- Avoid marketing clichés and corporate-speak
-- Write as if you're the business owner speaking directly to your ideal customer` 
+            content: 'You are an expert fitness marketing copywriter who creates high-converting ads. Use the brand information provided to create compelling, conversion-focused copy that speaks directly to the target audience.' 
           },
           { role: 'user', content: prompt }
         ],
