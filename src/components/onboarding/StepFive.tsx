@@ -21,7 +21,7 @@ const StepFive: React.FC<StepFiveProps> = ({ data, updateData }) => {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="brand_words">Words/Phrases You Always Use</Label>
+        <Label htmlFor="brand_words">Drop any words/phrases you say all the time and are 'you'</Label>
         <Textarea
           id="brand_words"
           value={data.brand_words}
@@ -36,7 +36,7 @@ const StepFive: React.FC<StepFiveProps> = ({ data, updateData }) => {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="words_to_avoid">Anything to Avoid</Label>
+        <Label htmlFor="words_to_avoid">Are there any words or phrases you want to avoid in your marketing?</Label>
         <Textarea
           id="words_to_avoid"
           value={data.words_to_avoid}
