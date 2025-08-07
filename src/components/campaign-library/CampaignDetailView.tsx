@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
-import { Copy, RefreshCw, Heart, Download, X } from "lucide-react";
+import { Copy, Download } from "lucide-react";
 import { CampaignWithContent } from "@/hooks/useCampaigns";
 import { formatDistanceToNow } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
@@ -72,21 +72,6 @@ const CampaignDetailView = ({
               >
                 <Copy className="w-4 h-4" />
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => onRegenerate(contentType)}
-              >
-                <RefreshCw className="w-4 h-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => toggleFavorite(content.id)}
-                className={favorites[content.id] ? "text-red-500" : ""}
-              >
-                <Heart className={`w-4 h-4 ${favorites[content.id] ? "fill-current" : ""}`} />
-              </Button>
             </div>
           </div>
         </CardHeader>
@@ -140,9 +125,6 @@ const CampaignDetailView = ({
               <Button onClick={onExportPDF} variant="outline">
                 <Download className="w-4 h-4 mr-1" />
                 Export PDF
-              </Button>
-              <Button onClick={onClose} variant="ghost" size="sm">
-                <X className="w-4 h-4" />
               </Button>
             </div>
           </div>
