@@ -281,7 +281,6 @@ const OnboardingWizard: React.FC<{ onComplete: () => void; forceRestart?: boolea
       case 1: return data.business_name.trim() !== '' && data.website_url.trim() !== '';
       case 2: 
         return data.brand_colors.trim() !== '' && 
-               data.target_market.trim() !== '' && 
                data.voice_tone_style.trim() !== '';
       case 3: 
         return data.offer_type.trim() !== '' && 
@@ -292,7 +291,8 @@ const OnboardingWizard: React.FC<{ onComplete: () => void; forceRestart?: boolea
         return data.brand_words.trim() !== '' && 
                data.words_to_avoid.trim() !== '';
       case 6: 
-        return data.main_problem.trim() !== '' && 
+        return data.target_market.trim() !== '' && 
+               data.main_problem.trim() !== '' && 
                data.failed_solutions.trim() !== '' && 
                data.client_words.trim() !== '' && 
                data.magic_wand_result.trim() !== '';
