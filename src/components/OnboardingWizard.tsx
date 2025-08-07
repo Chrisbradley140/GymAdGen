@@ -239,8 +239,8 @@ const OnboardingWizard: React.FC<{ onComplete: () => void; forceRestart?: boolea
         setCurrentStep(currentStep + 1);
       } else {
         toast({
-          title: "🎉 Onboarding Complete!",
-          description: "Welcome to FitAd AI. Let's create your first ad!",
+          title: hasExistingData ? "🎉 Setup Updated!" : "🎉 Onboarding Complete!",
+          description: hasExistingData ? "Your brand setup has been successfully updated!" : "Welcome to FitAd AI. Let's create your first ad!",
         });
         onComplete();
       }
