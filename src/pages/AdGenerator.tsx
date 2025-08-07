@@ -10,6 +10,7 @@ import { AdBlock } from "@/components/ad-generator/AdBlock";
 import { useAdGeneration } from "@/hooks/useAdGeneration";
 import { useBrandSetup } from "@/hooks/useBrandSetup";
 import { useToast } from "@/hooks/use-toast";
+import { useCampaigns } from "@/hooks/useCampaigns";
 import { supabase } from "@/integrations/supabase/client";
 
 const AdGenerator = () => {
@@ -17,7 +18,9 @@ const AdGenerator = () => {
   const navigate = useNavigate();
   const { data: brandData, loading: brandLoading } = useBrandSetup();
   const { generateContent } = useAdGeneration();
+  const { createCampaign } = useCampaigns();
   const { toast } = useToast();
+  const [currentCampaignId, setCurrentCampaignId] = useState<string | null>(null);
   const [onboardingStatus, setOnboardingStatus] = useState<{
     isComplete: boolean;
     stepCompleted: number;
@@ -82,6 +85,23 @@ const AdGenerator = () => {
       checkOnboardingStatus();
     }
   }, [user, authLoading, navigate]);
+
+  // Create campaign for this generation session
+  const createOrGetCampaign = async () => {
+    if (currentCampaignId) return currentCampaignId;
+    
+    const timestamp = new Date().toLocaleDateString();
+    const campaign = await createCampaign(
+      `Campaign - ${timestamp}`,
+      `Generated campaign from ${timestamp}`
+    );
+    
+    if (campaign) {
+      setCurrentCampaignId(campaign.id);
+      return campaign.id;
+    }
+    return null;
+  };
 
   if (authLoading || onboardingStatus === null) {
     return (
@@ -461,6 +481,7 @@ Each concept must be a complete creative brief that a video editor could execute
             onGenerate={generateAdCaption}
             placeholder="Your generated ad caption will appear here..."
             contentType="ad_caption"
+            onCampaignCreate={createOrGetCampaign}
           />
 
           <AdBlock
@@ -470,6 +491,7 @@ Each concept must be a complete creative brief that a video editor could execute
             onGenerate={generateHeadlineOptions}
             placeholder="Your headline options will appear here..."
             contentType="headline"
+            onCampaignCreate={createOrGetCampaign}
           />
 
           <AdBlock
@@ -479,6 +501,7 @@ Each concept must be a complete creative brief that a video editor could execute
             onGenerate={generateCampaignName}
             placeholder="Your campaign name suggestions will appear here..."
             contentType="campaign_name"
+            onCampaignCreate={createOrGetCampaign}
           />
 
           <AdBlock
@@ -488,6 +511,7 @@ Each concept must be a complete creative brief that a video editor could execute
             onGenerate={generateIGStoryAd}
             placeholder="Your Instagram Story ad sequence will appear here..."
             contentType="ig_story"
+            onCampaignCreate={createOrGetCampaign}
           />
 
           <AdBlock
@@ -497,6 +521,7 @@ Each concept must be a complete creative brief that a video editor could execute
             onGenerate={generateCreativePrompt}
             contentType="creative_prompt"
             placeholder="Your creative visual prompts will appear here..."
+            onCampaignCreate={createOrGetCampaign}
           />
         </div>
       </div>
