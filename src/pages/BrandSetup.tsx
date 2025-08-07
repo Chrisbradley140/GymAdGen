@@ -146,7 +146,7 @@ const BrandSetup = () => {
                   <Button 
                     variant="outline" 
                     size="lg"
-                    onClick={() => navigate('/onboarding')} 
+                    onClick={() => navigate('/onboarding', { state: { forceRestart: true } })} 
                     className="flex items-center gap-2 px-6 py-2 text-base"
                   >
                     <RefreshCw className="w-5 h-5" />

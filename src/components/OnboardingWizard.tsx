@@ -74,7 +74,7 @@ const stepSubtitles = [
   'Understand your customer\'s mindset'
 ];
 
-const OnboardingWizard: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
+const OnboardingWizard: React.FC<{ onComplete: () => void; forceRestart?: boolean }> = ({ onComplete, forceRestart = false }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [data, setData] = useState<OnboardingData>(initialData);
   const [loading, setLoading] = useState(false);
@@ -103,7 +103,7 @@ const OnboardingWizard: React.FC<{ onComplete: () => void }> = ({ onComplete }) 
         return;
       }
 
-      if (existingData) {
+      if (existingData && !forceRestart) {
         setData({
           business_name: existingData.business_name || '',
           logo_url: existingData.logo_url || '',
