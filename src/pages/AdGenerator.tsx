@@ -211,55 +211,65 @@ Create headlines that fitness professionals would pay thousands for because they
   };
 
   const generateCampaignName = async (): Promise<string> => {
-    const voiceTone = brandData?.voice_tone_style || 'Bold';
-    const offerType = brandData?.offer_type || '';
-    const mainProblem = brandData?.main_problem || '';
-    const targetMarket = brandData?.target_market || '';
-    const failedSolutions = brandData?.failed_solutions || '';
-    const campaignTypes = brandData?.campaign_types || [];
-    const seasonalOptions = brandData?.seasonal_launch_options || [];
+    if (!brandData) return '';
+
+    const voiceTone = brandData.voice_tone_style || 'Bold';
+    const offerType = brandData.offer_type || '';
+    const mainProblem = brandData.main_problem || '';
+    const targetMarket = brandData.target_market || '';
+    const failedSolutions = brandData.failed_solutions || '';
+    const campaignTypes = brandData.campaign_types || [];
+    const seasonalOptions = brandData.seasonal_launch_options || [];
     
-    // Build seasonal context
+    // Build seasonal context with specific action verbs
     let seasonalContext = '';
     if (seasonalOptions.length > 0) {
       const seasonal = seasonalOptions.join(', ');
-      if (seasonal.includes('Summer')) seasonalContext += 'SEASONAL PRIORITY: Summer themes (Summer Shred, Beach Body, Bikini Ready). ';
-      if (seasonal.includes('January') || seasonal.includes('New Year')) seasonalContext += 'SEASONAL PRIORITY: New Year themes (Resolution Reset, New Year Burnout Fix, January Jump-Start). ';
-      if (seasonal.includes('Back to School')) seasonalContext += 'SEASONAL PRIORITY: Back-to-School themes (September Shred, Back-to-School Belly Drop, Student Strong). ';
-      if (seasonal.includes('Holiday')) seasonalContext += 'SEASONAL PRIORITY: Holiday themes (Holiday Hustle, Thanksgiving Turnaround, Christmas Challenge). ';
+      if (seasonal.includes('Summer')) {
+        seasonalContext += 'SEASONAL PRIORITY: Summer themes with action verbs. Examples: "Summer Shred", "Beach Bod Blast", "Bikini Drop", "Summer Sculpt". ';
+      }
+      if (seasonal.includes('January') || seasonal.includes('New Year')) {
+        seasonalContext += 'SEASONAL PRIORITY: New Year themes with action verbs. Examples: "Resolution Crush", "January Melt", "New Year Strip", "Fresh Start Shred". ';
+      }
+      if (seasonal.includes('Back to School')) {
+        seasonalContext += 'SEASONAL PRIORITY: Back-to-School themes with action verbs. Examples: "September Shred", "School Drop Challenge", "Back-to-School Blast". ';
+      }
+      if (seasonal.includes('Holiday')) {
+        seasonalContext += 'SEASONAL PRIORITY: Holiday themes with action verbs. Examples: "Holiday Shred", "Turkey Drop", "Christmas Crush". ';
+      }
     }
     
-    // Build audience-specific context
+    // Build audience-specific context with action formulas
     let audienceContext = '';
-    if (targetMarket.toLowerCase().includes('busy moms') || targetMarket.toLowerCase().includes('mothers')) {
-      audienceContext = 'AUDIENCE FOCUS: Mom-specific angles (Mom Squad Strong, Mama Method, Mom Boss Challenge). ';
+    if (targetMarket.toLowerCase().includes('busy mom') || targetMarket.toLowerCase().includes('mother')) {
+      audienceContext = 'AUDIENCE FOCUS: Mom-specific action names. Examples: "Mom Squad Shred", "Mama Melt Challenge", "Busy Mom Blast", "Mom Bod Drop". ';
     } else if (targetMarket.toLowerCase().includes('executive') || targetMarket.toLowerCase().includes('professional')) {
-      audienceContext = 'AUDIENCE FOCUS: Professional angles (Executive Edge, CEO Strong, Professional Power). ';
+      audienceContext = 'AUDIENCE FOCUS: Professional action names. Examples: "Executive Edge", "Boss Bod Drop", "Corporate Crush", "CEO Shred". ';
     } else if (targetMarket.toLowerCase().includes('over 40') || targetMarket.toLowerCase().includes('40+')) {
-      audienceContext = 'AUDIENCE FOCUS: Over-40 angles (40+ Uprising, Midlife Method, Prime Time Protocol). ';
+      audienceContext = 'AUDIENCE FOCUS: Over-40 action names. Examples: "40+ Shred", "Midlife Melt", "Prime Time Drop", "Silver Strength". ';
     }
     
-    // Build pain point context
+    // Build pain point context with specific action solutions
     let painContext = '';
     if (mainProblem.toLowerCase().includes('cardio') || failedSolutions.toLowerCase().includes('cardio')) {
-      painContext = 'PAIN ANGLE: Anti-cardio focus (No-Cardio Commitment, Cardio-Free Challenge, Zero-Cardio Zone). ';
+      painContext = 'PAIN INTEGRATION: Anti-cardio focus with action verbs. Examples: "Cardio-Free Crush", "No-Cardio Challenge", "Anti-Cardio Shred". ';
     }
     if (mainProblem.toLowerCase().includes('time') || mainProblem.toLowerCase().includes('busy')) {
-      painContext += 'PAIN ANGLE: Time-focused (15-Minute Method, Busy Body Blitz, Quick Results). ';
+      painContext += 'PAIN INTEGRATION: Time-focused with action verbs. Examples: "Quick Drop", "15-Minute Melt", "Busy Body Blast". ';
     }
     if (mainProblem.toLowerCase().includes('plateau') || failedSolutions.toLowerCase().includes('plateau')) {
-      painContext += 'PAIN ANGLE: Plateau-busting (Plateau Buster, Breakthrough Protocol, Stalled Strong). ';
+      painContext += 'PAIN INTEGRATION: Plateau-busting with action verbs. Examples: "Plateau Crusher", "Breakthrough Blast", "Stall Breaker". ';
     }
     
     // Build campaign type context
     let campaignContext = '';
     if (campaignTypes.includes('Reactivation Campaign')) {
-      campaignContext = 'CAMPAIGN TYPE: Reactivation focus (Comeback Challenge, Return Strong, Revival Reset). ';
+      campaignContext = 'CAMPAIGN TYPE: Reactivation with action focus. Examples: "Comeback Crush", "Return Strong", "Revival Rush". ';
     } else if (campaignTypes.includes('Time-Sensitive Promo')) {
-      campaignContext = 'CAMPAIGN TYPE: Urgency focus (Last Call Lean, Final Week Fury, Deadline Demolition). ';
+      campaignContext = 'CAMPAIGN TYPE: Urgency with action focus. Examples: "Last Call Lean", "Final Rush", "Deadline Drop". ';
     }
     
-    const systemPrompt = `You are a direct-response fitness marketer who creates campaigns that generate millions in revenue. Create 3-5 bold, conversion-focused campaign names that fitness professionals would pay thousands for.
+    const systemPrompt = `You are an elite fitness campaign specialist who creates bold, action-driven campaign names that generate millions in revenue. Create 4-5 scroll-stopping campaign names that feel like strategic fitness challenges.
 
 BRAND INPUTS:
 VOICE TONE: ${voiceTone}
@@ -273,37 +283,43 @@ ${audienceContext}
 ${painContext}
 ${campaignContext}
 
-🚫 STRICT PROHIBITIONS (NEVER USE):
-- Vague terms: "Fitness Journey", "Wellness Reset", "Healthy Lifestyle", "Better You"
-- Self-help book style: "Consistency Code", "Mindset Mastery", "Inner Strength"
-- Generic gym flyers: "Get Fit Now", "Transform Today", "New You", "Ultimate Guide"
-- Blog-style phrases: "How to", "Guide to", "Secrets of"
-- Soft wellness language: "Gentle", "Nurturing", "Balanced"
-- More than 5 words (prioritize 2-3 words for maximum impact)
+CRITICAL REQUIREMENTS:
+- Each name must be 2-5 words maximum (prioritize 2-3 words for maximum impact)
+- Must sound like strategic fitness challenges or launches, NOT clinical programs
+- Names should be scroll-stopping, ad-ready, and conversion-focused
+- Must use ACTION VERBS as core components
 
-✅ MANDATORY REQUIREMENTS:
-- EXACTLY 2-5 words (shorter = more brandable)
-- Direct-response marketing feel (scroll-stopping, high ROAS energy)
-- Campaign-worthy (sounds like real marketing campaigns worth $$$)
-- Incorporate seasonal themes if provided above
-- Match audience demographics if specified
-- Address specific pain points mentioned
-- Use power words: Shred, Blast, Demolish, Protocol, Method, Challenge, System
+CAMPAIGN NAME FORMULAS (use these structures):
+1. [Action Verb] + [Body Part/Result]: "Drop Belly Fat", "Blast Love Handles", "Melt Dad Bod"
+2. [Pain Point] + [Action]: "Cardio-Free Crush", "No-Gym Shred", "Busy Mom Blast"
+3. [Timeframe] + [Action]: "30-Day Drop", "Summer Melt", "Weekend Warrior"
+4. [Audience] + [Action]: "Mom Squad Shred", "Dad Bod Drop", "Boss Lady Blast"
+5. [Intensity] + [Result]: "Fat Fury", "Belly Blitz", "Love Handle Storm"
 
-🎯 TONE-SPECIFIC FORMULAS:
-BOLD/AGGRESSIVE: "Beast Mode", "Savage Shred", "Demolition Days", "Fat Fury"
-DIRECT + WARM: "Mama Strong", "Gentle Giant", "Warm Warrior", "Kind Crush"
-EDGY/HYPE: "Anti-Cardio Club", "Lazy Lean", "Cheat Code", "Rebel Results"
-CONFIDENT: "Power Protocol", "Elite Edge", "Champion Challenge", "Victory Method"
+POWER WORDS - USE THESE EXCLUSIVELY:
+- Action Verbs: Drop, Melt, Blast, Crush, Shred, Torch, Demolish, Strip, Burn, Carve, Sculpt
+- Intensity Words: Blitz, Sprint, Rush, Fury, Fire, Storm, Demolition
+- Challenge Terms: Challenge, Bootcamp, Blitz, Sprint, Rush, Crusher, Buster
 
-FORMAT (provide 3-5 names):
-1. [2-3 word power name]
-2. [Seasonal/audience specific name]
-3. [Pain-point focused name]
-4. [Offer-type aligned name]
-5. [Bold brandable name]
+FORBIDDEN WORDS - NEVER USE THESE:
+- Clinical Terms: Protocol, System, Method, Program, Blueprint, Solution, Formula
+- Vague Wellness: Journey, Transformation, Lifestyle, Wellness, Better, Healthy
+- Blog-Style: Guide, Ultimate, Complete, Secret, Strategy, Comprehensive
+- Soft Language: Gentle, Nurturing, Balanced, Mindful, Inner
 
-These must sound like they belong on high-converting fitness ads that generate 6-figure launches, not gym bulletin boards.`;
+TONE-SPECIFIC ACTION FORMULAS:
+- Bold/Aggressive: "Fat Fury", "Belly Demolition", "Love Handle Crusher", "Beast Mode Blast"
+- Direct + Warm: "Mom Bod Melt", "Gentle Giant Drop", "Busy Dad Shred", "Family Fit Rush"
+- Edgy/Hype: "Cardio-Free Crush", "Lazy Girl Torch", "Couch Potato Blast", "Anti-Gym Shred"
+- Confident: "Summer Sculpt", "Beach Bod Drop", "Bikini Shred", "Power Melt"
+
+BRAND CONTEXT:
+- Business: ${brandData.business_name}
+- Offer Type: ${offerType}
+- Campaign Types: ${campaignTypes.join(', ')}
+- Voice/Tone: ${voiceTone}
+
+Each name must feel like a high-converting fitness campaign that would stop someone scrolling and make them want to join immediately. Think like a fitness influencer launching their biggest challenge of the year - bold, action-focused, and results-driven.`;
     
     return await generateContent('campaign-name', systemPrompt);
   };
