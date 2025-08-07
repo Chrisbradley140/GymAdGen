@@ -49,7 +49,7 @@ export const BrandVoiceSection: React.FC<BrandVoiceSectionProps> = ({
       </div>
 
       <div className="space-y-2">
-        <Label>Instagram Reel URL</Label>
+        <Label>Reel URL</Label>
         {isEditing ? (
           <Input
             value={data.instagram_reel_url}
@@ -70,7 +70,7 @@ export const BrandVoiceSection: React.FC<BrandVoiceSectionProps> = ({
       </div>
 
       <div className="space-y-2">
-        <Label>Meta Account</Label>
+        <Label>Your instagram/Tik Tok/Facebook @</Label>
         {isEditing ? (
           <Input
             value={data.meta_account}
