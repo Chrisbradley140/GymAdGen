@@ -348,26 +348,93 @@ Keep each frame concise (1-2 sentences max) as they'll be text overlays on visua
   };
 
   const generateCreativePrompt = async (): Promise<string> => {
-    const systemPrompt = `
-Generate 1-2 sentence visual ideas for a reel, carousel, or image ad.
+    if (!brandData) return '';
 
-Provide specific, actionable creative direction that a content creator could immediately implement.
+    const voiceTone = brandData.voice_tone_style || 'Bold';
+    const mainProblem = brandData.main_problem || '';
+    const failedSolutions = brandData.failed_solutions || '';
+    const targetMarket = brandData.target_market || '';
+    const offerType = brandData.offer_type || '';
+    const magicWandResult = brandData.magic_wand_result || '';
+    const clientWords = brandData.client_words || '';
+    
+    // Build emotion-specific context
+    let frustrationHook = '';
+    if (mainProblem.toLowerCase().includes('cardio') || failedSolutions.toLowerCase().includes('cardio')) {
+      frustrationHook = 'FRUSTRATION HOOK: Show someone exhausted on treadmill, looking defeated/bored. ';
+    } else if (mainProblem.toLowerCase().includes('time') || mainProblem.toLowerCase().includes('busy')) {
+      frustrationHook = 'FRUSTRATION HOOK: Show someone checking watch frantically, looking overwhelmed by gym equipment. ';
+    } else if (mainProblem.toLowerCase().includes('plateau') || failedSolutions.toLowerCase().includes('plateau')) {
+      frustrationHook = 'FRUSTRATION HOOK: Show someone staring at scale with confused/frustrated expression, shaking head. ';
+    }
+    
+    // Build audience-specific visual context
+    let audienceContext = '';
+    if (targetMarket.toLowerCase().includes('busy mom') || targetMarket.toLowerCase().includes('mother')) {
+      audienceContext = 'AUDIENCE VISUALS: Mom in kitchen/living room, kids in background, juggling multiple tasks. Props: coffee mug, yoga mat in corner, family photos. ';
+    } else if (targetMarket.toLowerCase().includes('executive') || targetMarket.toLowerCase().includes('professional')) {
+      audienceContext = 'AUDIENCE VISUALS: Professional in office/home office setting, suit/business attire, laptop visible. Props: coffee, work papers, professional environment. ';
+    } else if (targetMarket.toLowerCase().includes('over 40') || targetMarket.toLowerCase().includes('40+')) {
+      audienceContext = 'AUDIENCE VISUALS: Mid-life person in comfortable home setting, realistic body type, casual but put-together appearance. ';
+    }
+    
+    // Build solution reveal context
+    let solutionReveal = '';
+    if (offerType.toLowerCase().includes('challenge') || offerType.toLowerCase().includes('program')) {
+      solutionReveal = 'SOLUTION REVEAL: Quick montage of simple exercises at home, person looking confident and energized. ';
+    } else if (offerType.toLowerCase().includes('coaching') || offerType.toLowerCase().includes('guide')) {
+      solutionReveal = 'SOLUTION REVEAL: Coach demonstrating simple movement, person nodding with "aha" expression, transformation shots. ';
+    }
 
-Format your response as:
+    const systemPrompt = `You are an elite fitness marketing creative director who produces scroll-stopping ads that generate millions in revenue. Create 3 conversion-focused visual concepts for Instagram Reels/Carousels that tell complete emotional stories.
 
-VISUAL IDEA 1: [Specific visual concept with clear direction]
+BRAND CONTEXT:
+VOICE TONE: ${voiceTone}
+TARGET MARKET: ${targetMarket}
+MAIN PROBLEM: ${mainProblem}
+FAILED SOLUTIONS: ${failedSolutions}
+DREAM OUTCOME: ${magicWandResult}
+CLIENT LANGUAGE: "${clientWords}"
+OFFER TYPE: ${offerType}
 
-VISUAL IDEA 2: [Alternative visual approach]
+${frustrationHook}
+${audienceContext}
+${solutionReveal}
 
-VISUAL IDEA 3: [Third creative option]
+MANDATORY STRUCTURE FOR EACH CONCEPT:
+1. FRUSTRATION MOMENT: Specific visual showing the pain point
+2. TRANSITION/REVELATION: Visual "aha" moment or breakthrough
+3. SOLUTION IN ACTION: Person demonstrating/experiencing the solution
+4. VISUAL CTA: Strong call-to-action overlay or gesture
 
-Examples: 
-- "Coach points at whiteboard labeled '3 Fat Loss Lies' while shaking head disapprovingly"
-- "Split screen showing 'before' morning routine vs 'after' optimized routine"
-- "Person dramatically throws scale in trash, then shows progress photos on phone"
+CREATIVE REQUIREMENTS:
+- Each concept must show EMOTION SHIFT: frustration → relief/confidence
+- Use REAL PROPS and specific settings (kitchen, living room, office, etc.)
+- Include FACIAL EXPRESSIONS and body language details
+- Add TEXT OVERLAY suggestions for key moments
+- End with clear VISUAL CTA (gesture, text, action)
 
-Make them engaging, clear, and easy to execute with common props/settings.
-`;
+VISUAL STORYTELLING ELEMENTS TO INCLUDE:
+- Specific props: scale, measuring tape, old workout DVDs, gym membership card, treadmill, dumbbells
+- Facial expressions: eye rolls, sighs, lightbulb moments, confident smiles
+- Gestures: pointing, shaking head, thumbs up, fist pumps, dramatic reveals
+- Text overlays: "This used to be me", "Then I discovered...", "Challenge Accepted"
+
+FORMAT REQUIREMENTS:
+CONCEPT 1: [Frustration setup] → [Revelation moment] → [Solution demo] → [Visual CTA]
+
+CONCEPT 2: [Different frustration angle] → [Breakthrough visual] → [Action sequence] → [Strong CTA]
+
+CONCEPT 3: [Third emotional hook] → [Solution reveal] → [Confidence moment] → [Clear CTA]
+
+FORBIDDEN ELEMENTS:
+- NO generic fitness stock footage descriptions
+- NO vague "working out" or "eating healthy" visuals  
+- NO corporate or clinical language
+- NO emojis or social media fluff
+- NO "lifestyle" or "wellness journey" concepts
+
+Each concept must be a complete creative brief that a video editor could execute immediately to create scroll-stopping, conversion-focused ads that speak directly to ${targetMarket} experiencing ${mainProblem}.`;
     
     return await generateContent('creative-prompt', systemPrompt);
   };
