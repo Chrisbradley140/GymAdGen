@@ -211,25 +211,46 @@ Create headlines that fitness professionals would pay thousands for because they
   };
 
   const generateCampaignName = async (): Promise<string> => {
-    const systemPrompt = `
-Suggest 5 creative campaign titles that feel clever, seasonal, or results-driven.
+    const voiceTone = brandData?.voice_tone_style || 'Bold';
+    const offerType = brandData?.offer_type || '';
+    const mainProblem = brandData?.main_problem || '';
+    
+    const systemPrompt = `You are a direct-response fitness marketer who creates campaigns that generate millions in revenue. Create 3-5 bold, conversion-focused campaign names that fitness professionals would pay thousands for.
 
-Think along the lines of "Postcode Power Hour" - catchy, memorable, and relevant to the target market.
+VOICE TONE: ${voiceTone}
+OFFER TYPE: ${offerType}
+MAIN CLIENT PROBLEM: ${mainProblem}
 
-Format your response as:
+🚫 STRICT PROHIBITIONS (NEVER USE):
+- Vague terms: "Fitness Journey", "Wellness Reset", "Healthy Lifestyle"
+- Self-help book style: "Consistency Code", "Mindset Mastery", "Inner Strength"
+- Generic gym flyers: "Get Fit Now", "Transform Today", "New You"
+- Overly long phrases (keep it 2-5 words max)
+- Soft wellness language
 
-CAMPAIGN 1: [Clever/witty campaign name]
+✅ MANDATORY REQUIREMENTS:
+- 2-5 words maximum (brandable and sticky)
+- Direct-response marketing feel (scroll-stopping, high ROAS)
+- Campaign-worthy (sounds like real marketing campaigns)
+- Incorporate specific pain points or solutions
+- Use seasonal angles when relevant
+- Include "no-cardio", "without gym" style differentiators when applicable
 
-CAMPAIGN 2: [Results-driven campaign name]
+🎯 PROVEN CAMPAIGN FORMULAS:
+- SEASONAL: "Summer Shred", "Back-to-School Burn", "Holiday Hustle"
+- NO-CARDIO ANGLES: "No-Cardio Commitment", "Cardio-Free Challenge", "Zero-Cardio Zone"
+- TIME-BASED: "30-Day Demolition", "12-Week Domination", "Weekend Warrior"
+- BODY-FOCUSED: "Belly Blitz", "Metabolism Makeover", "Plateau Buster"
+- COMMUNITY: "Mom Squad Strong", "Executive Edge", "Over-40 Uprising"
 
-CAMPAIGN 3: [Seasonal/timely campaign name]
+FORMAT EXAMPLES:
+1. Summer Shred Challenge
+2. No-Cardio Commitment  
+3. Plateau Buster Protocol
+4. Mom Squad Strong
+5. 12-Week Domination
 
-CAMPAIGN 4: [Transformation-focused campaign name]
-
-CAMPAIGN 5: [Community/movement campaign name]
-
-Make them memorable, brandable, and aligned with the business type and target audience.
-`;
+Create campaign names that sound like they belong on high-converting fitness ads, not gym bulletin boards.`;
     
     return await generateContent('campaign-name', systemPrompt);
   };
