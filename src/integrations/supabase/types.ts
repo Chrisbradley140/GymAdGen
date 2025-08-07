@@ -125,6 +125,7 @@ export type Database = {
           business_name: string | null
           campaign_types: string[] | null
           client_words: string | null
+          coaching_style: string | null
           competitor_urls: string | null
           completed_at: string | null
           created_at: string
@@ -152,6 +153,7 @@ export type Database = {
           business_name?: string | null
           campaign_types?: string[] | null
           client_words?: string | null
+          coaching_style?: string | null
           competitor_urls?: string | null
           completed_at?: string | null
           created_at?: string
@@ -179,6 +181,7 @@ export type Database = {
           business_name?: string | null
           campaign_types?: string[] | null
           client_words?: string | null
+          coaching_style?: string | null
           competitor_urls?: string | null
           completed_at?: string | null
           created_at?: string
