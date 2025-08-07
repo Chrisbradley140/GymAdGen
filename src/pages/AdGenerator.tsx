@@ -157,26 +157,44 @@ Create copy that feels authentic to their brand while following the strict 4-par
   };
 
   const generateHeadlineOptions = async (): Promise<string> => {
-    const systemPrompt = `
-Generate 3-5 punchy, attention-grabbing headlines for ads, lead forms, and landing pages.
-
-Focus on the target audience's main frustrations and the transformation your offer provides.
-
-Format your response as:
-
-HEADLINE 1: [Result-focused headline]
-
-HEADLINE 2: [Problem-focused headline] 
-
-HEADLINE 3: [Curiosity-driven headline]
-
-HEADLINE 4: [Social proof/testimonial headline]
-
-HEADLINE 5: [Urgency/scarcity headline]
-
-Each headline should be under 40 characters for optimal ad performance. Make them punchy, benefit-driven, and conversion-focused.
-`;
+    const voiceTone = brandData?.voice_tone_style || 'Bold';
     
+    // Voice tone style conditioning
+    const voicePatterns = {
+      'Bold': 'Use direct, confident, commanding language. Examples: "Stop Making This Mistake", "The Truth About...", "Here\'s What Works"',
+      'Playful': 'Use fun, cheeky, conversational language. Examples: "Oops! You\'re Doing It Wrong", "Plot Twist...", "Nobody Told You This"',
+      'Premium': 'Use sophisticated, exclusive, high-value language. Examples: "The Elite Method", "Exclusive Access...", "Reserved for Members Only"',
+      'Aggressive': 'Use intense, urgent, confrontational language. Examples: "Enough Excuses", "Time\'s Running Out", "Last Warning"'
+    };
+
+    const systemPrompt = `You are an elite fitness marketer with 10+ years creating high-converting headlines for transformation programs, personal trainers, and fitness brands.
+
+VOICE TONE: ${voiceTone}
+${voicePatterns[voiceTone as keyof typeof voicePatterns]}
+
+Create 5 headline options that sound like they were written by a seasoned fitness industry insider - NOT generic AI copy.
+
+MANDATORY PROVEN ANGLES (use 1-2 per headline):
+- FRUSTRATION: Target specific fitness plateaus, slow results, confusing advice
+- BELIEF BREAKER: Challenge fitness myths ("cardio for fat loss", "spot reduction", "no pain no gain")
+- URGENCY: Summer body deadlines, wedding prep, age-related metabolism changes
+
+FITNESS MARKETER LANGUAGE RULES:
+- Use insider terms: "plateau", "body recomp", "metabolic damage", "training age"
+- Reference real struggles: stubborn belly fat, muscle confusion, calorie cycling fails
+- Include transformation timeframes: "30-day", "12-week", "summer ready"
+- Use fitness-specific pain points: scales lying, clothes not fitting, energy crashes
+
+FORMAT: Numbered list, each headline under 40 characters, conversion-focused with built-in urgency.
+
+1. [Headline]
+2. [Headline]
+3. [Headline]
+4. [Headline]
+5. [Headline]
+
+Write like a fitness marketer who's actually transformed thousands of bodies - not like ChatGPT.`;
+
     return await generateContent('headline-options', systemPrompt);
   };
 
