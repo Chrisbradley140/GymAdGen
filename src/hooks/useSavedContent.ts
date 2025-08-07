@@ -24,7 +24,8 @@ export const useSavedContent = () => {
     contentType: ContentType,
     title: string,
     content: string,
-    metadata: any = {}
+    metadata: any = {},
+    campaignId?: string
   ) => {
     if (!user) {
       toast({
@@ -45,7 +46,8 @@ export const useSavedContent = () => {
           content_type: contentType,
           title,
           content,
-          metadata
+          metadata,
+          campaign_id: campaignId
         })
         .select()
         .single();

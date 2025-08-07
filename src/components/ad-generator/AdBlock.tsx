@@ -15,9 +15,10 @@ interface AdBlockProps {
   onGenerate: () => Promise<string>;
   placeholder?: string;
   contentType: ContentType;
+  campaignId?: string;
 }
 
-export function AdBlock({ title, description, icon, onGenerate, placeholder, contentType }: AdBlockProps) {
+export function AdBlock({ title, description, icon, onGenerate, placeholder, contentType, campaignId }: AdBlockProps) {
   const [content, setContent] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const { toast } = useToast();
@@ -69,7 +70,8 @@ export function AdBlock({ title, description, icon, onGenerate, placeholder, con
       contentType,
       title,
       content,
-      { generatedAt: new Date().toISOString() }
+      { generatedAt: new Date().toISOString() },
+      campaignId
     );
   };
 

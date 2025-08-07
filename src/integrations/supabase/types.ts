@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      campaigns: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          offer_type: string | null
+          tone_style: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          offer_type?: string | null
+          tone_style?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          offer_type?: string | null
+          tone_style?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -40,36 +73,50 @@ export type Database = {
       }
       saved_ad_content: {
         Row: {
+          campaign_id: string | null
           content: string
           content_type: string
           created_at: string
           id: string
+          is_favorite: boolean | null
           metadata: Json | null
           title: string
           updated_at: string
           user_id: string
         }
         Insert: {
+          campaign_id?: string | null
           content: string
           content_type: string
           created_at?: string
           id?: string
+          is_favorite?: boolean | null
           metadata?: Json | null
           title: string
           updated_at?: string
           user_id: string
         }
         Update: {
+          campaign_id?: string | null
           content?: string
           content_type?: string
           created_at?: string
           id?: string
+          is_favorite?: boolean | null
           metadata?: Json | null
           title?: string
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "saved_ad_content_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_onboarding: {
         Row: {
