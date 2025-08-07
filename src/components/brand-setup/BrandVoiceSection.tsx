@@ -83,22 +83,6 @@ export const BrandVoiceSection: React.FC<BrandVoiceSectionProps> = ({
       </div>
 
       <div className="space-y-2">
-        <Label>Competitor URLs or Past Ads</Label>
-        {isEditing ? (
-          <Textarea
-            value={data.competitor_urls}
-            onChange={(e) => onUpdate('competitor_urls', e.target.value)}
-            placeholder="Enter URLs of competitor ads or successful ads, one per line"
-            rows={4}
-          />
-        ) : (
-          <p className="text-muted-foreground whitespace-pre-wrap">
-            {data.competitor_urls || 'Not provided'}
-          </p>
-        )}
-      </div>
-
-      <div className="space-y-2">
         <Label>Words/Phrases You Always Use</Label>
         {isEditing ? (
           <Textarea
