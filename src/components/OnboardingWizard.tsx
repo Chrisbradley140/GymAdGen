@@ -107,27 +107,30 @@ const OnboardingWizard: React.FC<{ onComplete: () => void; forceRestart?: boolea
       if (existingData) {
         setHasExistingData(true);
         
+        // Always load existing data to display in the form
+        setData({
+          business_name: existingData.business_name || '',
+          logo_url: existingData.logo_url || '',
+          website_url: existingData.website_url || '',
+          brand_colors: existingData.brand_colors || '',
+          target_market: existingData.target_market || '',
+          voice_tone_style: existingData.voice_tone_style || '',
+          offer_type: existingData.offer_type || '',
+          campaign_types: existingData.campaign_types || [],
+          seasonal_launch_options: existingData.seasonal_launch_options || [],
+          instagram_reel_url: existingData.instagram_reel_url || '',
+          meta_account: existingData.meta_account || '',
+          competitor_urls: existingData.competitor_urls || '',
+          brand_words: existingData.brand_words || '',
+          words_to_avoid: existingData.words_to_avoid || '',
+          main_problem: existingData.main_problem || '',
+          failed_solutions: existingData.failed_solutions || '',
+          client_words: existingData.client_words || '',
+          magic_wand_result: existingData.magic_wand_result || '',
+        });
+        
+        // Only resume from saved step if not force restarting
         if (!forceRestart) {
-          setData({
-            business_name: existingData.business_name || '',
-            logo_url: existingData.logo_url || '',
-            website_url: existingData.website_url || '',
-            brand_colors: existingData.brand_colors || '',
-            target_market: existingData.target_market || '',
-            voice_tone_style: existingData.voice_tone_style || '',
-            offer_type: existingData.offer_type || '',
-            campaign_types: existingData.campaign_types || [],
-            seasonal_launch_options: existingData.seasonal_launch_options || [],
-            instagram_reel_url: existingData.instagram_reel_url || '',
-            meta_account: existingData.meta_account || '',
-            competitor_urls: existingData.competitor_urls || '',
-            brand_words: existingData.brand_words || '',
-            words_to_avoid: existingData.words_to_avoid || '',
-            main_problem: existingData.main_problem || '',
-            failed_solutions: existingData.failed_solutions || '',
-            client_words: existingData.client_words || '',
-            magic_wand_result: existingData.magic_wand_result || '',
-          });
           setCurrentStep(existingData.step_completed + 1);
         }
       }
