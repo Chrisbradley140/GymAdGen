@@ -38,7 +38,7 @@ const StepFour: React.FC<StepFourProps> = ({ data, updateData }) => {
           id="meta_account"
           value={data.meta_account}
           onChange={(e) => updateData({ meta_account: e.target.value })}
-          placeholder="@your-facebook-page or @your-instagram"
+          placeholder="@your Instagram/TikTok/Facebook handle"
           className="w-full"
         />
         <p className="text-sm text-muted-foreground">
