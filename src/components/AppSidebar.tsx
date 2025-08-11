@@ -112,21 +112,20 @@ export function AppSidebar() {
 
       <SidebarFooter className="border-t border-border p-4">
         {userLogo && state === "expanded" && (
-          <div className="flex items-center gap-3 p-2">
+          <div className="flex justify-center p-2">
             <img 
               src={userLogo} 
-              alt="Your Logo" 
-              className="w-8 h-8 object-contain rounded border"
+              alt="Logo" 
+              className="w-12 h-12 object-contain rounded border"
             />
-            <span className="text-sm text-muted-foreground">Your Brand</span>
           </div>
         )}
         {userLogo && state === "collapsed" && (
           <div className="flex justify-center">
             <img 
               src={userLogo} 
-              alt="Your Logo" 
-              className="w-8 h-8 object-contain rounded border"
+              alt="Logo" 
+              className="w-10 h-10 object-contain rounded border"
             />
           </div>
         )}
