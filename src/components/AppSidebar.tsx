@@ -1,8 +1,9 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import { 
   LayoutDashboard, 
   Zap, 
@@ -33,6 +34,25 @@ export function AppSidebar() {
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = useSidebar();
+  const [userLogo, setUserLogo] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUserLogo = async () => {
+      if (!user) return;
+
+      const { data } = await supabase
+        .from('user_onboarding')
+        .select('logo_url')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      if (data?.logo_url) {
+        setUserLogo(data.logo_url);
+      }
+    };
+
+    fetchUserLogo();
+  }, [user]);
 
   const navigationItems = [
     { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
@@ -91,7 +111,25 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="border-t border-border p-4">
-        {/* Footer is now empty since user profile moved to top right */}
+        {userLogo && state === "expanded" && (
+          <div className="flex items-center gap-3 p-2">
+            <img 
+              src={userLogo} 
+              alt="Your Logo" 
+              className="w-8 h-8 object-contain rounded border"
+            />
+            <span className="text-sm text-muted-foreground">Your Brand</span>
+          </div>
+        )}
+        {userLogo && state === "collapsed" && (
+          <div className="flex justify-center">
+            <img 
+              src={userLogo} 
+              alt="Your Logo" 
+              className="w-8 h-8 object-contain rounded border"
+            />
+          </div>
+        )}
       </SidebarFooter>
     </Sidebar>
   );

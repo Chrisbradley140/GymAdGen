@@ -1,9 +1,12 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Upload, X } from 'lucide-react';
+import { Upload, X, Loader2 } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
+import { toast } from 'sonner';
 
 interface StepOneProps {
   data: {
@@ -15,11 +18,41 @@ interface StepOneProps {
 }
 
 const StepOne: React.FC<StepOneProps> = ({ data, updateData }) => {
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const { user } = useAuth();
+  const [uploading, setUploading] = useState(false);
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file) {
-      // For now, just store the file name. In a real app, you'd upload to Supabase Storage
-      updateData({ logo_url: file.name });
+    if (!file || !user) return;
+
+    setUploading(true);
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${user.id}/logo.${fileExt}`;
+
+      const { error } = await supabase.storage
+        .from('logos')
+        .upload(fileName, file, {
+          upsert: true,
+        });
+
+      if (error) {
+        toast.error('Failed to upload logo');
+        console.error('Upload error:', error);
+        return;
+      }
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('logos')
+        .getPublicUrl(fileName);
+
+      updateData({ logo_url: publicUrl });
+      toast.success('Logo uploaded successfully');
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast.error('Failed to upload logo');
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -53,9 +86,14 @@ const StepOne: React.FC<StepOneProps> = ({ data, updateData }) => {
             variant="outline"
             onClick={() => document.getElementById('logo_upload')?.click()}
             className="flex items-center gap-2"
+            disabled={uploading}
           >
-            <Upload className="w-4 h-4" />
-            Upload Logo
+            {uploading ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Upload className="w-4 h-4" />
+            )}
+            {uploading ? 'Uploading...' : 'Upload Logo'}
           </Button>
           <input
             id="logo_upload"
@@ -66,8 +104,13 @@ const StepOne: React.FC<StepOneProps> = ({ data, updateData }) => {
           />
           {data.logo_url && (
             <div className="flex items-center gap-2">
+              <img 
+                src={data.logo_url} 
+                alt="Uploaded logo" 
+                className="w-8 h-8 object-contain border rounded"
+              />
               <span className="text-sm text-muted-foreground">
-                {data.logo_url}
+                Logo uploaded
               </span>
               <Button
                 type="button"
