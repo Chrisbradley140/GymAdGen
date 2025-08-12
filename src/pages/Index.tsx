@@ -246,18 +246,16 @@ const Index = () => {
             {/* Marketing Tool Description */}
             <div className="mb-8">
               <p className="text-sm text-white font-klein">
-                <span className="text-white">The FIRST fitness MARKETING AI TOOL MADE BY</span>{" "}
-                <span className="font-bold" style={{ color: '#FE0010' }}>GYMS OWNERS & ONLINE COACHES</span>
+                <span className="text-white">For gyms, studios, and coaches who want</span>{" "}
+                <span className="font-bold" style={{ color: '#FE0010' }}>more sign-ups without the guesswork.</span>
               </p>
             </div>
 
             {/* Main Headline */}
             <h1 className="font-klein font-extrabold text-white text-center mb-8 text-3xl md:text-4xl lg:text-5xl leading-tight">
-              Outperform 'Fitness Marketing Agencies', Canva
+              Get More Fitness Clients in 90 Seconds
               <br className="block" />
-              Templates and ChatGPT — With The AI Ad Tool
-              <br className="block" />
-              Built for Real Fitness Businesses.
+              — With Ads Built Just for Fitness Businesses.
             </h1>
 
             {/* Subheadline CTA */}
@@ -275,7 +273,7 @@ const Index = () => {
 
             {/* Footer Tagline */}
             <p className="text-base md:text-lg text-white max-w-2xl mx-auto font-semibold font-klein">
-              No more ChatGPT garbage that sounds like it was written by your nan.
+              No generic AI. No wasted time. Just campaigns that convert.
             </p>
           </div>
         </div>
