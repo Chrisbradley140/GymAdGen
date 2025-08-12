@@ -277,9 +277,16 @@ const Index = () => {
             </div>
 
             {/* Footer Tagline */}
-            <p className="text-base md:text-lg text-white max-w-2xl mx-auto font-semibold font-klein">
+            <p className="text-base md:text-lg text-white max-w-2xl mx-auto font-semibold font-klein mb-8">
               No generic AI. No wasted time. Just campaigns that convert.
             </p>
+
+            {/* Primary CTA */}
+            <div className="flex justify-center">
+              <CTAButton size="lg">
+                Build My First Campaign
+              </CTAButton>
+            </div>
           </div>
         </div>
       </section>
