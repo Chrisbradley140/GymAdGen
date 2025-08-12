@@ -483,6 +483,61 @@ const Index = () => {
       {/* Comparison Table Section */}
       <ComparisonTable />
 
+      {/* Pricing Section */}
+      <section className="py-16 px-4 bg-background">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-black text-white mb-8 font-klein">
+              Professional Ads at a Fraction of Traditional Costs.
+            </h2>
+          </div>
+
+          {/* Pricing Cards */}
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
+            {/* Pro Plan */}
+            <Card className="p-6 border-2 border-muted hover:border-primary transition-colors">
+              <div className="text-center">
+                <h3 className="text-xl font-bold text-white mb-2 font-klein">Pro</h3>
+                <div className="text-3xl font-black text-white mb-4 font-klein">£99/month</div>
+                <p className="text-muted-foreground mb-6">For solo coaches & single-location gyms</p>
+              </div>
+            </Card>
+
+            {/* Scale Plan */}
+            <Card className="p-6 border-2 border-primary bg-primary/5 relative">
+              <div className="text-center">
+                <h3 className="text-xl font-bold text-white mb-2 font-klein">Scale</h3>
+                <div className="text-3xl font-black text-white mb-4 font-klein">£199/month</div>
+                <p className="text-muted-foreground mb-6">Multi-location, team accounts, advanced analytics</p>
+              </div>
+            </Card>
+
+            {/* Lifetime Deal */}
+            <Card className="p-6 border-2 border-muted hover:border-primary transition-colors">
+              <div className="text-center">
+                <h3 className="text-xl font-bold text-white mb-2 font-klein">Lifetime Deal</h3>
+                <div className="text-3xl font-black text-white mb-4 font-klein">£499</div>
+                <p className="text-muted-foreground mb-6">Limited — only 50 available at launch</p>
+              </div>
+            </Card>
+          </div>
+
+          {/* Reassurance Text */}
+          <div className="text-center mb-8">
+            <p className="text-lg text-muted-foreground">
+              Start small. Test with £5/day. See results before you scale.
+            </p>
+          </div>
+
+          {/* CTA */}
+          <div className="text-center">
+            <CTAButton size="lg">
+              Get Started Today
+            </CTAButton>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ Section */}
       <FAQ />
 
