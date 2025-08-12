@@ -252,23 +252,28 @@ const Index = () => {
             </div>
 
             {/* Main Headline */}
-            <h1 className="font-klein font-extrabold text-white text-center mb-8 text-3xl md:text-4xl lg:text-5xl leading-tight">
-              Get More Fitness Clients in 90 Seconds
-              <br className="block" />
-              — With Ads Built Just for Fitness Businesses.
-            </h1>
-
-            {/* Subheadline CTA */}
-            <div className="mb-8">
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-2xl md:text-3xl font-semibold text-white font-klein">
-                <span>Get Money Printing Ads In</span>
-                <div 
-                  className="px-6 py-3 rounded-md"
-                  style={{ backgroundColor: '#FE0010' }}
-                >
-                  <span className="text-white font-bold font-klein text-2xl md:text-3xl">20 seconds</span>
+            <div className="text-center mb-8">
+              <div className="flex flex-col items-center justify-center gap-4 font-klein font-extrabold text-white text-3xl md:text-4xl lg:text-5xl leading-tight">
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-2">
+                  <span>Get More Fitness Clients in</span>
+                  <div 
+                    className="px-6 py-3 rounded-md"
+                    style={{ backgroundColor: '#FE0010' }}
+                  >
+                    <span className="text-white font-bold font-klein text-3xl md:text-4xl lg:text-5xl">90 Seconds</span>
+                  </div>
+                </div>
+                <div>
+                  — With Ads Built Just for Fitness Businesses.
                 </div>
               </div>
+            </div>
+
+            {/* New tagline */}
+            <div className="mb-8">
+              <p className="text-xl md:text-2xl font-semibold text-white font-klein">
+                The world's first ad engine trained on £100k/month of real fitness ad spend.
+              </p>
             </div>
 
             {/* Footer Tagline */}
