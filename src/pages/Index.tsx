@@ -483,6 +483,65 @@ const Index = () => {
       {/* Comparison Table Section */}
       <ComparisonTable />
 
+      {/* WHO IT'S FOR Section */}
+      <section className="py-16 px-4 bg-secondary/10">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-black text-white mb-8 font-klein">
+              Whether You're a Solo PT or Running 5 Locations — We've Got You Covered.
+            </h2>
+          </div>
+
+          {/* Personas Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Burnt-Out Online Coach */}
+            <Card className="p-6 border border-muted hover:border-primary transition-colors">
+              <div className="mb-4">
+                <h3 className="text-lg font-bold text-primary mb-2 font-klein">Burnt-Out Online Coach</h3>
+                <Target className="w-8 h-8 text-primary mb-3" />
+                <p className="text-muted-foreground">Done-for-you ads in your voice.</p>
+              </div>
+            </Card>
+
+            {/* Local Gym Owner */}
+            <Card className="p-6 border border-muted hover:border-primary transition-colors">
+              <div className="mb-4">
+                <h3 className="text-lg font-bold text-primary mb-2 font-klein">Local Gym Owner</h3>
+                <MapPin className="w-8 h-8 text-primary mb-3" />
+                <p className="text-muted-foreground">Hyper-local ads that stand out in a crowded feed.</p>
+              </div>
+            </Card>
+
+            {/* Solo PT in Big Box Gym */}
+            <Card className="p-6 border border-muted hover:border-primary transition-colors">
+              <div className="mb-4">
+                <h3 className="text-lg font-bold text-primary mb-2 font-klein">Solo PT in Big Box Gym</h3>
+                <User className="w-8 h-8 text-primary mb-3" />
+                <p className="text-muted-foreground">Postcode-targeted campaigns, no funnel required.</p>
+              </div>
+            </Card>
+
+            {/* Wellness Niche Coach */}
+            <Card className="p-6 border border-muted hover:border-primary transition-colors">
+              <div className="mb-4">
+                <h3 className="text-lg font-bold text-primary mb-2 font-klein">Wellness Niche Coach</h3>
+                <Star className="w-8 h-8 text-primary mb-3" />
+                <p className="text-muted-foreground">Tone-matched ads with emotional precision.</p>
+              </div>
+            </Card>
+
+            {/* Studio Scaling Fast */}
+            <Card className="p-6 border border-muted hover:border-primary transition-colors md:col-span-2 lg:col-span-1">
+              <div className="mb-4">
+                <h3 className="text-lg font-bold text-primary mb-2 font-klein">Studio Scaling Fast</h3>
+                <TrendingUp className="w-8 h-8 text-primary mb-3" />
+                <p className="text-muted-foreground">Brand-cohesive campaigns, seasonally aligned.</p>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       {/* Pricing Section */}
       <section className="py-16 px-4 bg-background">
         <div className="max-w-6xl mx-auto">
