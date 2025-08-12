@@ -9,8 +9,9 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// Privacy violations detection patterns
+// Comprehensive Meta Ads policy violation patterns
 const PRIVACY_VIOLATION_PATTERNS = {
+  // Personal Attributes Violations
   raceEthnicity: [
     /\b(meet|find|are you|other)\s+(hispanic|black|white|asian|latino|african|caucasian)\b/gi,
     /\b(hispanic|black|white|asian|latino|african|caucasian)\s+(men|women|singles|people)\b/gi
@@ -58,6 +59,7 @@ const PRIVACY_VIOLATION_PATTERNS = {
     /\bwhat is your.*number\b/gi,
     /\bhave a.*licence\b/gi
   ],
+  
   // Health & Wellness Violations
   bodyShaming: [
     /\b(perfect\s+body|ideal\s+body|dream\s+body|body\s+goals)\b/gi,
@@ -102,11 +104,54 @@ const PRIVACY_VIOLATION_PATTERNS = {
   ageTargetingHealth: [
     /\b(weight\s+loss|diet|cosmetic|surgery)\b(?!.*\b(18\+|adults?\s+only|over\s+18)\b)/gi,
     /\b(anti.aging|botox|filler|procedure)\b(?!.*\b(18\+|adults?\s+only|over\s+18)\b)/gi
+  ],
+  
+  // Sensational Content Violations
+  sensationalContent: [
+    /\b(shocking|outrageous|unbelievable|incredible|mind-blowing|jaw-dropping)\b/gi,
+    /\b(you\s+won't\s+believe|shocking\s+truth|secret\s+they\s+don't\s+want|doctors\s+hate|exposed)\b/gi,
+    /\b(violence|violent|blood|gore|graphic|disturbing|traumatic)\b/gi,
+    /\b(fear|panic|terror|horrific|nightmare|disaster|catastrophe)\b/gi,
+    /\b(clickbait|sensational|inflammatory|exploitative|manipulative)\b/gi,
+    /\b(shocking\s+results|mind-blowing\s+transformation|unbelievable\s+change)\b/gi
+  ],
+  
+  // Restricted Industries
+  cryptocurrency: [
+    /\b(bitcoin|cryptocurrency|crypto|blockchain|NFT|digital\s+currency|virtual\s+currency)\b/gi,
+    /\b(mining|wallet|exchange|trading|investment|profit|gains)\s+(crypto|bitcoin|digital\s+currency)\b/gi,
+    /\b(cryptocurrency\s+investment|crypto\s+trading|blockchain\s+technology)\b/gi
+  ],
+  dating: [
+    /\b(dating|match|relationship|romance|love|singles|hookup|affair)\b/gi,
+    /\b(find\s+love|meet\s+singles|dating\s+app|dating\s+site|romantic\s+connection)\b/gi,
+    /\b(soulmate|perfect\s+match|true\s+love|relationship\s+goals)\b/gi
+  ],
+  gambling: [
+    /\b(gambling|casino|poker|slots|betting|lottery|jackpot|odds)\b/gi,
+    /\b(win\s+money|easy\s+money|guaranteed\s+win|betting\s+system|gambling\s+system)\b/gi,
+    /\b(online\s+casino|sports\s+betting|poker\s+room|slot\s+machine)\b/gi
+  ],
+  alcohol: [
+    /\b(beer|wine|vodka|whiskey|alcohol|drinking|bar|pub|brewery)\b/gi,
+    /\b(get\s+drunk|party|celebration|toast|cocktail|spirits|alcoholic\s+beverage)\b/gi,
+    /\b(wine\s+tasting|brewery\s+tour|cocktail\s+hour|happy\s+hour)\b/gi
+  ],
+  political: [
+    /\b(election|vote|candidate|politician|government|policy|political|democracy)\b/gi,
+    /\b(liberal|conservative|republican|democrat|politics|campaign|voting)\b/gi,
+    /\b(social\s+issues|political\s+activism|government\s+policy)\b/gi
+  ],
+  addiction: [
+    /\b(addiction|rehab|recovery|detox|substance\s+abuse|drug\s+treatment|alcohol\s+treatment)\b/gi,
+    /\b(sober|sobriety|withdrawal|addiction\s+recovery|treatment\s+center|rehabilitation)\b/gi,
+    /\b(drug\s+addiction|alcohol\s+addiction|substance\s+dependency)\b/gi
   ]
 };
 
-// Health & Wellness Content Classification
-const HEALTH_WELLNESS_PATTERNS = {
+// Comprehensive content classification patterns
+const CONTENT_CLASSIFICATION_PATTERNS = {
+  // Health & Wellness
   weightLoss: [
     /\b(weight\s+loss|diet|lose\s+weight|slim|slimming|fat\s+burn|metabolism)\b/gi,
     /\b(supplements?|pills?|diet\s+plan|nutrition|calories)\b/gi
@@ -124,65 +169,190 @@ const HEALTH_WELLNESS_PATTERNS = {
   adultProducts: [
     /\b(adult|sexual|erotic|intimate|pleasure)\b/gi,
     /\b(toy|enhancement|arousal|stimulation)\b/gi
+  ],
+  
+  // Restricted Industries
+  cryptocurrency: [
+    /\b(bitcoin|cryptocurrency|crypto|blockchain|NFT|digital\s+currency|virtual\s+currency)\b/gi,
+    /\b(mining|wallet|exchange|trading|investment)\s+(crypto|bitcoin|digital\s+currency)\b/gi
+  ],
+  dating: [
+    /\b(dating|match|relationship|romance|love|singles|hookup)\b/gi,
+    /\b(find\s+love|meet\s+singles|dating\s+app|dating\s+site)\b/gi
+  ],
+  gambling: [
+    /\b(gambling|casino|poker|slots|betting|lottery|jackpot)\b/gi,
+    /\b(win\s+money|easy\s+money|guaranteed\s+win|betting\s+system)\b/gi
+  ],
+  alcohol: [
+    /\b(beer|wine|vodka|whiskey|alcohol|drinking|bar|pub|brewery)\b/gi,
+    /\b(alcoholic\s+beverage|wine\s+tasting|brewery\s+tour)\b/gi
+  ],
+  political: [
+    /\b(election|vote|candidate|politician|government|policy|political)\b/gi,
+    /\b(liberal|conservative|republican|democrat|politics|campaign)\b/gi
+  ],
+  addiction: [
+    /\b(addiction|rehab|recovery|detox|substance\s+abuse|drug\s+treatment)\b/gi,
+    /\b(sober|sobriety|withdrawal|addiction\s+recovery|treatment\s+center)\b/gi
   ]
 };
 
-// Content classification helper
-const classifyHealthWellnessContent = (content: string): string[] => {
-  const categories: string[] = [];
+// Comprehensive content classification helper
+const classifyAdContent = (content: string): { 
+  contentTypes: string[];
+  restrictedIndustries: string[];
+  approvalRequired: string[];
+  recommendations: string[];
+} => {
+  const contentTypes: string[] = [];
+  const restrictedIndustries: string[] = [];
+  const approvalRequired: string[] = [];
+  const recommendations: string[] = [];
   
-  Object.entries(HEALTH_WELLNESS_PATTERNS).forEach(([category, patterns]) => {
+  Object.entries(CONTENT_CLASSIFICATION_PATTERNS).forEach(([category, patterns]) => {
     patterns.forEach(pattern => {
       if (pattern.test(content)) {
-        if (!categories.includes(category)) {
-          categories.push(category);
-        }
-      }
-    });
-  });
-  
-  return categories;
-};
-
-// Enhanced policy compliance checker with health & wellness
-const checkPrivacyCompliance = (content: string): { 
-  isCompliant: boolean; 
-  violations: string[]; 
-  healthCategories: string[];
-  suggestions: string[];
-} => {
-  const violations: string[] = [];
-  const suggestions: string[] = [];
-  const healthCategories = classifyHealthWellnessContent(content);
-  
-  Object.entries(PRIVACY_VIOLATION_PATTERNS).forEach(([category, patterns]) => {
-    patterns.forEach(pattern => {
-      const matches = content.match(pattern);
-      if (matches) {
-        violations.push(`${category}: "${matches[0]}" - violates privacy policy`);
-        
-        // Add specific suggestions for health & wellness violations
-        if (category === 'bodyShaming') {
-          suggestions.push('Replace with body-positive language focusing on health benefits and realistic outcomes');
-        } else if (category === 'negativeSelfPerception') {
-          suggestions.push('Focus on empowerment and positive transformation rather than negative self-image');
-        } else if (category === 'weightLossViolations') {
-          suggestions.push('Remove before/after comparisons and focus on the journey and process instead');
-        } else if (category === 'cosmeticViolations') {
-          suggestions.push('Emphasize health benefits and realistic expectations without dramatic comparisons');
-        } else if (category === 'adultProducts' || category === 'sexualArousal') {
-          suggestions.push('Focus on health and medical benefits rather than pleasure or enhancement');
-        } else if (category === 'ageTargetingHealth') {
-          suggestions.push('Ensure proper age targeting (18+) for health and wellness products');
+        if (!contentTypes.includes(category)) {
+          contentTypes.push(category);
+          
+          // Add industry-specific recommendations and approval requirements
+          switch (category) {
+            case 'cryptocurrency':
+              restrictedIndustries.push(category);
+              approvalRequired.push('Requires special authorization from Meta');
+              recommendations.push('Focus on educational content rather than investment opportunities');
+              break;
+            case 'dating':
+              restrictedIndustries.push(category);
+              approvalRequired.push('Must comply with dating service policies');
+              recommendations.push('Avoid personal attribute targeting and focus on general relationship benefits');
+              break;
+            case 'gambling':
+              restrictedIndustries.push(category);
+              approvalRequired.push('Requires gambling advertising authorization');
+              recommendations.push('Must include responsible gambling messaging and age restrictions');
+              break;
+            case 'alcohol':
+              restrictedIndustries.push(category);
+              approvalRequired.push('Must target 21+ and follow alcohol advertising guidelines');
+              recommendations.push('Focus on taste, craftsmanship, and social aspects rather than intoxication');
+              break;
+            case 'political':
+              restrictedIndustries.push(category);
+              approvalRequired.push('Requires authorization for social issues, elections or politics');
+              recommendations.push('Must include disclaimer about who paid for the ad');
+              break;
+            case 'addiction':
+              restrictedIndustries.push(category);
+              approvalRequired.push('Requires authorization for addiction treatment services');
+              recommendations.push('Focus on hope, recovery, and professional treatment options');
+              break;
+            case 'weightLoss':
+            case 'cosmetic':
+            case 'reproductiveHealth':
+            case 'adultProducts':
+              approvalRequired.push('Must target 18+ audiences for health and wellness content');
+              recommendations.push('Emphasize health benefits and realistic expectations');
+              break;
+          }
         }
       }
     });
   });
   
   return {
+    contentTypes,
+    restrictedIndustries,
+    approvalRequired,
+    recommendations
+  };
+};
+
+// Enhanced comprehensive policy compliance checker
+const checkMetaAdsCompliance = (content: string): { 
+  isCompliant: boolean; 
+  violations: string[]; 
+  contentClassification: {
+    contentTypes: string[];
+    restrictedIndustries: string[];
+    approvalRequired: string[];
+    recommendations: string[];
+  };
+  suggestions: string[];
+} => {
+  const violations: string[] = [];
+  const suggestions: string[] = [];
+  const contentClassification = classifyAdContent(content);
+  
+  // Check for policy violations
+  Object.entries(PRIVACY_VIOLATION_PATTERNS).forEach(([category, patterns]) => {
+    patterns.forEach(pattern => {
+      const matches = content.match(pattern);
+      if (matches) {
+        violations.push(`${category}: "${matches[0]}" - violates Meta Ads policy`);
+        
+        // Add category-specific suggestions
+        switch (category) {
+          case 'bodyShaming':
+          case 'negativeSelfPerception':
+            suggestions.push('Replace with body-positive language focusing on health benefits and realistic outcomes');
+            break;
+          case 'weightLossViolations':
+            suggestions.push('Remove before/after comparisons and focus on the journey and process instead');
+            break;
+          case 'cosmeticViolations':
+            suggestions.push('Emphasize health benefits and realistic expectations without dramatic comparisons');
+            break;
+          case 'adultProducts':
+          case 'sexualArousal':
+            suggestions.push('Focus on health and medical benefits rather than pleasure or enhancement');
+            break;
+          case 'ageTargetingHealth':
+            suggestions.push('Ensure proper age targeting (18+) for health and wellness products');
+            break;
+          case 'sensationalContent':
+            suggestions.push('Use factual, non-sensational language that doesn\'t rely on shock value');
+            break;
+          case 'cryptocurrency':
+            suggestions.push('Focus on educational content and obtain proper authorization from Meta');
+            break;
+          case 'dating':
+            suggestions.push('Avoid personal attribute targeting and focus on general relationship benefits');
+            break;
+          case 'gambling':
+            suggestions.push('Include responsible gambling messaging and ensure proper licensing');
+            break;
+          case 'alcohol':
+            suggestions.push('Target appropriate age groups (21+) and focus on taste/craftsmanship');
+            break;
+          case 'political':
+            suggestions.push('Include proper disclaimers and obtain authorization for political content');
+            break;
+          case 'addiction':
+            suggestions.push('Focus on hope, recovery, and professional treatment with proper authorization');
+            break;
+          default:
+            suggestions.push('Review content to ensure compliance with Meta Ads policies');
+        }
+      }
+    });
+  });
+  
+  // Add general suggestions for restricted industries
+  if (contentClassification.restrictedIndustries.length > 0) {
+    suggestions.push('This content appears to be in a restricted industry. Special approval may be required.');
+    contentClassification.recommendations.forEach(rec => {
+      if (!suggestions.includes(rec)) {
+        suggestions.push(rec);
+      }
+    });
+  }
+  
+  return {
     isCompliant: violations.length === 0,
     violations,
-    healthCategories,
+    contentClassification,
     suggestions
   };
 };
@@ -201,12 +371,12 @@ serve(async (req) => {
       throw new Error('OpenAI API key not configured');
     }
 
-    // Pre-generation privacy compliance check on brand data
+    // Pre-generation comprehensive compliance check on brand data
     const brandDataText = `${brandData.target_market} ${brandData.main_problem} ${brandData.client_words} ${brandData.magic_wand_result}`;
-    const preCheck = checkPrivacyCompliance(brandDataText);
+    const preCheck = checkMetaAdsCompliance(brandDataText);
     
     if (!preCheck.isCompliant) {
-      console.warn('Brand data contains potential privacy violations:', preCheck.violations);
+      console.warn('Brand data contains potential policy violations:', preCheck.violations);
       // Continue but log warnings - brand setup issues should be handled at setup time
     }
 
@@ -301,18 +471,24 @@ Create compelling, conversion-focused copy that speaks directly to the target au
     const data = await response.json();
     let generatedContent = data.choices[0].message.content;
 
-    // Post-generation privacy compliance check
-    const postCheck = checkPrivacyCompliance(generatedContent);
+    // Post-generation comprehensive compliance check
+    const postCheck = checkMetaAdsCompliance(generatedContent);
     
     if (!postCheck.isCompliant) {
-      console.error('Generated content violates privacy policy:', postCheck.violations);
+      console.error('Generated content violates Meta Ads policy:', postCheck.violations);
       
-      // Attempt to regenerate with stricter compliance prompts
+      // Enhanced retry with comprehensive compliance prompts
       const stricterPrompt = `${prompt}
 
-CRITICAL: The previous generation contained privacy policy violations. 
-REGENERATE ensuring ZERO personal attribute assertions or implications.
-Focus ONLY on product benefits and general audience needs.`;
+CRITICAL: The previous generation contained Meta Ads policy violations. 
+REGENERATE ensuring ZERO violations across all policy areas:
+- NO personal attribute assertions or implications
+- NO sensational, shocking, or clickbait language
+- NO restricted industry content without proper compliance
+- Focus ONLY on product benefits and general audience needs.
+
+SPECIFIC VIOLATIONS TO AVOID: ${postCheck.violations.join(', ')}
+COMPLIANCE SUGGESTIONS: ${postCheck.suggestions.join(', ')}`;
 
       const retryResponse = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
@@ -337,20 +513,20 @@ CRITICAL TONE & AUTHENTICITY RULES:
 - Sentence style should match their voice (short/punchy vs. longer explanatory)
 - Content must sound like the actual business owner wrote it, NOT an AI or agency
 
-META ADS PRIVACY POLICY COMPLIANCE - ABSOLUTELY CRITICAL:
-- NEVER assert or imply personal attributes about the audience
-- NEVER use phrases like "Meet [race/ethnicity] singles", "Are you [age/condition]?", "Other [group] members"
-- NEVER reference specific ages, medical conditions, financial status, or personal characteristics
-- NEVER ask for or reference personal information like names, ID numbers, or private details
-- ALLOWED: General location references ("New Yorker"), broad age ranges, celebrity names, "you/your" without personal attributes
-- FOCUS ON: Product benefits, general audience needs, broad demographic terms without assertions
+COMPREHENSIVE META ADS POLICY COMPLIANCE - ABSOLUTELY CRITICAL:
+- PERSONAL ATTRIBUTES: NEVER assert or imply personal attributes about the audience
+- SENSATIONAL CONTENT: Avoid shocking, sensational, inflammatory or excessively violent content
+- HEALTH & WELLNESS: Use body-positive language, realistic expectations, age-appropriate targeting (18+)
+- RESTRICTED INDUSTRIES: Follow special requirements for crypto, dating, gambling, alcohol, political content
+- FOCUS ON: Product benefits, general audience needs, factual information without violations
 
 FORBIDDEN ELEMENTS:
 - NO em dashes (—) or double hyphens (--) - ABSOLUTELY FORBIDDEN
-- NO generic AI phrases
-- NO corporate marketing speak or buzzwords
-- NO overly polished agency-style copy
-- NO personal attribute assertions or implications per Meta policy
+- NO personal attribute assertions ("Are you [condition]?", "Meet [demographic] singles")
+- NO sensational language ("shocking", "unbelievable", "mind-blowing")
+- NO body-shaming or negative self-perception language
+- NO before/after comparisons for weight loss or cosmetic procedures
+- NO generic AI phrases or corporate marketing speak
 
 AUTHENTICITY REQUIREMENTS:
 - Write in first person when appropriate (I, we, my, our)
@@ -360,7 +536,7 @@ AUTHENTICITY REQUIREMENTS:
 - Sound conversational and genuine, not scripted
 - Reflect their actual expertise and experience
 
-Create compelling, conversion-focused copy that speaks directly to the target audience while maintaining complete authenticity to the brand voice.` 
+Create compelling, conversion-focused copy that speaks directly to the target audience while maintaining complete compliance with ALL Meta Ads policies.` 
             },
             { role: 'user', content: stricterPrompt }
           ],
@@ -373,17 +549,21 @@ Create compelling, conversion-focused copy that speaks directly to the target au
         const retryData = await retryResponse.json();
         generatedContent = retryData.choices[0].message.content;
         
-        // Final compliance check
-        const finalCheck = checkPrivacyCompliance(generatedContent);
+        // Final comprehensive compliance check
+        const finalCheck = checkMetaAdsCompliance(generatedContent);
         if (!finalCheck.isCompliant) {
           console.error('Retry still contains violations:', finalCheck.violations);
           return new Response(JSON.stringify({ 
-            error: 'Generated content violates Meta privacy policy. Please review brand data and try again.',
-            violations: finalCheck.violations 
+            error: 'Generated content still violates Meta Ads policies after retry. Please review brand data and try again.',
+            violations: finalCheck.violations,
+            suggestions: finalCheck.suggestions,
+            contentClassification: finalCheck.contentClassification
           }), {
             status: 400,
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           });
+        } else {
+          console.log('Successfully regenerated compliant content after retry');
         }
       }
     }
@@ -393,13 +573,14 @@ Create compelling, conversion-focused copy that speaks directly to the target au
       .replace(/—/g, '-')  // Replace em dashes with regular hyphens
       .replace(/--/g, '-'); // Replace double hyphens with single hyphens
 
-    console.log(`Successfully generated ${adType} content - Privacy compliant: ${postCheck.isCompliant}`);
+    console.log(`Successfully generated ${adType} content - Meta Ads compliant: ${postCheck.isCompliant}`);
+    console.log('Content classification:', postCheck.contentClassification);
 
     return new Response(JSON.stringify({ 
       generatedContent,
-      privacyCompliant: postCheck.isCompliant,
+      isCompliant: postCheck.isCompliant,
       violations: postCheck.violations,
-      healthCategories: postCheck.healthCategories,
+      contentClassification: postCheck.contentClassification,
       suggestions: postCheck.suggestions
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
