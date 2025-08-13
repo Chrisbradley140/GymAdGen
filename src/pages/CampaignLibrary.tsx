@@ -95,11 +95,11 @@ const CampaignLibrary = () => {
     });
   };
 
-  const handleExportPDF = () => {
+  const handleExportPDF = (campaign?: Campaign) => {
     // TODO: Implement PDF export
     toast({
       title: "Feature Coming Soon",
-      description: "PDF export functionality will be implemented soon.",
+      description: `PDF export for "${campaign?.name || 'campaign'}" will be implemented soon.`,
     });
   };
 
@@ -181,6 +181,7 @@ const CampaignLibrary = () => {
                 campaign={campaign}
                 onViewDetails={handleViewDetails}
                 onDelete={handleDelete}
+                onExportPDF={handleExportPDF}
               />
             ))}
           </div>

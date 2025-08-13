@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-import { Eye, Trash2 } from "lucide-react";
+import { Eye, Trash2, FileText } from "lucide-react";
 import { Campaign } from "@/hooks/useCampaigns";
 import { formatDistanceToNow } from "date-fns";
 
@@ -9,9 +9,10 @@ interface CampaignCardProps {
   campaign: Campaign;
   onViewDetails: (campaign: Campaign) => void;
   onDelete: (campaignId: string) => void;
+  onExportPDF: (campaign: Campaign) => void;
 }
 
-const CampaignCard = ({ campaign, onViewDetails, onDelete }: CampaignCardProps) => {
+const CampaignCard = ({ campaign, onViewDetails, onDelete, onExportPDF }: CampaignCardProps) => {
   const formattedDate = formatDistanceToNow(new Date(campaign.created_at), { addSuffix: true });
 
   return (
@@ -35,6 +36,14 @@ const CampaignCard = ({ campaign, onViewDetails, onDelete }: CampaignCardProps) 
             <Button variant="outline" size="sm" onClick={() => onViewDetails(campaign)}>
               <Eye className="w-4 h-4 mr-1" />
               View Details
+            </Button>
+            <Button 
+              size="sm" 
+              onClick={() => onExportPDF(campaign)}
+              className="bg-red-600 hover:bg-red-700 text-white"
+            >
+              <FileText className="w-4 h-4 mr-1" />
+              Export PDF
             </Button>
             <Button 
               variant="outline" 
