@@ -55,28 +55,6 @@ const CampaignLibrary = () => {
     }
   }, [user, loading, navigate, brandData]);
 
-  // SEO tags
-  useEffect(() => {
-    document.title = 'Campaign Library | FitnessAds.AI';
-    const metaDesc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
-    if (metaDesc) {
-      metaDesc.content = 'Browse and manage your AI-generated ad campaigns in one place.';
-    } else {
-      const m = document.createElement('meta');
-      m.name = 'description';
-      m.content = 'Browse and manage your AI-generated ad campaigns in one place.';
-      document.head.appendChild(m);
-    }
-    // canonical
-    const linkRel = Array.from(document.getElementsByTagName('link')).find(l => l.rel === 'canonical');
-    if (!linkRel) {
-      const l = document.createElement('link');
-      l.rel = 'canonical';
-      l.href = window.location.origin + '/library';
-      document.head.appendChild(l);
-    }
-  }, []);
-
   const loadCampaigns = async () => {
     const filters = {
       search: search || undefined,
@@ -196,7 +174,7 @@ const CampaignLibrary = () => {
 
         {/* Campaigns Grid */}
         {!isLoading && campaigns.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid gap-6">
             {campaigns.map((campaign) => (
               <CampaignCard
                 key={campaign.id}
