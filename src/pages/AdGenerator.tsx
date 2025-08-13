@@ -321,16 +321,18 @@ Meta Safety Rules:
 - Do not state or imply personal attributes (age, gender, health status, body type, physical condition, finances, relationship status).
 - No numeric promises about weight, body fat, inches, percentages, or timelines.
 - Replace "you" statements tied to a problem with inclusive, general observations (e.g., "Many people find cardio alone isn't enough").
-- No age references unless broad and inclusive (e.g., "busy professionals", "time-pressed people").
+- Remove age-specific references like "men over 30"; use broad descriptors instead (e.g., "busy professionals", "active people", "time-pressed people").
+- Never suggest the viewer lacks consistency, energy, or success. Frame these as general challenges some people face.
 - Avoid negative body image or shaming. Focus on positive, aspirational benefits (energy, confidence, consistency) without implying the audience currently lacks them.
 
 Style:
 - Short, visual, and upbeat; 1–2 sentences per frame.
-- Bold statement hooks only (no rhetorical questions).
+- Never start with a question. No rhetorical/leading questions that imply a personal struggle (e.g., "Struggling...?", "Can't...?", "Tired of...?").
 - Simple, energetic, conversational language that matches the brand's voice.
+- Positive, inviting, and solution-focused.
 
 Structure:
-Frame 1: Bold hook as a general observation/trend (no "you"-problem framing)
+Frame 1: Bold hook as a general observation/trend (no "you"-problem framing, no questions)
 Frame 2: Belief breaker + solution reveal in inclusive, aspirational terms
 Frame 3: Clear CTA inviting action (no implication of deficiency)
 
@@ -341,7 +343,7 @@ FRAME 3: [text]
 
 Return only the three frames exactly in this format, no extra commentary.
 `;
-    
+
     return await generateContent('ig-story-ad', systemPrompt);
   };
 
