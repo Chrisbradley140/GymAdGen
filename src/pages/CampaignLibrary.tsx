@@ -12,6 +12,7 @@ import CampaignCard from "@/components/campaign-library/CampaignCard";
 import { Input } from "@/components/ui/input";
 import CampaignDetailView from "@/components/campaign-library/CampaignDetailView";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { generateCampaignPDF } from "@/utils/pdfExport";
 
 const CampaignLibrary = () => {
   const { user, loading } = useAuth();
@@ -95,12 +96,56 @@ const CampaignLibrary = () => {
     });
   };
 
-  const handleExportPDF = (campaign?: Campaign) => {
-    // TODO: Implement PDF export
-    toast({
-      title: "Feature Coming Soon",
-      description: `PDF export for "${campaign?.name || 'campaign'}" will be implemented soon.`,
-    });
+  const handleExportPDF = async (campaign: Campaign) => {
+    try {
+      // Get campaign with content
+      const campaignWithContent = await getCampaignWithContent(campaign.id);
+      
+      if (!campaignWithContent) {
+        toast({
+          title: "Error",
+          description: "Failed to load campaign content for export.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Generate and download PDF
+      await generateCampaignPDF(campaignWithContent);
+      
+      toast({
+        title: "Success",
+        description: `PDF exported successfully for "${campaign.name}".`,
+      });
+    } catch (error) {
+      console.error('Error exporting PDF:', error);
+      toast({
+        title: "Error",
+        description: "Failed to export PDF. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleExportPDFFromModal = async () => {
+    if (!selectedCampaign) return;
+    
+    try {
+      // Generate and download PDF using the already loaded campaign with content
+      await generateCampaignPDF(selectedCampaign);
+      
+      toast({
+        title: "Success",
+        description: `PDF exported successfully for "${selectedCampaign.name}".`,
+      });
+    } catch (error) {
+      console.error('Error exporting PDF:', error);
+      toast({
+        title: "Error",
+        description: "Failed to export PDF. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleRegenerateContent = async (contentType: string) => {
@@ -211,7 +256,7 @@ const CampaignLibrary = () => {
           onClose={() => setShowDetailView(false)}
           onRegenerate={handleRegenerateContent}
           onToggleFavorite={handleToggleFavorite}
-          onExportPDF={handleExportPDF}
+          onExportPDF={handleExportPDFFromModal}
         />
       </div>
     </div>
