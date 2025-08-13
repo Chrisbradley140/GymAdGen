@@ -144,35 +144,33 @@ const AdGenerator = () => {
 
   const generateAdCaption = async (): Promise<string> => {
     const systemPrompt = `
-You are a fitness marketing expert trained on $100k/month ad spend data. Create a high-converting fitness ad caption following the FITNESSADS.AI Output Training Spec.
+You are a fitness marketing expert. Write a high-converting Instagram/Facebook ad caption.
 
-MANDATORY OUTPUT FORMAT:
+STRICT STRUCTURE (use these exact labels):
+HOOK: [bold, clear statement - no questions]
+PAIN MIRROR: [mirror a common struggle in inclusive terms]
+BELIEF BREAKER: [short insight + differentiator/mechanism]
+CTA: [direct, action-focused command]
 
-HOOK: [scroll-stopping line]  
-PAIN MIRROR: [relatable frustration, second-person POV]  
-BELIEF BREAKER: [the wedge, mechanism, or big insight]  
-CTA: [command-style action line]
+TONE AND STYLE:
+- Direct, confident, and benefit-focused. Avoid vague hype or exaggerated claims.
+- Use simple, energetic language that matches the brand's voice: confident, conversational, and action-oriented.
+- Start the HOOK with a statement, not a question. No rhetorical questions anywhere.
 
-INSTRUCTIONS:
-- HOOK: Short, punchy, possibly contrarian. Make them stop scrolling.
-- PAIN MIRROR: Reflect their frustration or failed attempts. Use second-person POV ("You've tried every diet...").
-- BELIEF BREAKER: Introduce your differentiator/mechanism. Example: "Most trainers guess, but our system was trained on $100k/month fitness ad spend."
-- CTA: Confident and direct command. No soft closes.
+INCLUSIVITY AND META SAFETY:
+- Do not reference personal attributes: age, gender, religion, ethnicity, health conditions, financial status, or relationship status.
+- Use broad, inclusive descriptors instead (e.g., "busy professionals", "new parents", "time-pressed people").
+- Avoid body shaming or negative self-perception. Focus on positive transformation, benefits, and empowerment.
+- Keep outputs fully compliant with Meta ad policies and ready to use without further editing.
 
-BRAND CONTEXT:
-- Business: Use insights from their website to match tone, USP, and positioning
-- Target Market: Address their specific demographics and psychographics
-- Main Problem: Center the pain mirror around their core frustration
-- Failed Solutions: Reference what they've already tried unsuccessfully
-- Dream Outcome: Connect to their magic wand result
-- Voice & Tone: Match their established communication style
-- Brand Words: Incorporate their preferred terminology
-- Words to Avoid: Never use their blacklisted terms
-- Offer Type: Align CTA with their specific offer structure
+BRAND CONTEXT (use provided brand data and site scan to guide tone/USP/positioning):
+- Voice & Tone: match their established communication style and brand words; avoid their blacklist.
+- Align CTA with their specific offer.
 
-Create copy that feels authentic to their brand while following the strict 4-part structure.
+OUTPUT RULES:
+- Only return the four labeled sections in this order (no extra commentary).
 `;
-    
+
     return await generateContent('ad-caption', systemPrompt);
   };
 
