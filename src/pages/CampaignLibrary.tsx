@@ -110,8 +110,8 @@ const CampaignLibrary = () => {
         return;
       }
 
-      // Generate and download PDF with user ID for logo fetching
-      await generateCampaignPDF(campaignWithContent, user?.id);
+      // Generate and download PDF
+      await generateCampaignPDF(campaignWithContent);
       
       toast({
         title: "Success",
@@ -132,7 +132,7 @@ const CampaignLibrary = () => {
     
     try {
       // Generate and download PDF using the already loaded campaign with content
-      await generateCampaignPDF(selectedCampaign, user?.id);
+      await generateCampaignPDF(selectedCampaign);
       
       toast({
         title: "Success",
