@@ -1,4 +1,4 @@
-
+import { useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -16,9 +16,37 @@ export const GeneralInfoSection: React.FC<GeneralInfoSectionProps> = ({
   isEditing, 
   onUpdate 
 }) => {
+  const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
+  const [selectedFileSize, setSelectedFileSize] = useState<number | null>(null);
+
+  const formatBytes = (bytes: number) => {
+    if (bytes < 1024) return `${bytes} B`;
+    const kb = bytes / 1024;
+    if (kb < 1024) return `${kb.toFixed(1)} KB`;
+    const mb = kb / 1024;
+    return `${mb.toFixed(1)} MB`;
+  };
+
+  const derivedFileName = useMemo(() => {
+    if (selectedFileName) return selectedFileName;
+    const url = data.logo_url;
+    if (!url) return null;
+    try {
+      const full = url.startsWith('http') ? url : `https://${url}`;
+      const u = new URL(full);
+      const name = decodeURIComponent(u.pathname.split('/').pop() || url);
+      return name || url;
+    } catch {
+      const parts = url.split('/');
+      return decodeURIComponent(parts[parts.length - 1] || url);
+    }
+  }, [selectedFileName, data.logo_url]);
+
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      setSelectedFileName(file.name);
+      setSelectedFileSize(file.size);
       // For now, just store the file name. In a real app, you'd upload to Supabase Storage
       onUpdate('logo_url', file.name);
     }
@@ -94,7 +122,7 @@ export const GeneralInfoSection: React.FC<GeneralInfoSectionProps> = ({
               className="flex items-center gap-2"
             >
               <Upload className="w-4 h-4" />
-              Upload Logo
+              {data.logo_url || selectedFileName ? 'Change Logo' : 'Upload Logo'}
             </Button>
             <input
               id="logo_upload"
@@ -103,8 +131,13 @@ export const GeneralInfoSection: React.FC<GeneralInfoSectionProps> = ({
               onChange={handleFileUpload}
               className="hidden"
             />
-            {data.logo_url && (
-              <span className="text-sm text-muted-foreground">{data.logo_url}</span>
+            {derivedFileName && (
+              <span
+                className="text-sm text-muted-foreground truncate max-w-[240px]"
+                title={selectedFileName ?? data.logo_url}
+              >
+                {derivedFileName}{selectedFileSize ? ` (${formatBytes(selectedFileSize)})` : ''}
+              </span>
             )}
           </div>
         ) : (
@@ -112,7 +145,24 @@ export const GeneralInfoSection: React.FC<GeneralInfoSectionProps> = ({
             {data.logo_url ? (
               <>
                 <Eye className="w-4 h-4" />
-                <span className="text-muted-foreground">{data.logo_url}</span>
+                {data.logo_url.startsWith('http') ? (
+                  <a
+                    href={data.logo_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline truncate max-w-[240px]"
+                    title={data.logo_url}
+                  >
+                    {derivedFileName || data.logo_url}
+                  </a>
+                ) : (
+                  <span
+                    className="text-muted-foreground truncate max-w-[240px]"
+                    title={data.logo_url}
+                  >
+                    {derivedFileName || data.logo_url}
+                  </span>
+                )}
               </>
             ) : (
               <p className="text-muted-foreground">No logo uploaded</p>
