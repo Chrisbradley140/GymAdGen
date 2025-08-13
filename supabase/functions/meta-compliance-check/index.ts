@@ -107,9 +107,14 @@ serve(async (req) => {
     }
 
     const openAIData = await response.json();
-    const complianceResponse = openAIData.choices[0].message.content;
+    let complianceResponse = openAIData.choices[0].message.content;
 
     console.log('OpenAI compliance response:', complianceResponse);
+
+    // Clean up markdown formatting if present
+    if (complianceResponse.includes('```json')) {
+      complianceResponse = complianceResponse.replace(/```json\n?/g, '').replace(/```\n?/g, '');
+    }
 
     // Parse the JSON response
     let complianceResult: ComplianceResult;
@@ -117,6 +122,7 @@ serve(async (req) => {
       complianceResult = JSON.parse(complianceResponse);
     } catch (parseError) {
       console.error('Failed to parse OpenAI response as JSON:', parseError);
+      console.error('Raw response:', complianceResponse);
       throw new Error('Invalid response format from compliance checker');
     }
 

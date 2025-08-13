@@ -32,13 +32,41 @@ export function AdBlock({ title, description, icon, onGenerate, placeholder, con
 
   const handleGenerate = async () => {
     setIsGenerating(true);
+    setComplianceResult(null);
     try {
       const result = await onGenerate();
       setContent(result);
-      toast({
-        title: "Success",
-        description: `${title} generated successfully!`,
-      });
+      
+      // Automatically run compliance check after generation
+      const complianceCheck = await checkAndFixForMetaPolicy(
+        result,
+        contentType,
+        brandData?.voice_tone_style
+      );
+      setComplianceResult(complianceCheck);
+      
+      // Show appropriate toast based on compliance result
+      if (complianceCheck.isCompliant) {
+        toast({
+          title: "✅ Policy-Safe Content Generated",
+          description: `${title} generated and complies with Meta policies!`,
+        });
+      } else if (complianceCheck.complianceStatus === 'fixed') {
+        toast({
+          title: "⚠️ Content Updated for Compliance",
+          description: `Found ${complianceCheck.violations.length} violation(s) and provided a compliant version.`,
+        });
+        // Auto-update with fixed content
+        if (complianceCheck.fixedText) {
+          setContent(complianceCheck.fixedText);
+        }
+      } else {
+        toast({
+          title: "❌ Policy Violations Found",
+          description: `Found ${complianceCheck.violations.length} violation(s) that cannot be auto-fixed.`,
+          variant: "destructive",
+        });
+      }
     } catch (error) {
       console.error("Error generating content:", error);
       toast({
@@ -242,9 +270,9 @@ export function AdBlock({ title, description, icon, onGenerate, placeholder, con
                 <div className="flex items-center gap-2 mb-2">
                   {getComplianceIcon()}
                   <span className="font-medium text-sm">
-                    {complianceResult.complianceStatus === 'passed' && 'Meta Policy Compliant'}
-                    {complianceResult.complianceStatus === 'fixed' && 'Violations Fixed'}
-                    {complianceResult.complianceStatus === 'failed' && 'Policy Violations Found'}
+                    {complianceResult.complianceStatus === 'passed' && '✅ Policy-Safe'}
+                    {complianceResult.complianceStatus === 'fixed' && '⚠️ Updated for Meta Policy Compliance'}
+                    {complianceResult.complianceStatus === 'failed' && '❌ Policy Violations Found'}
                   </span>
                 </div>
                 
@@ -259,14 +287,16 @@ export function AdBlock({ title, description, icon, onGenerate, placeholder, con
                   </div>
                 )}
 
-                {complianceResult.fixedText && complianceResult.complianceStatus === 'fixed' && (
+                {complianceResult.complianceStatus === 'failed' && (
                   <div className="mt-3">
                     <Button
                       size="sm"
-                      onClick={handleUseFix}
+                      onClick={handleGenerate}
+                      disabled={isGenerating}
                       className="text-xs"
                     >
-                      Use Fixed Version
+                      <RefreshCw className="w-3 h-3 mr-1" />
+                      Regenerate
                     </Button>
                   </div>
                 )}
