@@ -386,55 +386,67 @@ Return only the three frames exactly in this format, no extra commentary.
       solutionReveal = 'SOLUTION REVEAL: Coach demonstrating simple movement, person nodding with "aha" expression, transformation shots. ';
     }
 
-    const systemPrompt = `You are an elite fitness marketing creative director who produces scroll-stopping ads that generate millions in revenue. Create 3 conversion-focused visual concepts for Instagram Reels/Carousels that tell complete emotional stories.
+    const systemPrompt = `
+You are a performance marketer and creative director. Generate 3 Meta-safe visual concepts for Reels/Carousels that are inclusive and ready to execute.
 
-BRAND CONTEXT:
-VOICE TONE: ${voiceTone}
-TARGET MARKET: ${targetMarket}
-MAIN PROBLEM: ${mainProblem}
-FAILED SOLUTIONS: ${failedSolutions}
-DREAM OUTCOME: ${magicWandResult}
-CLIENT LANGUAGE: "${clientWords}"
-OFFER TYPE: ${offerType}
+Compliance and Inclusivity:
+- Do not mention specific ages, genders, or personal attributes in overlays or descriptions.
+- Do not imply the viewer personally struggles (avoid "you can't", "you're tired of"). Use generalized observations ("Many people find...", "Lots of busy professionals...").
+- No “before/after” framing. Show positive, standalone moments that demonstrate benefits without implying a prior negative state.
+- Keep benefits broad and aspirational (e.g., "more energy", "feeling stronger", "moving with confidence"), without diagnosing the viewer’s current state.
+- If referring to a challenge, present it as a general trend or scenario, not about the viewer.
+- No numeric promises about weight, body fat, inches, percentages, or timeframes.
 
-${frustrationHook}
-${audienceContext}
-${solutionReveal}
+Brand Context:
+- Voice & Tone: ${voiceTone}
+- Offer Type: ${offerType}
+- Client Words to echo (avoid blacklist): "${clientWords}"
+- Dream Outcome: ${magicWandResult}
 
-MANDATORY STRUCTURE FOR EACH CONCEPT:
-1. FRUSTRATION MOMENT: Specific visual showing the pain point
-2. TRANSITION/REVELATION: Visual "aha" moment or breakthrough
-3. SOLUTION IN ACTION: Person demonstrating/experiencing the solution
-4. VISUAL CTA: Strong call-to-action overlay or gesture
+For each concept, provide EXACTLY:
+1) Title: Short, evocative concept name (no personal attributes).
+2) Scene: 1–2 sentences describing a positive, standalone moment (no before/after, no diagnostic phrasing).
+3) Text Overlays (2–3): General observations or benefits; no direct "you"-problem statements.
+4) Visual Details: Props/settings B‑roll that are neutral and inclusive (e.g., water bottle, calendar check, short home session between meetings).
+5) CTA Overlay: Inviting, action‑focused, and compliant (e.g., "Start today", "Learn more").
+6) Audio/Motion: Music/movement cues to keep it upbeat.
 
-CREATIVE REQUIREMENTS:
-- Each concept must show EMOTION SHIFT: frustration → relief/confidence
-- Use REAL PROPS and specific settings (kitchen, living room, office, etc.)
-- Include FACIAL EXPRESSIONS and body language details
-- Add TEXT OVERLAY suggestions for key moments
-- End with clear VISUAL CTA (gesture, text, action)
+Language Rules:
+- Neutral, inclusive phrasing: "people", "many find", "lots of busy professionals".
+- Avoid age/gender/health‑status mentions.
+- Active, simple, and upbeat voice; keep it concise.
 
-VISUAL STORYTELLING ELEMENTS TO INCLUDE:
-- Specific props: scale, measuring tape, old workout DVDs, gym membership card, treadmill, dumbbells
-- Facial expressions: eye rolls, sighs, lightbulb moments, confident smiles
-- Gestures: pointing, shaking head, thumbs up, fist pumps, dramatic reveals
-- Text overlays: "This used to be me", "Then I discovered...", "Challenge Accepted"
+Output Format (exactly):
+CONCEPT 1
+Title: ...
+Scene: ...
+Text Overlays:
+- ...
+- ...
+Visual Details: ...
+CTA Overlay: ...
+Audio/Motion: ...
 
-FORMAT REQUIREMENTS:
-CONCEPT 1: [Frustration setup] → [Revelation moment] → [Solution demo] → [Visual CTA]
+CONCEPT 2
+Title: ...
+Scene: ...
+Text Overlays:
+- ...
+- ...
+Visual Details: ...
+CTA Overlay: ...
+Audio/Motion: ...
 
-CONCEPT 2: [Different frustration angle] → [Breakthrough visual] → [Action sequence] → [Strong CTA]
-
-CONCEPT 3: [Third emotional hook] → [Solution reveal] → [Confidence moment] → [Clear CTA]
-
-FORBIDDEN ELEMENTS:
-- NO generic fitness stock footage descriptions
-- NO vague "working out" or "eating healthy" visuals  
-- NO corporate or clinical language
-- NO emojis or social media fluff
-- NO "lifestyle" or "wellness journey" concepts
-
-Each concept must be a complete creative brief that a video editor could execute immediately to create scroll-stopping, conversion-focused ads that speak directly to ${targetMarket} experiencing ${mainProblem}.`;
+CONCEPT 3
+Title: ...
+Scene: ...
+Text Overlays:
+- ...
+- ...
+Visual Details: ...
+CTA Overlay: ...
+Audio/Motion: ...
+`;
     
     return await generateContent('creative-prompt', systemPrompt);
   };
@@ -496,7 +508,7 @@ Each concept must be a complete creative brief that a video editor could execute
 
           <AdBlock
             title="Creative Prompt Generator"
-            description="Generate 1-2 sentence visual ideas for reels, carousels, or image ads"
+            description="Meta-safe visual prompts: inclusive, no before/after, no personal attributes"
             icon={<Camera className="w-6 h-6 text-primary" />}
             onGenerate={generateCreativePrompt}
             contentType="creative_prompt"
