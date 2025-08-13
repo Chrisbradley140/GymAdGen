@@ -116,7 +116,7 @@ export function AppSidebar() {
             <img 
               src={userLogo} 
               alt="Logo" 
-              className="w-20 h-20 object-contain rounded-lg border ring-1 ring-border shadow-md p-2"
+              className="h-auto w-auto max-h-24 max-w-[160px] object-contain rounded-lg border ring-1 ring-border shadow-md p-2"
             />
           </div>
         )}
@@ -125,7 +125,7 @@ export function AppSidebar() {
             <img 
               src={userLogo} 
               alt="Logo" 
-              className="w-12 h-12 object-contain rounded-lg border ring-1 ring-border shadow"
+              className="h-auto w-auto max-h-10 max-w-10 object-contain rounded-lg border ring-1 ring-border shadow"
             />
           </div>
         )}
