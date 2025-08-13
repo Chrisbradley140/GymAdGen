@@ -59,7 +59,7 @@ export function AppSidebar() {
     { name: "Ad Generator", path: "/generate", icon: Zap },
     { name: "Campaign Library", path: "/library", icon: Library },
     { name: "Brand Setup", path: "/brand-setup", icon: Settings },
-    { name: "Export PDF", path: "/export", icon: FileText },
+    
     { name: "Account", path: "/account", icon: User },
   ];
 

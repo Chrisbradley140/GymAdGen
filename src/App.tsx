@@ -12,7 +12,7 @@ import Dashboard from "./pages/Dashboard";
 import AdGenerator from "./pages/AdGenerator";
 import CampaignLibrary from "./pages/CampaignLibrary";
 import BrandSetup from "./pages/BrandSetup";
-import ExportPDF from "./pages/ExportPDF";
+
 import Account from "./pages/Account";
 import Onboarding from "./pages/Onboarding";
 import NotFound from "./pages/NotFound";
@@ -62,7 +62,7 @@ function App() {
               <Route path="/generate" element={<ProtectedRoute><AdGenerator /></ProtectedRoute>} />
               <Route path="/library" element={<ProtectedRoute><CampaignLibrary /></ProtectedRoute>} />
               <Route path="/brand-setup" element={<ProtectedRoute><BrandSetup /></ProtectedRoute>} />
-              <Route path="/export" element={<ProtectedRoute><ExportPDF /></ProtectedRoute>} />
+              
               <Route path="/account" element={<ProtectedRoute><Account /></ProtectedRoute>} />
               
               {/* Catch all */}

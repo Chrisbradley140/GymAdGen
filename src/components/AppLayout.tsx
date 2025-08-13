@@ -31,7 +31,7 @@ export function AppLayout({ children }: AppLayoutProps) {
     { name: "Ad Generator", path: "/generate" },
     { name: "Campaign Library", path: "/library" },
     { name: "Brand Setup", path: "/brand-setup" },
-    { name: "Export PDF", path: "/export" },
+    
     { name: "Account", path: "/account" },
   ];
 
