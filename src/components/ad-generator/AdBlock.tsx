@@ -7,7 +7,6 @@ import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { useSavedContent, ContentType } from "@/hooks/useSavedContent";
-import { MetaComplianceResult } from "@/lib/metaCompliance";
 
 interface AdBlockProps {
   title: string;
@@ -23,9 +22,8 @@ interface AdBlockProps {
 export function AdBlock({ title, description, icon, onGenerate, placeholder, contentType, campaignId, onCampaignCreate }: AdBlockProps) {
   const [content, setContent] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
-  const [complianceResult, setComplianceResult] = useState<MetaComplianceResult | null>(null);
   const { toast } = useToast();
-  const { saveContent, checkContentCompliance, isSaving, isCheckingCompliance } = useSavedContent();
+  const { saveContent, isSaving } = useSavedContent();
 
   const handleGenerate = async () => {
     setIsGenerating(true);
@@ -66,41 +64,6 @@ export function AdBlock({ title, description, icon, onGenerate, placeholder, con
     }
   };
 
-  const handleComplianceCheck = async () => {
-    if (!content.trim()) return;
-
-    try {
-      const result = await checkContentCompliance(content, contentType);
-      setComplianceResult(result);
-      
-      if (result.compliant) {
-        toast({
-          title: "✅ Content is compliant",
-          description: "This content meets Meta's advertising policies.",
-        });
-      } else if (result.fixedText) {
-        toast({
-          title: "⚠️ Content fixed for compliance",
-          description: "Content was modified to meet Meta's policies. Review the changes below.",
-        });
-        setContent(result.fixedText);
-      } else {
-        toast({
-          title: "❌ Content needs manual review",
-          description: "This content violates Meta's policies and couldn't be automatically fixed.",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error('Error checking compliance:', error);
-      toast({
-        title: "Error",
-        description: "Failed to check compliance. Please try again.",
-        variant: "destructive",
-      });
-    }
-  };
-
   const handleSave = async () => {
     if (!content.trim()) return;
     
@@ -110,22 +73,12 @@ export function AdBlock({ title, description, icon, onGenerate, placeholder, con
     if (!finalCampaignId && onCampaignCreate) {
       finalCampaignId = await onCampaignCreate();
     }
-
-    // Include compliance metadata if available
-    const metadata = {
-      generatedAt: new Date().toISOString(),
-      ...(complianceResult && {
-        compliance_status: complianceResult.compliant ? 'passed' : (complianceResult.fixedText ? 'fixed' : 'failed'),
-        violations: complianceResult.violations,
-        last_compliance_check: new Date().toISOString()
-      })
-    };
     
     await saveContent(
       contentType,
       title,
       content,
-      metadata,
+      { generatedAt: new Date().toISOString() },
       finalCampaignId || undefined
     );
   };
@@ -175,10 +128,7 @@ export function AdBlock({ title, description, icon, onGenerate, placeholder, con
             <div className="relative">
               <Textarea
                 value={content}
-                onChange={(e) => {
-                  setContent(e.target.value);
-                  setComplianceResult(null); // Reset compliance when content changes
-                }}
+                onChange={(e) => setContent(e.target.value)}
                 className="min-h-[200px] resize-none transition-all duration-300 focus:ring-2 focus:ring-primary/50"
                 placeholder={placeholder}
               />
@@ -191,20 +141,6 @@ export function AdBlock({ title, description, icon, onGenerate, placeholder, con
                 </div>
               )}
             </div>
-            
-            {complianceResult && !complianceResult.compliant && (
-              <div className="p-3 bg-destructive/10 border border-destructive/20 rounded-md">
-                <p className="text-sm font-medium text-destructive mb-2">Policy Violations Found:</p>
-                <ul className="text-sm text-destructive space-y-1">
-                  {complianceResult.violations.map((violation, index) => (
-                    <li key={index} className="flex items-start gap-2">
-                      <span className="text-destructive">•</span>
-                      <span><strong>{violation.rule}:</strong> {violation.reason}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
             
             <div className="flex gap-2 flex-wrap">
               <Button
@@ -226,21 +162,6 @@ export function AdBlock({ title, description, icon, onGenerate, placeholder, con
               >
                 <RefreshCw className={`w-4 h-4 ${isGenerating ? 'animate-spin' : ''}`} />
                 Regenerate
-              </Button>
-              
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleComplianceCheck}
-                disabled={isCheckingCompliance || !content.trim()}
-                className="flex items-center gap-2 hover:bg-primary/10 transition-colors"
-              >
-                {isCheckingCompliance ? (
-                  <LoadingSpinner size="sm" />
-                ) : (
-                  <span className="text-sm">🛡️</span>
-                )}
-                {isCheckingCompliance ? 'Checking...' : 'Check Meta Policy'}
               </Button>
               
               <Button

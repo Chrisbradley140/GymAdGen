@@ -47,45 +47,6 @@ export type Database = {
         }
         Relationships: []
       }
-      compliance_checks: {
-        Row: {
-          compliance_status: string
-          content_id: string | null
-          content_type: string
-          created_at: string
-          fixed_text: string | null
-          id: string
-          original_text: string
-          updated_at: string
-          user_id: string
-          violations: Json | null
-        }
-        Insert: {
-          compliance_status: string
-          content_id?: string | null
-          content_type: string
-          created_at?: string
-          fixed_text?: string | null
-          id?: string
-          original_text: string
-          updated_at?: string
-          user_id: string
-          violations?: Json | null
-        }
-        Update: {
-          compliance_status?: string
-          content_id?: string | null
-          content_type?: string
-          created_at?: string
-          fixed_text?: string | null
-          id?: string
-          original_text?: string
-          updated_at?: string
-          user_id?: string
-          violations?: Json | null
-        }
-        Relationships: []
-      }
       profiles: {
         Row: {
           created_at: string
