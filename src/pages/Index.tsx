@@ -24,7 +24,8 @@ import {
   LayoutDashboard,
   Library,
   Settings,
-  FileText
+  FileText,
+  Check
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -551,33 +552,116 @@ const Index = () => {
             </h2>
           </div>
 
-          {/* Pricing Cards */}
+          {/* Clean Pricing Table */}
           <div className="grid md:grid-cols-3 gap-6 mb-8">
             {/* Pro Plan */}
-            <Card className="p-6 border-2 border-muted hover:border-primary transition-colors">
-              <div className="text-center">
+            <Card className="p-8 border border-muted bg-card/50 backdrop-blur-sm hover:border-muted-foreground/20 transition-all duration-300">
+              <div className="text-center mb-6">
                 <h3 className="text-xl font-bold text-white mb-2 font-klein">Pro</h3>
-                <div className="text-3xl font-black text-white mb-4 font-klein">£99/month</div>
-                <p className="text-muted-foreground mb-6">For solo coaches & single-location gyms</p>
+                <div className="text-4xl font-black text-white mb-2 font-klein">£99</div>
+                <p className="text-sm text-muted-foreground">per month</p>
               </div>
+              <div className="space-y-3 mb-8">
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Check className="w-3 h-3 text-primary" />
+                  </div>
+                  <span className="text-sm text-foreground">Unlimited ad generation</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Check className="w-3 h-3 text-primary" />
+                  </div>
+                  <span className="text-sm text-foreground">Basic analytics</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Check className="w-3 h-3 text-primary" />
+                  </div>
+                  <span className="text-sm text-foreground">Single user account</span>
+                </div>
+              </div>
+              <Button className="w-full" variant="outline">Get Started</Button>
             </Card>
 
             {/* Scale Plan */}
-            <Card className="p-6 border-2 border-primary bg-primary/5 relative">
-              <div className="text-center">
-                <h3 className="text-xl font-bold text-white mb-2 font-klein">Scale</h3>
-                <div className="text-3xl font-black text-white mb-4 font-klein">£199/month</div>
-                <p className="text-muted-foreground mb-6">Multi-location, team accounts, advanced analytics</p>
+            <Card className="p-8 border border-primary bg-card/50 backdrop-blur-sm relative overflow-hidden">
+              <div className="absolute top-0 right-0 bg-primary text-primary-foreground px-3 py-1 text-xs font-medium">
+                POPULAR
               </div>
+              <div className="text-center mb-6">
+                <h3 className="text-xl font-bold text-white mb-2 font-klein">Scale</h3>
+                <div className="text-4xl font-black text-white mb-2 font-klein">£199</div>
+                <p className="text-sm text-muted-foreground">per month</p>
+              </div>
+              <div className="space-y-3 mb-8">
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Check className="w-3 h-3 text-primary" />
+                  </div>
+                  <span className="text-sm text-foreground">Everything in Pro</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Check className="w-3 h-3 text-primary" />
+                  </div>
+                  <span className="text-sm text-foreground">Advanced analytics</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Check className="w-3 h-3 text-primary" />
+                  </div>
+                  <span className="text-sm text-foreground">Team accounts</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Check className="w-3 h-3 text-primary" />
+                  </div>
+                  <span className="text-sm text-foreground">Multi-location support</span>
+                </div>
+              </div>
+              <Button className="w-full">Get Started</Button>
             </Card>
 
-            {/* Lifetime Deal */}
-            <Card className="p-6 border-2 border-muted hover:border-primary transition-colors">
-              <div className="text-center">
-                <h3 className="text-xl font-bold text-white mb-2 font-klein">Lifetime Deal</h3>
-                <div className="text-3xl font-black text-white mb-4 font-klein">£499</div>
-                <p className="text-muted-foreground mb-6">Limited — only 50 available at launch</p>
+            {/* Lifetime Deal - Highlighted in Brand Orange */}
+            <Card className="p-8 border-2 border-primary bg-primary/5 backdrop-blur-sm relative overflow-hidden glow-orange">
+              <div className="absolute top-4 left-4 bg-primary text-primary-foreground px-2 py-1 text-xs font-bold rounded-full">
+                LIMITED SPOTS
               </div>
+              <div className="text-center mb-6 mt-6">
+                <h3 className="text-xl font-bold text-primary mb-2 font-klein">Lifetime Deal</h3>
+                <div className="text-4xl font-black text-primary mb-2 font-klein">£499</div>
+                <p className="text-sm text-primary/80">one-time payment</p>
+              </div>
+              <div className="space-y-3 mb-8">
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
+                    <Check className="w-3 h-3 text-primary-foreground" />
+                  </div>
+                  <span className="text-sm text-foreground">Everything in Scale</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
+                    <Check className="w-3 h-3 text-primary-foreground" />
+                  </div>
+                  <span className="text-sm text-foreground">Lifetime access</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
+                    <Check className="w-3 h-3 text-primary-foreground" />
+                  </div>
+                  <span className="text-sm text-foreground">Priority support</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
+                    <Check className="w-3 h-3 text-primary-foreground" />
+                  </div>
+                  <span className="text-sm text-foreground">Future updates included</span>
+                </div>
+              </div>
+              <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+                Claim Your Spot
+              </Button>
             </Card>
           </div>
 
