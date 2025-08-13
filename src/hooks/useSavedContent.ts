@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { checkAndFixForMetaPolicy, ComplianceResult } from '@/lib/metaCompliance';
 
 export type ContentType = 'ad_caption' | 'headline' | 'campaign_name' | 'ig_story' | 'creative_prompt';
 
@@ -19,6 +20,7 @@ export const useSavedContent = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const [isSaving, setIsSaving] = useState(false);
+  const [isCheckingCompliance, setIsCheckingCompliance] = useState(false);
 
   const saveContent = async (
     contentType: ContentType,
@@ -97,9 +99,51 @@ export const useSavedContent = () => {
     }
   };
 
-  return {
-    saveContent,
-    getSavedContent,
-    isSaving
+  const checkContentCompliance = async (
+    content: string,
+    contentType: ContentType,
+    brandTone?: string
+  ): Promise<ComplianceResult | null> => {
+    if (!user) {
+      toast({
+        title: "Authentication required",
+        description: "Please sign in to check compliance.",
+        variant: "destructive",
+      });
+      return null;
+    }
+
+    setIsCheckingCompliance(true);
+    try {
+      const result = await checkAndFixForMetaPolicy(content, contentType, brandTone);
+      
+      toast({
+        title: result.isCompliant ? "Compliant" : "Violations Found",
+        description: result.isCompliant 
+          ? "Content follows Meta advertising policies!" 
+          : `Found ${result.violations.length} violation(s).`,
+        variant: result.isCompliant ? "default" : "destructive",
+      });
+      
+      return result;
+    } catch (error) {
+      console.error("Error checking compliance:", error);
+      toast({
+        title: "Error",
+        description: "Failed to check compliance. Please try again.",
+        variant: "destructive",
+      });
+      return null;
+    } finally {
+      setIsCheckingCompliance(false);
+    }
+  };
+
+  return { 
+    saveContent, 
+    getSavedContent, 
+    checkContentCompliance,
+    isSaving, 
+    isCheckingCompliance 
   };
 };
