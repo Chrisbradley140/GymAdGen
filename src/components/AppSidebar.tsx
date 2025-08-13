@@ -112,11 +112,11 @@ export function AppSidebar() {
 
       <SidebarFooter className="border-t border-border p-4">
         {userLogo && state === "expanded" && (
-          <div className="flex justify-center p-2">
+          <div className="flex justify-center p-3">
             <img 
               src={userLogo} 
               alt="Logo" 
-              className="w-12 h-12 object-contain rounded border"
+              className="w-20 h-20 object-contain rounded-lg border ring-1 ring-border shadow-md p-2"
             />
           </div>
         )}
@@ -125,7 +125,7 @@ export function AppSidebar() {
             <img 
               src={userLogo} 
               alt="Logo" 
-              className="w-10 h-10 object-contain rounded border"
+              className="w-12 h-12 object-contain rounded-lg border ring-1 ring-border shadow"
             />
           </div>
         )}
