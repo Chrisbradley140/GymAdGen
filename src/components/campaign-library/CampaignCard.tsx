@@ -15,11 +15,11 @@ const CampaignCard = ({ campaign, onViewDetails, onDelete }: CampaignCardProps) 
   const formattedDate = formatDistanceToNow(new Date(campaign.created_at), { addSuffix: true });
 
   return (
-    <Card className="hover:shadow-md transition-shadow">
+    <Card className="bg-card/60 backdrop-blur-sm border border-border/60 hover-lift transition-all">
       <CardHeader>
         <div className="flex justify-between items-start">
           <div className="flex-1">
-            <CardTitle className="text-xl">{campaign.name}</CardTitle>
+            <CardTitle className="text-xl page-heading text-gradient tracking-tight">{campaign.name}</CardTitle>
             <CardDescription className="mt-1">
               {campaign.description || "No description provided"}
             </CardDescription>
