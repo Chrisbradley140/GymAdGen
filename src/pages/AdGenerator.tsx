@@ -175,55 +175,26 @@ OUTPUT RULES:
   };
 
   const generateHeadlineOptions = async (): Promise<string> => {
-    const voiceTone = brandData?.voice_tone_style || 'Bold';
+    const voiceTone = brandData?.voice_tone_style || 'Confident';
     
-    // Enhanced voice tone patterns for fitness marketing
-    const voicePatterns = {
-      'Bold': 'Direct, commanding, no-nonsense. Examples: "Drop 15lbs in 8 weeks", "Build muscle after 40", "Transform in 12 weeks without cardio"',
-      'Playful': 'Cheeky, fun, conversational but still results-focused. Examples: "The lazy way to six-pack abs", "Cheat your way to 15% body fat", "Skip cardio, keep curves"', 
-      'Premium': 'Exclusive, sophisticated, high-value positioning. Examples: "Elite transformation protocol", "Executive body recomp system", "VIP metabolism reset method"',
-      'Aggressive': 'Intense, urgent, confrontational with deadlines. Examples: "Drop 2 dress sizes by summer", "Burn fat faster than ever", "Destroy your plateau in 30 days"'
-    };
+    const systemPrompt = `
+You are a performance marketer. Generate compliant headline options for a health/fitness ad on Meta.
 
-    const systemPrompt = `You are an elite fitness marketer who has generated millions in revenue from transformation programs. Create 3-5 scroll-stopping headlines that would make fitness professionals rich.
+Meta Policy Requirements:
+- Do not reference personal attributes (age, gender, health status, body type, physical condition, finances, relationship status) or imply you know them.
+- No exact weight-loss numbers, inches, percentages, or timeframes. Describe benefits generally.
+- Avoid negative body-image triggers or shaming. Emphasize positive, empowering outcomes.
+- Be realistic; avoid sensational or guaranteed results.
 
-VOICE TONE: ${voiceTone}
-${voicePatterns[voiceTone as keyof typeof voicePatterns]}
+Style Requirements:
+- Short and punchy: under 12 words each.
+- Active voice; direct, confident, benefit-focused.
+- Broad, inclusive language (e.g., "busy professionals", "time-pressed people").
+- Match the brand’s voice and tone: ${voiceTone}.
 
-🚫 STRICT PROHIBITIONS (NEVER USE):
-- "Feel better", "More energy", "What if..."
-- "Sound familiar?", "Let's be real", "Struggling with..."
-- Soft rhetorical questions or Canva-style inspiration
-- Em dashes (—) or double hyphens (--)
-- Vague wellness language
-- Generic GPT phrases
-
-✅ MANDATORY REQUIREMENTS (EVERY HEADLINE MUST HAVE):
-- Specific numbers (timeframes, weight loss, body fat %)
-- Direct outcomes ("lose X lbs", "build X muscle", "drop X sizes")
-- Wedges/differentiators ("without cardio", "without meal plans", "without gym")
-- Second-person direct address ("you", "your")
-- 60-70 characters max (campaign-worthy length)
-
-🎯 PROVEN ANGLES TO INCORPORATE:
-- FRUSTRATION: Plateaus, slow results, confusing advice, failed diets
-- BELIEF BREAKER: Challenge myths about cardio, spot reduction, extreme dieting
-- URGENCY: Summer deadlines, wedding prep, metabolism slowing with age
-
-FITNESS INSIDER LANGUAGE:
-- Transformation timeframes: "30-day", "12-week", "90-day"
-- Body composition terms: "body recomp", "lean muscle", "stubborn fat"
-- Real pain points: "plateau", "skinny fat", "metabolic damage"
-- Differentiators: "without cardio", "eating pizza", "20 minutes"
-
-FORMAT EXAMPLE:
-1. Drop 15lbs in 8 weeks without cardio
-2. Build muscle after 40 (even with bad knees)  
-3. The 20-minute method busy moms use to lose belly fat
-4. How Sarah lost 25lbs eating pizza twice a week
-5. Transform your body in 90 days (no gym required)
-
-Create headlines that fitness professionals would pay thousands for because they convert browsers into buyers.`;
+Output:
+- Return exactly 5 distinct headlines, numbered 1-5, each on its own line.
+- No extra commentary, no quotes, no emojis.`;
 
     return await generateContent('headline-options', systemPrompt);
   };
@@ -484,7 +455,7 @@ Each concept must be a complete creative brief that a video editor could execute
 
           <AdBlock
             title="Headline Options Generator"
-            description="Output 3-5 punchy headlines for ads, lead forms, and landing pages based on your offer"
+            description="Generate 5 punchy, Meta-safe headlines under 12 words (benefit-focused)"
             icon={<Type className="w-6 h-6 text-primary" />}
             onGenerate={generateHeadlineOptions}
             placeholder="Your headline options will appear here..."
