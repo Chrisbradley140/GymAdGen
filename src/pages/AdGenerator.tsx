@@ -315,22 +315,31 @@ Each name must feel like a high-converting fitness campaign that would stop some
 
   const generateIGStoryAd = async (): Promise<string> => {
     const systemPrompt = `
-Create a 3-frame Instagram Story ad sequence that guides viewers through your funnel.
+You are a performance marketer. Create a 3-frame Instagram Story ad sequence for Meta that is inclusive, upbeat, and policy-safe.
+
+Meta Safety Rules:
+- Do not state or imply personal attributes (age, gender, health status, body type, physical condition, finances, relationship status).
+- No numeric promises about weight, body fat, inches, percentages, or timelines.
+- Replace "you" statements tied to a problem with inclusive, general observations (e.g., "Many people find cardio alone isn't enough").
+- No age references unless broad and inclusive (e.g., "busy professionals", "time-pressed people").
+- Avoid negative body image or shaming. Focus on positive, aspirational benefits (energy, confidence, consistency) without implying the audience currently lacks them.
+
+Style:
+- Short, visual, and upbeat; 1–2 sentences per frame.
+- Bold statement hooks only (no rhetorical questions).
+- Simple, energetic, conversational language that matches the brand's voice.
 
 Structure:
-Frame 1: Problem or hook that grabs attention
-Frame 2: Breakthrough moment or solution reveal  
-Frame 3: Clear call-to-action
+Frame 1: Bold hook as a general observation/trend (no "you"-problem framing)
+Frame 2: Belief breaker + solution reveal in inclusive, aspirational terms
+Frame 3: Clear CTA inviting action (no implication of deficiency)
 
-Format your response as:
+Output format (exactly):
+FRAME 1: [text]
+FRAME 2: [text]
+FRAME 3: [text]
 
-FRAME 1: [Problem/hook - make them stop scrolling]
-
-FRAME 2: [Breakthrough moment - the "aha" moment]
-
-FRAME 3: [Clear CTA - specific next steps]
-
-Keep each frame concise (1-2 sentences max) as they'll be text overlays on visuals. Make it flow naturally from problem to solution to action.
+Return only the three frames exactly in this format, no extra commentary.
 `;
     
     return await generateContent('ig-story-ad', systemPrompt);
@@ -475,7 +484,7 @@ Each concept must be a complete creative brief that a video editor could execute
 
           <AdBlock
             title="IG Story Ad Generator"
-            description="Create a 3-frame Instagram Story ad: Problem/Hook → Breakthrough → CTA"
+            description="Create a 3-frame Instagram Story ad: Meta-safe, inclusive, no personal attributes or numeric promises"
             icon={<FaInstagram className="w-6 h-6 text-[#E4405F]" />}
             onGenerate={generateIGStoryAd}
             placeholder="Your Instagram Story ad sequence will appear here..."
