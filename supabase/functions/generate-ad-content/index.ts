@@ -9,6 +9,102 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Meta Policy Compliance Validator
+function validateMetaCompliance(content: string) {
+  const violations: string[] = [];
+  let fixedContent = content;
+  let hasViolations = false;
+
+  // Personal Attributes Check
+  const personalAttributePatterns = [
+    /you'?re\s+(overweight|fat|obese|skinny|underweight)/gi,
+    /for\s+(seniors|elderly|teens|teenagers|young people)/gi,
+    /if\s+you'?re\s+(broke|poor|rich|wealthy)/gi,
+    /you\s+(have|suffer from|struggle with)\s+(low energy|depression|anxiety)/gi
+  ];
+
+  personalAttributePatterns.forEach(pattern => {
+    if (pattern.test(content)) {
+      violations.push("Contains personal attribute assumptions");
+      hasViolations = true;
+      fixedContent = fixedContent.replace(pattern, (match) => {
+        if (match.toLowerCase().includes('overweight') || match.toLowerCase().includes('fat')) {
+          return "looking to improve your health";
+        }
+        if (match.toLowerCase().includes('broke') || match.toLowerCase().includes('poor')) {
+          return "on a budget";
+        }
+        return "ready to make a change";
+      });
+    }
+  });
+
+  // Body Shaming Check
+  const bodyShamingPatterns = [
+    /ugly\s+(belly|fat|body)/gi,
+    /disgusting\s+(fat|body)/gi,
+    /embarrassing\s+(belly|fat|body)/gi,
+    /get\s+rid\s+of\s+your\s+(ugly|gross|disgusting)/gi
+  ];
+
+  bodyShamingPatterns.forEach(pattern => {
+    if (pattern.test(content)) {
+      violations.push("Contains body-shaming language");
+      hasViolations = true;
+      fixedContent = fixedContent.replace(pattern, "transform your");
+    }
+  });
+
+  // Unrealistic Claims Check
+  const unrealisticClaimsPatterns = [
+    /lose\s+\d+\s+(lbs?|pounds?|kg)\s+in\s+\d+\s+(days?|weeks?)/gi,
+    /guaranteed\s+(results?|weight\s+loss)/gi,
+    /miracle\s+(cure|solution|results?)/gi,
+    /instant\s+(results?|weight\s+loss|transformation)/gi
+  ];
+
+  unrealisticClaimsPatterns.forEach(pattern => {
+    if (pattern.test(content)) {
+      violations.push("Contains unrealistic weight loss claims");
+      hasViolations = true;
+      fixedContent = fixedContent.replace(pattern, "achieve sustainable results");
+    }
+  });
+
+  // Sensational Content Check
+  const sensationalPatterns = [
+    /doctors?\s+hate\s+this/gi,
+    /shocking\s+(truth|secret|discovery)/gi,
+    /this\s+weird\s+trick/gi,
+    /you\s+won't\s+believe/gi
+  ];
+
+  sensationalPatterns.forEach(pattern => {
+    if (pattern.test(content)) {
+      violations.push("Contains sensational or fear-based claims");
+      hasViolations = true;
+      fixedContent = fixedContent.replace(pattern, "discover this approach");
+    }
+  });
+
+  // Determine status
+  let status: 'PASS' | 'FIXED' | 'FAIL';
+  if (violations.length === 0) {
+    status = 'PASS';
+  } else if (hasViolations && fixedContent !== content) {
+    status = 'FIXED';
+  } else {
+    status = 'FAIL';
+  }
+
+  return {
+    status,
+    violations,
+    originalText: hasViolations ? content : undefined,
+    fixedText: hasViolations ? fixedContent : undefined
+  };
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -65,6 +161,11 @@ CRITICAL TONE & AUTHENTICITY RULES:
 - Sentence style should match their voice (short/punchy vs. longer explanatory)
 - Content must sound like the actual business owner wrote it, NOT an AI or agency
 
+META ADVERTISING POLICY COMPLIANCE - ABSOLUTELY FORBIDDEN:
+❌ PERSONAL ATTRIBUTES: Never imply someone's health status ("You're overweight"), age ("For seniors"), gender, race, religion, or financial status ("If you're broke")
+❌ WEIGHT LOSS & FITNESS: No targeting under 18, no body-shaming ("ugly belly fat"), no unrealistic claims ("Lose 20 lbs in 1 week"), no before/after comparisons that shame
+❌ SENSATIONAL CONTENT: No shocking claims ("Doctors hate this trick"), no misleading results, no fear-based tactics
+
 FORBIDDEN ELEMENTS:
 - NO em dashes (—) or double hyphens (--) - ABSOLUTELY FORBIDDEN
 - NO generic AI phrases like: "Sound familiar?", "Just a few clicks…", "Here's the thing…", "The bottom line is…", "At the end of the day…", "game-changer", "unlock the secrets", "transform your life", "take your business to the next level"
@@ -79,7 +180,7 @@ AUTHENTICITY REQUIREMENTS:
 - Sound conversational and genuine, not scripted
 - Reflect their actual expertise and experience
 
-Create compelling, conversion-focused copy that speaks directly to the target audience while maintaining complete authenticity to the brand voice.` 
+Create compelling, conversion-focused copy that speaks directly to the target audience while maintaining complete authenticity to the brand voice AND full Meta policy compliance.`
           },
           { role: 'user', content: prompt }
         ],
@@ -100,9 +201,15 @@ Create compelling, conversion-focused copy that speaks directly to the target au
       .replace(/—/g, '-')  // Replace em dashes with regular hyphens
       .replace(/--/g, '-'); // Replace double hyphens with single hyphens
 
-    console.log(`Successfully generated ${adType} content`);
+    // Meta Policy Compliance Check
+    const metaCompliance = validateMetaCompliance(generatedContent);
+    
+    console.log(`Successfully generated ${adType} content with compliance status: ${metaCompliance.status}`);
 
-    return new Response(JSON.stringify({ generatedContent }), {
+    return new Response(JSON.stringify({ 
+      generatedContent: metaCompliance.status === 'FAIL' ? null : (metaCompliance.fixedText || generatedContent),
+      metaCompliance 
+    }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
