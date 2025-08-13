@@ -486,90 +486,58 @@ const Index = () => {
       {/* WHO IT'S FOR Section */}
       <section className="py-16 px-4 bg-secondary/10">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-black text-white mb-8 font-klein">
               Whether You're a Solo PT or Running 5 Locations — We've Got You Covered.
             </h2>
           </div>
 
-          {/* Personas in alternating layout */}
-          <div className="space-y-8">
-            {/* Row 1 - Left aligned */}
-            <div className="flex flex-col lg:flex-row gap-6">
-              <div className="lg:w-1/2">
-                <Card className="p-8 border-2 border-muted hover:border-primary transition-all duration-300 hover:scale-105 bg-gradient-to-br from-background to-secondary/20">
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 rounded-lg bg-primary/10">
-                      <Target className="w-8 h-8 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-primary mb-2 font-klein">Burnt-Out Online Coach</h3>
-                      <p className="text-muted-foreground text-lg">Done-for-you ads in your voice.</p>
-                    </div>
-                  </div>
-                </Card>
+          {/* Personas Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Burnt-Out Online Coach */}
+            <Card className="p-6 border border-muted hover:border-primary transition-colors">
+              <div className="mb-4">
+                <h3 className="text-lg font-bold text-primary mb-2 font-klein">Burnt-Out Online Coach</h3>
+                <Target className="w-8 h-8 text-primary mb-3" />
+                <p className="text-muted-foreground">Done-for-you ads in your voice.</p>
               </div>
-              <div className="lg:w-1/2">
-                <Card className="p-8 border-2 border-muted hover:border-primary transition-all duration-300 hover:scale-105 bg-gradient-to-br from-background to-secondary/20">
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 rounded-lg bg-primary/10">
-                      <MapPin className="w-8 h-8 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-primary mb-2 font-klein">Local Gym Owner</h3>
-                      <p className="text-muted-foreground text-lg">Hyper-local ads that stand out in a crowded feed.</p>
-                    </div>
-                  </div>
-                </Card>
-              </div>
-            </div>
+            </Card>
 
-            {/* Row 2 - Center card */}
-            <div className="flex justify-center">
-              <div className="lg:w-2/3">
-                <Card className="p-8 border-2 border-primary bg-gradient-to-br from-primary/5 to-primary/10 hover:scale-105 transition-all duration-300">
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 rounded-lg bg-primary/20">
-                      <User className="w-8 h-8 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-primary mb-2 font-klein">Solo PT in Big Box Gym</h3>
-                      <p className="text-muted-foreground text-lg">Postcode-targeted campaigns, no funnel required.</p>
-                    </div>
-                  </div>
-                </Card>
+            {/* Local Gym Owner */}
+            <Card className="p-6 border border-muted hover:border-primary transition-colors">
+              <div className="mb-4">
+                <h3 className="text-lg font-bold text-primary mb-2 font-klein">Local Gym Owner</h3>
+                <MapPin className="w-8 h-8 text-primary mb-3" />
+                <p className="text-muted-foreground">Hyper-local ads that stand out in a crowded feed.</p>
               </div>
-            </div>
+            </Card>
 
-            {/* Row 3 - Right aligned */}
-            <div className="flex flex-col lg:flex-row gap-6">
-              <div className="lg:w-1/2">
-                <Card className="p-8 border-2 border-muted hover:border-primary transition-all duration-300 hover:scale-105 bg-gradient-to-br from-background to-secondary/20">
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 rounded-lg bg-primary/10">
-                      <Star className="w-8 h-8 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-primary mb-2 font-klein">Wellness Niche Coach</h3>
-                      <p className="text-muted-foreground text-lg">Tone-matched ads with emotional precision.</p>
-                    </div>
-                  </div>
-                </Card>
+            {/* Solo PT in Big Box Gym */}
+            <Card className="p-6 border border-muted hover:border-primary transition-colors">
+              <div className="mb-4">
+                <h3 className="text-lg font-bold text-primary mb-2 font-klein">Solo PT in Big Box Gym</h3>
+                <User className="w-8 h-8 text-primary mb-3" />
+                <p className="text-muted-foreground">Postcode-targeted campaigns, no funnel required.</p>
               </div>
-              <div className="lg:w-1/2">
-                <Card className="p-8 border-2 border-muted hover:border-primary transition-all duration-300 hover:scale-105 bg-gradient-to-br from-background to-secondary/20">
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 rounded-lg bg-primary/10">
-                      <TrendingUp className="w-8 h-8 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-primary mb-2 font-klein">Studio Scaling Fast</h3>
-                      <p className="text-muted-foreground text-lg">Brand-cohesive campaigns, seasonally aligned.</p>
-                    </div>
-                  </div>
-                </Card>
+            </Card>
+
+            {/* Wellness Niche Coach */}
+            <Card className="p-6 border border-muted hover:border-primary transition-colors">
+              <div className="mb-4">
+                <h3 className="text-lg font-bold text-primary mb-2 font-klein">Wellness Niche Coach</h3>
+                <Star className="w-8 h-8 text-primary mb-3" />
+                <p className="text-muted-foreground">Tone-matched ads with emotional precision.</p>
               </div>
-            </div>
+            </Card>
+
+            {/* Studio Scaling Fast */}
+            <Card className="p-6 border border-muted hover:border-primary transition-colors md:col-span-2 lg:col-span-1">
+              <div className="mb-4">
+                <h3 className="text-lg font-bold text-primary mb-2 font-klein">Studio Scaling Fast</h3>
+                <TrendingUp className="w-8 h-8 text-primary mb-3" />
+                <p className="text-muted-foreground">Brand-cohesive campaigns, seasonally aligned.</p>
+              </div>
+            </Card>
           </div>
         </div>
       </section>
