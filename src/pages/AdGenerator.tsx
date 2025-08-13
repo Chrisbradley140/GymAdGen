@@ -478,7 +478,7 @@ Audio/Motion: ...
 
           <AdBlock
             title="Headline Options Generator"
-            description="Generate 5 punchy, Meta-safe headlines under 12 words (benefit-focused)"
+            description="Output 3-5 Punchy headlines for ads, lead forms , and landing pages based on your offer"
             icon={<Type className="w-6 h-6 text-primary" />}
             onGenerate={generateHeadlineOptions}
             placeholder="Your headline options will appear here..."
