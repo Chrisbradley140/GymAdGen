@@ -292,6 +292,72 @@ const Index = () => {
         </div>
       </section>
 
+      {/* WHO ELSE IS USING FITNESSADS.AI Section */}
+      <section className="py-16 px-4 bg-background">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-black text-white mb-4 font-klein">
+              Who Else Is Already Winning With FitnessAds.ai?
+            </h2>
+            <p className="text-lg text-white/80 max-w-3xl mx-auto">
+              From solo PTs to multi-location studios, early adopters are getting results that would've taken weeks — now in minutes.
+            </p>
+          </div>
+
+          {/* Proof Tiles Grid */}
+          <div className="grid md:grid-cols-3 gap-6 mb-12">
+            {/* Rorie - Online Coach */}
+            <Card className="p-6 bg-card border border-border hover:border-primary transition-colors">
+              <div className="text-center">
+                <div className="mb-4">
+                  <h3 className="text-xl font-bold text-white mb-2">Rorie</h3>
+                  <p className="text-sm text-muted-foreground mb-4">Online Coach for Semi Professional Footballers</p>
+                </div>
+                <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
+                  <p className="text-2xl font-bold text-primary mb-2">£10k</p>
+                  <p className="text-sm text-white">month online after launching FitnessAds.ai-generated campaigns</p>
+                </div>
+              </div>
+            </Card>
+
+            {/* Vanda - Studio Owner */}
+            <Card className="p-6 bg-card border border-border hover:border-primary transition-colors">
+              <div className="text-center">
+                <div className="mb-4">
+                  <h3 className="text-xl font-bold text-white mb-2">Vanda</h3>
+                  <p className="text-sm text-muted-foreground mb-4">Studio Owner</p>
+                </div>
+                <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
+                  <p className="text-2xl font-bold text-primary mb-2">£34,956</p>
+                  <p className="text-sm text-white">in sales from one campaign pack</p>
+                </div>
+              </div>
+            </Card>
+
+            {/* Chris - Group PT Gym */}
+            <Card className="p-6 bg-card border border-border hover:border-primary transition-colors">
+              <div className="text-center">
+                <div className="mb-4">
+                  <h3 className="text-xl font-bold text-white mb-2">Chris</h3>
+                  <p className="text-sm text-muted-foreground mb-4">Group PT Gym</p>
+                </div>
+                <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
+                  <p className="text-2xl font-bold text-primary mb-2">133</p>
+                  <p className="text-sm text-white">SGPT members and expanding to a second site</p>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* CTA Button */}
+          <div className="text-center">
+            <CTAButton size="lg" onClick={() => navigate('/auth')}>
+              Join the Movement Now
+            </CTAButton>
+          </div>
+        </div>
+      </section>
+
       {/* Section After Hero - Left Aligned and Responsive */}
       <section 
         className="px-4 py-16"
