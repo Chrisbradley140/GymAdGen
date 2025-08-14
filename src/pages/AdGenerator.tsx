@@ -379,12 +379,6 @@ CTA: [Placement and text]`;
 
       {!showGenerationOptions ? (
         <>
-          <div className="mb-6">
-            <h2 className="text-2xl font-semibold mb-2">Choose Your Campaign Type</h2>
-            <p className="text-muted-foreground">
-              Select a proven campaign template to generate high-converting ad content
-            </p>
-          </div>
           <CampaignSelectionTabs
             selectedCampaign={selectedCampaign}
             onCampaignSelect={handleCampaignSelect}
