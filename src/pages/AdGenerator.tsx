@@ -371,7 +371,7 @@ CTA: [Placement and text]`;
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">AI Ad Generator</h1>
+        <h1 className="text-3xl font-klein font-extrabold text-white mb-2">Ad Generator</h1>
         <p className="text-muted-foreground">
           Generate high-converting ad content powered by your brand setup
         </p>
