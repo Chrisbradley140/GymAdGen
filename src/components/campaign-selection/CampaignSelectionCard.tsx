@@ -37,7 +37,7 @@ export const CampaignSelectionCard = ({ campaign, isSelected, onClick }: Campaig
               <div className={`p-2.5 rounded-xl transition-all duration-300 ${
                 isSelected 
                   ? 'bg-primary text-primary-foreground shadow-md' 
-                  : 'bg-muted group-hover:bg-primary/10 group-hover:text-primary'
+                  : 'bg-primary/10 text-primary'
               }`}>
                 <Icon className="w-5 h-5" />
               </div>
@@ -67,25 +67,9 @@ export const CampaignSelectionCard = ({ campaign, isSelected, onClick }: Campaig
       </CardHeader>
 
       <CardContent className="pt-0 relative">
-        <CardDescription className="text-sm leading-relaxed mb-4 text-muted-foreground group-hover:text-foreground/80 transition-colors duration-300">
+        <CardDescription className="text-sm leading-relaxed text-muted-foreground group-hover:text-foreground/80 transition-colors duration-300">
           {campaign.description}
         </CardDescription>
-        
-        {campaign.target_audience && (
-          <div className="flex items-center gap-2 pt-2 border-t border-border/50">
-            <span className="text-xs font-medium text-muted-foreground">Target:</span>
-            <Badge 
-              variant="outline" 
-              className={`text-xs transition-all duration-300 ${
-                isSelected 
-                  ? 'border-primary/50 text-primary bg-primary/5' 
-                  : 'group-hover:border-primary/30 group-hover:text-primary/80'
-              }`}
-            >
-              {campaign.target_audience}
-            </Badge>
-          </div>
-        )}
 
         {/* Selection indicator */}
         {isSelected && (
