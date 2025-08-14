@@ -1,4 +1,3 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CampaignSelectionCard } from "./CampaignSelectionCard";
 import { useTemplates, CampaignTemplate } from "@/hooks/useTemplates";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
@@ -10,7 +9,6 @@ interface CampaignSelectionTabsProps {
 
 export const CampaignSelectionTabs = ({ selectedCampaign, onCampaignSelect }: CampaignSelectionTabsProps) => {
   const { 
-    getCampaignsByCategory, 
     getMostPopularCampaigns, 
     isLoading 
   } = useTemplates();
@@ -37,31 +35,15 @@ export const CampaignSelectionTabs = ({ selectedCampaign, onCampaignSelect }: Ca
   );
 
   return (
-    <Tabs defaultValue="popular" className="w-full">
-      <TabsList className="grid w-full grid-cols-3">
-        <TabsTrigger value="popular">Most Popular</TabsTrigger>
-        <TabsTrigger value="seasonal">Seasonal</TabsTrigger>
-        <TabsTrigger value="challenge">Challenge-Based</TabsTrigger>
-      </TabsList>
-
-      <TabsContent value="popular" className="mt-6">
-        {renderCampaignGrid(getMostPopularCampaigns())}
-      </TabsContent>
-
-      <TabsContent value="seasonal" className="mt-6">
-        {renderCampaignGrid(getCampaignsByCategory('Seasonal'))}
-      </TabsContent>
-
-      <TabsContent value="challenge" className="mt-6">
-        {renderCampaignGrid(getCampaignsByCategory('Challenge-Based'))}
-        {renderCampaignGrid(getCampaignsByCategory('Social Proof'))}
-        {renderCampaignGrid(getCampaignsByCategory('Lead Generation'))}
-        {renderCampaignGrid(getCampaignsByCategory('Problem-Focused'))}
-        {renderCampaignGrid(getCampaignsByCategory('Authority'))}
-        {renderCampaignGrid(getCampaignsByCategory('Urgency'))}
-        {renderCampaignGrid(getCampaignsByCategory('Business Growth'))}
-        {renderCampaignGrid(getCampaignsByCategory('Educational'))}
-      </TabsContent>
-    </Tabs>
+    <div className="w-full">
+      <div className="mb-6">
+        <h3 className="text-lg font-semibold mb-2">Most Popular Campaigns</h3>
+        <p className="text-muted-foreground text-sm">
+          Choose from our most successful campaign templates
+        </p>
+      </div>
+      
+      {renderCampaignGrid(getMostPopularCampaigns())}
+    </div>
   );
 };

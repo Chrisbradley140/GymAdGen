@@ -76,8 +76,8 @@ export const useTemplates = () => {
   };
 
   const getMostPopularCampaigns = () => {
-    // For now, return first 6 campaigns. In the future, this could be based on usage analytics
-    return campaignTemplates.slice(0, 6);
+    // Return all campaigns since they're all "Most Popular" now, ordered by sort_order
+    return campaignTemplates.filter(template => template.category === 'Most Popular');
   };
 
   return {
