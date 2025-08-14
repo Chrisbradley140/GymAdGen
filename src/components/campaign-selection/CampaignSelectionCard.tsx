@@ -1,6 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CampaignTemplate } from "@/hooks/useTemplates";
+import { Zap, Users, Calendar, Target } from "lucide-react";
 
 interface CampaignSelectionCardProps {
   campaign: CampaignTemplate;
@@ -9,33 +10,87 @@ interface CampaignSelectionCardProps {
 }
 
 export const CampaignSelectionCard = ({ campaign, isSelected, onClick }: CampaignSelectionCardProps) => {
+  // Get icon based on campaign name
+  const getIcon = () => {
+    const name = campaign.name.toLowerCase();
+    if (name.includes('challenge') || name.includes('day')) return Zap;
+    if (name.includes('people') || name.includes('group') || name.includes('training')) return Users;
+    if (name.includes('seasonal') || name.includes('new year')) return Calendar;
+    return Target;
+  };
+
+  const Icon = getIcon();
+
   return (
     <Card 
-      className={`cursor-pointer transition-all duration-200 hover:shadow-md ${
-        isSelected ? 'ring-2 ring-primary border-primary' : 'border-border hover:border-primary/50'
+      className={`group cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-2 ${
+        isSelected 
+          ? 'ring-2 ring-primary/50 border-primary bg-gradient-to-br from-primary/5 to-primary/10 shadow-lg' 
+          : 'border-border hover:border-primary/30 hover:bg-gradient-to-br hover:from-muted/50 hover:to-background'
       }`}
       onClick={onClick}
     >
-      <CardHeader className="pb-3">
+      <CardHeader className="pb-3 relative overflow-hidden">
         <div className="flex items-start justify-between">
-          <CardTitle className="text-lg leading-tight">{campaign.name}</CardTitle>
-          {campaign.seasonal_timing && (
-            <Badge variant="secondary" className="ml-2 text-xs">
-              {campaign.seasonal_timing}
-            </Badge>
-          )}
+          <div className="flex-1">
+            <div className="flex items-center gap-3 mb-2">
+              <div className={`p-2.5 rounded-xl transition-all duration-300 ${
+                isSelected 
+                  ? 'bg-primary text-primary-foreground shadow-md' 
+                  : 'bg-muted group-hover:bg-primary/10 group-hover:text-primary'
+              }`}>
+                <Icon className="w-5 h-5" />
+              </div>
+              <CardTitle className={`text-lg leading-tight font-semibold transition-colors duration-300 ${
+                isSelected ? 'text-primary' : 'group-hover:text-primary'
+              }`}>
+                {campaign.name}
+              </CardTitle>
+            </div>
+            {campaign.seasonal_timing && (
+              <Badge 
+                variant={isSelected ? "default" : "secondary"} 
+                className="text-xs font-medium"
+              >
+                {campaign.seasonal_timing}
+              </Badge>
+            )}
+          </div>
         </div>
-        <CardDescription className="text-sm leading-relaxed">
+        
+        {/* Animated background accent */}
+        <div className={`absolute top-0 right-0 w-20 h-20 rounded-full blur-2xl transition-all duration-500 ${
+          isSelected 
+            ? 'bg-primary/20 scale-100 opacity-100' 
+            : 'bg-primary/10 scale-75 opacity-0 group-hover:opacity-60 group-hover:scale-90'
+        }`} />
+      </CardHeader>
+
+      <CardContent className="pt-0 relative">
+        <CardDescription className="text-sm leading-relaxed mb-4 text-muted-foreground group-hover:text-foreground/80 transition-colors duration-300">
           {campaign.description}
         </CardDescription>
-      </CardHeader>
-      <CardContent className="pt-0">
+        
         {campaign.target_audience && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 pt-2 border-t border-border/50">
             <span className="text-xs font-medium text-muted-foreground">Target:</span>
-            <Badge variant="outline" className="text-xs">
+            <Badge 
+              variant="outline" 
+              className={`text-xs transition-all duration-300 ${
+                isSelected 
+                  ? 'border-primary/50 text-primary bg-primary/5' 
+                  : 'group-hover:border-primary/30 group-hover:text-primary/80'
+              }`}
+            >
               {campaign.target_audience}
             </Badge>
+          </div>
+        )}
+
+        {/* Selection indicator */}
+        {isSelected && (
+          <div className="absolute top-2 right-2">
+            <div className="w-3 h-3 bg-primary rounded-full animate-pulse" />
           </div>
         )}
       </CardContent>

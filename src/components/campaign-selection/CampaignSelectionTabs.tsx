@@ -22,24 +22,31 @@ export const CampaignSelectionTabs = ({ selectedCampaign, onCampaignSelect }: Ca
   }
 
   const renderCampaignGrid = (campaigns: CampaignTemplate[]) => (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {campaigns.map((campaign) => (
-        <CampaignSelectionCard
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      {campaigns.map((campaign, index) => (
+        <div
           key={campaign.id}
-          campaign={campaign}
-          isSelected={selectedCampaign?.id === campaign.id}
-          onClick={() => onCampaignSelect(campaign)}
-        />
+          className="animate-fade-in"
+          style={{ animationDelay: `${index * 0.1}s` }}
+        >
+          <CampaignSelectionCard
+            campaign={campaign}
+            isSelected={selectedCampaign?.id === campaign.id}
+            onClick={() => onCampaignSelect(campaign)}
+          />
+        </div>
       ))}
     </div>
   );
 
   return (
     <div className="w-full">
-      <div className="mb-6">
-        <h3 className="text-lg font-semibold mb-2">Most Popular Campaigns</h3>
-        <p className="text-muted-foreground text-sm">
-          Choose from our most successful campaign templates
+      <div className="mb-8 text-center">
+        <h3 className="text-2xl font-bold mb-3 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+          Most Popular Campaigns
+        </h3>
+        <p className="text-muted-foreground max-w-2xl mx-auto">
+          Choose from our most successful campaign templates to generate high-converting ad content
         </p>
       </div>
       
