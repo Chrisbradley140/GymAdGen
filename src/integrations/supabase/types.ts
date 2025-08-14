@@ -7,13 +7,111 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.12 (cd3cf9e)"
   }
   public: {
     Tables: {
+      ad_templates: {
+        Row: {
+          campaign_template_id: string | null
+          created_at: string
+          headline: string | null
+          hook_type: string | null
+          id: string
+          is_active: boolean | null
+          objective: string | null
+          offer_type: string | null
+          performance_score: number | null
+          platform: string | null
+          primary_text: string
+          target_market: string | null
+          tone: string | null
+          updated_at: string
+        }
+        Insert: {
+          campaign_template_id?: string | null
+          created_at?: string
+          headline?: string | null
+          hook_type?: string | null
+          id?: string
+          is_active?: boolean | null
+          objective?: string | null
+          offer_type?: string | null
+          performance_score?: number | null
+          platform?: string | null
+          primary_text: string
+          target_market?: string | null
+          tone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          campaign_template_id?: string | null
+          created_at?: string
+          headline?: string | null
+          hook_type?: string | null
+          id?: string
+          is_active?: boolean | null
+          objective?: string | null
+          offer_type?: string | null
+          performance_score?: number | null
+          platform?: string | null
+          primary_text?: string
+          target_market?: string | null
+          tone?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ad_templates_campaign_template_id_fkey"
+            columns: ["campaign_template_id"]
+            isOneToOne: false
+            referencedRelation: "campaign_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaign_templates: {
+        Row: {
+          category: string
+          created_at: string
+          description: string
+          id: string
+          is_active: boolean | null
+          name: string
+          seasonal_timing: string | null
+          sort_order: number | null
+          target_audience: string | null
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          description: string
+          id?: string
+          is_active?: boolean | null
+          name: string
+          seasonal_timing?: string | null
+          sort_order?: number | null
+          target_audience?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          seasonal_timing?: string | null
+          sort_order?: number | null
+          target_audience?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       campaigns: {
         Row: {
           created_at: string
@@ -44,6 +142,45 @@ export type Database = {
           tone_style?: string | null
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      compliance_checks: {
+        Row: {
+          compliance_status: string
+          content_id: string | null
+          content_type: string
+          created_at: string
+          fixed_text: string | null
+          id: string
+          original_text: string
+          updated_at: string
+          user_id: string
+          violations: Json | null
+        }
+        Insert: {
+          compliance_status: string
+          content_id?: string | null
+          content_type: string
+          created_at?: string
+          fixed_text?: string | null
+          id?: string
+          original_text: string
+          updated_at?: string
+          user_id: string
+          violations?: Json | null
+        }
+        Update: {
+          compliance_status?: string
+          content_id?: string | null
+          content_type?: string
+          created_at?: string
+          fixed_text?: string | null
+          id?: string
+          original_text?: string
+          updated_at?: string
+          user_id?: string
+          violations?: Json | null
         }
         Relationships: []
       }

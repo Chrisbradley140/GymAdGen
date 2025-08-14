@@ -1,26 +1,30 @@
-
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Type, Tag, Camera, MessageSquare, Loader2 } from "lucide-react";
-import { FaInstagram } from "react-icons/fa";
-import { AdBlock } from "@/components/ad-generator/AdBlock";
-import { useAdGeneration } from "@/hooks/useAdGeneration";
-import { useBrandSetup } from "@/hooks/useBrandSetup";
-import { useToast } from "@/hooks/use-toast";
-import { useCampaigns } from "@/hooks/useCampaigns";
-import { supabase } from "@/integrations/supabase/client";
+import { useState, useEffect } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useAdGeneration } from '@/hooks/useAdGeneration';
+import { useBrandSetup } from '@/hooks/useBrandSetup';
+import { useCampaigns } from '@/hooks/useCampaigns';
+import { useSavedContent } from '@/hooks/useSavedContent';
+import { useTemplates, CampaignTemplate } from '@/hooks/useTemplates';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { AdBlock } from '@/components/ad-generator/AdBlock';
+import { CampaignSelectionTabs } from '@/components/campaign-selection/CampaignSelectionTabs';
+import { MessageSquare, Lightbulb, Target, Instagram, Palette, ArrowLeft, Loader2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { supabase } from '@/integrations/supabase/client';
 
 const AdGenerator = () => {
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
-  const { data: brandData, loading: brandLoading } = useBrandSetup();
+  const { data: brandData } = useBrandSetup();
   const { generateContent } = useAdGeneration();
   const { createCampaign } = useCampaigns();
-  const { toast } = useToast();
+  const { saveContent } = useSavedContent();
+  const { getAdTemplatesForCampaign } = useTemplates();
   const [currentCampaignId, setCurrentCampaignId] = useState<string | null>(null);
+  const [selectedCampaign, setSelectedCampaign] = useState<CampaignTemplate | null>(null);
+  const [showGenerationOptions, setShowGenerationOptions] = useState(false);
   const [onboardingStatus, setOnboardingStatus] = useState<{
     isComplete: boolean;
     stepCompleted: number;
@@ -91,9 +95,15 @@ const AdGenerator = () => {
     if (currentCampaignId) return currentCampaignId;
     
     const timestamp = new Date().toLocaleDateString();
+    const campaignName = selectedCampaign 
+      ? `${selectedCampaign.name} - ${timestamp}`
+      : `Campaign - ${timestamp}`;
+    
     const campaign = await createCampaign(
-      `Campaign - ${timestamp}`,
-      `Generated campaign from ${timestamp}`
+      campaignName,
+      selectedCampaign 
+        ? `${selectedCampaign.description} - Generated on ${timestamp}`
+        : `Generated campaign from ${timestamp}`
     );
     
     if (campaign) {
@@ -101,6 +111,222 @@ const AdGenerator = () => {
       return campaign.id;
     }
     return null;
+  };
+
+  const generateAdCaption = async () => {
+    const campaign = await createOrGetCampaign();
+    if (!campaign) return null;
+
+    // Get relevant ad templates for the selected campaign
+    const adTemplates = selectedCampaign ? getAdTemplatesForCampaign(selectedCampaign.id) : [];
+    const templateExamples = adTemplates.slice(0, 2).map(template => template.primary_text).join('\n\n---\n\n');
+
+    const systemPrompt = `You are an expert Meta Ads copywriter specializing in high-converting Facebook and Instagram ad captions.
+
+${selectedCampaign ? `CAMPAIGN CONTEXT: You are creating content for a "${selectedCampaign.name}" campaign targeting ${selectedCampaign.target_audience}. ${selectedCampaign.description}` : ''}
+
+${templateExamples ? `HIGH-PERFORMING REFERENCE EXAMPLES:
+${templateExamples}
+
+Use these examples as structural and tonal inspiration, but create completely original content for the user's specific brand.` : ''}
+
+Generate a compelling ad caption that follows this EXACT structure:
+
+🎯 HOOK (1-2 sentences that grab attention and call out the target audience)
+💪 PAIN MIRROR (2-3 sentences that reflect their current struggles/frustrations)
+✨ BELIEF BREAKER (2-3 sentences that challenge limiting beliefs and present new possibilities)  
+🚀 CTA (1-2 sentences with clear, action-oriented call-to-action)
+
+CRITICAL REQUIREMENTS:
+- Use simple, conversational language (8th grade reading level)
+- Include relevant emojis naturally throughout
+- Keep total length under 150 words
+- Make it scroll-stopping and engaging
+- Ensure Meta policy compliance (no personal attributes, body shaming, or unrealistic claims)
+- Match the brand's voice and tone exactly
+- Focus on transformation and results, not just features
+
+The caption should feel authentic, relatable, and motivate immediate action while staying compliant with Meta's advertising policies.`;
+
+    return await generateContent('ad_caption', systemPrompt);
+  };
+
+  const generateHeadlineOptions = async () => {
+    const campaign = await createOrGetCampaign();
+    if (!campaign) return null;
+
+    // Get relevant ad templates for headlines
+    const adTemplates = selectedCampaign ? getAdTemplatesForCampaign(selectedCampaign.id) : [];
+    const headlineExamples = adTemplates
+      .filter(template => template.headline)
+      .slice(0, 3)
+      .map(template => template.headline)
+      .join(', ');
+
+    const systemPrompt = `You are an expert Meta Ads copywriter specializing in high-converting headlines for Facebook and Instagram ads.
+
+${selectedCampaign ? `CAMPAIGN CONTEXT: You are creating headlines for a "${selectedCampaign.name}" campaign targeting ${selectedCampaign.target_audience}.` : ''}
+
+${headlineExamples ? `HIGH-PERFORMING HEADLINE EXAMPLES: ${headlineExamples}
+
+Use these as inspiration for tone and structure, but create original headlines for this specific brand.` : ''}
+
+Generate 5 powerful headline options that are:
+
+HEADLINE REQUIREMENTS:
+- Maximum 40 characters (Meta's headline limit)
+- Action-oriented and benefit-focused
+- Emotionally compelling
+- Clear and specific
+- Meta policy compliant (no personal attributes, superlatives, or unrealistic claims)
+
+HEADLINE STYLES TO INCLUDE:
+1. Question-based headline (creates curiosity)
+2. Benefit-focused headline (clear value proposition)  
+3. Urgency/scarcity headline (creates FOMO)
+4. Problem/solution headline (addresses pain point)
+5. Transformation headline (promises change)
+
+FORMAT:
+Present each headline as a numbered list with a brief explanation of the psychology behind each one.
+
+CRITICAL: Each headline must be under 40 characters and comply with Meta's advertising policies.`;
+
+    return await generateContent('headline_options', systemPrompt);
+  };
+
+  const generateCampaignName = async () => {
+    const campaign = await createOrGetCampaign();
+    if (!campaign) return null;
+
+    const systemPrompt = `You are a marketing strategist specializing in creating memorable, scroll-stopping campaign names.
+
+${selectedCampaign ? `CAMPAIGN CONTEXT: You are creating names inspired by the "${selectedCampaign.name}" campaign type, targeting ${selectedCampaign.target_audience}. The campaign focuses on: ${selectedCampaign.description}` : ''}
+
+Generate 4-5 campaign name options that are:
+
+CAMPAIGN NAME REQUIREMENTS:
+- Memorable and brandable
+- Creates curiosity and intrigue  
+- Reflects the campaign's core value proposition
+- Easy to remember and share
+- Professional yet engaging
+- Avoid generic terms like "Ultimate" or "Complete"
+
+NAMING STRATEGIES TO USE:
+1. Transformation-focused (emphasizes change/results)
+2. Time-based (leverages urgency/timeline) 
+3. Community-focused (builds belonging)
+4. Method/system-focused (implies proven process)
+5. Benefit-focused (clear value proposition)
+
+CONTEXT TO CONSIDER:
+- Current season/time of year for relevance
+- Target audience pain points and desires
+- Brand voice and personality
+- Competitive differentiation
+${selectedCampaign?.seasonal_timing ? `- Seasonal timing: ${selectedCampaign.seasonal_timing}` : ''}
+
+FORMAT: Present each campaign name with a brief rationale for why it would be effective.
+
+The names should feel fresh, exciting, and make people want to learn more.`;
+
+    return await generateContent('campaign_name', systemPrompt);
+  };
+
+  const generateIGStoryAd = async () => {
+    const campaign = await createOrGetCampaign();
+    if (!campaign) return null;
+
+    const systemPrompt = `You are a performance marketer creating Instagram Story ads for Meta.
+
+${selectedCampaign ? `CAMPAIGN CONTEXT: You are creating story content for a "${selectedCampaign.name}" campaign targeting ${selectedCampaign.target_audience}.` : ''}
+
+Create a 3-frame Instagram Story ad sequence that is inclusive, upbeat, and policy-safe.
+
+Meta Safety Rules:
+- Do not state or imply personal attributes (age, gender, health status, body type, physical condition, finances, relationship status)
+- No numeric promises about weight, body fat, inches, percentages, or timelines
+- Replace "you" statements tied to a problem with inclusive, general observations
+- Use broad descriptors instead of specific demographics
+- Never suggest the viewer lacks consistency, energy, or success
+- Avoid negative body image or shaming. Focus on positive, aspirational benefits
+
+Style:
+- Short, visual, and upbeat; 1–2 sentences per frame
+- Never start with a question
+- Simple, energetic, conversational language
+- Positive, inviting, and solution-focused
+
+Structure:
+Frame 1: Bold hook as a general observation/trend
+Frame 2: Belief breaker + solution reveal in inclusive, aspirational terms
+Frame 3: Clear CTA inviting action
+
+Output format:
+FRAME 1: [text]
+FRAME 2: [text]
+FRAME 3: [text]`;
+
+    return await generateContent('ig_story_ad', systemPrompt);
+  };
+
+  const generateCreativePrompt = async () => {
+    const campaign = await createOrGetCampaign();
+    if (!campaign) return null;
+
+    const systemPrompt = `You are a creative director specializing in Meta-safe visual concepts for Reels and Carousels.
+
+${selectedCampaign ? `CAMPAIGN CONTEXT: You are creating visual concepts for a "${selectedCampaign.name}" campaign targeting ${selectedCampaign.target_audience}.` : ''}
+
+Generate 3 Meta-safe visual concepts that include:
+
+CONCEPT REQUIREMENTS:
+- Title for the creative concept
+- Scene description and setting
+- Text overlay suggestions
+- Call-to-action placement
+- Meta policy compliance (inclusive, positive, no personal attributes)
+
+VISUAL CONCEPTS TO INCLUDE:
+1. Before/After style (without showing actual bodies)
+2. Day-in-the-life / Behind-the-scenes
+3. Educational / How-to format
+
+Each concept should be:
+- Scroll-stopping and engaging
+- Easy to execute with phone camera
+- Compliant with Meta advertising policies
+- Aligned with brand voice and target audience
+
+FORMAT:
+CONCEPT 1: [Title]
+Scene: [Description]
+Text Overlay: [Suggestions]
+CTA: [Placement and text]
+
+CONCEPT 2: [Title]
+Scene: [Description] 
+Text Overlay: [Suggestions]
+CTA: [Placement and text]
+
+CONCEPT 3: [Title]
+Scene: [Description]
+Text Overlay: [Suggestions] 
+CTA: [Placement and text]`;
+
+    return await generateContent('creative_prompt', systemPrompt);
+  };
+
+
+  const handleCampaignSelect = (campaign: CampaignTemplate) => {
+    setSelectedCampaign(campaign);
+    setShowGenerationOptions(true);
+  };
+
+  const handleBackToCampaigns = () => {
+    setSelectedCampaign(null);
+    setShowGenerationOptions(false);
   };
 
   if (authLoading || onboardingStatus === null) {
@@ -142,381 +368,122 @@ const AdGenerator = () => {
     );
   }
 
-  const generateAdCaption = async (): Promise<string> => {
-    const systemPrompt = `
-You are a fitness marketing expert. Write a high-converting Instagram/Facebook ad caption.
-
-STRICT STRUCTURE (use these exact labels):
-HOOK: [bold, clear statement - no questions]
-PAIN MIRROR: [mirror a common struggle in inclusive terms]
-BELIEF BREAKER: [short insight + differentiator/mechanism]
-CTA: [direct, action-focused command]
-
-TONE AND STYLE:
-- Direct, confident, and benefit-focused. Avoid vague hype or exaggerated claims.
-- Use simple, energetic language that matches the brand's voice: confident, conversational, and action-oriented.
-- Start the HOOK with a statement, not a question. No rhetorical questions anywhere.
-
-INCLUSIVITY AND META SAFETY:
-- Do not reference personal attributes: age, gender, religion, ethnicity, health conditions, financial status, or relationship status.
-- Use broad, inclusive descriptors instead (e.g., "busy professionals", "new parents", "time-pressed people").
-- Avoid body shaming or negative self-perception. Focus on positive transformation, benefits, and empowerment.
-- Keep outputs fully compliant with Meta ad policies and ready to use without further editing.
-
-BRAND CONTEXT (use provided brand data and site scan to guide tone/USP/positioning):
-- Voice & Tone: match their established communication style and brand words; avoid their blacklist.
-- Align CTA with their specific offer.
-
-OUTPUT RULES:
-- Only return the four labeled sections in this order (no extra commentary).
-`;
-
-    return await generateContent('ad-caption', systemPrompt);
-  };
-
-  const generateHeadlineOptions = async (): Promise<string> => {
-    const voiceTone = brandData?.voice_tone_style || 'Confident';
-    
-    const systemPrompt = `
-You are a performance marketer. Generate compliant headline options for a health/fitness ad on Meta.
-
-Meta Policy Requirements:
-- Do not reference personal attributes (age, gender, health status, body type, physical condition, finances, relationship status) or imply you know them.
-- No exact weight-loss numbers, inches, percentages, or timeframes. Describe benefits generally.
-- Avoid negative body-image triggers or shaming. Emphasize positive, empowering outcomes.
-- Be realistic; avoid sensational or guaranteed results.
-
-Style Requirements:
-- Short and punchy: under 12 words each.
-- Active voice; direct, confident, benefit-focused.
-- Broad, inclusive language (e.g., "busy professionals", "time-pressed people").
-- Match the brand’s voice and tone: ${voiceTone}.
-
-Output:
-- Return exactly 5 distinct headlines, numbered 1-5, each on its own line.
-- No extra commentary, no quotes, no emojis.`;
-
-    return await generateContent('headline-options', systemPrompt);
-  };
-
-  const generateCampaignName = async (): Promise<string> => {
-    if (!brandData) return '';
-
-    const voiceTone = brandData.voice_tone_style || 'Bold';
-    const offerType = brandData.offer_type || '';
-    const mainProblem = brandData.main_problem || '';
-    const targetMarket = brandData.target_market || '';
-    const failedSolutions = brandData.failed_solutions || '';
-    const campaignTypes = brandData.campaign_types || [];
-    const seasonalOptions = brandData.seasonal_launch_options || [];
-    
-    // Build seasonal context with specific action verbs
-    let seasonalContext = '';
-    if (seasonalOptions.length > 0) {
-      const seasonal = seasonalOptions.join(', ');
-      if (seasonal.includes('Summer')) {
-        seasonalContext += 'SEASONAL PRIORITY: Summer themes with action verbs. Examples: "Summer Shred", "Beach Bod Blast", "Bikini Drop", "Summer Sculpt". ';
-      }
-      if (seasonal.includes('January') || seasonal.includes('New Year')) {
-        seasonalContext += 'SEASONAL PRIORITY: New Year themes with action verbs. Examples: "Resolution Crush", "January Melt", "New Year Strip", "Fresh Start Shred". ';
-      }
-      if (seasonal.includes('Back to School')) {
-        seasonalContext += 'SEASONAL PRIORITY: Back-to-School themes with action verbs. Examples: "September Shred", "School Drop Challenge", "Back-to-School Blast". ';
-      }
-      if (seasonal.includes('Holiday')) {
-        seasonalContext += 'SEASONAL PRIORITY: Holiday themes with action verbs. Examples: "Holiday Shred", "Turkey Drop", "Christmas Crush". ';
-      }
-    }
-    
-    // Build audience-specific context with action formulas
-    let audienceContext = '';
-    if (targetMarket.toLowerCase().includes('busy mom') || targetMarket.toLowerCase().includes('mother')) {
-      audienceContext = 'AUDIENCE FOCUS: Mom-specific action names. Examples: "Mom Squad Shred", "Mama Melt Challenge", "Busy Mom Blast", "Mom Bod Drop". ';
-    } else if (targetMarket.toLowerCase().includes('executive') || targetMarket.toLowerCase().includes('professional')) {
-      audienceContext = 'AUDIENCE FOCUS: Professional action names. Examples: "Executive Edge", "Boss Bod Drop", "Corporate Crush", "CEO Shred". ';
-    } else if (targetMarket.toLowerCase().includes('over 40') || targetMarket.toLowerCase().includes('40+')) {
-      audienceContext = 'AUDIENCE FOCUS: Over-40 action names. Examples: "40+ Shred", "Midlife Melt", "Prime Time Drop", "Silver Strength". ';
-    }
-    
-    // Build pain point context with specific action solutions
-    let painContext = '';
-    if (mainProblem.toLowerCase().includes('cardio') || failedSolutions.toLowerCase().includes('cardio')) {
-      painContext = 'PAIN INTEGRATION: Anti-cardio focus with action verbs. Examples: "Cardio-Free Crush", "No-Cardio Challenge", "Anti-Cardio Shred". ';
-    }
-    if (mainProblem.toLowerCase().includes('time') || mainProblem.toLowerCase().includes('busy')) {
-      painContext += 'PAIN INTEGRATION: Time-focused with action verbs. Examples: "Quick Drop", "15-Minute Melt", "Busy Body Blast". ';
-    }
-    if (mainProblem.toLowerCase().includes('plateau') || failedSolutions.toLowerCase().includes('plateau')) {
-      painContext += 'PAIN INTEGRATION: Plateau-busting with action verbs. Examples: "Plateau Crusher", "Breakthrough Blast", "Stall Breaker". ';
-    }
-    
-    // Build campaign type context
-    let campaignContext = '';
-    if (campaignTypes.includes('Reactivation Campaign')) {
-      campaignContext = 'CAMPAIGN TYPE: Reactivation with action focus. Examples: "Comeback Crush", "Return Strong", "Revival Rush". ';
-    } else if (campaignTypes.includes('Time-Sensitive Promo')) {
-      campaignContext = 'CAMPAIGN TYPE: Urgency with action focus. Examples: "Last Call Lean", "Final Rush", "Deadline Drop". ';
-    }
-    
-    const systemPrompt = `You are an elite fitness campaign specialist who creates bold, action-driven campaign names that generate millions in revenue. Create 4-5 scroll-stopping campaign names that feel like strategic fitness challenges.
-
-BRAND INPUTS:
-VOICE TONE: ${voiceTone}
-OFFER TYPE: ${offerType}
-TARGET MARKET: ${targetMarket}
-MAIN PROBLEM: ${mainProblem}
-FAILED SOLUTIONS: ${failedSolutions}
-
-${seasonalContext}
-${audienceContext}
-${painContext}
-${campaignContext}
-
-CRITICAL REQUIREMENTS:
-- Each name must be 2-5 words maximum (prioritize 2-3 words for maximum impact)
-- Must sound like strategic fitness challenges or launches, NOT clinical programs
-- Names should be scroll-stopping, ad-ready, and conversion-focused
-- Must use ACTION VERBS as core components
-
-CAMPAIGN NAME FORMULAS (use these structures):
-1. [Action Verb] + [Body Part/Result]: "Drop Belly Fat", "Blast Love Handles", "Melt Dad Bod"
-2. [Pain Point] + [Action]: "Cardio-Free Crush", "No-Gym Shred", "Busy Mom Blast"
-3. [Timeframe] + [Action]: "30-Day Drop", "Summer Melt", "Weekend Warrior"
-4. [Audience] + [Action]: "Mom Squad Shred", "Dad Bod Drop", "Boss Lady Blast"
-5. [Intensity] + [Result]: "Fat Fury", "Belly Blitz", "Love Handle Storm"
-
-POWER WORDS - USE THESE EXCLUSIVELY:
-- Action Verbs: Drop, Melt, Blast, Crush, Shred, Torch, Demolish, Strip, Burn, Carve, Sculpt
-- Intensity Words: Blitz, Sprint, Rush, Fury, Fire, Storm, Demolition
-- Challenge Terms: Challenge, Bootcamp, Blitz, Sprint, Rush, Crusher, Buster
-
-FORBIDDEN WORDS - NEVER USE THESE:
-- Clinical Terms: Protocol, System, Method, Program, Blueprint, Solution, Formula
-- Vague Wellness: Journey, Transformation, Lifestyle, Wellness, Better, Healthy
-- Blog-Style: Guide, Ultimate, Complete, Secret, Strategy, Comprehensive
-- Soft Language: Gentle, Nurturing, Balanced, Mindful, Inner
-
-TONE-SPECIFIC ACTION FORMULAS:
-- Bold/Aggressive: "Fat Fury", "Belly Demolition", "Love Handle Crusher", "Beast Mode Blast"
-- Direct + Warm: "Mom Bod Melt", "Gentle Giant Drop", "Busy Dad Shred", "Family Fit Rush"
-- Edgy/Hype: "Cardio-Free Crush", "Lazy Girl Torch", "Couch Potato Blast", "Anti-Gym Shred"
-- Confident: "Summer Sculpt", "Beach Bod Drop", "Bikini Shred", "Power Melt"
-
-BRAND CONTEXT:
-- Business: ${brandData.business_name}
-- Offer Type: ${offerType}
-- Campaign Types: ${campaignTypes.join(', ')}
-- Voice/Tone: ${voiceTone}
-
-Each name must feel like a high-converting fitness campaign that would stop someone scrolling and make them want to join immediately. Think like a fitness influencer launching their biggest challenge of the year - bold, action-focused, and results-driven.`;
-    
-    return await generateContent('campaign-name', systemPrompt);
-  };
-
-  const generateIGStoryAd = async (): Promise<string> => {
-    const systemPrompt = `
-You are a performance marketer. Create a 3-frame Instagram Story ad sequence for Meta that is inclusive, upbeat, and policy-safe.
-
-Meta Safety Rules:
-- Do not state or imply personal attributes (age, gender, health status, body type, physical condition, finances, relationship status).
-- No numeric promises about weight, body fat, inches, percentages, or timelines.
-- Replace "you" statements tied to a problem with inclusive, general observations (e.g., "Many people find cardio alone isn't enough").
-- Remove age-specific references like "men over 30"; use broad descriptors instead (e.g., "busy professionals", "active people", "time-pressed people").
-- Never suggest the viewer lacks consistency, energy, or success. Frame these as general challenges some people face.
-- Avoid negative body image or shaming. Focus on positive, aspirational benefits (energy, confidence, consistency) without implying the audience currently lacks them.
-
-Style:
-- Short, visual, and upbeat; 1–2 sentences per frame.
-- Never start with a question. No rhetorical/leading questions that imply a personal struggle (e.g., "Struggling...?", "Can't...?", "Tired of...?").
-- Simple, energetic, conversational language that matches the brand's voice.
-- Positive, inviting, and solution-focused.
-
-Structure:
-Frame 1: Bold hook as a general observation/trend (no "you"-problem framing, no questions)
-Frame 2: Belief breaker + solution reveal in inclusive, aspirational terms
-Frame 3: Clear CTA inviting action (no implication of deficiency)
-
-Output format (exactly):
-FRAME 1: [text]
-FRAME 2: [text]
-FRAME 3: [text]
-
-Return only the three frames exactly in this format, no extra commentary.
-`;
-
-    return await generateContent('ig-story-ad', systemPrompt);
-  };
-
-  const generateCreativePrompt = async (): Promise<string> => {
-    if (!brandData) return '';
-
-    const voiceTone = brandData.voice_tone_style || 'Bold';
-    const mainProblem = brandData.main_problem || '';
-    const failedSolutions = brandData.failed_solutions || '';
-    const targetMarket = brandData.target_market || '';
-    const offerType = brandData.offer_type || '';
-    const magicWandResult = brandData.magic_wand_result || '';
-    const clientWords = brandData.client_words || '';
-    
-    // Build emotion-specific context
-    let frustrationHook = '';
-    if (mainProblem.toLowerCase().includes('cardio') || failedSolutions.toLowerCase().includes('cardio')) {
-      frustrationHook = 'FRUSTRATION HOOK: Show someone exhausted on treadmill, looking defeated/bored. ';
-    } else if (mainProblem.toLowerCase().includes('time') || mainProblem.toLowerCase().includes('busy')) {
-      frustrationHook = 'FRUSTRATION HOOK: Show someone checking watch frantically, looking overwhelmed by gym equipment. ';
-    } else if (mainProblem.toLowerCase().includes('plateau') || failedSolutions.toLowerCase().includes('plateau')) {
-      frustrationHook = 'FRUSTRATION HOOK: Show someone staring at scale with confused/frustrated expression, shaking head. ';
-    }
-    
-    // Build audience-specific visual context
-    let audienceContext = '';
-    if (targetMarket.toLowerCase().includes('busy mom') || targetMarket.toLowerCase().includes('mother')) {
-      audienceContext = 'AUDIENCE VISUALS: Mom in kitchen/living room, kids in background, juggling multiple tasks. Props: coffee mug, yoga mat in corner, family photos. ';
-    } else if (targetMarket.toLowerCase().includes('executive') || targetMarket.toLowerCase().includes('professional')) {
-      audienceContext = 'AUDIENCE VISUALS: Professional in office/home office setting, suit/business attire, laptop visible. Props: coffee, work papers, professional environment. ';
-    } else if (targetMarket.toLowerCase().includes('over 40') || targetMarket.toLowerCase().includes('40+')) {
-      audienceContext = 'AUDIENCE VISUALS: Mid-life person in comfortable home setting, realistic body type, casual but put-together appearance. ';
-    }
-    
-    // Build solution reveal context
-    let solutionReveal = '';
-    if (offerType.toLowerCase().includes('challenge') || offerType.toLowerCase().includes('program')) {
-      solutionReveal = 'SOLUTION REVEAL: Quick montage of simple exercises at home, person looking confident and energized. ';
-    } else if (offerType.toLowerCase().includes('coaching') || offerType.toLowerCase().includes('guide')) {
-      solutionReveal = 'SOLUTION REVEAL: Coach demonstrating simple movement, person nodding with "aha" expression, transformation shots. ';
-    }
-
-    const systemPrompt = `
-You are a performance marketer and creative director. Generate 3 Meta-safe visual concepts for Reels/Carousels that are inclusive and ready to execute.
-
-Compliance and Inclusivity:
-- Do not mention specific ages, genders, or personal attributes in overlays or descriptions.
-- Do not imply the viewer personally struggles (avoid "you can't", "you're tired of"). Use generalized observations ("Many people find...", "Lots of busy professionals...").
-- No “before/after” framing. Show positive, standalone moments that demonstrate benefits without implying a prior negative state.
-- Keep benefits broad and aspirational (e.g., "more energy", "feeling stronger", "moving with confidence"), without diagnosing the viewer’s current state.
-- If referring to a challenge, present it as a general trend or scenario, not about the viewer.
-- No numeric promises about weight, body fat, inches, percentages, or timeframes.
-
-Brand Context:
-- Voice & Tone: ${voiceTone}
-- Offer Type: ${offerType}
-- Client Words to echo (avoid blacklist): "${clientWords}"
-- Dream Outcome: ${magicWandResult}
-
-For each concept, provide EXACTLY:
-1) Title: Short, evocative concept name (no personal attributes).
-2) Scene: 1–2 sentences describing a positive, standalone moment (no before/after, no diagnostic phrasing).
-3) Text Overlays (2–3): General observations or benefits; no direct "you"-problem statements.
-4) Visual Details: Props/settings B‑roll that are neutral and inclusive (e.g., water bottle, calendar check, short home session between meetings).
-5) CTA Overlay: Inviting, action‑focused, and compliant (e.g., "Start today", "Learn more").
-6) Audio/Motion: Music/movement cues to keep it upbeat.
-
-Language Rules:
-- Neutral, inclusive phrasing: "people", "many find", "lots of busy professionals".
-- Avoid age/gender/health‑status mentions.
-- Active, simple, and upbeat voice; keep it concise.
-
-Output Format (exactly):
-CONCEPT 1
-Title: ...
-Scene: ...
-Text Overlays:
-- ...
-- ...
-Visual Details: ...
-CTA Overlay: ...
-Audio/Motion: ...
-
-CONCEPT 2
-Title: ...
-Scene: ...
-Text Overlays:
-- ...
-- ...
-Visual Details: ...
-CTA Overlay: ...
-Audio/Motion: ...
-
-CONCEPT 3
-Title: ...
-Scene: ...
-Text Overlays:
-- ...
-- ...
-Visual Details: ...
-CTA Overlay: ...
-Audio/Motion: ...
-`;
-    
-    return await generateContent('creative-prompt', systemPrompt);
-  };
-
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="mb-12 text-center">
-          <h1 className="text-4xl md:text-5xl font-klein font-extrabold text-white mb-4">
-            Let's build your next client getting campaign
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Generate high-converting ads tailored to your brand using AI. Each piece of content is created based on your brand setup and target audience.
-          </p>
-        </div>
-
-        {/* Ad Generation Blocks */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-          <AdBlock
-            title="Ad Caption Generator"
-            description="Generate a full Instagram/Facebook ad caption with Hook → Pain Mirror → Belief Breaker → CTA structure"
-            icon={<MessageSquare className="w-6 h-6 text-primary" />}
-            onGenerate={generateAdCaption}
-            placeholder="Your generated ad caption will appear here..."
-            contentType="ad_caption"
-            onCampaignCreate={createOrGetCampaign}
-          />
-
-          <AdBlock
-            title="Headline Options Generator"
-            description="Output 3-5 Punchy headlines for ads, lead forms , and landing pages based on your offer"
-            icon={<Type className="w-6 h-6 text-primary" />}
-            onGenerate={generateHeadlineOptions}
-            placeholder="Your headline options will appear here..."
-            contentType="headline"
-            onCampaignCreate={createOrGetCampaign}
-          />
-
-          <AdBlock
-            title="Campaign Name Generator"
-            description="Suggest creative campaign titles that feel clever, seasonal, or results-driven"
-            icon={<Tag className="w-6 h-6 text-primary" />}
-            onGenerate={generateCampaignName}
-            placeholder="Your campaign name suggestions will appear here..."
-            contentType="campaign_name"
-            onCampaignCreate={createOrGetCampaign}
-          />
-
-          <AdBlock
-            title="IG Story Ad Generator"
-            description="Create a 3-frame Instagram Story ad: Meta-safe, inclusive, no personal attributes or numeric promises"
-            icon={<FaInstagram className="w-6 h-6 text-[#E4405F]" />}
-            onGenerate={generateIGStoryAd}
-            placeholder="Your Instagram Story ad sequence will appear here..."
-            contentType="ig_story"
-            onCampaignCreate={createOrGetCampaign}
-          />
-
-          <AdBlock
-            title="Creative Prompt Generator"
-            description="Meta-safe visual prompts: inclusive, no before/after, no personal attributes"
-            icon={<Camera className="w-6 h-6 text-primary" />}
-            onGenerate={generateCreativePrompt}
-            contentType="creative_prompt"
-            placeholder="Your creative visual prompts will appear here..."
-            onCampaignCreate={createOrGetCampaign}
-          />
-        </div>
+    <div className="container mx-auto px-4 py-8">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold mb-2">AI Ad Generator</h1>
+        <p className="text-muted-foreground">
+          Generate high-converting ad content powered by your brand setup
+        </p>
       </div>
+
+      {!showGenerationOptions ? (
+        <>
+          <div className="mb-6">
+            <h2 className="text-2xl font-semibold mb-2">Choose Your Campaign Type</h2>
+            <p className="text-muted-foreground">
+              Select a proven campaign template to generate high-converting ad content
+            </p>
+          </div>
+          <CampaignSelectionTabs
+            selectedCampaign={selectedCampaign}
+            onCampaignSelect={handleCampaignSelect}
+          />
+        </>
+      ) : (
+        <>
+          <div className="mb-6">
+            <Button
+              variant="ghost"
+              onClick={handleBackToCampaigns}
+              className="mb-4"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Campaigns
+            </Button>
+            
+            {selectedCampaign && (
+              <Card className="mb-6">
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <CardTitle className="text-xl">{selectedCampaign.name}</CardTitle>
+                      <CardDescription className="mt-1">
+                        {selectedCampaign.description}
+                      </CardDescription>
+                    </div>
+                    {selectedCampaign.seasonal_timing && (
+                      <Badge variant="secondary">
+                        {selectedCampaign.seasonal_timing}
+                      </Badge>
+                    )}
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                    <span>Category: {selectedCampaign.category}</span>
+                    {selectedCampaign.target_audience && (
+                      <span>• Target: {selectedCampaign.target_audience}</span>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <AdBlock
+              title="Ad Caption"
+              description="Generate compelling Facebook & Instagram ad captions with proven structure"
+              icon={<MessageSquare />}
+              onGenerate={generateAdCaption}
+              contentType="ad_caption"
+              campaignId={currentCampaignId}
+              onCampaignCreate={createOrGetCampaign}
+            />
+
+            <AdBlock
+              title="Headline Options"
+              description="Create 5 scroll-stopping headlines under 40 characters"
+              icon={<Target />}
+              onGenerate={generateHeadlineOptions}
+              contentType="headline"
+              campaignId={currentCampaignId}
+              onCampaignCreate={createOrGetCampaign}
+            />
+
+            <AdBlock
+              title="Campaign Name"
+              description="Generate memorable campaign names that create curiosity"
+              icon={<Lightbulb />}
+              onGenerate={generateCampaignName}
+              contentType="campaign_name"
+              campaignId={currentCampaignId}
+              onCampaignCreate={createOrGetCampaign}
+            />
+
+            <AdBlock
+              title="IG Story Ad"
+              description="Create engaging 3-frame Instagram Story sequences"
+              icon={<Instagram />}
+              onGenerate={generateIGStoryAd}
+              contentType="ig_story"
+              campaignId={currentCampaignId}
+              onCampaignCreate={createOrGetCampaign}
+            />
+
+            <AdBlock
+              title="Creative Prompt"
+              description="Generate visual concepts for Reels & Carousels"
+              icon={<Palette />}
+              onGenerate={generateCreativePrompt}
+              contentType="creative_prompt"
+              campaignId={currentCampaignId}
+              onCampaignCreate={createOrGetCampaign}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 };
