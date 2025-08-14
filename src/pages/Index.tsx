@@ -282,6 +282,11 @@ const Index = () => {
               No generic AI. No wasted time. Just campaigns that convert.
             </p>
 
+            {/* Hero Animation Demo */}
+            <div className="mb-12">
+              <HeroAnimation />
+            </div>
+
             {/* Primary CTA */}
             <div className="flex justify-center">
               <CTAButton size="lg">
