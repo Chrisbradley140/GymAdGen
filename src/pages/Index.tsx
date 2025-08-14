@@ -41,7 +41,7 @@ import BenefitCard from "@/components/BenefitCard";
 import ProductDemo from "@/components/ProductDemo";
 import FAQ from "@/components/FAQ";
 import ResultsShowcase from "@/components/ResultsShowcase";
-import HeroAnimation from "@/components/HeroAnimation";
+import { EnhancedHeroAnimation } from "@/components/EnhancedHeroAnimation";
 import ComparisonTable from "@/components/ComparisonTable";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -282,9 +282,9 @@ const Index = () => {
               No generic AI. No wasted time. Just campaigns that convert.
             </p>
 
-            {/* Hero Animation Demo */}
+            {/* Enhanced Hero Animation Demo */}
             <div className="mb-12">
-              <HeroAnimation />
+              <EnhancedHeroAnimation />
             </div>
 
             {/* Primary CTA */}
