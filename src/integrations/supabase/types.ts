@@ -75,6 +75,7 @@ export type Database = {
       }
       campaign_templates: {
         Row: {
+          canonical_name: string
           category: string
           created_at: string
           description: string
@@ -87,6 +88,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          canonical_name: string
           category: string
           created_at?: string
           description: string
@@ -99,6 +101,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          canonical_name?: string
           category?: string
           created_at?: string
           description?: string
@@ -252,6 +255,68 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "campaigns"
             referencedColumns: ["id"]
+          },
+        ]
+      }
+      top_performing_ads: {
+        Row: {
+          campaign_canonical_name: string
+          content_hash: string
+          cost_per_result: string | null
+          created_at: string | null
+          headline: string | null
+          hook_type: string | null
+          id: string
+          insights: string | null
+          media_url: string | null
+          platform: string[] | null
+          primary_text: string
+          result: string | null
+          target_location: string | null
+          target_market: string | null
+          tone: string | null
+        }
+        Insert: {
+          campaign_canonical_name: string
+          content_hash: string
+          cost_per_result?: string | null
+          created_at?: string | null
+          headline?: string | null
+          hook_type?: string | null
+          id?: string
+          insights?: string | null
+          media_url?: string | null
+          platform?: string[] | null
+          primary_text: string
+          result?: string | null
+          target_location?: string | null
+          target_market?: string | null
+          tone?: string | null
+        }
+        Update: {
+          campaign_canonical_name?: string
+          content_hash?: string
+          cost_per_result?: string | null
+          created_at?: string | null
+          headline?: string | null
+          hook_type?: string | null
+          id?: string
+          insights?: string | null
+          media_url?: string | null
+          platform?: string[] | null
+          primary_text?: string
+          result?: string | null
+          target_location?: string | null
+          target_market?: string | null
+          tone?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_campaign_canonical_name"
+            columns: ["campaign_canonical_name"]
+            isOneToOne: false
+            referencedRelation: "campaign_templates"
+            referencedColumns: ["canonical_name"]
           },
         ]
       }

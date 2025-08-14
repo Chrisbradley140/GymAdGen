@@ -148,7 +148,7 @@ CRITICAL REQUIREMENTS:
 
 The caption should feel authentic, relatable, and motivate immediate action while staying compliant with Meta's advertising policies.`;
 
-    return await generateContent('ad_caption', systemPrompt);
+    return await generateContent('ad_caption', systemPrompt, selectedCampaign?.canonical_name);
   };
 
   const generateHeadlineOptions = async () => {
@@ -192,7 +192,7 @@ Present each headline as a numbered list with a brief explanation of the psychol
 
 CRITICAL: Each headline must be under 40 characters and comply with Meta's advertising policies.`;
 
-    return await generateContent('headline_options', systemPrompt);
+    return await generateContent('headline_options', systemPrompt, selectedCampaign?.canonical_name);
   };
 
   const generateCampaignName = async () => {
@@ -231,7 +231,7 @@ FORMAT: Present each campaign name with a brief rationale for why it would be ef
 
 The names should feel fresh, exciting, and make people want to learn more.`;
 
-    return await generateContent('campaign_name', systemPrompt);
+    return await generateContent('campaign_name', systemPrompt, selectedCampaign?.canonical_name);
   };
 
   const generateIGStoryAd = async () => {
@@ -268,7 +268,7 @@ FRAME 1: [text]
 FRAME 2: [text]
 FRAME 3: [text]`;
 
-    return await generateContent('ig_story_ad', systemPrompt);
+    return await generateContent('ig_story_ad', systemPrompt, selectedCampaign?.canonical_name);
   };
 
   const generateCreativePrompt = async () => {
@@ -315,7 +315,7 @@ Scene: [Description]
 Text Overlay: [Suggestions] 
 CTA: [Placement and text]`;
 
-    return await generateContent('creative_prompt', systemPrompt);
+    return await generateContent('creative_prompt', systemPrompt, selectedCampaign?.canonical_name);
   };
 
 

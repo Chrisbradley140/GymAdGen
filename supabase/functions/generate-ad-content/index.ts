@@ -1,8 +1,13 @@
 
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.53.0';
 
 const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
+const supabaseUrl = Deno.env.get('SUPABASE_URL');
+const supabaseKey = Deno.env.get('SUPABASE_ANON_KEY');
+
+const supabase = createClient(supabaseUrl!, supabaseKey!);
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -111,19 +116,84 @@ serve(async (req) => {
   }
 
   try {
-    const { adType, systemPrompt, brandData } = await req.json();
+    const { adType, systemPrompt, brandData, campaignCanonicalName } = await req.json();
     
     console.log(`Generating ${adType} content for brand: ${brandData.business_name}`);
+    console.log(`Campaign canonical name: ${campaignCanonicalName}`);
 
     if (!openAIApiKey) {
       throw new Error('OpenAI API key not configured');
+    }
+
+    // Fetch top-performing ads for inspiration if campaign canonical name is provided
+    let topPerformingAds = [];
+    let campaignContext = '';
+    
+    if (campaignCanonicalName) {
+      try {
+        // Fetch campaign details
+        const { data: campaignData, error: campaignError } = await supabase
+          .from('campaign_templates')
+          .select('name, description, target_audience')
+          .eq('canonical_name', campaignCanonicalName)
+          .single();
+          
+        if (!campaignError && campaignData) {
+          campaignContext = `CAMPAIGN CONTEXT:
+Campaign: ${campaignData.name}
+Description: ${campaignData.description}
+Target Audience: ${campaignData.target_audience || 'General'}
+
+`;
+        }
+        
+        // Fetch top-performing ads
+        const { data: adsData, error: adsError } = await supabase
+          .from('top_performing_ads')
+          .select('*')
+          .eq('campaign_canonical_name', campaignCanonicalName)
+          .order('result', { ascending: false })
+          .order('cost_per_result', { ascending: true })
+          .limit(10);
+          
+        if (!adsError && adsData && adsData.length > 0) {
+          topPerformingAds = adsData;
+          console.log(`Found ${topPerformingAds.length} top-performing ads for campaign: ${campaignCanonicalName}`);
+        } else {
+          console.log(`No top-performing ads found for campaign: ${campaignCanonicalName}, falling back to AI-only generation`);
+        }
+      } catch (error) {
+        console.error('Error fetching top-performing ads:', error);
+        // Continue with AI-only generation
+      }
+    }
+
+    // Build inspiration section from top-performing ads
+    let inspirationSection = '';
+    if (topPerformingAds.length > 0) {
+      inspirationSection = `
+TOP-PERFORMING INSPIRATION (use for structural/tonal guidance only - DO NOT COPY):
+${topPerformingAds.map((ad, index) => `
+Example ${index + 1}:
+- Primary Text: ${ad.primary_text}
+- Headline: ${ad.headline || 'N/A'}
+- Tone: ${ad.tone || 'Not specified'}
+- Hook Type: ${ad.hook_type || 'Not specified'}
+- Platform: ${ad.platform?.join(', ') || 'Not specified'}
+- Performance: ${ad.result || 'Not specified'} (Cost: ${ad.cost_per_result || 'Not specified'})
+${ad.insights ? `- Insights: ${ad.insights}` : ''}
+`).join('')}
+
+CRITICAL: Use these examples ONLY as structural and tonal inspiration. Create completely original content that reflects the brand voice and avoids any direct copying.
+
+`;
     }
 
     const websiteContext = brandData.website_url ? 
       `\nHomepage URL: ${brandData.website_url}\n\nScan this homepage and extract the brand's unique selling points (USP), tone of voice, and positioning. Use these insights to shape the ad copy tone and style. If you cannot extract useful information from this URL, fall back to the brand data provided below.\n` : '';
 
     const prompt = `${websiteContext}
-Brand: ${brandData.business_name}
+${campaignContext}${inspirationSection}Brand: ${brandData.business_name}
 Target Market: ${brandData.target_market}
 Voice & Tone: ${brandData.voice_tone_style}
 Offer Type: ${brandData.offer_type}
@@ -133,7 +203,7 @@ Main Problem Client Faces: ${brandData.main_problem}
 Failed Solutions They've Tried: ${brandData.failed_solutions}
 How Clients Describe Their Problem: ${brandData.client_words}
 Dream Outcome: ${brandData.magic_wand_result}
-Campaign Types: ${brandData.campaign_types.join(', ')}
+Campaign Types: ${brandData.campaign_types?.join(', ') || 'Not specified'}
 
 ${systemPrompt}
 `;
