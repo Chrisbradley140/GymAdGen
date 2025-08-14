@@ -261,7 +261,7 @@ export type Database = {
       top_performing_ads: {
         Row: {
           campaign_canonical_name: string
-          content_hash: string
+          content_hash: string | null
           cost_per_result: string | null
           created_at: string | null
           headline: string | null
@@ -278,7 +278,7 @@ export type Database = {
         }
         Insert: {
           campaign_canonical_name: string
-          content_hash: string
+          content_hash?: string | null
           cost_per_result?: string | null
           created_at?: string | null
           headline?: string | null
@@ -295,7 +295,7 @@ export type Database = {
         }
         Update: {
           campaign_canonical_name?: string
-          content_hash?: string
+          content_hash?: string | null
           cost_per_result?: string | null
           created_at?: string | null
           headline?: string | null
@@ -310,15 +310,7 @@ export type Database = {
           target_market?: string | null
           tone?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "fk_campaign_canonical_name"
-            columns: ["campaign_canonical_name"]
-            isOneToOne: false
-            referencedRelation: "campaign_templates"
-            referencedColumns: ["canonical_name"]
-          },
-        ]
+        Relationships: []
       }
       user_onboarding: {
         Row: {
