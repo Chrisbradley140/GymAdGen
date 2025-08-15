@@ -61,7 +61,7 @@ const CampaignDetailView = ({
         <CardHeader>
           <div className="flex justify-between items-center">
             <div>
-              <CardTitle className="text-lg">{title}</CardTitle>
+              <CardTitle className="text-lg text-red-600">{title}</CardTitle>
             </div>
             <div className="flex gap-2">
               <Button
@@ -78,7 +78,7 @@ const CampaignDetailView = ({
           <Textarea
             value={content.content}
             readOnly
-            className="min-h-[100px] resize-none"
+            className="min-h-[100px] resize-none scrollbar-hide overflow-hidden"
           />
         </CardContent>
       </Card>
