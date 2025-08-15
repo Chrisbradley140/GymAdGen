@@ -494,8 +494,8 @@ Create compelling, conversion-focused copy that strictly follows the 4-section s
   };
 }
 
-// Comprehensive validation for headlines
-function validateHeadlineStructure(content: string) {
+// Enhanced validation for headlines with psychological trigger detection
+function validateHeadlineStructure(content: string, brandData: any) {
   const errors = [];
   const warnings = [];
   const headlines = [];
@@ -515,11 +515,12 @@ function validateHeadlineStructure(content: string) {
     
     headlines.push({ text: headline, wordCount, index: index + 1 });
     
-    // Validate word count (5-9 words for readability)
-    if (wordCount < 5) {
-      errors.push(`Headline ${index + 1} too short: ${wordCount} words (minimum 5)`);
-    } else if (wordCount > 9) {
-      errors.push(`Headline ${index + 1} too long: ${wordCount} words (maximum 9)`);
+    // Validate word count (under 12 words for impact)
+    if (wordCount > 12) {
+      errors.push(`Headline ${index + 1} too long: ${wordCount} words (maximum 12)`);
+    }
+    if (wordCount < 3) {
+      errors.push(`Headline ${index + 1} too short: ${wordCount} words (minimum 3)`);
     }
     
     // Check for emojis (not allowed in headlines)
@@ -534,20 +535,72 @@ function validateHeadlineStructure(content: string) {
     }
     
     // Check for explanatory text (should be Title Case without explanations)
-    if (headline.includes('(') || headline.includes('[') || headline.includes(':')) {
+    if (headline.includes('(') || headline.includes('[')) {
       warnings.push(`Headline ${index + 1} may contain explanatory text - should be clean headline only`);
     }
   });
   
-  // Validate variety of angles (check for different types)
+  // Enhanced validation for variety of psychological triggers
   const headlineTypes = {
-    question: headlines.filter(h => h.text.includes('?')).length,
-    transformation: headlines.filter(h => h.text.toLowerCase().includes('transform') || h.text.toLowerCase().includes('become') || h.text.toLowerCase().includes('get')).length,
-    urgency: headlines.filter(h => h.text.toLowerCase().includes('now') || h.text.toLowerCase().includes('today') || h.text.toLowerCase().includes('limited') || h.text.toLowerCase().includes('spots')).length
+    curiosity: headlines.filter(h => h.text.includes('?')).length,
+    benefit: headlines.filter(h => {
+      const lowerText = h.text.toLowerCase();
+      return lowerText.includes('boost') || lowerText.includes('improve') || lowerText.includes('increase') || 
+             lowerText.includes('enhance') || lowerText.includes('better') || lowerText.includes('more') ||
+             lowerText.includes('energy') || lowerText.includes('results') || lowerText.includes('strength');
+    }).length,
+    urgency: headlines.filter(h => {
+      const lowerText = h.text.toLowerCase();
+      return lowerText.includes('now') || lowerText.includes('today') || lowerText.includes('limited') || 
+             lowerText.includes('spots') || lowerText.includes('deadline') || lowerText.includes('hurry') ||
+             lowerText.includes('last') || lowerText.includes('only') || lowerText.includes('final') ||
+             lowerText.includes('spring') || lowerText.includes('fall') || lowerText.includes('seasonal');
+    }).length,
+    problemSolution: headlines.filter(h => {
+      const lowerText = h.text.toLowerCase();
+      return lowerText.includes('stuck') || lowerText.includes('tired') || lowerText.includes('frustrated') ||
+             lowerText.includes('struggling') || lowerText.includes('dealing') || lowerText.includes('problem') ||
+             lowerText.includes('fix') || lowerText.includes('solve') || lowerText.includes('stop') ||
+             lowerText.includes('no more') || lowerText.includes('end') || lowerText.includes('finally');
+    }).length,
+    transformation: headlines.filter(h => {
+      const lowerText = h.text.toLowerCase();
+      return lowerText.includes('transform') || lowerText.includes('become') || lowerText.includes('get') ||
+             lowerText.includes('achieve') || lowerText.includes('reach') || lowerText.includes('feel') ||
+             lowerText.includes('look') || lowerText.includes('ready') || lowerText.includes('crush') ||
+             lowerText.includes('master') || lowerText.includes('discover') || lowerText.includes('unleash');
+    }).length
   };
   
-  if (headlineTypes.question === 0) {
-    warnings.push('Missing question-based headline for curiosity hook');
+  // Check for required variety (at least one of each type)
+  if (headlineTypes.curiosity === 0) {
+    errors.push('Missing curiosity question headline (must include "?")');
+  }
+  if (headlineTypes.benefit === 0) {
+    warnings.push('Missing clear benefit-focused headline');
+  }
+  if (headlineTypes.urgency === 0) {
+    warnings.push('Missing urgency/scarcity headline');
+  }
+  if (headlineTypes.problemSolution === 0) {
+    warnings.push('Missing problem/solution headline');
+  }
+  if (headlineTypes.transformation === 0) {
+    warnings.push('Missing transformation/aspiration headline');
+  }
+  
+  // Check brand keyword usage (max 2 headlines with primary brand words)
+  const brandWords = brandData.brand_words?.toLowerCase().split(',').map(w => w.trim()) || [];
+  let brandWordCount = 0;
+  headlines.forEach(h => {
+    const lowerText = h.text.toLowerCase();
+    if (brandWords.some(word => lowerText.includes(word))) {
+      brandWordCount++;
+    }
+  });
+  
+  if (brandWordCount > 2) {
+    warnings.push(`Too many headlines use brand keywords (${brandWordCount}/5, max recommended: 2)`);
   }
   
   return {
@@ -555,56 +608,74 @@ function validateHeadlineStructure(content: string) {
     errors,
     warnings,
     headlines,
-    varietyCheck: headlineTypes
+    varietyCheck: headlineTypes,
+    brandWordUsage: brandWordCount
   };
 }
 
-// Enhanced headline generation with validation and variety requirements
+// Enhanced headline generation with psychological trigger requirements
 async function generateHeadlinesWithValidation(systemPrompt: string, brandData: any, campaignContext: string, inspirationSection: string, maxAttempts = 3) {
   let attempts = 0;
   let bestAttempt = null;
   let bestValidation = null;
 
-  // Enhanced system prompt for headlines with variety requirements
+  // Extract campaign name for relevance
+  const campaignName = campaignContext.match(/Campaign: (.+)/)?.[1] || 'the program';
+
+  // Enhanced system prompt with specific psychological trigger requirements
   const enhancedSystemPrompt = `CRITICAL HEADLINE REQUIREMENTS - MANDATORY:
 
-✅ LENGTH & PUNCH:
-- Each headline MUST be 5-9 words maximum for fast readability
-- Use active language and high-impact verbs
-- Keep punchy and scannable
+✅ META COMPLIANCE:
+- NO personal attributes (age, gender, health status assumptions)
+- NO body shaming or negative appearance language
+- NO unrealistic results or impossible promises
+- NO sensational claims or fear-mongering
+- NO engagement bait ("click here", "tap below")
 
-✅ VARIETY OF ANGLES (MUST include all 5 types in each set):
-1. Question-based headline (curiosity hook - use "?" to create intrigue)
-2. Benefit-focused headline (specific, tangible benefit - what they get)
-3. Urgency/scarcity headline (limited spots, deadlines, seasonal tie-in)
-4. Problem/solution headline (calls out pain point + offers fix)
-5. Transformation headline (believable, positive outcome)
+✅ CLIENT CUSTOM RULES:
+- NO corporate buzzwords or marketing jargon
+- NO double hyphens (--) or em dashes (—)
+- AVOID overused words like "Diet" unless in campaign title
+- AVOID words to avoid: ${brandData.words_to_avoid}
+- USE brand words naturally: ${brandData.brand_words}
 
-✅ COMPLIANCE & RULES:
-- Must comply with Meta ad policies (no personal attributes, no body shaming, no unrealistic promises)
-- Avoid forbidden brand words: ${brandData.words_to_avoid}
-- Avoid corporate buzzwords and clichés
-- Use brand-specific words: ${brandData.brand_words}
+✅ PROVEN FORMULA - MUST INCLUDE ALL 5 TYPES:
+1. CURIOSITY QUESTION (sparks interest without clickbait - must end with "?")
+2. BENEFIT PROMISE (clear, believable, campaign-specific result)
+3. URGENCY/SCARCITY (FOMO without hype - limited spots/time)
+4. PROBLEM/SOLUTION (relatable frustration + position campaign as fix)
+5. TRANSFORMATION/ASPIRATION (realistic result picture)
+
+✅ CAMPAIGN INTEGRATION:
+- Tie each headline to "${campaignName}" for relevance
+- Make it feel natural, not forced
+- Use campaign-appropriate language and timing
 
 ✅ BRAND PERSONALIZATION:
-- Naturally weave in the brand's tone: ${brandData.voice_tone_style}
-- Keep brand personality consistent with campaign type
-- Match the business voice and terminology
+- Integrate tone: ${brandData.voice_tone_style}
+- Sound conversational, confident, authentic
+- NO hard-sell language
+- Match business owner voice, not agency copy
 
-✅ TOP-PERFORMER INSPIRATION:
-- Use the pacing, emotional hooks, and concise style from top performing ads
-- Maintain freshness so repeated generations don't feel formulaic
-- Focus on what makes headlines convert, not just what sounds good
+✅ LENGTH & STRUCTURE:
+- Keep each headline UNDER 12 words for impact
+- Use diverse sentence structures and vocabulary
+- Avoid repetitive phrasing across headlines
+- Natural fit for high-performing Facebook ads
 
-✅ FORMATTING:
-- Output as a numbered list (1., 2., 3., 4., 5.)
-- Each headline in Title Case
-- NO explanations, NO emojis, NO hashtags
-- Clean, scannable format only
+✅ OUTPUT FORMAT:
+- Numbered list (1., 2., 3., 4., 5.)
+- Each headline with SHORT explanation of psychological trigger used
+- Example format:
+  1. [Headline Text]
+     (Curiosity - sparks interest)
+  
+  2. [Headline Text]
+     (Benefit - clear outcome)
 
 ${systemPrompt}
 
-CRITICAL: Generate exactly 5 headlines that cover all required variety angles. Each must be 5-9 words and follow the brand voice while being Meta-compliant.`;
+CRITICAL: Generate exactly 5 unique headlines with psychological trigger explanations. Each must fit naturally into a high-performing Facebook ad based on proven campaigns.`;
 
   while (attempts < maxAttempts) {
     attempts++;
@@ -646,27 +717,33 @@ ${enhancedSystemPrompt}
 You are an expert headline copywriter who creates scroll-stopping, high-converting headlines that drive clicks and engagement.
 
 CRITICAL HEADLINE STRUCTURE REQUIREMENTS - MANDATORY:
-✅ EXACTLY 5 HEADLINES in numbered format (1., 2., 3., 4., 5.)
-✅ EACH HEADLINE 5-9 words maximum
-✅ VARIETY REQUIRED - Must include:
-   1x Question-based (curiosity) - use "?" 
-   1x Benefit-focused (tangible result)
-   1x Urgency/scarcity (time/spots limited)
-   1x Problem/solution (pain + fix)
-   1x Transformation (believable outcome)
+✅ EXACTLY 5 HEADLINES with psychological trigger explanations
+✅ EACH HEADLINE under 12 words maximum for impact
+✅ REQUIRED PSYCHOLOGICAL VARIETY - Must include all 5:
+   1x CURIOSITY QUESTION (sparks interest - must end with "?")
+   2x BENEFIT PROMISE (clear, believable, campaign-specific)
+   3x URGENCY/SCARCITY (FOMO without hype - limited spots/deadlines)
+   4x PROBLEM/SOLUTION (relatable frustration + campaign as fix)
+   5x TRANSFORMATION/ASPIRATION (realistic result picture)
 
 ✅ FORMATTING REQUIREMENTS:
-- Title Case for each headline
-- NO explanations or descriptions
-- NO emojis or hashtags
-- NO parentheses or brackets
-- Clean numbered list format only
+- Numbered format: "1. [Headline] (Trigger explanation)"
+- Each headline in Title Case
+- Short explanation of psychological trigger under each
+- NO emojis or hashtags in headlines
+- Clean, professional format
 
 ✅ BRAND VOICE INTEGRATION:
-- Use brand tone: ${brandData.voice_tone_style}
-- Include brand words: ${brandData.brand_words}
-- Avoid: ${brandData.words_to_avoid}
-- Sound like the business owner, not generic copy
+- Conversational, confident, authentic tone: ${brandData.voice_tone_style}
+- Naturally include brand words: ${brandData.brand_words}
+- Strictly avoid: ${brandData.words_to_avoid}
+- Sound like business owner, not marketing agency
+- NO hard-sell language or corporate buzzwords
+
+✅ CAMPAIGN RELEVANCE:
+- Tie headlines to specific campaign for natural relevance
+- Use campaign-appropriate timing and language
+- Make it feel like natural fit for high-performing Facebook ads
 
 META ADVERTISING POLICY COMPLIANCE - ABSOLUTELY FORBIDDEN:
 ❌ PERSONAL ATTRIBUTES: No age, gender, health status assumptions
@@ -703,7 +780,7 @@ Create 5 headlines that are authentic to the brand voice, Meta-compliant, and st
         .replace(/--/g, '-');
 
       // Validate headline structure
-      const headlineValidation = validateHeadlineStructure(generatedContent);
+      const headlineValidation = validateHeadlineStructure(generatedContent, brandData);
       console.log(`Headline validation for attempt ${attempts}:`, headlineValidation);
 
       // Meta compliance validation
