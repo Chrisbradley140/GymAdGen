@@ -494,6 +494,265 @@ Create compelling, conversion-focused copy that strictly follows the 4-section s
   };
 }
 
+// Comprehensive validation for headlines
+function validateHeadlineStructure(content: string) {
+  const errors = [];
+  const warnings = [];
+  const headlines = [];
+  
+  // Extract numbered headlines (1., 2., 3., etc.)
+  const headlineMatches = content.match(/^\d+\.\s*(.+)$/gm);
+  
+  if (!headlineMatches || headlineMatches.length !== 5) {
+    errors.push(`Expected exactly 5 headlines, found ${headlineMatches?.length || 0}`);
+    return { isValid: false, errors, warnings, headlines };
+  }
+  
+  // Process each headline
+  headlineMatches.forEach((match, index) => {
+    const headline = match.replace(/^\d+\.\s*/, '').trim();
+    const wordCount = headline.split(/\s+/).filter(word => word.length > 0).length;
+    
+    headlines.push({ text: headline, wordCount, index: index + 1 });
+    
+    // Validate word count (5-9 words for readability)
+    if (wordCount < 5) {
+      errors.push(`Headline ${index + 1} too short: ${wordCount} words (minimum 5)`);
+    } else if (wordCount > 9) {
+      errors.push(`Headline ${index + 1} too long: ${wordCount} words (maximum 9)`);
+    }
+    
+    // Check for emojis (not allowed in headlines)
+    const emojiCount = (headline.match(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu) || []).length;
+    if (emojiCount > 0) {
+      errors.push(`Headline ${index + 1} contains emojis (not allowed in headlines)`);
+    }
+    
+    // Check for hashtags (not allowed)
+    if (headline.includes('#')) {
+      errors.push(`Headline ${index + 1} contains hashtags (not allowed)`);
+    }
+    
+    // Check for explanatory text (should be Title Case without explanations)
+    if (headline.includes('(') || headline.includes('[') || headline.includes(':')) {
+      warnings.push(`Headline ${index + 1} may contain explanatory text - should be clean headline only`);
+    }
+  });
+  
+  // Validate variety of angles (check for different types)
+  const headlineTypes = {
+    question: headlines.filter(h => h.text.includes('?')).length,
+    transformation: headlines.filter(h => h.text.toLowerCase().includes('transform') || h.text.toLowerCase().includes('become') || h.text.toLowerCase().includes('get')).length,
+    urgency: headlines.filter(h => h.text.toLowerCase().includes('now') || h.text.toLowerCase().includes('today') || h.text.toLowerCase().includes('limited') || h.text.toLowerCase().includes('spots')).length
+  };
+  
+  if (headlineTypes.question === 0) {
+    warnings.push('Missing question-based headline for curiosity hook');
+  }
+  
+  return {
+    isValid: errors.length === 0,
+    errors,
+    warnings,
+    headlines,
+    varietyCheck: headlineTypes
+  };
+}
+
+// Enhanced headline generation with validation and variety requirements
+async function generateHeadlinesWithValidation(systemPrompt: string, brandData: any, campaignContext: string, inspirationSection: string, maxAttempts = 3) {
+  let attempts = 0;
+  let bestAttempt = null;
+  let bestValidation = null;
+
+  // Enhanced system prompt for headlines with variety requirements
+  const enhancedSystemPrompt = `CRITICAL HEADLINE REQUIREMENTS - MANDATORY:
+
+✅ LENGTH & PUNCH:
+- Each headline MUST be 5-9 words maximum for fast readability
+- Use active language and high-impact verbs
+- Keep punchy and scannable
+
+✅ VARIETY OF ANGLES (MUST include all 5 types in each set):
+1. Question-based headline (curiosity hook - use "?" to create intrigue)
+2. Benefit-focused headline (specific, tangible benefit - what they get)
+3. Urgency/scarcity headline (limited spots, deadlines, seasonal tie-in)
+4. Problem/solution headline (calls out pain point + offers fix)
+5. Transformation headline (believable, positive outcome)
+
+✅ COMPLIANCE & RULES:
+- Must comply with Meta ad policies (no personal attributes, no body shaming, no unrealistic promises)
+- Avoid forbidden brand words: ${brandData.words_to_avoid}
+- Avoid corporate buzzwords and clichés
+- Use brand-specific words: ${brandData.brand_words}
+
+✅ BRAND PERSONALIZATION:
+- Naturally weave in the brand's tone: ${brandData.voice_tone_style}
+- Keep brand personality consistent with campaign type
+- Match the business voice and terminology
+
+✅ TOP-PERFORMER INSPIRATION:
+- Use the pacing, emotional hooks, and concise style from top performing ads
+- Maintain freshness so repeated generations don't feel formulaic
+- Focus on what makes headlines convert, not just what sounds good
+
+✅ FORMATTING:
+- Output as a numbered list (1., 2., 3., 4., 5.)
+- Each headline in Title Case
+- NO explanations, NO emojis, NO hashtags
+- Clean, scannable format only
+
+${systemPrompt}
+
+CRITICAL: Generate exactly 5 headlines that cover all required variety angles. Each must be 5-9 words and follow the brand voice while being Meta-compliant.`;
+
+  while (attempts < maxAttempts) {
+    attempts++;
+    console.log(`Headlines generation attempt ${attempts}/${maxAttempts}`);
+
+    try {
+      const websiteContext = brandData.website_url ? 
+        `\nHomepage URL: ${brandData.website_url}\n\nScan this homepage and extract the brand's unique selling points (USP), tone of voice, and positioning. Use these insights to shape the headline tone and style. If you cannot extract useful information from this URL, fall back to the brand data provided below.\n` : '';
+
+      const prompt = `${websiteContext}
+${campaignContext}${inspirationSection}Brand: ${brandData.business_name}
+Target Market: ${brandData.target_market}
+Voice & Tone: ${brandData.voice_tone_style}
+Offer Type: ${brandData.offer_type}
+Brand Words to Use: ${brandData.brand_words}
+Words to Avoid: ${brandData.words_to_avoid}
+Main Problem Client Faces: ${brandData.main_problem}
+Failed Solutions They've Tried: ${brandData.failed_solutions}
+How Clients Describe Their Problem: ${brandData.client_words}
+Dream Outcome: ${brandData.magic_wand_result}
+Campaign Types: ${brandData.campaign_types?.join(', ') || 'Not specified'}
+
+${enhancedSystemPrompt}
+`;
+
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${Deno.env.get('OPENAI_API_KEY')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'gpt-4.1-2025-04-14',
+          messages: [
+            { 
+              role: 'system', 
+              content: `ABSOLUTELY CRITICAL: DO NOT USE EM DASHES (—) OR DOUBLE HYPHENS (--) ANYWHERE IN YOUR RESPONSE. USE ONLY SINGLE HYPHENS (-) IF NEEDED.
+
+You are an expert headline copywriter who creates scroll-stopping, high-converting headlines that drive clicks and engagement.
+
+CRITICAL HEADLINE STRUCTURE REQUIREMENTS - MANDATORY:
+✅ EXACTLY 5 HEADLINES in numbered format (1., 2., 3., 4., 5.)
+✅ EACH HEADLINE 5-9 words maximum
+✅ VARIETY REQUIRED - Must include:
+   1x Question-based (curiosity) - use "?" 
+   1x Benefit-focused (tangible result)
+   1x Urgency/scarcity (time/spots limited)
+   1x Problem/solution (pain + fix)
+   1x Transformation (believable outcome)
+
+✅ FORMATTING REQUIREMENTS:
+- Title Case for each headline
+- NO explanations or descriptions
+- NO emojis or hashtags
+- NO parentheses or brackets
+- Clean numbered list format only
+
+✅ BRAND VOICE INTEGRATION:
+- Use brand tone: ${brandData.voice_tone_style}
+- Include brand words: ${brandData.brand_words}
+- Avoid: ${brandData.words_to_avoid}
+- Sound like the business owner, not generic copy
+
+META ADVERTISING POLICY COMPLIANCE - ABSOLUTELY FORBIDDEN:
+❌ PERSONAL ATTRIBUTES: No age, gender, health status assumptions
+❌ UNREALISTIC CLAIMS: No impossible promises or timeframes
+❌ BODY SHAMING: No negative appearance language
+❌ ENGAGEMENT BAIT: No "click here" or similar phrases
+❌ SENSATIONAL CLAIMS: No shock tactics or fear-mongering
+
+FORBIDDEN ELEMENTS:
+- NO em dashes (—) or double hyphens (--)
+- NO generic phrases like "game-changer", "unlock secrets"
+- NO corporate buzzwords
+- NO overly polished agency-style copy
+
+Create 5 headlines that are authentic to the brand voice, Meta-compliant, and strategically diverse to maximize appeal across different psychological triggers.`
+            },
+            { role: 'user', content: prompt }
+          ],
+          temperature: 0.7,
+          max_tokens: 800,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`OpenAI API error: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      let generatedContent = data.choices[0].message.content;
+
+      // Post-processing: Remove em dashes and double hyphens
+      generatedContent = generatedContent
+        .replace(/—/g, '-')
+        .replace(/--/g, '-');
+
+      // Validate headline structure
+      const headlineValidation = validateHeadlineStructure(generatedContent);
+      console.log(`Headline validation for attempt ${attempts}:`, headlineValidation);
+
+      // Meta compliance validation
+      const metaCompliance = validateMetaCompliance(generatedContent);
+      console.log(`Meta compliance for attempt ${attempts}:`, metaCompliance.status);
+
+      // Use fixed content if available
+      if (metaCompliance.status === 'FIXED') {
+        generatedContent = metaCompliance.fixedText;
+      }
+
+      // Check if this attempt passes all validations
+      const isValid = headlineValidation.isValid && metaCompliance.status !== 'FAIL';
+      
+      if (isValid) {
+        console.log(`✅ Headlines generation successful on attempt ${attempts}`);
+        return {
+          generatedContent,
+          headlineValidation,
+          metaCompliance,
+          attempts,
+          success: true
+        };
+      }
+
+      // Save best attempt (prioritize structure over meta compliance)
+      if (!bestAttempt || (headlineValidation.isValid && !bestValidation?.headlineValidation?.isValid)) {
+        bestAttempt = generatedContent;
+        bestValidation = { headlineValidation, metaCompliance };
+      }
+
+      console.log(`❌ Headlines attempt ${attempts} failed validation, trying again...`);
+      
+    } catch (error) {
+      console.error(`Error on headlines attempt ${attempts}:`, error);
+    }
+  }
+
+  // Return best attempt if no perfect match found
+  console.log(`⚠️ Using best headlines attempt after ${maxAttempts} tries`);
+  return {
+    generatedContent: bestAttempt,
+    headlineValidation: bestValidation?.headlineValidation,
+    metaCompliance: bestValidation?.metaCompliance,
+    attempts: maxAttempts,
+    success: false
+  };
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -602,6 +861,23 @@ ${systemPrompt}
         generatedContent: result.generatedContent,
         metaCompliance: result.metaCompliance,
         structureValidation: result.structureValidation,
+        validationAttempts: result.attempts,
+        generationSuccess: result.success
+      }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Use enhanced generation with validation for headline options
+    if (adType === 'headline_options') {
+      const result = await generateHeadlinesWithValidation(systemPrompt, brandData, campaignContext, inspirationSection);
+      
+      console.log(`Headlines generation completed after ${result.attempts} attempts. Success: ${result.success}`);
+      
+      return new Response(JSON.stringify({ 
+        generatedContent: result.generatedContent,
+        metaCompliance: result.metaCompliance,
+        headlineValidation: result.headlineValidation,
         validationAttempts: result.attempts,
         generationSuccess: result.success
       }), {
