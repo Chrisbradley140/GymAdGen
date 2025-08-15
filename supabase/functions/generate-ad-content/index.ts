@@ -22,23 +22,52 @@ function validateMetaCompliance(content: string) {
 
   // Personal Attributes Check
   const personalAttributePatterns = [
+    // Direct age/gender references
+    /(men|women|guys|girls|ladies)\s+(over|under|age)\s+\d+/gi,
+    /(men|women|guys|girls|ladies)\s+(in\s+their\s+)?\d+s/gi,
+    /if\s+you'?re\s+(a\s+)?(man|woman|guy|girl|senior|teen)/gi,
+    
+    // Direct personal addressing
+    /this\s+is\s+for\s+you/gi,
+    /you'?re\s+not\s+alone/gi,
+    /you\s+(men|women|guys|girls)/gi,
+    
+    // Health/weight assumptions
     /you'?re\s+(overweight|fat|obese|skinny|underweight)/gi,
-    /for\s+(seniors|elderly|teens|teenagers|young people)/gi,
     /if\s+you'?re\s+(broke|poor|rich|wealthy)/gi,
-    /you\s+(have|suffer from|struggle with)\s+(low energy|depression|anxiety)/gi
+    /you\s+(have|suffer from|struggle with)\s+(low energy|depression|anxiety)/gi,
+    
+    // Age-specific targeting
+    /for\s+(seniors|elderly|teens|teenagers|young people|millennials|boomers)/gi,
+    /(seniors|elderly|teens|teenagers)\s+(who|that)/gi
   ];
 
   personalAttributePatterns.forEach(pattern => {
     if (pattern.test(content)) {
-      violations.push("Contains personal attribute assumptions");
+      violations.push("Contains personal attribute assumptions or direct targeting");
       hasViolations = true;
       fixedContent = fixedContent.replace(pattern, (match) => {
+        // Age/gender specific replacements
+        if (match.toLowerCase().includes('men over') || match.toLowerCase().includes('guys over')) {
+          return "people looking to";
+        }
+        if (match.toLowerCase().includes('women over') || match.toLowerCase().includes('ladies over')) {
+          return "anyone ready to";
+        }
+        if (match.toLowerCase().includes('this is for you')) {
+          return "this approach works when";
+        }
+        if (match.toLowerCase().includes("you're not alone")) {
+          return "many people experience this";
+        }
+        // Health/weight assumptions
         if (match.toLowerCase().includes('overweight') || match.toLowerCase().includes('fat')) {
           return "looking to improve your health";
         }
         if (match.toLowerCase().includes('broke') || match.toLowerCase().includes('poor')) {
           return "on a budget";
         }
+        // Default fallback
         return "ready to make a change";
       });
     }
@@ -232,9 +261,12 @@ CRITICAL TONE & AUTHENTICITY RULES:
 - Content must sound like the actual business owner wrote it, NOT an AI or agency
 
 META ADVERTISING POLICY COMPLIANCE - ABSOLUTELY FORBIDDEN:
-❌ PERSONAL ATTRIBUTES: Never imply someone's health status ("You're overweight"), age ("For seniors"), gender, race, religion, or financial status ("If you're broke")
+❌ PERSONAL ATTRIBUTES: Never directly state or imply personal attributes about the reader such as age ("Men over 30", "Guys over 30"), gender, health status ("You're overweight"), race, religion, or financial status ("If you're broke")
+❌ DIRECT TARGETING LANGUAGE: Avoid phrases like "this is for you", "you're not alone", or any language that assumes personal characteristics
 ❌ WEIGHT LOSS & FITNESS: No targeting under 18, no body-shaming ("ugly belly fat"), no unrealistic claims ("Lose 20 lbs in 1 week"), no before/after comparisons that shame
 ❌ SENSATIONAL CONTENT: No shocking claims ("Doctors hate this trick"), no misleading results, no fear-based tactics
+
+CRITICAL RULE: When generating ads, avoid directly stating or implying that you know personal attributes about the reader (such as age, gender, health, or personal experiences). You may tailor tone and examples to the intended audience internally, but you must not write phrases like 'Men over 30', 'Guys over 30', 'this is for you', or 'you're not alone'. Instead, use general, relatable language that could apply to anyone.
 
 FORBIDDEN ELEMENTS:
 - NO em dashes (—) or double hyphens (--) - ABSOLUTELY FORBIDDEN
