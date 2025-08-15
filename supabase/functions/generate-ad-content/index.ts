@@ -494,8 +494,8 @@ Create compelling, conversion-focused copy that strictly follows the 4-section s
   };
 }
 
-// Comprehensive validation for headlines
-function validateHeadlineStructure(content: string) {
+// Comprehensive validation for headlines with enhanced variety and brand keyword checks
+function validateHeadlineStructure(content: string, brandData: any) {
   const errors = [];
   const warnings = [];
   const headlines = [];
@@ -515,11 +515,9 @@ function validateHeadlineStructure(content: string) {
     
     headlines.push({ text: headline, wordCount, index: index + 1 });
     
-    // Validate word count (5-9 words for readability)
-    if (wordCount < 5) {
-      errors.push(`Headline ${index + 1} too short: ${wordCount} words (minimum 5)`);
-    } else if (wordCount > 9) {
-      errors.push(`Headline ${index + 1} too long: ${wordCount} words (maximum 9)`);
+    // Validate word count (under 12 words as specified)
+    if (wordCount > 12) {
+      errors.push(`Headline ${index + 1} too long: ${wordCount} words (maximum 12)`);
     }
     
     // Check for emojis (not allowed in headlines)
@@ -533,21 +531,85 @@ function validateHeadlineStructure(content: string) {
       errors.push(`Headline ${index + 1} contains hashtags (not allowed)`);
     }
     
-    // Check for explanatory text (should be Title Case without explanations)
+    // Check for broken formatting (incomplete sentences, dangling words)
+    if (headline.includes('dealing with') && headline.toLowerCase().includes('challenge helps')) {
+      errors.push(`Headline ${index + 1} has broken formatting: "${headline}"`);
+    }
+    
+    // Check for meta policy violations
+    const metaViolations = [
+      /proven results/gi, /guaranteed/gi, /men over \d+/gi, /women over \d+/gi,
+      /tap now/gi, /click below/gi, /swipe up/gi
+    ];
+    
+    metaViolations.forEach(pattern => {
+      if (pattern.test(headline)) {
+        errors.push(`Headline ${index + 1} contains Meta policy violation: "${headline}"`);
+      }
+    });
+    
+    // Check for explanatory text (should be clean headlines only)
     if (headline.includes('(') || headline.includes('[') || headline.includes(':')) {
       warnings.push(`Headline ${index + 1} may contain explanatory text - should be clean headline only`);
     }
   });
   
-  // Validate variety of angles (check for different types)
-  const headlineTypes = {
-    question: headlines.filter(h => h.text.includes('?')).length,
-    transformation: headlines.filter(h => h.text.toLowerCase().includes('transform') || h.text.toLowerCase().includes('become') || h.text.toLowerCase().includes('get')).length,
-    urgency: headlines.filter(h => h.text.toLowerCase().includes('now') || h.text.toLowerCase().includes('today') || h.text.toLowerCase().includes('limited') || h.text.toLowerCase().includes('spots')).length
+  // Count brand keyword usage
+  const brandWords = brandData.brand_words ? brandData.brand_words.toLowerCase().split(',').map(w => w.trim()) : [];
+  const commonBrandKeywords = ['diet', 'fitness', 'workout', 'nutrition', 'challenge'];
+  const allBrandKeywords = [...brandWords, ...commonBrandKeywords];
+  
+  let brandWordUsage = 0;
+  headlines.forEach(h => {
+    const headlineLower = h.text.toLowerCase();
+    allBrandKeywords.forEach(keyword => {
+      if (headlineLower.includes(keyword)) {
+        brandWordUsage++;
+      }
+    });
+  });
+  
+  if (brandWordUsage > 2) {
+    warnings.push(`Too many headlines use brand keywords (${brandWordUsage}/5, max recommended: 2)`);
+  }
+  
+  // Enhanced variety validation - must include all 5 types
+  const varietyCheck = {
+    curiosity: headlines.filter(h => h.text.includes('?') || h.text.toLowerCase().includes('ready') || h.text.toLowerCase().includes('have you')).length,
+    benefit: headlines.filter(h => 
+      h.text.toLowerCase().includes('energy') || h.text.toLowerCase().includes('boost') || 
+      h.text.toLowerCase().includes('feel') || h.text.toLowerCase().includes('get')
+    ).length,
+    urgency: headlines.filter(h => 
+      h.text.toLowerCase().includes('limited') || h.text.toLowerCase().includes('spots') || 
+      h.text.toLowerCase().includes('now') || h.text.toLowerCase().includes('today') ||
+      h.text.toLowerCase().includes('only')
+    ).length,
+    problemSolution: headlines.filter(h => 
+      h.text.toLowerCase().includes('tired') || h.text.toLowerCase().includes('struggling') ||
+      h.text.toLowerCase().includes('dealing with') || h.text.toLowerCase().includes('frustrated')
+    ).length,
+    transformation: headlines.filter(h => 
+      h.text.toLowerCase().includes('imagine') || h.text.toLowerCase().includes('picture') ||
+      h.text.toLowerCase().includes('become') || h.text.toLowerCase().includes('transform')
+    ).length
   };
   
-  if (headlineTypes.question === 0) {
-    warnings.push('Missing question-based headline for curiosity hook');
+  // Check for missing variety types
+  if (varietyCheck.curiosity === 0) {
+    warnings.push('Missing curiosity hook headline');
+  }
+  if (varietyCheck.benefit === 0) {
+    warnings.push('Missing clear benefit-focused headline');
+  }
+  if (varietyCheck.urgency === 0) {
+    warnings.push('Missing urgency/scarcity headline');
+  }
+  if (varietyCheck.problemSolution === 0) {
+    warnings.push('Missing problem/solution headline');
+  }
+  if (varietyCheck.transformation === 0) {
+    warnings.push('Missing transformation/lifestyle vision headline');
   }
   
   return {
@@ -555,7 +617,8 @@ function validateHeadlineStructure(content: string) {
     errors,
     warnings,
     headlines,
-    varietyCheck: headlineTypes
+    varietyCheck,
+    brandWordUsage
   };
 }
 
@@ -565,46 +628,59 @@ async function generateHeadlinesWithValidation(systemPrompt: string, brandData: 
   let bestAttempt = null;
   let bestValidation = null;
 
-  // Enhanced system prompt for headlines with variety requirements
+  // Enhanced system prompt for headlines with all new requirements
   const enhancedSystemPrompt = `CRITICAL HEADLINE REQUIREMENTS - MANDATORY:
 
-✅ LENGTH & PUNCH:
-- Each headline MUST be 5-9 words maximum for fast readability
+✅ LENGTH & CONCISENESS:
+- Each headline MUST be under 12 words for maximum impact
 - Use active language and high-impact verbs
 - Keep punchy and scannable
 
-✅ VARIETY OF ANGLES (MUST include all 5 types in each set):
-1. Question-based headline (curiosity hook - use "?" to create intrigue)
-2. Benefit-focused headline (specific, tangible benefit - what they get)
-3. Urgency/scarcity headline (limited spots, deadlines, seasonal tie-in)
-4. Problem/solution headline (calls out pain point + offers fix)
-5. Transformation headline (believable, positive outcome)
+✅ REDUCE REPETITION & APPLY BRAND VOCABULARY:
+- Avoid using the same keyword (e.g., "Diet") more than TWICE in the set of 5 headlines
+- Use synonyms from brand_words: ${brandData.brand_words || 'nutrition plan, meal reset, fuel system, eating strategy'}
+- Replace generic fitness phrases with client's brand-specific language
+- Apply their unique voice instead of generic fitness terminology
+
+✅ VARIETY OF ANGLES (MUST include all 5 types - one of each):
+1. CURIOSITY HOOK: Question-based headline that sparks interest (use "?" or "Ready for...")
+2. URGENCY/SCARCITY: Limited spots hook with soft language ("Spots are limited", "Only X left")
+3. DIRECT BENEFIT: Clear energy/consistency/lifestyle benefit headline
+4. CHALLENGE/PROBLEM-SOLUTION: Address frustration + position campaign as fix
+5. LIFESTYLE VISION: End result feeling or identity transformation
+
+✅ META-SAFE WORDING:
+- NO exaggerated claims ("Proven results", "Guaranteed outcomes")
+- NO personal attributes ("men over 30", "women who...")
+- NO spammy CTAs ("Tap now", "Click below")
+- Use realistic, believable language throughout
+
+✅ FORMATTING & GRAMMAR:
+- All headlines must be grammatically correct and complete
+- NO broken lines like "dealing with Diet Challenge Helps"
+- Title Case for each headline
+- NO explanations, emojis, hashtags, or parentheses
+
+✅ BRAND VOICE MATCHING:
+- Match the client's voice_tone_style: ${brandData.voice_tone_style}
+- Sound like something they would naturally say out loud
+- Use their specific terminology and energy level
+- Apply their brand words strategically across headlines
 
 ✅ COMPLIANCE & RULES:
-- Must comply with Meta ad policies (no personal attributes, no body shaming, no unrealistic promises)
-- Avoid forbidden brand words: ${brandData.words_to_avoid}
-- Avoid corporate buzzwords and clichés
-- Use brand-specific words: ${brandData.brand_words}
+- Must comply with Meta ad policies completely
+- Avoid forbidden words: ${brandData.words_to_avoid}
+- Avoid corporate buzzwords and generic fitness clichés
+- Each headline should feel authentic to their specific brand
 
-✅ BRAND PERSONALIZATION:
-- Naturally weave in the brand's tone: ${brandData.voice_tone_style}
-- Keep brand personality consistent with campaign type
-- Match the business voice and terminology
-
-✅ TOP-PERFORMER INSPIRATION:
-- Use the pacing, emotional hooks, and concise style from top performing ads
-- Maintain freshness so repeated generations don't feel formulaic
-- Focus on what makes headlines convert, not just what sounds good
-
-✅ FORMATTING:
-- Output as a numbered list (1., 2., 3., 4., 5.)
-- Each headline in Title Case
-- NO explanations, NO emojis, NO hashtags
+✅ FORMATTING OUTPUT:
+- Numbered list (1., 2., 3., 4., 5.)
 - Clean, scannable format only
+- NO explanations or descriptions after headlines
 
 ${systemPrompt}
 
-CRITICAL: Generate exactly 5 headlines that cover all required variety angles. Each must be 5-9 words and follow the brand voice while being Meta-compliant.`;
+CRITICAL: Generate exactly 5 headlines covering all required variety angles. Keep under 12 words each, limit brand keyword repetition to max 2 headlines, and ensure each sounds authentically like the business owner wrote it.`;
 
   while (attempts < maxAttempts) {
     attempts++;
@@ -647,13 +723,18 @@ You are an expert headline copywriter who creates scroll-stopping, high-converti
 
 CRITICAL HEADLINE STRUCTURE REQUIREMENTS - MANDATORY:
 ✅ EXACTLY 5 HEADLINES in numbered format (1., 2., 3., 4., 5.)
-✅ EACH HEADLINE 5-9 words maximum
-✅ VARIETY REQUIRED - Must include:
-   1x Question-based (curiosity) - use "?" 
-   1x Benefit-focused (tangible result)
-   1x Urgency/scarcity (time/spots limited)
-   1x Problem/solution (pain + fix)
-   1x Transformation (believable outcome)
+✅ EACH HEADLINE under 12 words maximum for impact
+✅ VARIETY REQUIRED - Must include all 5 types (one of each):
+   1x CURIOSITY HOOK: Question-based or "Ready for..." that sparks interest
+   2x URGENCY/SCARCITY: Limited spots with soft language ("Spots are limited")
+   3x DIRECT BENEFIT: Clear energy/consistency/lifestyle benefit
+   4x CHALLENGE/PROBLEM-SOLUTION: Address frustration + position campaign as fix
+   5x LIFESTYLE VISION: End result feeling or identity transformation
+
+✅ REDUCE REPETITION:
+- Avoid using same keyword (e.g., "Diet") more than TWICE in 5 headlines
+- Use brand-specific synonyms from brand_words instead of generic terms
+- Apply unique brand vocabulary throughout
 
 ✅ FORMATTING REQUIREMENTS:
 - Title Case for each headline
@@ -703,7 +784,7 @@ Create 5 headlines that are authentic to the brand voice, Meta-compliant, and st
         .replace(/--/g, '-');
 
       // Validate headline structure
-      const headlineValidation = validateHeadlineStructure(generatedContent);
+      const headlineValidation = validateHeadlineStructure(generatedContent, brandData);
       console.log(`Headline validation for attempt ${attempts}:`, headlineValidation);
 
       // Meta compliance validation
