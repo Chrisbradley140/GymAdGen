@@ -46,14 +46,6 @@ export const generateCampaignPDF = async (campaign: CampaignWithContent) => {
   // Campaign basic info
   addText(`Campaign Name: ${campaign.name}`, 16, true);
   
-  if (campaign.description) {
-    addText(`Description: ${campaign.description}`, 12);
-  }
-  
-  addText(`Created: ${new Date(campaign.created_at).toLocaleDateString()}`, 10);
-  addText(`Offer Type: ${campaign.offer_type || 'Not specified'}`, 10);
-  addText(`Tone Style: ${campaign.tone_style || 'Not specified'}`, 10);
-  
   yPosition += 10;
 
   // Add content sections
