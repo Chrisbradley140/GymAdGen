@@ -56,15 +56,6 @@ export const useTemplates = () => {
     fetchTemplates();
   }, []);
 
-  // Force refresh templates when component mounts to get latest data
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetchTemplates();
-    }, 30000); // Refresh every 30 seconds
-    
-    return () => clearInterval(interval);
-  }, []);
-
   const fetchTemplates = async () => {
     try {
       setIsLoading(true);
