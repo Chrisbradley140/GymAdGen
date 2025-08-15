@@ -515,11 +515,11 @@ function validateHeadlineStructure(content: string) {
     
     headlines.push({ text: headline, wordCount, index: index + 1 });
     
-    // Validate word count (5-9 words for readability)
-    if (wordCount < 5) {
-      errors.push(`Headline ${index + 1} too short: ${wordCount} words (minimum 5)`);
-    } else if (wordCount > 9) {
-      errors.push(`Headline ${index + 1} too long: ${wordCount} words (maximum 9)`);
+    // Validate word count (8 words or less for readability)
+    if (wordCount < 3) {
+      errors.push(`Headline ${index + 1} too short: ${wordCount} words (minimum 3)`);
+    } else if (wordCount > 8) {
+      errors.push(`Headline ${index + 1} too long: ${wordCount} words (maximum 8)`);
     }
     
     // Check for emojis (not allowed in headlines)
@@ -569,42 +569,47 @@ async function generateHeadlinesWithValidation(systemPrompt: string, brandData: 
   const enhancedSystemPrompt = `CRITICAL HEADLINE REQUIREMENTS - MANDATORY:
 
 ✅ LENGTH & PUNCH:
-- Each headline MUST be 5-9 words maximum for fast readability
+- Each headline MUST be 8 words or less for fast readability
 - Use active language and high-impact verbs
 - Keep punchy and scannable
 
 ✅ VARIETY OF ANGLES (MUST include all 5 types in each set):
-1. Question-based headline (curiosity hook - use "?" to create intrigue)
-2. Benefit-focused headline (specific, tangible benefit - what they get)
+1. Curiosity question headline (use "?" to create intrigue)
+2. Benefit statement headline (specific, tangible benefit - what they get)
 3. Urgency/scarcity headline (limited spots, deadlines, seasonal tie-in)
-4. Problem/solution headline (calls out pain point + offers fix)
-5. Transformation headline (believable, positive outcome)
+4. Transformation promise headline (believable, positive outcome)
+5. Problem/solution headline (calls out pain point + offers fix)
 
-✅ COMPLIANCE & RULES:
-- Must comply with Meta ad policies (no personal attributes, no body shaming, no unrealistic promises)
-- Avoid forbidden brand words: ${brandData.words_to_avoid}
-- Avoid corporate buzzwords and clichés
-- Use brand-specific words: ${brandData.brand_words}
-
-✅ BRAND PERSONALIZATION:
-- Naturally weave in the brand's tone: ${brandData.voice_tone_style}
-- Keep brand personality consistent with campaign type
-- Match the business voice and terminology
+✅ BRAND KEYWORD STRATEGY:
+- Use brand keywords (like "${brandData.brand_words}") in maximum 2 headlines
+- Use related phrases and synonyms in others for variety
+- Avoid overuse of primary brand terms
 
 ✅ TOP-PERFORMER INSPIRATION:
-- Use the pacing, emotional hooks, and concise style from top performing ads
-- Maintain freshness so repeated generations don't feel formulaic
-- Focus on what makes headlines convert, not just what sounds good
+- Pull rhythm, tone, and pacing from top-performing ad examples
+- Use emotional hooks and concise style that converts
+- Match successful patterns while staying fresh and original
+
+✅ COMPLIANCE & RULES:
+- Must comply with Meta ad policies (no personal attributes, no body shaming, no unrealistic claims)
+- Avoid forbidden brand words: ${brandData.words_to_avoid}
+- Avoid corporate buzzwords and clichés like "unlock", "game-changer", "secret"
+- No unrealistic claims or personal attribute assumptions
+
+✅ BRAND PERSONALIZATION:
+- Match the user's exact tone style: ${brandData.voice_tone_style}
+- Keep brand personality consistent with campaign type
+- Sound authentic to the business owner, not generic copy
 
 ✅ FORMATTING:
 - Output as a numbered list (1., 2., 3., 4., 5.)
 - Each headline in Title Case
-- NO explanations, NO emojis, NO hashtags
-- Clean, scannable format only
+- NO descriptions, NO extra text, NO emojis, NO hashtags
+- Clean, scroll-stopping format only
 
 ${systemPrompt}
 
-CRITICAL: Generate exactly 5 headlines that cover all required variety angles. Each must be 5-9 words and follow the brand voice while being Meta-compliant.`;
+CRITICAL: Generate exactly 5 headlines covering all required variety angles. Each must be 8 words or less, emotionally resonant, clear, and Meta-compliant while pulling inspiration from top-performing ad patterns.`;
 
   while (attempts < maxAttempts) {
     attempts++;
@@ -647,7 +652,7 @@ You are an expert headline copywriter who creates scroll-stopping, high-converti
 
 CRITICAL HEADLINE STRUCTURE REQUIREMENTS - MANDATORY:
 ✅ EXACTLY 5 HEADLINES in numbered format (1., 2., 3., 4., 5.)
-✅ EACH HEADLINE 5-9 words maximum
+✅ EACH HEADLINE 8 words or less maximum
 ✅ VARIETY REQUIRED - Must include:
    1x Question-based (curiosity) - use "?" 
    1x Benefit-focused (tangible result)
