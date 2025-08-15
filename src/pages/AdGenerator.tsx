@@ -114,8 +114,7 @@ const AdGenerator = () => {
   };
 
   const generateAdCaption = async () => {
-    const campaign = await createOrGetCampaign();
-    if (!campaign) return null;
+    // Don't create campaign during generation, only during save
 
     // Get relevant ad templates for the selected campaign
     const adTemplates = selectedCampaign ? getAdTemplatesForCampaign(selectedCampaign.id) : [];
@@ -152,8 +151,7 @@ The caption should feel authentic, relatable, and motivate immediate action whil
   };
 
   const generateHeadlineOptions = async () => {
-    const campaign = await createOrGetCampaign();
-    if (!campaign) return null;
+    // Don't create campaign during generation, only during save
 
     // Get relevant ad templates for headlines
     const adTemplates = selectedCampaign ? getAdTemplatesForCampaign(selectedCampaign.id) : [];
@@ -196,8 +194,7 @@ CRITICAL: Each headline must be under 40 characters and comply with Meta's adver
   };
 
   const generateCampaignName = async () => {
-    const campaign = await createOrGetCampaign();
-    if (!campaign) return null;
+    // Don't create campaign during generation, only during save
 
     const systemPrompt = `You are a marketing strategist specializing in creating memorable, scroll-stopping campaign names.
 
@@ -235,8 +232,7 @@ The names should feel fresh, exciting, and make people want to learn more.`;
   };
 
   const generateIGStoryAd = async () => {
-    const campaign = await createOrGetCampaign();
-    if (!campaign) return null;
+    // Don't create campaign during generation, only during save
 
     const systemPrompt = `You are a performance marketer creating Instagram Story ads for Meta.
 
@@ -272,8 +268,7 @@ FRAME 3: [text]`;
   };
 
   const generateCreativePrompt = async () => {
-    const campaign = await createOrGetCampaign();
-    if (!campaign) return null;
+    // Don't create campaign during generation, only during save
 
     const systemPrompt = `You are a creative director specializing in Meta-safe visual concepts for Reels and Carousels.
 

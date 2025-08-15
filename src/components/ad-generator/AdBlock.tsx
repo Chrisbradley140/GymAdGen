@@ -109,7 +109,7 @@ export function AdBlock({ title, description, icon, onGenerate, placeholder, con
     
     let finalCampaignId = campaignId;
     
-    // Create campaign if needed
+    // Create campaign only when saving content for the first time
     if (!finalCampaignId && onCampaignCreate) {
       finalCampaignId = await onCampaignCreate();
     }
