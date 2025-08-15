@@ -119,7 +119,6 @@ export const useCampaigns = () => {
   const getCampaignWithContent = async (campaignId: string): Promise<CampaignWithContent | null> => {
     if (!user) return null;
 
-    setIsLoading(true);
     try {
       // Get campaign
       const { data: campaign, error: campaignError } = await supabase
@@ -153,8 +152,6 @@ export const useCampaigns = () => {
     } catch (error) {
       console.error('Error fetching campaign with content:', error);
       return null;
-    } finally {
-      setIsLoading(false);
     }
   };
 

@@ -27,6 +27,8 @@ const CampaignLibrary = () => {
   const [selectedCampaign, setSelectedCampaign] = useState<CampaignWithContent | null>(null);
   const [showDetailView, setShowDetailView] = useState(false);
   const [isOnboardingComplete, setIsOnboardingComplete] = useState(false);
+  const [isViewDetailsLoading, setIsViewDetailsLoading] = useState(false);
+  const [isExportingPDF, setIsExportingPDF] = useState(false);
 
   // Filter state
   const [search, setSearch] = useState("");
@@ -73,7 +75,10 @@ const CampaignLibrary = () => {
   }, [search, isOnboardingComplete]);
 
   const handleViewDetails = async (campaign: Campaign) => {
+    setIsViewDetailsLoading(true);
     const campaignWithContent = await getCampaignWithContent(campaign.id);
+    setIsViewDetailsLoading(false);
+    
     if (campaignWithContent) {
       setSelectedCampaign(campaignWithContent);
       setShowDetailView(true);
@@ -97,6 +102,7 @@ const CampaignLibrary = () => {
   };
 
   const handleExportPDF = async (campaign: Campaign) => {
+    setIsExportingPDF(true);
     try {
       // Get campaign with content
       const campaignWithContent = await getCampaignWithContent(campaign.id);
@@ -124,6 +130,8 @@ const CampaignLibrary = () => {
         description: "Failed to export PDF. Please try again.",
         variant: "destructive",
       });
+    } finally {
+      setIsExportingPDF(false);
     }
   };
 
