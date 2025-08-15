@@ -238,6 +238,262 @@ function validateMetaCompliance(content: string) {
   };
 }
 
+// Comprehensive validation for ad captions
+function validateAdCaptionStructure(content: string) {
+  const errors = [];
+  const warnings = [];
+  let fixedContent = content;
+
+  // Check for required sections
+  const requiredSections = ['HOOK:', 'PAIN MIRROR:', 'BELIEF BREAKER:', 'CTA:'];
+  const missingSections = requiredSections.filter(section => !content.includes(section));
+  
+  if (missingSections.length > 0) {
+    errors.push(`Missing required sections: ${missingSections.join(', ')}`);
+    return { isValid: false, errors, warnings, fixedContent };
+  }
+
+  // Extract sections for word count validation
+  const sections = {};
+  const sectionPattern = /(HOOK:|PAIN MIRROR:|BELIEF BREAKER:|CTA:)(.*?)(?=(?:HOOK:|PAIN MIRROR:|BELIEF BREAKER:|CTA:)|$)/gs;
+  let match;
+  
+  while ((match = sectionPattern.exec(content)) !== null) {
+    const sectionName = match[1].replace(':', '').trim();
+    const sectionContent = match[2].trim();
+    sections[sectionName] = sectionContent;
+  }
+
+  // Validate word counts for each section
+  const wordCountLimits = {
+    'HOOK': { min: 8, max: 15 },
+    'PAIN MIRROR': { min: 20, max: 45 },
+    'BELIEF BREAKER': { min: 20, max: 45 },
+    'CTA': { min: 5, max: 20 }
+  };
+
+  Object.entries(sections).forEach(([sectionName, sectionContent]) => {
+    const wordCount = sectionContent.split(/\s+/).filter(word => word.length > 0).length;
+    const limits = wordCountLimits[sectionName];
+    
+    if (limits) {
+      if (wordCount < limits.min) {
+        errors.push(`${sectionName} too short: ${wordCount} words (minimum ${limits.min})`);
+      } else if (wordCount > limits.max) {
+        errors.push(`${sectionName} too long: ${wordCount} words (maximum ${limits.max})`);
+      }
+    }
+  });
+
+  // Count emojis (max 1 allowed)
+  const emojiCount = (content.match(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu) || []).length;
+  if (emojiCount > 1) {
+    errors.push(`Too many emojis: ${emojiCount} found (maximum 1 allowed)`);
+  }
+
+  // Check for proper formatting (sections should be clearly labeled)
+  const properlyFormattedSections = content.match(/^(HOOK:|PAIN MIRROR:|BELIEF BREAKER:|CTA:)/gm) || [];
+  if (properlyFormattedSections.length !== 4) {
+    warnings.push('Sections may not be properly formatted with clear labels');
+  }
+
+  // Validate language quality (basic checks)
+  const complexWords = content.match(/\b\w{12,}\b/g) || [];
+  if (complexWords.length > 3) {
+    warnings.push(`Consider simplifying language: found ${complexWords.length} complex words`);
+  }
+
+  return {
+    isValid: errors.length === 0,
+    errors,
+    warnings,
+    fixedContent,
+    sections,
+    wordCounts: Object.entries(sections).reduce((acc, [name, content]) => {
+      acc[name] = content.split(/\s+/).filter(word => word.length > 0).length;
+      return acc;
+    }, {})
+  };
+}
+
+// Auto-regeneration function with validation
+async function generateWithValidation(adType: string, systemPrompt: string, brandData: any, campaignContext: string, inspirationSection: string, maxAttempts = 3) {
+  let attempts = 0;
+  let bestAttempt = null;
+  let bestValidation = null;
+
+  while (attempts < maxAttempts) {
+    attempts++;
+    console.log(`Generation attempt ${attempts}/${maxAttempts} for ${adType}`);
+
+    try {
+      const websiteContext = brandData.website_url ? 
+        `\nHomepage URL: ${brandData.website_url}\n\nScan this homepage and extract the brand's unique selling points (USP), tone of voice, and positioning. Use these insights to shape the ad copy tone and style. If you cannot extract useful information from this URL, fall back to the brand data provided below.\n` : '';
+
+      const prompt = `${websiteContext}
+${campaignContext}${inspirationSection}Brand: ${brandData.business_name}
+Target Market: ${brandData.target_market}
+Voice & Tone: ${brandData.voice_tone_style}
+Offer Type: ${brandData.offer_type}
+Brand Words to Use: ${brandData.brand_words}
+Words to Avoid: ${brandData.words_to_avoid}
+Main Problem Client Faces: ${brandData.main_problem}
+Failed Solutions They've Tried: ${brandData.failed_solutions}
+How Clients Describe Their Problem: ${brandData.client_words}
+Dream Outcome: ${brandData.magic_wand_result}
+Campaign Types: ${brandData.campaign_types?.join(', ') || 'Not specified'}
+
+${systemPrompt}
+`;
+
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${Deno.env.get('OPENAI_API_KEY')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'gpt-4.1-2025-04-14',
+          messages: [
+            { 
+              role: 'system', 
+              content: `ABSOLUTELY CRITICAL: DO NOT USE EM DASHES (—) OR DOUBLE HYPHENS (--) ANYWHERE IN YOUR RESPONSE. USE ONLY SINGLE HYPHENS (-) IF NEEDED.
+
+You are an expert fitness marketing copywriter who creates high-converting ads that sound authentic and personal. 
+
+CRITICAL STRUCTURE REQUIREMENTS FOR AD CAPTIONS - MANDATORY:
+✅ MUST INCLUDE ALL 4 SECTIONS IN ORDER:
+1. HOOK: (10-15 words max) - One short sentence that immediately grabs attention
+2. PAIN MIRROR: (25-45 words) - Reflect audience's struggle without shaming
+3. BELIEF BREAKER: (25-45 words) - Provide realistic, brand-authentic solution  
+4. CTA: (10-20 words) - Urgent but positive action driver
+
+✅ FORMATTING REQUIREMENTS:
+- Each section MUST be clearly labeled with "HOOK:", "PAIN MIRROR:", "BELIEF BREAKER:", "CTA:"
+- Use exactly these labels, no variations
+- Each section on separate lines for clarity
+
+✅ LENGTH REQUIREMENTS:
+- HOOK: 10-15 words maximum
+- PAIN MIRROR: 25-45 words
+- BELIEF BREAKER: 25-45 words
+- CTA: 10-20 words
+
+✅ EMOJI RULES:
+- Maximum 1 emoji allowed in entire ad caption
+- Only use if it naturally enhances the copy
+- Prefer no emojis over forced ones
+
+✅ HEADLINES (when requested):
+- Max 10-12 words
+- Short, punchy, readable in 1 glance
+
+✅ STORY FRAMES (IG Story, Reels scripts):
+- Frame 1-3: Max 1-2 sentences per frame (10-20 words)
+
+✅ CREATIVE PROMPTS:
+- Keep scene description to 2-4 sentences, with concise text overlays
+
+CRITICAL TONE & AUTHENTICITY RULES:
+- Output must match the user's exact tone and cadence from their brand data
+- Use the specified Tone Style: ${brandData.voice_tone_style}
+- Naturally weave in these Brand Words: ${brandData.brand_words}
+- STRICTLY AVOID these words/phrases: ${brandData.words_to_avoid}
+- Content must sound like the actual business owner wrote it, NOT an AI or agency
+- Use plain, conversational language (8th grade reading level)
+- Write in first or second person as fits the brand voice
+- Focus on benefits, transformation, and emotional connection
+
+META ADVERTISING POLICY COMPLIANCE - ABSOLUTELY FORBIDDEN:
+❌ PERSONAL ATTRIBUTES: Never directly state or imply personal attributes about the reader such as age ("Men over 30"), gender, health status ("You're overweight"), race, religion, or financial status
+❌ DIRECT TARGETING LANGUAGE: Avoid phrases like "this is for you", "you're not alone"
+❌ ENGAGEMENT BAIT: No "Tap to join", "Tap below", "Click below", "Swipe up"
+❌ VAGUE CLAIMS: No "real results", "guaranteed results", "actual results" - use specific, believable benefits
+❌ UNREALISTIC CLAIMS: No impossible timeframes or guarantees
+❌ BODY SHAMING: No negative language about appearance or self-worth
+❌ SENSATIONAL CONTENT: No shocking claims or fear-based tactics
+
+FORBIDDEN ELEMENTS:
+- NO em dashes (—) or double hyphens (--) - ABSOLUTELY FORBIDDEN
+- NO generic AI phrases like: "Sound familiar?", "Here's the thing…", "game-changer", "unlock the secrets", "transform your life"
+- NO corporate marketing speak or buzzwords
+- NO overly polished agency-style copy
+
+Create compelling, conversion-focused copy that strictly follows the 4-section structure with proper labeling and word counts while maintaining complete authenticity to the brand voice AND full Meta policy compliance.`
+            },
+            { role: 'user', content: prompt }
+          ],
+          temperature: 0.7,
+          max_tokens: 1000,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`OpenAI API error: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      let generatedContent = data.choices[0].message.content;
+
+      // Post-processing: Remove em dashes and double hyphens
+      generatedContent = generatedContent
+        .replace(/—/g, '-')
+        .replace(/--/g, '-');
+
+      // Validate structure (only for ad captions)
+      let structureValidation = { isValid: true, errors: [], warnings: [] };
+      if (adType === 'ad_caption') {
+        structureValidation = validateAdCaptionStructure(generatedContent);
+        console.log(`Structure validation for attempt ${attempts}:`, structureValidation);
+      }
+
+      // Meta compliance validation
+      const metaCompliance = validateMetaCompliance(generatedContent);
+      console.log(`Meta compliance for attempt ${attempts}:`, metaCompliance.status);
+
+      // Use fixed content if available
+      if (metaCompliance.status === 'FIXED') {
+        generatedContent = metaCompliance.fixedText;
+      }
+
+      // Check if this attempt passes all validations
+      const isValid = structureValidation.isValid && metaCompliance.status !== 'FAIL';
+      
+      if (isValid) {
+        console.log(`✅ Generation successful on attempt ${attempts}`);
+        return {
+          generatedContent,
+          structureValidation,
+          metaCompliance,
+          attempts,
+          success: true
+        };
+      }
+
+      // Save best attempt (prioritize structure over meta compliance)
+      if (!bestAttempt || (structureValidation.isValid && !bestValidation?.structureValidation?.isValid)) {
+        bestAttempt = generatedContent;
+        bestValidation = { structureValidation, metaCompliance };
+      }
+
+      console.log(`❌ Attempt ${attempts} failed validation, trying again...`);
+      
+    } catch (error) {
+      console.error(`Error on attempt ${attempts}:`, error);
+    }
+  }
+
+  // Return best attempt if no perfect match found
+  console.log(`⚠️ Using best attempt after ${maxAttempts} tries`);
+  return {
+    generatedContent: bestAttempt,
+    structureValidation: bestValidation?.structureValidation,
+    metaCompliance: bestValidation?.metaCompliance,
+    attempts: maxAttempts,
+    success: false
+  };
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -336,6 +592,24 @@ Campaign Types: ${brandData.campaign_types?.join(', ') || 'Not specified'}
 ${systemPrompt}
 `;
 
+    // Use enhanced generation with validation for ad captions
+    if (adType === 'ad_caption') {
+      const result = await generateWithValidation(adType, systemPrompt, brandData, campaignContext, inspirationSection);
+      
+      console.log(`Generation completed after ${result.attempts} attempts. Success: ${result.success}`);
+      
+      return new Response(JSON.stringify({ 
+        generatedContent: result.generatedContent,
+        metaCompliance: result.metaCompliance,
+        structureValidation: result.structureValidation,
+        validationAttempts: result.attempts,
+        generationSuccess: result.success
+      }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Fallback to original generation for other content types
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
