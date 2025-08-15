@@ -408,14 +408,6 @@ CTA: [Placement and text]`;
                     )}
                   </div>
                 </CardHeader>
-                <CardContent>
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                    <span>Category: {selectedCampaign.category}</span>
-                    {selectedCampaign.target_audience && (
-                      <span>• Target: {selectedCampaign.target_audience}</span>
-                    )}
-                  </div>
-                </CardContent>
               </Card>
             )}
           </div>
