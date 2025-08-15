@@ -62,7 +62,6 @@ const CampaignDetailView = ({
           <div className="flex justify-between items-center">
             <div>
               <CardTitle className="text-lg">{title}</CardTitle>
-              <CardDescription>Generated content for your campaign</CardDescription>
             </div>
             <div className="flex gap-2">
               <Button
@@ -81,11 +80,6 @@ const CampaignDetailView = ({
             readOnly
             className="min-h-[100px] resize-none"
           />
-          {content.metadata && Object.keys(content.metadata).length > 0 && (
-            <div className="mt-2 text-sm text-muted-foreground">
-              <span className="font-medium">Metadata:</span> {JSON.stringify(content.metadata)}
-            </div>
-          )}
         </CardContent>
       </Card>
     );
@@ -106,9 +100,6 @@ const CampaignDetailView = ({
           <div className="flex justify-between items-start">
             <div>
               <DialogTitle className="text-2xl">{campaign.name}</DialogTitle>
-              <p className="text-muted-foreground mt-1">
-                {campaign.description || "Campaign details and generated content"}
-              </p>
               <div className="flex gap-2 mt-2">
                 <Badge variant="outline">
                   Created {formatDistanceToNow(new Date(campaign.created_at), { addSuffix: true })}
