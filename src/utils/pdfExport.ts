@@ -31,17 +31,8 @@ export const generateCampaignPDF = async (campaign: CampaignWithContent) => {
     yPosition += lines.length * lineHeight + 5;
   };
 
-  // Add header
-  pdf.setFillColor(59, 130, 246); // Blue background
-  pdf.rect(0, 0, pageWidth, 40, 'F');
-  
-  pdf.setTextColor(255, 255, 255);
-  pdf.setFontSize(24);
-  pdf.setFont('helvetica', 'bold');
-  pdf.text('Campaign Export', margin, 25);
-  
-  pdf.setTextColor(0, 0, 0);
-  yPosition = 60;
+  // Start content at top
+  yPosition = margin;
 
   // Campaign basic info
   addText(`Campaign Name: ${campaign.name}`, 16, true);
