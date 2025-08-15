@@ -421,7 +421,7 @@ CTA: [Placement and text]`;
             <AdBlock
               title="Ad Caption"
               description="Generate compelling Facebook & Instagram ad captions with proven structure"
-              icon={<MessageSquare />}
+              icon={<MessageSquare className="text-red-500" />}
               onGenerate={generateAdCaption}
               contentType="ad_caption"
               campaignId={currentCampaignId}
@@ -431,7 +431,7 @@ CTA: [Placement and text]`;
             <AdBlock
               title="Headline Options"
               description="Create 5 scroll-stopping headlines under 40 characters"
-              icon={<Target />}
+              icon={<Target className="text-red-500" />}
               onGenerate={generateHeadlineOptions}
               contentType="headline"
               campaignId={currentCampaignId}
@@ -441,7 +441,7 @@ CTA: [Placement and text]`;
             <AdBlock
               title="Campaign Name"
               description="Generate memorable campaign names that create curiosity"
-              icon={<Lightbulb />}
+              icon={<Lightbulb className="text-red-500" />}
               onGenerate={generateCampaignName}
               contentType="campaign_name"
               campaignId={currentCampaignId}
@@ -451,7 +451,7 @@ CTA: [Placement and text]`;
             <AdBlock
               title="IG Story Ad"
               description="Create engaging 3-frame Instagram Story sequences"
-              icon={<Instagram />}
+              icon={<Instagram className="text-red-500" />}
               onGenerate={generateIGStoryAd}
               contentType="ig_story"
               campaignId={currentCampaignId}
@@ -461,7 +461,7 @@ CTA: [Placement and text]`;
             <AdBlock
               title="Creative Prompt"
               description="Generate visual concepts for Reels & Carousels"
-              icon={<Palette />}
+              icon={<Palette className="text-red-500" />}
               onGenerate={generateCreativePrompt}
               contentType="creative_prompt"
               campaignId={currentCampaignId}
