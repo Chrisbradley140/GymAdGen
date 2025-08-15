@@ -144,6 +144,82 @@ function validateMetaCompliance(content: string) {
     }
   });
 
+  // Generic AI Phrases Check (Prohibited Formats)
+  const genericAIPatterns = [
+    // Direct prohibited phrases
+    /sound\s+familiar\?/gi,
+    /let'?s\s+be\s+real[.…]/gi,
+    /struggling\s+with\s+[^?]+\?/gi,
+    /with\s+just\s+a\s+few\s+clicks[.…]/gi,
+    /here'?s\s+the\s+thing[.…]/gi,
+    
+    // GPT-style rhetorical patterns
+    /^(but\s+)?what\s+if\s+i\s+told\s+you[.…]/gi,
+    /^(the\s+)?truth\s+is[.…]/gi,
+    /^(the\s+)?bottom\s+line\s+is[.…]/gi,
+    /^at\s+the\s+end\s+of\s+the\s+day[.…]/gi,
+    /game[- ]changer/gi,
+    /unlock\s+the\s+secrets?/gi,
+    /transform\s+your\s+life/gi,
+    /take\s+your\s+\w+\s+to\s+the\s+next\s+level/gi,
+    
+    // Double hyphen and em dash patterns (backup check)
+    /--/g,
+    /—/g
+  ];
+
+  const genericReplacements = {
+    'sound familiar?': 'this might resonate',
+    "let's be real": 'honestly',
+    'struggling with': 'dealing with',
+    'with just a few clicks': 'quickly and easily',
+    "here's the thing": 'what matters is',
+    'what if i told you': 'consider this',
+    'truth is': 'fact is',
+    'bottom line is': 'what matters is',
+    'at the end of the day': 'ultimately',
+    'game-changer': 'difference maker',
+    'unlock the secrets': 'learn the methods',
+    'transform your life': 'improve your routine',
+    'take your': 'improve your',
+    '--': '-',
+    '—': '-'
+  };
+
+  genericAIPatterns.forEach(pattern => {
+    if (pattern.test(content)) {
+      violations.push("Contains generic AI phrases or prohibited formats");
+      hasViolations = true;
+      
+      // Log detection for debugging
+      console.log(`Detected generic AI phrase: ${content.match(pattern)?.[0]}`);
+      
+      fixedContent = fixedContent.replace(pattern, (match) => {
+        const lowerMatch = match.toLowerCase().trim();
+        
+        // Find appropriate replacement
+        for (const [phrase, replacement] of Object.entries(genericReplacements)) {
+          if (lowerMatch.includes(phrase.toLowerCase())) {
+            console.log(`Replacing "${match}" with "${replacement}"`);
+            return replacement;
+          }
+        }
+        
+        // Fallback replacements for patterns
+        if (lowerMatch.includes('struggling with')) {
+          return match.replace(/struggling\s+with/gi, 'dealing with');
+        }
+        if (lowerMatch.includes('to the next level')) {
+          return match.replace(/to\s+the\s+next\s+level/gi, 'further');
+        }
+        
+        // Default fallback
+        console.log(`Using default replacement for: ${match}`);
+        return "improve your approach";
+      });
+    }
+  });
+
   // Determine status
   let status: 'PASS' | 'FIXED' | 'FAIL';
   if (violations.length === 0) {
