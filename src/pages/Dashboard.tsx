@@ -1,12 +1,14 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useDashboardStats } from "@/hooks/useDashboardStats";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Zap, Library, Settings, TrendingUp, Target, PoundSterling } from "lucide-react";
+import { Zap, Library, Settings, Target } from "lucide-react";
 
 const Dashboard = () => {
   const { user, loading } = useAuth();
+  const { totalAdsGenerated, isLoading: statsLoading } = useDashboardStats();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -48,9 +50,7 @@ const Dashboard = () => {
   ];
 
   const stats = [
-    { label: "Total Ads Generated", value: "12", icon: Target },
-    { label: "Average CTR", value: "4.2%", icon: TrendingUp },
-    { label: "Est. Revenue", value: "£2,340", icon: PoundSterling },
+    { label: "Total Ads Generated", value: statsLoading ? "..." : totalAdsGenerated.toString(), icon: Target },
   ];
 
   return (
