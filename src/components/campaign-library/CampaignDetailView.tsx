@@ -78,7 +78,7 @@ const CampaignDetailView = ({
           <Textarea
             value={content.content}
             readOnly
-            className="min-h-[100px] resize-none scrollbar-hide overflow-hidden"
+            className="min-h-[200px] resize-none scrollbar-hide overflow-hidden"
           />
         </CardContent>
       </Card>
