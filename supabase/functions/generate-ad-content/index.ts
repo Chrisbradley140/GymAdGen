@@ -45,7 +45,16 @@ function validateMetaCompliance(content: string) {
     /(tap\s+to\s+join|tap\s+below|click\s+below|swipe\s+up)/gi,
     
     // Vague claims
-    /(real\s+results|guaranteed\s+results|actual\s+results)/gi
+    /(real\s+results|guaranteed\s+results|actual\s+results)/gi,
+    
+    // Emoji patterns
+    /[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu,
+    
+    // Generic fitness phrases
+    /(cardio\s+gets\s+old|same\s+old\s+routine|boring\s+workouts)/gi,
+    
+    // Capitalized "Diet" when it should be lowercase
+    /\bDiet\b/g
   ];
 
   personalAttributePatterns.forEach(pattern => {
@@ -82,6 +91,24 @@ function validateMetaCompliance(content: string) {
         }
         if (match.toLowerCase().includes('actual results')) {
           return "tangible improvements";
+        }
+        // Emoji removal
+        if (/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu.test(match)) {
+          return "";
+        }
+        // Generic fitness phrases
+        if (match.toLowerCase().includes('cardio gets old')) {
+          return "traditional workouts lose their appeal";
+        }
+        if (match.toLowerCase().includes('same old routine')) {
+          return "repetitive approaches";
+        }
+        if (match.toLowerCase().includes('boring workouts')) {
+          return "uninspiring training methods";
+        }
+        // Capitalized Diet fix
+        if (match === 'Diet') {
+          return "diet";
         }
         // Health/weight assumptions
         if (match.toLowerCase().includes('overweight') || match.toLowerCase().includes('fat')) {
@@ -183,39 +210,65 @@ serve(async (req) => {
     
     if (campaignCanonicalName) {
       try {
-        // Fetch campaign details
-        const { data: campaignData, error: campaignError } = await supabase
+        // Create flexible matching patterns for campaign names
+        const normalizedCanonicalName = campaignCanonicalName.toLowerCase().replace(/[\s\-_]/g, '');
+        
+        // Fetch all campaign details for flexible matching
+        const { data: campaigns } = await supabase
           .from('campaign_templates')
-          .select('name, description, target_audience')
-          .eq('canonical_name', campaignCanonicalName)
-          .single();
-          
-        if (!campaignError && campaignData) {
+          .select('*');
+        
+        // Find matching campaign using flexible name comparison
+        const matchingCampaign = campaigns?.find(campaign => {
+          const normalizedCampaignName = campaign.canonical_name?.toLowerCase().replace(/[\s\-_]/g, '');
+          const normalizedDisplayName = campaign.name?.toLowerCase().replace(/[\s\-_]/g, '');
+          return normalizedCampaignName === normalizedCanonicalName || 
+                 normalizedDisplayName === normalizedCanonicalName;
+        });
+        
+        if (matchingCampaign) {
+          console.log(`Found matching campaign: ${matchingCampaign.name} (${matchingCampaign.canonical_name})`);
           campaignContext = `CAMPAIGN CONTEXT:
-Campaign: ${campaignData.name}
-Description: ${campaignData.description}
-Target Audience: ${campaignData.target_audience || 'General'}
+Campaign: ${matchingCampaign.name}
+Description: ${matchingCampaign.description}
+Target Audience: ${matchingCampaign.target_audience || 'General'}
 
 `;
-        }
-        
-        // Fetch top-performing ads
-        const { data: adsData, error: adsError } = await supabase
-          .from('top_performing_ads')
-          .select('*')
-          .eq('campaign_canonical_name', campaignCanonicalName)
-          .order('result', { ascending: false })
-          .order('cost_per_result', { ascending: true })
-          .limit(10);
           
-        if (!adsError && adsData && adsData.length > 0) {
-          topPerformingAds = adsData;
-          console.log(`Found ${topPerformingAds.length} top-performing ads for campaign: ${campaignCanonicalName}`);
+          // Try multiple canonical name formats for top ads
+          const canonicalNameVariations = [
+            campaignCanonicalName,
+            matchingCampaign.canonical_name,
+            campaignCanonicalName.toLowerCase().replace(/\s+/g, '-'),
+            campaignCanonicalName.toLowerCase().replace(/\-/g, ' '),
+            matchingCampaign.name?.toLowerCase().replace(/\s+/g, '-')
+          ].filter(Boolean);
+          
+          // Fetch top-performing ads trying different name variations
+          for (const nameVariation of canonicalNameVariations) {
+            const { data: adsData, error: adsError } = await supabase
+              .from('top_performing_ads')
+              .select('*')
+              .eq('campaign_canonical_name', nameVariation)
+              .order('result', { ascending: false })
+              .order('cost_per_result', { ascending: true })
+              .limit(10);
+            
+            if (!adsError && adsData && adsData.length > 0) {
+              topPerformingAds = adsData;
+              console.log(`Found ${topPerformingAds.length} top-performing ads for campaign: ${nameVariation}`);
+              break;
+            }
+          }
+          
+          if (topPerformingAds.length === 0) {
+            console.log(`No top-performing ads found for any variation of campaign: ${campaignCanonicalName}, falling back to AI-only generation`);
+          }
         } else {
-          console.log(`No top-performing ads found for campaign: ${campaignCanonicalName}, falling back to AI-only generation`);
+          console.log(`No matching campaign found for: ${campaignCanonicalName}`);
         }
       } catch (error) {
-        console.error('Error fetching top-performing ads:', error);
+        console.error('Error fetching campaign data:', error);
         // Continue with AI-only generation
       }
     }
@@ -302,6 +355,7 @@ META ADVERTISING POLICY COMPLIANCE - ABSOLUTELY FORBIDDEN:
 CRITICAL RULE: When generating ads, avoid directly stating or implying that you know personal attributes about the reader (such as age, gender, health, or personal experiences). You may tailor tone and examples to the intended audience internally, but you must not write phrases like 'Men over 30', 'Guys over 30', 'this is for you', or 'you're not alone'. Instead, use general, relatable language that could apply to anyone.
 
 FORBIDDEN ELEMENTS:
+- NO EMOJIS - Keep content clean and professional without any emoji characters
 - NO em dashes (—) or double hyphens (--) - ABSOLUTELY FORBIDDEN
 - NO generic AI phrases like: "Sound familiar?", "Just a few clicks…", "Here's the thing…", "The bottom line is…", "At the end of the day…", "game-changer", "unlock the secrets", "transform your life", "take your business to the next level"
 - NO corporate marketing speak or buzzwords
