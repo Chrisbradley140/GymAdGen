@@ -185,8 +185,13 @@ HEADLINE STYLES TO INCLUDE:
 4. Problem/solution headline (addresses pain point)
 5. Transformation headline (promises change)
 
-FORMAT:
-Present each headline as a numbered list with a brief explanation of the psychology behind each one.
+    FORMAT:
+    Present each headline as a numbered list with NO explanations, descriptions, or commentary.
+    Output ONLY the headlines as plain text.
+    
+    Example format:
+    1. Your First Headline Here
+    2. Your Second Headline Here
 
 CRITICAL: Each headline must be under 40 characters and comply with Meta's advertising policies.`;
 
