@@ -227,7 +227,7 @@ CONTEXT TO CONSIDER:
 - Competitive differentiation
 ${selectedCampaign?.seasonal_timing ? `- Seasonal timing: ${selectedCampaign.seasonal_timing}` : ''}
 
-FORMAT: Present each campaign name with a brief rationale for why it would be effective.
+FORMAT: Output ONLY the campaign names in a numbered list format (1. Name, 2. Name, etc.) with NO explanations, rationales, descriptions, or extra text.
 
 The names should feel fresh, exciting, and make people want to learn more.`;
 
