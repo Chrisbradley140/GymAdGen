@@ -51,10 +51,11 @@ export const useTemplates = () => {
   const [adTemplates, setAdTemplates] = useState<AdTemplate[]>([]);
   const [topPerformingAds, setTopPerformingAds] = useState<TopPerformingAd[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     fetchTemplates();
-  }, []);
+  }, [refreshKey]);
 
   const fetchTemplates = async () => {
     try {
@@ -122,6 +123,10 @@ export const useTemplates = () => {
     return campaignTemplates.find(template => template.canonical_name === canonicalName);
   };
 
+  const forceRefresh = () => {
+    setRefreshKey(prev => prev + 1);
+  };
+
   return {
     campaignTemplates,
     adTemplates,
@@ -132,6 +137,7 @@ export const useTemplates = () => {
     getMostPopularCampaigns,
     getTopPerformingAds,
     getCampaignByCanonicalName,
-    refetch: fetchTemplates
+    refetch: fetchTemplates,
+    forceRefresh
   };
 };
