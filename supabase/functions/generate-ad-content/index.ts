@@ -14,137 +14,335 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// Meta Policy Compliance Validator
+// Enhanced Brand Data Sanitizer
+function sanitizeBrandData(brandData: any) {
+  if (!brandData) return brandData;
+  
+  const sanitizedData = { ...brandData };
+  
+  // Sanitize text fields for Meta policy violations
+  const textFields = ['brand_words', 'words_to_avoid', 'main_problem', 'client_words', 'magic_wand_result'];
+  
+  textFields.forEach(field => {
+    if (sanitizedData[field] && typeof sanitizedData[field] === 'string') {
+      sanitizedData[field] = sanitizeText(sanitizedData[field]);
+    }
+  });
+  
+  return sanitizedData;
+}
+
+// Text sanitizer for brand data
+function sanitizeText(text: string): string {
+  let sanitized = text;
+  
+  // Replace problematic terms with compliant alternatives
+  const replacements = {
+    // Personal attributes
+    'fat people': 'people looking to improve their health',
+    'overweight people': 'people on a wellness journey',
+    'broke people': 'budget-conscious individuals',
+    'rich people': 'high-income earners',
+    'old people': 'mature individuals',
+    'young people': 'younger demographics',
+    'men over 30': 'busy professionals',
+    'women over 40': 'working parents',
+    
+    // Body shaming terms
+    'ugly belly': 'stubborn midsection',
+    'disgusting fat': 'unwanted weight',
+    'embarrassing body': 'body confidence issues',
+    
+    // Unrealistic claims
+    'guaranteed weight loss': 'sustainable progress',
+    'miracle cure': 'effective solution',
+    'instant results': 'quick progress',
+    
+    // Engagement bait
+    'click here': 'learn more',
+    'tap below': 'get started',
+    'swipe up': 'discover how'
+  };
+  
+  Object.entries(replacements).forEach(([problematic, compliant]) => {
+    const regex = new RegExp(problematic, 'gi');
+    sanitized = sanitized.replace(regex, compliant);
+  });
+  
+  return sanitized;
+}
+
+// Enhanced Meta Policy Compliance Validator
 function validateMetaCompliance(content: string) {
   const violations: string[] = [];
   let fixedContent = content;
   let hasViolations = false;
+  let complianceScore = 100; // Start with perfect score
 
-  // Personal Attributes Check
+  // Enhanced Personal Attributes Check with more patterns
   const personalAttributePatterns = [
     // Direct age/gender references
     /(men|women|guys|girls|ladies)\s+(over|under|age)\s+\d+/gi,
     /(men|women|guys|girls|ladies)\s+(in\s+their\s+)?\d+s/gi,
     /if\s+you'?re\s+(a\s+)?(man|woman|guy|girl|senior|teen)/gi,
     
-    // Direct personal addressing
+    // Extended direct personal addressing
     /this\s+is\s+for\s+you/gi,
     /you'?re\s+not\s+alone/gi,
     /you\s+(men|women|guys|girls)/gi,
+    /calling\s+all\s+(men|women|guys|girls|ladies)/gi,
+    /attention\s+(men|women|guys|girls|ladies)/gi,
     
-    // Health/weight assumptions
-    /you'?re\s+(overweight|fat|obese|skinny|underweight)/gi,
-    /if\s+you'?re\s+(broke|poor|rich|wealthy)/gi,
-    /you\s+(have|suffer from|struggle with)\s+(low energy|depression|anxiety)/gi,
+    // Enhanced health/weight assumptions
+    /you'?re\s+(overweight|fat|obese|skinny|underweight|out\s+of\s+shape)/gi,
+    /if\s+you'?re\s+(broke|poor|rich|wealthy|struggling\s+financially)/gi,
+    /you\s+(have|suffer\s+from|struggle\s+with|deal\s+with)\s+(low\s+energy|depression|anxiety|diabetes|high\s+blood\s+pressure)/gi,
+    /tired\s+of\s+being\s+(fat|overweight|out\s+of\s+shape)/gi,
     
-    // Age-specific targeting
-    /for\s+(seniors|elderly|teens|teenagers|young people|millennials|boomers)/gi,
-    /(seniors|elderly|teens|teenagers)\s+(who|that)/gi,
+    // Extended age-specific targeting
+    /for\s+(seniors|elderly|teens|teenagers|young\s+people|millennials|boomers|gen\s+x|gen\s+z)/gi,
+    /(seniors|elderly|teens|teenagers|millennials|boomers)\s+(who|that|need|want)/gi,
+    /if\s+you'?re\s+(over|under)\s+\d+/gi,
     
-    // Engagement bait phrases
-    /(tap\s+to\s+join|tap\s+below|click\s+below|swipe\s+up)/gi,
+    // Enhanced engagement bait phrases
+    /(tap\s+to\s+join|tap\s+below|click\s+below|swipe\s+up|comment\s+below|share\s+if\s+you\s+agree)/gi,
+    /(like\s+if\s+you|tag\s+someone|double\s+tap|hit\s+follow)/gi,
     
-    // Vague claims
-    /(real\s+results|guaranteed\s+results|actual\s+results)/gi
+    // Enhanced vague claims
+    /(real\s+results|guaranteed\s+results|actual\s+results|proven\s+results)/gi,
+    /(works\s+for\s+everyone|never\s+fails|100%\s+effective)/gi,
+    
+    // Income/financial status assumptions
+    /if\s+you'?re\s+(making\s+less\s+than|earning\s+under|broke|wealthy)/gi,
+    /for\s+those\s+(who\s+can'?t\s+afford|on\s+a\s+tight\s+budget)/gi
   ];
 
   personalAttributePatterns.forEach(pattern => {
     if (pattern.test(content)) {
       violations.push("Contains personal attribute assumptions or direct targeting");
       hasViolations = true;
+      complianceScore -= 20; // Significant penalty for personal attributes
       fixedContent = fixedContent.replace(pattern, (match) => {
-        // Age/gender specific replacements
-        if (match.toLowerCase().includes('men over') || match.toLowerCase().includes('guys over')) {
+        const lowerMatch = match.toLowerCase();
+        
+        // Enhanced age/gender specific replacements
+        if (lowerMatch.includes('men over') || lowerMatch.includes('guys over')) {
           return "busy professionals";
         }
-        if (match.toLowerCase().includes('women over') || match.toLowerCase().includes('ladies over')) {
+        if (lowerMatch.includes('women over') || lowerMatch.includes('ladies over')) {
           return "working parents";
         }
-        if (match.toLowerCase().includes('this is for you')) {
+        if (lowerMatch.includes('millennials') || lowerMatch.includes('gen z')) {
+          return "young professionals";
+        }
+        if (lowerMatch.includes('boomers') || lowerMatch.includes('seniors')) {
+          return "experienced individuals";
+        }
+        
+        // Direct targeting replacements
+        if (lowerMatch.includes('this is for you')) {
           return "this approach works when";
         }
-        if (match.toLowerCase().includes("you're not alone")) {
+        if (lowerMatch.includes("you're not alone")) {
           return "many people experience this";
         }
-        // Engagement bait replacements
-        if (match.toLowerCase().includes('tap to join') || match.toLowerCase().includes('tap below')) {
+        if (lowerMatch.includes('calling all') || lowerMatch.includes('attention')) {
+          return "for people who";
+        }
+        
+        // Enhanced engagement bait replacements
+        if (lowerMatch.includes('tap to join') || lowerMatch.includes('tap below')) {
           return "join now";
         }
-        if (match.toLowerCase().includes('click below')) {
+        if (lowerMatch.includes('click below')) {
           return "start today";
         }
-        // Vague claims replacements
-        if (match.toLowerCase().includes('real results')) {
-          return "more energy and consistency";
+        if (lowerMatch.includes('comment below') || lowerMatch.includes('share if you agree')) {
+          return "learn more";
         }
-        if (match.toLowerCase().includes('guaranteed results')) {
-          return "sustainable progress";
+        if (lowerMatch.includes('like if you') || lowerMatch.includes('tag someone')) {
+          return "discover how";
         }
-        if (match.toLowerCase().includes('actual results')) {
+        
+        // Enhanced vague claims replacements
+        if (lowerMatch.includes('real results') || lowerMatch.includes('actual results')) {
           return "tangible improvements";
         }
-        // Health/weight assumptions
-        if (match.toLowerCase().includes('overweight') || match.toLowerCase().includes('fat')) {
+        if (lowerMatch.includes('guaranteed results') || lowerMatch.includes('proven results')) {
+          return "sustainable progress";
+        }
+        if (lowerMatch.includes('works for everyone') || lowerMatch.includes('never fails')) {
+          return "effective approach";
+        }
+        if (lowerMatch.includes('100% effective')) {
+          return "highly effective";
+        }
+        
+        // Enhanced health/weight assumptions
+        if (lowerMatch.includes('overweight') || lowerMatch.includes('fat') || lowerMatch.includes('out of shape')) {
           return "looking to improve your health";
         }
-        if (match.toLowerCase().includes('broke') || match.toLowerCase().includes('poor')) {
-          return "on a budget";
+        if (lowerMatch.includes('tired of being')) {
+          return "ready to change your";
         }
+        
+        // Financial status assumptions
+        if (lowerMatch.includes('broke') || lowerMatch.includes('poor') || lowerMatch.includes('tight budget')) {
+          return "budget-conscious";
+        }
+        if (lowerMatch.includes('making less than') || lowerMatch.includes('earning under')) {
+          return "looking to improve your situation";
+        }
+        
+        // Health condition assumptions
+        if (lowerMatch.includes('low energy') || lowerMatch.includes('depression') || lowerMatch.includes('anxiety')) {
+          return "wellness goals";
+        }
+        
         // Default fallback
         return "ready to make a change";
       });
     }
   });
 
-  // Body Shaming Check
+  // Enhanced Body Shaming Check
   const bodyShamingPatterns = [
-    /ugly\s+(belly|fat|body)/gi,
-    /disgusting\s+(fat|body)/gi,
-    /embarrassing\s+(belly|fat|body)/gi,
-    /get\s+rid\s+of\s+your\s+(ugly|gross|disgusting)/gi
+    /ugly\s+(belly|fat|body|stomach|arms|legs)/gi,
+    /disgusting\s+(fat|body|belly|weight)/gi,
+    /embarrassing\s+(belly|fat|body|weight|appearance)/gi,
+    /get\s+rid\s+of\s+your\s+(ugly|gross|disgusting|embarrassing)/gi,
+    /hate\s+your\s+(body|belly|fat|appearance)/gi,
+    /sick\s+of\s+your\s+(fat|belly|body)/gi,
+    /ashamed\s+of\s+your\s+(body|weight|appearance)/gi,
+    /(flabby|jiggly|saggy)\s+(arms|belly|thighs)/gi,
+    /lose\s+that\s+(ugly|disgusting|embarrassing)\s+(fat|belly)/gi
   ];
 
   bodyShamingPatterns.forEach(pattern => {
     if (pattern.test(content)) {
       violations.push("Contains body-shaming language");
       hasViolations = true;
-      fixedContent = fixedContent.replace(pattern, "transform your");
+      complianceScore -= 25; // Heavy penalty for body shaming
+      fixedContent = fixedContent.replace(pattern, (match) => {
+        const lowerMatch = match.toLowerCase();
+        
+        if (lowerMatch.includes('hate your') || lowerMatch.includes('sick of your')) {
+          return "want to improve your";
+        }
+        if (lowerMatch.includes('ashamed of')) {
+          return "ready to transform your";
+        }
+        if (lowerMatch.includes('get rid of your')) {
+          return "transform your";
+        }
+        if (lowerMatch.includes('flabby') || lowerMatch.includes('jiggly') || lowerMatch.includes('saggy')) {
+          return "tone your";
+        }
+        
+        return "improve your";
+      });
     }
   });
 
-  // Unrealistic Claims Check
+  // Enhanced Unrealistic Claims Check
   const unrealisticClaimsPatterns = [
     /lose\s+\d+\s+(lbs?|pounds?|kg)\s+in\s+\d+\s+(days?|weeks?)/gi,
-    /guaranteed\s+(results?|weight\s+loss)/gi,
-    /miracle\s+(cure|solution|results?)/gi,
-    /instant\s+(results?|weight\s+loss|transformation)/gi
+    /guaranteed\s+(results?|weight\s+loss|success|transformation)/gi,
+    /miracle\s+(cure|solution|results?|formula|method)/gi,
+    /instant\s+(results?|weight\s+loss|transformation|success)/gi,
+    /overnight\s+(results?|transformation|success)/gi,
+    /lose\s+weight\s+without\s+(diet|exercise|effort)/gi,
+    /eat\s+whatever\s+you\s+want\s+and\s+still\s+lose\s+weight/gi,
+    /melt\s+fat\s+(overnight|instantly|while\s+you\s+sleep)/gi,
+    /turn\s+your\s+body\s+into\s+a\s+fat[- ]burning\s+machine/gi,
+    /lose\s+belly\s+fat\s+in\s+\d+\s+(days?|weeks?)/gi
   ];
 
   unrealisticClaimsPatterns.forEach(pattern => {
     if (pattern.test(content)) {
-      violations.push("Contains unrealistic weight loss claims");
+      violations.push("Contains unrealistic or impossible claims");
       hasViolations = true;
-      fixedContent = fixedContent.replace(pattern, "achieve sustainable results");
+      complianceScore -= 30; // Heavy penalty for unrealistic claims
+      fixedContent = fixedContent.replace(pattern, (match) => {
+        const lowerMatch = match.toLowerCase();
+        
+        if (lowerMatch.includes('guaranteed')) {
+          return "sustainable";
+        }
+        if (lowerMatch.includes('miracle')) {
+          return "effective";
+        }
+        if (lowerMatch.includes('instant') || lowerMatch.includes('overnight')) {
+          return "quick";
+        }
+        if (lowerMatch.includes('without diet') || lowerMatch.includes('without exercise')) {
+          return "with a simple approach";
+        }
+        if (lowerMatch.includes('eat whatever you want')) {
+          return "enjoy your favorite foods in moderation";
+        }
+        if (lowerMatch.includes('melt fat')) {
+          return "burn calories";
+        }
+        if (lowerMatch.includes('fat-burning machine')) {
+          return "more efficient metabolism";
+        }
+        
+        return "achieve sustainable results";
+      });
     }
   });
 
-  // Sensational Content Check
+  // Enhanced Sensational Content Check
   const sensationalPatterns = [
     /doctors?\s+hate\s+this/gi,
-    /shocking\s+(truth|secret|discovery)/gi,
-    /this\s+weird\s+trick/gi,
-    /you\s+won't\s+believe/gi
+    /shocking\s+(truth|secret|discovery|revelation)/gi,
+    /this\s+(weird|strange|bizarre)\s+trick/gi,
+    /you\s+won't\s+believe/gi,
+    /(industry|experts|professionals)\s+(don't\s+want\s+you\s+to\s+know|are\s+hiding)/gi,
+    /secret\s+(that\s+)?(doctors|experts|trainers)\s+(don't\s+want\s+you\s+to\s+know|hate)/gi,
+    /the\s+(shocking|disturbing|scary)\s+truth\s+about/gi,
+    /what\s+the\s+(fitness|diet|health)\s+industry\s+doesn't\s+want\s+you\s+to\s+know/gi,
+    /exposed[:!]\s+(the\s+)?(truth|lies|scam)/gi,
+    /this\s+will\s+(shock|amaze|astound)\s+you/gi
   ];
 
   sensationalPatterns.forEach(pattern => {
     if (pattern.test(content)) {
-      violations.push("Contains sensational or fear-based claims");
+      violations.push("Contains sensational, conspiracy, or fear-based claims");
       hasViolations = true;
-      fixedContent = fixedContent.replace(pattern, "discover this approach");
+      complianceScore -= 15; // Moderate penalty for sensational content
+      fixedContent = fixedContent.replace(pattern, (match) => {
+        const lowerMatch = match.toLowerCase();
+        
+        if (lowerMatch.includes('doctors hate')) {
+          return "this effective approach";
+        }
+        if (lowerMatch.includes('shocking') || lowerMatch.includes('disturbing')) {
+          return "important facts about";
+        }
+        if (lowerMatch.includes('weird trick') || lowerMatch.includes('strange trick')) {
+          return "simple method";
+        }
+        if (lowerMatch.includes("you won't believe")) {
+          return "here's how";
+        }
+        if (lowerMatch.includes("don't want you to know") || lowerMatch.includes('are hiding')) {
+          return "overlooked approach";
+        }
+        if (lowerMatch.includes('exposed')) {
+          return "discover";
+        }
+        if (lowerMatch.includes('will shock') || lowerMatch.includes('will amaze')) {
+          return "might interest";
+        }
+        
+        return "discover this approach";
+      });
     }
   });
 
-  // Generic AI Phrases Check (Prohibited Formats)
+  // Enhanced Generic AI Phrases Check (Prohibited Formats)
   const genericAIPatterns = [
     // Direct prohibited phrases
     /sound\s+familiar\?/gi,
@@ -152,16 +350,42 @@ function validateMetaCompliance(content: string) {
     /struggling\s+with\s+[^?]+\?/gi,
     /with\s+just\s+a\s+few\s+clicks[.…]/gi,
     /here'?s\s+the\s+thing[.…]/gi,
+    /the\s+truth\s+is[.…]/gi,
+    /i\s+get\s+it[.…]/gi,
+    /look[,.]?\s+i\s+get\s+it/gi,
     
-    // GPT-style rhetorical patterns
+    // Enhanced GPT-style rhetorical patterns
     /^(but\s+)?what\s+if\s+i\s+told\s+you[.…]/gi,
     /^(the\s+)?truth\s+is[.…]/gi,
     /^(the\s+)?bottom\s+line\s+is[.…]/gi,
     /^at\s+the\s+end\s+of\s+the\s+day[.…]/gi,
+    /^here'?s\s+what\s+i\s+know[.…]/gi,
+    /^picture\s+this[:.]?/gi,
+    /^imagine\s+if\s+you\s+could[.…]/gi,
+    
+    // Business jargon and overused marketing terms
     /game[- ]changer/gi,
     /unlock\s+the\s+secrets?/gi,
     /transform\s+your\s+life/gi,
     /take\s+your\s+\w+\s+to\s+the\s+next\s+level/gi,
+    /revolutionary\s+(approach|method|system)/gi,
+    /cutting[- ]edge\s+(technology|solution|approach)/gi,
+    /industry[- ](leading|best)\s+/gi,
+    /world[- ]class\s+/gi,
+    /state[- ]of[- ]the[- ]art/gi,
+    
+    // Overused fitness/diet marketing phrases
+    /melt\s+away\s+(fat|pounds)/gi,
+    /torch\s+(calories|fat)/gi,
+    /shred\s+(fat|weight)/gi,
+    /blast\s+(belly\s+)?fat/gi,
+    /supercharge\s+your\s+metabolism/gi,
+    
+    // AI-generated transition phrases
+    /but\s+wait[,.]?\s+there'?s\s+more/gi,
+    /and\s+that'?s\s+not\s+all/gi,
+    /now[,.]?\s+you\s+might\s+be\s+(thinking|wondering)/gi,
+    /so\s+what\s+does\s+this\s+mean\s+for\s+you\?/gi,
     
     // Double hyphen and em dash patterns (backup check)
     /--/g,
@@ -174,14 +398,33 @@ function validateMetaCompliance(content: string) {
     'struggling with': 'dealing with',
     'with just a few clicks': 'quickly and easily',
     "here's the thing": 'what matters is',
+    'the truth is': 'fact is',
+    'i get it': 'this is common',
+    'look, i get it': 'this is understandable',
     'what if i told you': 'consider this',
-    'truth is': 'fact is',
     'bottom line is': 'what matters is',
     'at the end of the day': 'ultimately',
+    "here's what i know": 'what works is',
+    'picture this': 'imagine',
+    'imagine if you could': 'what if you could',
     'game-changer': 'difference maker',
     'unlock the secrets': 'learn the methods',
     'transform your life': 'improve your routine',
     'take your': 'improve your',
+    'revolutionary approach': 'effective method',
+    'cutting-edge': 'modern',
+    'industry-leading': 'top-quality',
+    'world-class': 'high-quality',
+    'state-of-the-art': 'advanced',
+    'melt away': 'reduce',
+    'torch calories': 'burn calories',
+    'shred fat': 'lose weight',
+    'blast fat': 'reduce weight',
+    'supercharge your metabolism': 'boost your metabolism',
+    'but wait, there\'s more': 'additionally',
+    'and that\'s not all': 'plus',
+    'now you might be thinking': 'you might wonder',
+    'so what does this mean for you?': 'how does this help?',
     '--': '-',
     '—': '-'
   };
@@ -190,6 +433,7 @@ function validateMetaCompliance(content: string) {
     if (pattern.test(content)) {
       violations.push("Contains generic AI phrases or prohibited formats");
       hasViolations = true;
+      complianceScore -= 10; // Penalty for generic AI phrases
       
       // Log detection for debugging
       console.log(`Detected generic AI phrase: ${content.match(pattern)?.[0]}`);
@@ -205,12 +449,21 @@ function validateMetaCompliance(content: string) {
           }
         }
         
-        // Fallback replacements for patterns
+        // Enhanced fallback replacements for patterns
         if (lowerMatch.includes('struggling with')) {
           return match.replace(/struggling\s+with/gi, 'dealing with');
         }
         if (lowerMatch.includes('to the next level')) {
           return match.replace(/to\s+the\s+next\s+level/gi, 'further');
+        }
+        if (lowerMatch.includes('melt away') || lowerMatch.includes('torch') || lowerMatch.includes('blast')) {
+          return 'reduce';
+        }
+        if (lowerMatch.includes('revolutionary') || lowerMatch.includes('cutting-edge')) {
+          return 'effective';
+        }
+        if (lowerMatch.includes('supercharge')) {
+          return 'boost';
         }
         
         // Default fallback
@@ -220,21 +473,33 @@ function validateMetaCompliance(content: string) {
     }
   });
 
-  // Determine status
+  // Determine status with compliance scoring
   let status: 'PASS' | 'FIXED' | 'FAIL';
+  const confidenceThreshold = 70; // Minimum compliance score to pass
+  
   if (violations.length === 0) {
     status = 'PASS';
-  } else if (hasViolations && fixedContent !== content) {
+  } else if (hasViolations && fixedContent !== content && complianceScore >= confidenceThreshold) {
     status = 'FIXED';
   } else {
     status = 'FAIL';
   }
 
+  // Log compliance details for debugging
+  console.log(`Compliance validation: ${violations.length} violations, score: ${complianceScore}/100, status: ${status}`);
+
   return {
     status,
     violations,
+    complianceScore,
     originalText: hasViolations ? content : undefined,
-    fixedText: hasViolations ? fixedContent : undefined
+    fixedText: hasViolations ? fixedContent : undefined,
+    suggestions: violations.length > 0 ? [
+      "Consider reviewing brand data for potentially problematic terms",
+      "Use more specific, benefit-focused language",
+      "Avoid direct personal attributes or assumptions",
+      "Focus on outcomes rather than guarantees"
+    ] : []
   };
 }
 
@@ -316,34 +581,53 @@ function validateAdCaptionStructure(content: string) {
   };
 }
 
-// Auto-regeneration function with validation
+// Enhanced auto-regeneration function with multi-layer validation
 async function generateWithValidation(adType: string, systemPrompt: string, brandData: any, campaignContext: string, inspirationSection: string, maxAttempts = 3) {
   let attempts = 0;
   let bestAttempt = null;
   let bestValidation = null;
+  let bestComplianceScore = 0;
+
+  // Pre-process: Sanitize brand data
+  const sanitizedBrandData = sanitizeBrandData(brandData);
+  console.log('Brand data sanitized for Meta policy compliance');
 
   while (attempts < maxAttempts) {
     attempts++;
     console.log(`Generation attempt ${attempts}/${maxAttempts} for ${adType}`);
 
     try {
-      const websiteContext = brandData.website_url ? 
-        `\nHomepage URL: ${brandData.website_url}\n\nScan this homepage and extract the brand's unique selling points (USP), tone of voice, and positioning. Use these insights to shape the ad copy tone and style. If you cannot extract useful information from this URL, fall back to the brand data provided below.\n` : '';
+      const websiteContext = sanitizedBrandData.website_url ? 
+        `\nHomepage URL: ${sanitizedBrandData.website_url}\n\nScan this homepage and extract the brand's unique selling points (USP), tone of voice, and positioning. Use these insights to shape the ad copy tone and style. If you cannot extract useful information from this URL, fall back to the brand data provided below.\n` : '';
+
+      // Enhanced prompt with stronger Meta compliance instructions
+      const enhancedSystemPrompt = `${systemPrompt}
+
+ENHANCED META POLICY COMPLIANCE INSTRUCTIONS:
+- ABSOLUTELY NO personal attribute targeting (age, gender, health status, financial status)
+- AVOID all engagement bait language (tap, click, swipe, comment, share, like)
+- NO unrealistic timeframes or impossible claims
+- NO body-shaming or negative appearance references
+- NO conspiracy theories or sensational claims
+- USE inclusive, positive, benefit-focused language
+- FOCUS on outcomes and transformations, not personal characteristics
+- ENSURE all claims are realistic and achievable
+- WRITE in an authentic, conversational tone that matches the brand voice`;
 
       const prompt = `${websiteContext}
-${campaignContext}${inspirationSection}Brand: ${brandData.business_name}
-Target Market: ${brandData.target_market}
-Voice & Tone: ${brandData.voice_tone_style}
-Offer Type: ${brandData.offer_type}
-Brand Words to Use: ${brandData.brand_words}
-Words to Avoid: ${brandData.words_to_avoid}
-Main Problem Client Faces: ${brandData.main_problem}
-Failed Solutions They've Tried: ${brandData.failed_solutions}
-How Clients Describe Their Problem: ${brandData.client_words}
-Dream Outcome: ${brandData.magic_wand_result}
-Campaign Types: ${brandData.campaign_types?.join(', ') || 'Not specified'}
+${campaignContext}${inspirationSection}Brand: ${sanitizedBrandData.business_name}
+Target Market: ${sanitizedBrandData.target_market}
+Voice & Tone: ${sanitizedBrandData.voice_tone_style}
+Offer Type: ${sanitizedBrandData.offer_type}
+Brand Words to Use: ${sanitizedBrandData.brand_words}
+Words to Avoid: ${sanitizedBrandData.words_to_avoid}
+Main Problem Client Faces: ${sanitizedBrandData.main_problem}
+Failed Solutions They've Tried: ${sanitizedBrandData.failed_solutions}
+How Clients Describe Their Problem: ${sanitizedBrandData.client_words}
+Dream Outcome: ${sanitizedBrandData.magic_wand_result}
+Campaign Types: ${sanitizedBrandData.campaign_types?.join(', ') || 'Not specified'}
 
-${systemPrompt}
+${enhancedSystemPrompt}
 `;
 
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -396,28 +680,37 @@ CRITICAL STRUCTURE REQUIREMENTS FOR AD CAPTIONS - MANDATORY:
 
 CRITICAL TONE & AUTHENTICITY RULES:
 - Output must match the user's exact tone and cadence from their brand data
-- Use the specified Tone Style: ${brandData.voice_tone_style}
-- Naturally weave in these Brand Words: ${brandData.brand_words}
-- STRICTLY AVOID these words/phrases: ${brandData.words_to_avoid}
+- Use the specified Tone Style: ${sanitizedBrandData.voice_tone_style}
+- Naturally weave in these Brand Words: ${sanitizedBrandData.brand_words}
+- STRICTLY AVOID these words/phrases: ${sanitizedBrandData.words_to_avoid}
 - Content must sound like the actual business owner wrote it, NOT an AI or agency
 - Use plain, conversational language (8th grade reading level)
 - Write in first or second person as fits the brand voice
 - Focus on benefits, transformation, and emotional connection
 
-META ADVERTISING POLICY COMPLIANCE - ABSOLUTELY FORBIDDEN:
-❌ PERSONAL ATTRIBUTES: Never directly state or imply personal attributes about the reader such as age ("Men over 30"), gender, health status ("You're overweight"), race, religion, or financial status
-❌ DIRECT TARGETING LANGUAGE: Avoid phrases like "this is for you", "you're not alone"
-❌ ENGAGEMENT BAIT: No "Tap to join", "Tap below", "Click below", "Swipe up"
-❌ VAGUE CLAIMS: No "real results", "guaranteed results", "actual results" - use specific, believable benefits
-❌ UNREALISTIC CLAIMS: No impossible timeframes or guarantees
-❌ BODY SHAMING: No negative language about appearance or self-worth
-❌ SENSATIONAL CONTENT: No shocking claims or fear-based tactics
+ENHANCED META ADVERTISING POLICY COMPLIANCE - ABSOLUTELY FORBIDDEN:
+❌ PERSONAL ATTRIBUTES: Never directly state or imply personal attributes about the reader such as age ("Men over 30", "Millennials", "Boomers"), gender, health status ("You're overweight", "out of shape"), race, religion, or financial status ("broke", "wealthy")
+❌ DIRECT TARGETING LANGUAGE: Avoid phrases like "this is for you", "you're not alone", "calling all men/women", "attention ladies/guys"
+❌ ENGAGEMENT BAIT: No "Tap to join", "Tap below", "Click below", "Swipe up", "Comment below", "Share if you agree", "Like if you", "Tag someone"
+❌ VAGUE CLAIMS: No "real results", "guaranteed results", "actual results", "proven results", "works for everyone", "never fails", "100% effective"
+❌ UNREALISTIC CLAIMS: No impossible timeframes ("lose 30 lbs in 10 days"), guarantees, "overnight results", "instant transformation", "miracle solutions"
+❌ BODY SHAMING: No negative language about appearance ("ugly belly", "disgusting fat", "embarrassing body", "hate your body", "flabby arms")
+❌ SENSATIONAL CONTENT: No shocking claims ("doctors hate this"), conspiracy theories ("industry secrets", "what they don't want you to know"), fear-based tactics
+❌ GENERIC AI PHRASES: No "Sound familiar?", "Here's the thing…", "Let's be real…", "I get it…", "game-changer", "unlock the secrets", "transform your life", "revolutionary approach", "cutting-edge"
 
 FORBIDDEN ELEMENTS:
 - NO em dashes (—) or double hyphens (--) - ABSOLUTELY FORBIDDEN
-- NO generic AI phrases like: "Sound familiar?", "Here's the thing…", "game-changer", "unlock the secrets", "transform your life"
+- NO overused fitness marketing terms: "melt fat", "torch calories", "shred weight", "blast belly fat", "supercharge metabolism"
 - NO corporate marketing speak or buzzwords
 - NO overly polished agency-style copy
+- NO AI transition phrases: "but wait, there's more", "and that's not all", "now you might be thinking"
+
+COMPLIANCE VALIDATION:
+- Before finalizing, mentally check each sentence for Meta policy violations
+- Ensure no direct personal attribute assumptions
+- Verify all claims are realistic and achievable
+- Confirm language is inclusive and positive
+- Replace any prohibited phrases with compliant alternatives
 
 Create compelling, conversion-focused copy that strictly follows the 4-section structure with proper labeling and word counts while maintaining complete authenticity to the brand voice AND full Meta policy compliance.`
             },
@@ -447,33 +740,41 @@ Create compelling, conversion-focused copy that strictly follows the 4-section s
         console.log(`Structure validation for attempt ${attempts}:`, structureValidation);
       }
 
-      // Meta compliance validation
+      // Enhanced Meta compliance validation with multi-layer checking
       const metaCompliance = validateMetaCompliance(generatedContent);
-      console.log(`Meta compliance for attempt ${attempts}:`, metaCompliance.status);
+      console.log(`Meta compliance for attempt ${attempts}:`, metaCompliance.status, `Score: ${metaCompliance.complianceScore}/100`);
 
-      // Use fixed content if available
-      if (metaCompliance.status === 'FIXED') {
+      // Use fixed content if available and score is acceptable
+      if (metaCompliance.status === 'FIXED' && metaCompliance.complianceScore >= 70) {
         generatedContent = metaCompliance.fixedText;
+        console.log('Using auto-fixed content with acceptable compliance score');
       }
 
+      // Enhanced validation scoring
+      const structureScore = structureValidation.isValid ? 100 : 0;
+      const totalScore = (metaCompliance.complianceScore + structureScore) / 2;
+      
       // Check if this attempt passes all validations
       const isValid = structureValidation.isValid && metaCompliance.status !== 'FAIL';
       
-      if (isValid) {
-        console.log(`✅ Generation successful on attempt ${attempts}`);
+      if (isValid && totalScore >= 85) {
+        console.log(`✅ High-quality content generated on attempt ${attempts} with score: ${totalScore}`);
         return {
           generatedContent,
           structureValidation,
           metaCompliance,
           attempts,
-          success: true
+          success: true,
+          qualityScore: totalScore
         };
       }
 
-      // Save best attempt (prioritize structure over meta compliance)
-      if (!bestAttempt || (structureValidation.isValid && !bestValidation?.structureValidation?.isValid)) {
+      // Store this attempt if it's the best so far (higher compliance score wins)
+      if (!bestAttempt || metaCompliance.complianceScore > bestComplianceScore) {
         bestAttempt = generatedContent;
         bestValidation = { structureValidation, metaCompliance };
+        bestComplianceScore = metaCompliance.complianceScore;
+        console.log(`New best attempt with compliance score: ${bestComplianceScore}`);
       }
 
       console.log(`❌ Attempt ${attempts} failed validation, trying again...`);
