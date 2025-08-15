@@ -39,7 +39,13 @@ function validateMetaCompliance(content: string) {
     
     // Age-specific targeting
     /for\s+(seniors|elderly|teens|teenagers|young people|millennials|boomers)/gi,
-    /(seniors|elderly|teens|teenagers)\s+(who|that)/gi
+    /(seniors|elderly|teens|teenagers)\s+(who|that)/gi,
+    
+    // Engagement bait phrases
+    /(tap\s+to\s+join|tap\s+below|click\s+below|swipe\s+up)/gi,
+    
+    // Vague claims
+    /(real\s+results|guaranteed\s+results|actual\s+results)/gi
   ];
 
   personalAttributePatterns.forEach(pattern => {
@@ -49,16 +55,33 @@ function validateMetaCompliance(content: string) {
       fixedContent = fixedContent.replace(pattern, (match) => {
         // Age/gender specific replacements
         if (match.toLowerCase().includes('men over') || match.toLowerCase().includes('guys over')) {
-          return "people looking to";
+          return "busy professionals";
         }
         if (match.toLowerCase().includes('women over') || match.toLowerCase().includes('ladies over')) {
-          return "anyone ready to";
+          return "working parents";
         }
         if (match.toLowerCase().includes('this is for you')) {
           return "this approach works when";
         }
         if (match.toLowerCase().includes("you're not alone")) {
           return "many people experience this";
+        }
+        // Engagement bait replacements
+        if (match.toLowerCase().includes('tap to join') || match.toLowerCase().includes('tap below')) {
+          return "join now";
+        }
+        if (match.toLowerCase().includes('click below')) {
+          return "start today";
+        }
+        // Vague claims replacements
+        if (match.toLowerCase().includes('real results')) {
+          return "more energy and consistency";
+        }
+        if (match.toLowerCase().includes('guaranteed results')) {
+          return "sustainable progress";
+        }
+        if (match.toLowerCase().includes('actual results')) {
+          return "tangible improvements";
         }
         // Health/weight assumptions
         if (match.toLowerCase().includes('overweight') || match.toLowerCase().includes('fat')) {
@@ -260,9 +283,19 @@ CRITICAL TONE & AUTHENTICITY RULES:
 - Sentence style should match their voice (short/punchy vs. longer explanatory)
 - Content must sound like the actual business owner wrote it, NOT an AI or agency
 
+CRITICAL AD CAPTION ADJUSTMENTS - MANDATORY:
+✅ DEMOGRAPHIC REFERENCES: Remove or rewrite direct references like "Men over 30" or "Guys" to be implied, not stated (e.g., "Built for busy professionals")
+✅ SPECIFIC BENEFITS: Replace vague claims like "real results" with specific, believable benefits tied to energy, routine, or lifestyle (e.g., "feel more energetic and consistent in your workouts")
+✅ SAFE CTAS: Avoid "Tap to join", "Tap below" or similar engagement-bait phrases. Use safe CTAs like "Join now", "Start today", "Learn more today", or "Get started now"
+✅ LOWERCASE DIET: Always lowercase "diet" unless the brand voice rules say it's capitalized
+✅ UNIQUE LANGUAGE: Replace generic fitness phrases like "cardio gets old" with unique language that reflects the client's brand_words input
+✅ STRUCTURE: Keep the HOOK → PAIN MIRROR → BELIEF BREAKER → CTA structure intact, but ensure each section reads like something the user would naturally say out loud
+
 META ADVERTISING POLICY COMPLIANCE - ABSOLUTELY FORBIDDEN:
 ❌ PERSONAL ATTRIBUTES: Never directly state or imply personal attributes about the reader such as age ("Men over 30", "Guys over 30"), gender, health status ("You're overweight"), race, religion, or financial status ("If you're broke")
 ❌ DIRECT TARGETING LANGUAGE: Avoid phrases like "this is for you", "you're not alone", or any language that assumes personal characteristics
+❌ ENGAGEMENT BAIT: No "Tap to join", "Tap below", "Click below", "Swipe up" or similar engagement-bait phrases
+❌ VAGUE CLAIMS: No "real results", "guaranteed results", "actual results" - use specific, believable benefits instead
 ❌ WEIGHT LOSS & FITNESS: No targeting under 18, no body-shaming ("ugly belly fat"), no unrealistic claims ("Lose 20 lbs in 1 week"), no before/after comparisons that shame
 ❌ SENSATIONAL CONTENT: No shocking claims ("Doctors hate this trick"), no misleading results, no fear-based tactics
 
