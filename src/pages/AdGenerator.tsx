@@ -267,31 +267,48 @@ Make them ENERGETIC and perfectly aligned with the campaign's theme!`;
   };
 
   const generateIGStoryAd = async () => {
-    // Don't create campaign during generation, only during save
+    // Get top-performing ads for this campaign
+    const topPerformingAdsPromise = selectedCampaign ? getTopPerformingAds(selectedCampaign.canonical_name) : Promise.resolve([]);
+    const topPerformingAds = await topPerformingAdsPromise;
+    
+    // Analyze patterns from top-performing ads for Story structure
+    const storyPatterns = topPerformingAds.slice(0, 3).map(ad => {
+      const text = ad.primary_text || '';
+      const hasScarcity = /\b(limited|hurry|spots|only|left)\b/i.test(text);
+      const hasBenefits = /[✅✓]/g.test(text) || /•/g.test(text);
+      const hookStyle = ad.hook_type || 'attention-grabbing';
+      
+      return `Hook Style: ${hookStyle}${hasScarcity ? ' | Has Scarcity' : ''}${hasBenefits ? ' | Has Benefits List' : ''}`;
+    }).join('\n');
 
     const systemPrompt = `🚨 You're creating HIGH-ENERGY 3-frame IG Story ads based on proven fitness winners! 🚨
 
 ${selectedCampaign ? `🎯 CAMPAIGN: "${selectedCampaign.name}" targeting ${selectedCampaign.target_audience}` : ''}
 
+${storyPatterns ? `🏆 TOP-PERFORMING AD PATTERNS TO LEVERAGE:
+${storyPatterns}
+
+📌 CRITICAL: Use these proven patterns to structure your 3-frame story sequence!` : ''}
+
 Create a 3-frame Instagram Story sequence following this PROVEN STRUCTURE:
 
 📱 **FRAME 1: BIG HOOK + PROBLEM** 
-- Start with emoji + problem/desire
+- Start with emoji + problem/desire (mirror top performers)
 - Use relatable struggle or aspiration
 - Example: "🚨 Tired of feeling uncomfortable in your own skin?"
 
 📱 **FRAME 2: BENEFITS CHECKLIST** 
-- List benefits with emoji bullets
+- List benefits with emoji bullets (✅ format proven to work)
 - Show transformation possibilities
 - Example: "Our 6 Week Challenge includes: ✅ Workouts ✅ Nutrition ✅ Community"
 
 📱 **FRAME 3: SCARCITY + CTA**
-- Add urgency/limited spots
+- Add urgency/limited spots (proven scarcity patterns)
 - Clear action step
 - Example: "⏰ Only 15 spots left! Tap below to secure yours!"
 
 🎯 STYLE REQUIREMENTS:
-- ENERGETIC and scroll-stopping
+- ENERGETIC and scroll-stopping (match top performers' energy)
 - Use emojis for visual appeal  
 - Keep each frame short (1-2 sentences)
 - Include urgency/scarcity in Frame 3
@@ -302,38 +319,56 @@ FRAME 1: [hook + problem with emojis]
 FRAME 2: [benefits checklist with ✅ bullets]  
 FRAME 3: [scarcity + direct CTA]
 
-Make it IRRESISTIBLE and action-driving!`;
+Make it IRRESISTIBLE and action-driving, using proven patterns from top performers!`;
 
-    return await generateContent('ig_story_ad', systemPrompt, selectedCampaign?.canonical_name, []);
+    return await generateContent('ig_story_ad', systemPrompt, selectedCampaign?.canonical_name, topPerformingAds);
   };
 
   const generateCreativePrompt = async () => {
-    // Don't create campaign during generation, only during save
+    // Get top-performing ads for this campaign
+    const topPerformingAdsPromise = selectedCampaign ? getTopPerformingAds(selectedCampaign.canonical_name) : Promise.resolve([]);
+    const topPerformingAds = await topPerformingAdsPromise;
+    
+    // Analyze visual themes and elements from top-performing ads
+    const visualThemes = topPerformingAds.slice(0, 3).map(ad => {
+      const text = ad.primary_text || '';
+      const hasTransformation = /\b(transform|change|result|before|after)\b/i.test(text);
+      const hasCommunity = /\b(group|community|together|support)\b/i.test(text);
+      const hasWorkout = /\b(workout|training|exercise|fitness)\b/i.test(text);
+      const energy = ad.tone || 'energetic';
+      
+      return `Theme: ${energy}${hasTransformation ? ' | Transformation Focus' : ''}${hasCommunity ? ' | Community Element' : ''}${hasWorkout ? ' | Workout Focus' : ''}`;
+    }).join('\n');
 
     const systemPrompt = `🎥 You're creating VIRAL visual concepts based on top-performing fitness content! 🎥
 
 ${selectedCampaign ? `🎯 CAMPAIGN: "${selectedCampaign.name}" targeting ${selectedCampaign.target_audience}` : ''}
 
+${visualThemes ? `🏆 VISUAL THEMES FROM TOP PERFORMERS:
+${visualThemes}
+
+📌 CRITICAL: Incorporate these proven visual elements and themes into your creative concepts!` : ''}
+
 Generate 3 SCROLL-STOPPING visual concepts that match proven patterns:
 
 🔥 **CONCEPT TYPES TO CREATE:**
-1. **TRANSFORMATION SHOWCASE** (exciting reveal style)
-2. **DAY-IN-THE-LIFE** (relatable behind-scenes)  
-3. **ENERGETIC WORKOUT PREVIEW** (dynamic action shots)
+1. **TRANSFORMATION SHOWCASE** (exciting reveal style - mirror top performers)
+2. **DAY-IN-THE-LIFE** (relatable behind-scenes - build connection)  
+3. **ENERGETIC WORKOUT PREVIEW** (dynamic action shots - show results)
 
 📱 **REQUIREMENTS FOR EACH:**
-- ATTENTION-GRABBING title
+- ATTENTION-GRABBING title (based on top performer themes)
 - Dynamic scene description
 - Bold text overlay ideas using CAPS + emojis
-- Strong CTA placement
+- Strong CTA placement (mirror successful patterns)
 - Easy to film with phone
 - High-energy and engaging
 
 🎯 **STYLE ELEMENTS TO INCLUDE:**
-- Use movement and energy
+- Use movement and energy (match top performers)
 - Include workout/nutrition elements
-- Show community/group aspects
-- Add transformation themes
+- Show community/group aspects (proven engagement driver)
+- Add transformation themes (high-converting element)
 - Make it relatable and inspiring
 
 📝 **OUTPUT FORMAT:**
@@ -352,9 +387,9 @@ Scene: [Dynamic description with action]
 Text Overlay: [Bold suggestions with CAPS + emojis] 
 CTA: [Placement and direct action]
 
-Make them VIRAL-WORTHY and action-packed!`;
+Make them VIRAL-WORTHY and action-packed, using proven visual patterns!`;
 
-    return await generateContent('creative_prompt', systemPrompt, selectedCampaign?.canonical_name, []);
+    return await generateContent('creative_prompt', systemPrompt, selectedCampaign?.canonical_name, topPerformingAds);
   };
 
 
