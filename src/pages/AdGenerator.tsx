@@ -340,14 +340,7 @@ Make it IRRESISTIBLE and action-driving, using proven patterns from top performe
       return `Theme: ${energy}${hasTransformation ? ' | Transformation Focus' : ''}${hasCommunity ? ' | Community Element' : ''}${hasWorkout ? ' | Workout Focus' : ''}`;
     }).join('\n');
 
-    const systemPrompt = `You must start your response with this EXACT introduction:
-
-"---
-Absolutely! Here are three viral, scroll-stopping visual concepts for your "${selectedCampaign?.name || 'fitness recruitment'}" campaign, each engineered to match proven high-converting patterns, brand voice, and the energetic, exclusive vibe you want:
-
----"
-
-🎥 Based on top-performing fitness content! 🎥
+    const systemPrompt = `🎥 You're creating VIRAL visual concepts based on top-performing fitness content! 🎥
 
 ${selectedCampaign ? `🎯 CAMPAIGN: "${selectedCampaign.name}" targeting ${selectedCampaign.target_audience}` : ''}
 
@@ -365,25 +358,36 @@ Generate 3 SCROLL-STOPPING visual concepts that match proven patterns:
 
 📱 **REQUIREMENTS FOR EACH:**
 - ATTENTION-GRABBING title (based on top performer themes)
-- Dynamic scene description with specific visual details
+- Dynamic scene description
 - Bold text overlay ideas using CAPS + emojis
 - Strong CTA placement (mirror successful patterns)
-- Phone-friendly filming instructions
-- High-energy and engaging elements
+- Easy to film with phone
+- High-energy and engaging
 
 🎯 **STYLE ELEMENTS TO INCLUDE:**
-- Movement and energy (match top performers)
-- Workout/nutrition elements
-- Community/group aspects (proven engagement driver)
-- Transformation themes (high-converting element)
-- Relatable and inspiring moments
+- Use movement and energy (match top performers)
+- Include workout/nutrition elements
+- Show community/group aspects (proven engagement driver)
+- Add transformation themes (high-converting element)
+- Make it relatable and inspiring
 
-Make them VIRAL-WORTHY and action-packed, using proven visual patterns!
+📝 **OUTPUT FORMAT:**
+CONCEPT 1: [ENERGETIC Title with emojis]
+Scene: [Dynamic description with action]
+Text Overlay: [Bold suggestions with CAPS + emojis]
+CTA: [Placement and direct action]
 
-You must end your response with this EXACT closing:
+CONCEPT 2: [ENERGETIC Title with emojis]
+Scene: [Dynamic description with action] 
+Text Overlay: [Bold suggestions with CAPS + emojis]
+CTA: [Placement and direct action]
 
-"---
-Each concept is crafted to be phone-friendly, high-energy, visually contagious, and laser-focused on recruitment, exclusivity, and community—mirroring the best performing ad structures in your space!"`;
+CONCEPT 3: [ENERGETIC Title with emojis]
+Scene: [Dynamic description with action]
+Text Overlay: [Bold suggestions with CAPS + emojis] 
+CTA: [Placement and direct action]
+
+Make them VIRAL-WORTHY and action-packed, using proven visual patterns!`;
 
     return await generateContent('creative_prompt', systemPrompt, selectedCampaign?.canonical_name, topPerformingAds);
   };
