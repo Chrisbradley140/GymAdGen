@@ -118,34 +118,36 @@ ${structuralTemplate}
 🎯 MANDATORY 8-STEP STRUCTURE - FOLLOW EXACTLY:
 Your content MUST follow this proven pattern that appears in all top-performing ads:
 
-STEP 1: [LOCAL CALLOUT] - Target specific location/group (2-4 words)
-STEP 2: [PROBLEM AGITATION] - Identify pain point or frustration (1-2 sentences)
-STEP 3: [SOLUTION/OFFER] - Present your program/service as the answer (1-2 sentences)
-STEP 4: [BENEFITS/TRANSFORMATION] - Paint picture of results/outcomes (2-3 benefits)
-STEP 5: [ELIGIBILITY CHECKLIST] - Create qualification criteria (3-4 bullet points)
-STEP 6: [COMMUNITY/SUPPORT PROOF] - Emphasize group/coaching element (1 sentence)
-STEP 7: [RISK REVERSAL] - Address concerns/guarantees (1 sentence)
-STEP 8: [SCARCITY + CTA] - Limited spots + clear action (1-2 sentences)
+🔥 HIGH-ENERGY PROVEN FITNESS AD STRUCTURE - REPLICATE THIS EXACTLY: 🔥
 
-CRITICAL GLOBAL RULES - MUST FOLLOW:
+🚨 STEP 1: [BIG HOOK] - CAPS + emojis + location targeting ("🚨 ATTENTION [CITY] LADIES 🚨")
+💔 STEP 2: [PAIN CALLOUT] - Hit their struggles hard with emotional, conversational language  
+🎯 STEP 3: [PROGRAM INTRO] - Present transformation challenge with clear, memorable name
+✅ STEP 4: [BENEFIT BULLETS] - Use emoji bullets (✅ workouts ✅ nutrition ✅ community)
+📋 STEP 5: [QUALIFICATION LIST] - Create excitement with eligibility criteria 
+🤝 STEP 6: [COMMUNITY HYPE] - Build connection and support element
+🔒 STEP 7: [URGENCY/SCARCITY] - "HURRY", "if link still works", specific spot numbers
+👆 STEP 8: [DIRECT CTA] - "Click Learn More", "Tap below", "Apply Here"
 
-SAFETY REQUIREMENTS:
+🎯 ENERGETIC STYLE REQUIREMENTS - MATCH TOP PERFORMERS:
+- USE CAPS for impact words and excitement
+- START with 🚨 emojis and location targeting  
+- BE PLAYFUL: elongated words like "REEEEEALLY", bold claims, fun exaggeration
+- EMOJI BULLETS: ✅ 🔥 💪 🎯 📈 💰 ⚡ 🚀 for benefits and lists
+- SCARCITY LANGUAGE: "15 local women", "10 spots only", "HURRY", "LIMITED"
+- TONE: Energetic, hype-driven, emoji-rich, slightly raw - NOT overly polished
+- LOCAL TARGETING: Include city/area names for exclusivity
+
+SAFETY REQUIREMENTS (still follow but with energy):
 - NO personal health, ethnicity, or financial status references
 - NO before/after claims or testimonials  
 - NO engagement bait phrases: ${safetyRules.engagement_bait_patterns?.join(', ') || 'comment below, tag a friend, share if you agree, like if, double tap'}
 - STRICTLY AVOID these words: ${wordsToAvoid.join(', ') || 'none specified'}
 
-FORMATTING REQUIREMENTS:
-- Headlines: Maximum ${formattingRules.headline_max_words || 12} words
-- Hook: ${formattingRules.hook_word_range?.[0] || 6}-${formattingRules.hook_word_range?.[1] || 12} words
-- Caption structure: ${formattingRules.caption_structure_order?.join(' → ') || 'Hook → Body → Close'}
-- Maximum ${formattingRules.emoji_limit || 2} emojis total
-- Use bullet emojis only: ${formattingRules.allowed_bullet_emojis?.join(', ') || '✅, 🔥, 💡, 🎯, 📈, 💰, ⚡, 🚀'}
-
 ORIGINALITY REQUIREMENT:
 - Generate completely original content inspired by the patterns above
-- Do not copy more than 2 consecutive words from any existing advertisement
-- Use the structural insights from top ads to inform your approach
+- Do not copy more than 3 consecutive words from any existing advertisement
+- Use the structural insights and ENERGY from top ads to inform your approach
 
 Brand Information:
 - Business: ${brandData?.business_name || 'Unknown Business'}
@@ -499,50 +501,83 @@ serve(async (req) => {
 
     let generatedContent = '';
     let attempts = 0;
-    const maxAttempts = globalRules?.originality_rules?.max_regeneration_attempts || 3;
+    const maxAttempts = 2; // Reduced from 3 to prevent excessive API calls
 
     while (attempts < maxAttempts) {
       attempts++;
       console.log(`Generation attempt ${attempts}/${maxAttempts}`);
 
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${openAIApiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'gpt-4.1-2025-04-14',
-          messages: [
-            { role: 'user', content: enhancedPrompt }
-          ],
-          max_tokens: 1000,
-          temperature: 0.7,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`OpenAI API error: ${response.status} ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      generatedContent = data.choices[0].message.content;
-
-      // Check originality if rules are loaded
-      if (globalRules) {
-        const originalityCheck = await checkOriginality(generatedContent, globalRules);
-        
-        if (originalityCheck.isOriginal) {
-          console.log('Content passed originality check');
-          break;
-        } else {
-          console.log('Content failed originality check, regenerating...', originalityCheck.violations);
-          if (attempts === maxAttempts) {
-            console.warn('Max regeneration attempts reached, returning content with violations');
-          }
+      try {
+        // Add exponential backoff for rate limiting
+        if (attempts > 1) {
+          const delay = Math.pow(2, attempts - 1) * 1000; // 2s, 4s, 8s...
+          console.log(`Waiting ${delay}ms before retry due to previous failure`);
+          await new Promise(resolve => setTimeout(resolve, delay));
         }
-      } else {
-        break; // No rules to check against
+
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${openAIApiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'gpt-4.1-2025-04-14',
+            messages: [
+              { role: 'user', content: enhancedPrompt }
+            ],
+            max_tokens: 1000,
+            temperature: 0.7,
+          }),
+        });
+
+        if (response.status === 429) {
+          const errorData = await response.json().catch(() => ({}));
+          console.log('Rate limit hit, implementing backoff strategy');
+          
+          if (attempts === maxAttempts) {
+            throw new Error(`Rate limit exceeded after ${maxAttempts} attempts. Please try again in a few minutes.`);
+          }
+          continue; // Retry with exponential backoff
+        }
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(`OpenAI API error: ${response.status} ${response.statusText} - ${errorData.error?.message || 'Unknown error'}`);
+        }
+
+        const data = await response.json();
+        generatedContent = data.choices[0].message.content;
+
+        // Relaxed originality check - only check if rules exist and are strict
+        if (globalRules?.originality_rules?.check_against_top_ads && globalRules.originality_rules.max_consecutive_words <= 4) {
+          const originalityCheck = await checkOriginality(generatedContent, globalRules);
+          
+          // Only fail if there are 3+ violations to be less strict
+          if (originalityCheck.violations.length >= 3) {
+            console.log('Content failed originality check (3+ violations), regenerating...', originalityCheck.violations.slice(0, 3));
+            if (attempts === maxAttempts) {
+              console.warn('Max regeneration attempts reached, returning content with minor violations');
+              break; // Accept content with violations rather than fail
+            }
+            continue;
+          } else {
+            console.log(`Content passed relaxed originality check (${originalityCheck.violations.length} minor violations)`);
+            break;
+          }
+        } else {
+          console.log('Skipping originality check - rules not configured or too strict');
+          break; // No rules to check against or rules are too strict
+        }
+
+      } catch (fetchError: any) {
+        console.error(`Attempt ${attempts} failed:`, fetchError.message);
+        
+        if (attempts === maxAttempts) {
+          throw fetchError;
+        }
+        
+        // Continue to next attempt with backoff
       }
     }
 

@@ -123,32 +123,33 @@ const AdGenerator = () => {
       `Primary Text: ${ad.primary_text}\nHeadline: ${ad.headline || 'N/A'}\nHook Type: ${ad.hook_type || 'N/A'}\nTone: ${ad.tone || 'N/A'}`
     ).join('\n\n---\n\n');
 
-    const systemPrompt = `You are an expert Meta Ads copywriter specializing in high-converting Facebook and Instagram ad captions.
+    const systemPrompt = `🚨 You are a HIGH-ENERGY fitness ad copywriter trained to replicate PROVEN top-performing ads that generate results! 🚨
 
-${selectedCampaign ? `CAMPAIGN CONTEXT: You are creating content for a "${selectedCampaign.name}" campaign targeting ${selectedCampaign.target_audience}. ${selectedCampaign.description}` : ''}
+${selectedCampaign ? `🎯 CAMPAIGN CONTEXT: "${selectedCampaign.name}" campaign targeting ${selectedCampaign.target_audience}. ${selectedCampaign.description}` : ''}
 
-${adExamples ? `TOP-PERFORMING ADS ANALYSIS:
+${adExamples ? `🔥 TOP-PERFORMING ADS TO REPLICATE:
 ${adExamples}
 
-CRITICAL: Study the structure, tone, and hook patterns from these high-performing ads. Use them as inspiration for creating your own original content that follows similar successful patterns but is completely unique and tailored to this specific brand.` : ''}
+📌 CRITICAL: Match the EXACT energy, style, and structure of these proven winners! Use their patterns as your blueprint!` : ''}
 
-Generate a compelling ad caption that follows this EXACT structure:
+Generate an ad caption following this PROVEN STRUCTURE:
 
-🎯 HOOK (1-2 sentences that grab attention and call out the target audience)
-💪 PAIN MIRROR (2-3 sentences that reflect their current struggles/frustrations)
-✨ BELIEF BREAKER (2-3 sentences that challenge limiting beliefs and present new possibilities)  
-🚀 CTA (1-2 sentences with clear, action-oriented call-to-action)
+🚨 **BIG HOOK** (Start with CAPS + emojis + location targeting like "🚨 ATTENTION [CITY] LADIES 🚨")
+💔 **PAIN CALLOUT** (Hit their struggles hard - be conversational and emotional) 
+🎯 **PROGRAM INTRO** (Present your transformation challenge with a clear name)
+✅ **BENEFIT BULLETS** (Use emoji bullets: ✅ workouts ✅ nutrition ✅ community)
+⏰ **SCARCITY** (Specific numbers: "15 local women", "10 spots only" + urgency phrases)
+👆 **DIRECT CTA** ("Click Learn More", "Tap the link below", "Apply Here")
 
-CRITICAL REQUIREMENTS:
-- Use simple, conversational language (8th grade reading level)
-- Include relevant emojis naturally throughout
-- Keep total length under 150 words
-- Make it scroll-stopping and engaging
-- Ensure Meta policy compliance (no personal attributes, body shaming, or unrealistic claims)
-- Match the brand's voice and tone exactly
-- Focus on transformation and results, not just features
+🎯 ENERGY & STYLE REQUIREMENTS:
+- START BIG: Use 🚨 emojis, CAPS, location targeting ("HULL LADIES", "SUTTON WOMEN")
+- BE PLAYFUL: Use elongated words like "REEEEEALLY", bold claims, fun exaggeration
+- ADD SCARCITY: "HURRY", "if the link still works", specific spot numbers
+- EMOJI BULLETS: Use ✅ 🔥 💪 🎯 for benefit lists
+- TONE: Energetic, hype-driven, emoji-rich, slightly raw - NOT overly polished
+- LENGTH: 100-200 words max
 
-The caption should feel authentic, relatable, and motivate immediate action while staying compliant with Meta's advertising policies.`;
+🚀 Make it SCROLL-STOPPING and match the exact energy of top-performing fitness ads!`;
 
     return await generateContent('ad_caption', systemPrompt, selectedCampaign?.canonical_name, topPerformingAds);
   };
@@ -163,39 +164,38 @@ The caption should feel authentic, relatable, and motivate immediate action whil
       .map(ad => `"${ad.headline}" (${ad.hook_type || 'direct'} style)`)
       .join(', ');
 
-    const systemPrompt = `You are an expert Meta Ads copywriter specializing in high-converting headlines for Facebook and Instagram ads.
+    const systemPrompt = `🔥 You're creating HIGH-IMPACT headlines based on proven fitness ad winners! 🔥
 
-${selectedCampaign ? `CAMPAIGN CONTEXT: You are creating headlines for a "${selectedCampaign.name}" campaign targeting ${selectedCampaign.target_audience}.` : ''}
+${selectedCampaign ? `🎯 CAMPAIGN: "${selectedCampaign.name}" targeting ${selectedCampaign.target_audience}` : ''}
 
-${headlineExamples ? `TOP-PERFORMING HEADLINES: ${headlineExamples}
+${headlineExamples ? `🏆 PROVEN HEADLINES TO EMULATE: ${headlineExamples}
 
-Analyze the patterns, word choices, and hook styles from these proven headlines. Create original headlines that capture similar successful elements but are completely unique to this brand.` : ''}
+📌 REPLICATE their energy, urgency, and hook style - but make them original!` : ''}
 
-Generate 5 powerful headline options that are:
+Generate 5 PUNCHY headlines (40 chars max) in this style:
 
-HEADLINE REQUIREMENTS:
-- Maximum 40 characters (Meta's headline limit)
-- Action-oriented and benefit-focused
-- Emotionally compelling
-- Clear and specific
-- Meta policy compliant (no personal attributes, superlatives, or unrealistic claims)
+🎯 HEADLINE STYLES (copy the energy):
+1. **BIG HOOK**: "🚨 15 SPOTS LEFT 🚨" (scarcity + emojis)
+2. **CHALLENGE NAME**: "6 Week Body Blast" (transformation focus)  
+3. **LOCAL CALLOUT**: "Hull Ladies Only!" (location + exclusivity)
+4. **URGENCY**: "HURRY! Link Expires" (time pressure)
+5. **BOLD CLAIM**: "TOTAL Body Reset" (caps + transformation)
 
-HEADLINE STYLES TO INCLUDE:
-1. Question-based headline (creates curiosity)
-2. Benefit-focused headline (clear value proposition)  
-3. Urgency/scarcity headline (creates FOMO)
-4. Problem/solution headline (addresses pain point)
-5. Transformation headline (promises change)
+📝 FORMAT RULES:
+- NO explanations - just numbered headlines
+- Use CAPS for impact words
+- Include emojis where natural
+- Keep under 40 characters
+- Match the ENERGY of top performers
 
-    FORMAT:
-    Present each headline as a numbered list with NO explanations, descriptions, or commentary.
-    Output ONLY the headlines as plain text.
-    
-    Example format:
-    1. Your First Headline Here
-    2. Your Second Headline Here
+Example:
+1. 🚨 10 SPOTS LEFT 🚨
+2. 6 Week Transformation  
+3. Local Ladies Only!
+4. HURRY! Ends Monday
+5. TOTAL Body Reset
 
-CRITICAL: Each headline must be under 40 characters and comply with Meta's advertising policies.`;
+Make them BOLD, ENERGETIC, and irresistible!`;
 
     return await generateContent('headline_options', systemPrompt, selectedCampaign?.canonical_name, topPerformingAds);
   };
@@ -203,37 +203,43 @@ CRITICAL: Each headline must be under 40 characters and comply with Meta's adver
   const generateCampaignName = async () => {
     // Don't create campaign during generation, only during save
 
-    const systemPrompt = `You are a marketing strategist specializing in creating memorable, scroll-stopping campaign names.
+    const systemPrompt = `🚀 You're creating UNFORGETTABLE campaign names based on proven fitness challenge winners! 🚀
 
-${selectedCampaign ? `CAMPAIGN CONTEXT: You are creating names inspired by the "${selectedCampaign.name}" campaign type, targeting ${selectedCampaign.target_audience}. The campaign focuses on: ${selectedCampaign.description}` : ''}
+${selectedCampaign ? `🎯 CAMPAIGN TYPE: "${selectedCampaign.name}" targeting ${selectedCampaign.target_audience}. ${selectedCampaign.description}` : ''}
 
-Generate 4-5 campaign name options that are:
+Generate 5 campaign names that combine TRANSFORMATION + URGENCY like top performers:
 
-CAMPAIGN NAME REQUIREMENTS:
-- Memorable and brandable
-- Creates curiosity and intrigue  
-- Reflects the campaign's core value proposition
-- Easy to remember and share
-- Professional yet engaging
-- Avoid generic terms like "Ultimate" or "Complete"
+🔥 PROVEN PATTERN EXAMPLES:
+- "6 Week Total Body Transformation Challenge" 
+- "The Bootybox Challenge"
+- "Feel Good Again Challenge"
+- "28 Day Body Blast"
+- "New Year New You Reset"
 
-NAMING STRATEGIES TO USE:
-1. Transformation-focused (emphasizes change/results)
-2. Time-based (leverages urgency/timeline) 
-3. Community-focused (builds belonging)
-4. Method/system-focused (implies proven process)
-5. Benefit-focused (clear value proposition)
+🎯 NAME REQUIREMENTS:
+- Include TRANSFORMATION word (Challenge, Reset, Blast, Transformation)
+- Add TIME URGENCY (6 Week, 28 Day, etc.)
+- Make it MEMORABLE and energetic
+- Easy to say and share
+- Create excitement and FOMO
 
-CONTEXT TO CONSIDER:
-- Current season/time of year for relevance
-- Target audience pain points and desires
-- Brand voice and personality
-- Competitive differentiation
-${selectedCampaign?.seasonal_timing ? `- Seasonal timing: ${selectedCampaign.seasonal_timing}` : ''}
+💡 NAMING FORMULAS:
+1. [TIME] + [BODY PART/GOAL] + "Challenge/Transformation"
+2. "The [CATCHY NAME] Challenge" 
+3. "[TRANSFORMATION] + [TIME PERIOD]"
+4. "[SEASON/EVENT] + Body/Life + Reset/Blast"
+5. "[LOCATION] + [TARGET] + Challenge"
 
-FORMAT: Output ONLY the campaign names in a numbered list format (1. Name, 2. Name, etc.) with NO explanations, rationales, descriptions, or extra text.
+FORMAT: Just numbered list - NO explanations!
 
-The names should feel fresh, exciting, and make people want to learn more.`;
+Example:
+1. 6 Week Total Transformation
+2. The Confidence Challenge  
+3. Summer Body Blast
+4. 28 Day Reset Challenge
+5. New You Challenge
+
+Make them ENERGETIC and transformation-focused!`;
 
     return await generateContent('campaign_name', systemPrompt, selectedCampaign?.canonical_name, []);
   };
@@ -241,35 +247,40 @@ The names should feel fresh, exciting, and make people want to learn more.`;
   const generateIGStoryAd = async () => {
     // Don't create campaign during generation, only during save
 
-    const systemPrompt = `You are a performance marketer creating Instagram Story ads for Meta.
+    const systemPrompt = `🚨 You're creating HIGH-ENERGY 3-frame IG Story ads based on proven fitness winners! 🚨
 
-${selectedCampaign ? `CAMPAIGN CONTEXT: You are creating story content for a "${selectedCampaign.name}" campaign targeting ${selectedCampaign.target_audience}.` : ''}
+${selectedCampaign ? `🎯 CAMPAIGN: "${selectedCampaign.name}" targeting ${selectedCampaign.target_audience}` : ''}
 
-Create a 3-frame Instagram Story ad sequence that is inclusive, upbeat, and policy-safe.
+Create a 3-frame Instagram Story sequence following this PROVEN STRUCTURE:
 
-Meta Safety Rules:
-- Do not state or imply personal attributes (age, gender, health status, body type, physical condition, finances, relationship status)
-- No numeric promises about weight, body fat, inches, percentages, or timelines
-- Replace "you" statements tied to a problem with inclusive, general observations
-- Use broad descriptors instead of specific demographics
-- Never suggest the viewer lacks consistency, energy, or success
-- Avoid negative body image or shaming. Focus on positive, aspirational benefits
+📱 **FRAME 1: BIG HOOK + PROBLEM** 
+- Start with emoji + problem/desire
+- Use relatable struggle or aspiration
+- Example: "🚨 Tired of feeling uncomfortable in your own skin?"
 
-Style:
-- Short, visual, and upbeat; 1–2 sentences per frame
-- Never start with a question
-- Simple, energetic, conversational language
-- Positive, inviting, and solution-focused
+📱 **FRAME 2: BENEFITS CHECKLIST** 
+- List benefits with emoji bullets
+- Show transformation possibilities
+- Example: "Our 6 Week Challenge includes: ✅ Workouts ✅ Nutrition ✅ Community"
 
-Structure:
-Frame 1: Bold hook as a general observation/trend
-Frame 2: Belief breaker + solution reveal in inclusive, aspirational terms
-Frame 3: Clear CTA inviting action
+📱 **FRAME 3: SCARCITY + CTA**
+- Add urgency/limited spots
+- Clear action step
+- Example: "⏰ Only 15 spots left! Tap below to secure yours!"
 
-Output format:
-FRAME 1: [text]
-FRAME 2: [text]
-FRAME 3: [text]`;
+🎯 STYLE REQUIREMENTS:
+- ENERGETIC and scroll-stopping
+- Use emojis for visual appeal  
+- Keep each frame short (1-2 sentences)
+- Include urgency/scarcity in Frame 3
+- Make it conversational and hype-driven
+
+📝 OUTPUT FORMAT:
+FRAME 1: [hook + problem with emojis]
+FRAME 2: [benefits checklist with ✅ bullets]  
+FRAME 3: [scarcity + direct CTA]
+
+Make it IRRESISTIBLE and action-driving!`;
 
     return await generateContent('ig_story_ad', systemPrompt, selectedCampaign?.canonical_name, []);
   };
@@ -277,45 +288,49 @@ FRAME 3: [text]`;
   const generateCreativePrompt = async () => {
     // Don't create campaign during generation, only during save
 
-    const systemPrompt = `You are a creative director specializing in Meta-safe visual concepts for Reels and Carousels.
+    const systemPrompt = `🎥 You're creating VIRAL visual concepts based on top-performing fitness content! 🎥
 
-${selectedCampaign ? `CAMPAIGN CONTEXT: You are creating visual concepts for a "${selectedCampaign.name}" campaign targeting ${selectedCampaign.target_audience}.` : ''}
+${selectedCampaign ? `🎯 CAMPAIGN: "${selectedCampaign.name}" targeting ${selectedCampaign.target_audience}` : ''}
 
-Generate 3 Meta-safe visual concepts that include:
+Generate 3 SCROLL-STOPPING visual concepts that match proven patterns:
 
-CONCEPT REQUIREMENTS:
-- Title for the creative concept
-- Scene description and setting
-- Text overlay suggestions
-- Call-to-action placement
-- Meta policy compliance (inclusive, positive, no personal attributes)
+🔥 **CONCEPT TYPES TO CREATE:**
+1. **TRANSFORMATION SHOWCASE** (exciting reveal style)
+2. **DAY-IN-THE-LIFE** (relatable behind-scenes)  
+3. **ENERGETIC WORKOUT PREVIEW** (dynamic action shots)
 
-VISUAL CONCEPTS TO INCLUDE:
-1. Before/After style (without showing actual bodies)
-2. Day-in-the-life / Behind-the-scenes
-3. Educational / How-to format
+📱 **REQUIREMENTS FOR EACH:**
+- ATTENTION-GRABBING title
+- Dynamic scene description
+- Bold text overlay ideas using CAPS + emojis
+- Strong CTA placement
+- Easy to film with phone
+- High-energy and engaging
 
-Each concept should be:
-- Scroll-stopping and engaging
-- Easy to execute with phone camera
-- Compliant with Meta advertising policies
-- Aligned with brand voice and target audience
+🎯 **STYLE ELEMENTS TO INCLUDE:**
+- Use movement and energy
+- Include workout/nutrition elements
+- Show community/group aspects
+- Add transformation themes
+- Make it relatable and inspiring
 
-FORMAT:
-CONCEPT 1: [Title]
-Scene: [Description]
-Text Overlay: [Suggestions]
-CTA: [Placement and text]
+📝 **OUTPUT FORMAT:**
+CONCEPT 1: [ENERGETIC Title with emojis]
+Scene: [Dynamic description with action]
+Text Overlay: [Bold suggestions with CAPS + emojis]
+CTA: [Placement and direct action]
 
-CONCEPT 2: [Title]
-Scene: [Description] 
-Text Overlay: [Suggestions]
-CTA: [Placement and text]
+CONCEPT 2: [ENERGETIC Title with emojis]
+Scene: [Dynamic description with action] 
+Text Overlay: [Bold suggestions with CAPS + emojis]
+CTA: [Placement and direct action]
 
-CONCEPT 3: [Title]
-Scene: [Description]
-Text Overlay: [Suggestions] 
-CTA: [Placement and text]`;
+CONCEPT 3: [ENERGETIC Title with emojis]
+Scene: [Dynamic description with action]
+Text Overlay: [Bold suggestions with CAPS + emojis] 
+CTA: [Placement and direct action]
+
+Make them VIRAL-WORTHY and action-packed!`;
 
     return await generateContent('creative_prompt', systemPrompt, selectedCampaign?.canonical_name, []);
   };
