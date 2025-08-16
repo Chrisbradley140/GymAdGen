@@ -4,7 +4,7 @@ import { useAdGeneration } from '@/hooks/useAdGeneration';
 import { useBrandSetup } from '@/hooks/useBrandSetup';
 import { useCampaigns } from '@/hooks/useCampaigns';
 import { useSavedContent } from '@/hooks/useSavedContent';
-import { useTemplates, CampaignTemplate } from '@/hooks/useTemplates';
+import { useTemplates, CampaignTemplate, TopPerformingAd } from '@/hooks/useTemplates';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { AdBlock } from '@/components/ad-generator/AdBlock';
 import { CampaignSelectionTabs } from '@/components/campaign-selection/CampaignSelectionTabs';
@@ -21,7 +21,7 @@ const AdGenerator = () => {
   const { generateContent } = useAdGeneration();
   const { createCampaign } = useCampaigns();
   const { saveContent } = useSavedContent();
-  const { getAdTemplatesForCampaign } = useTemplates();
+  const { getAdTemplatesForCampaign, getTopPerformingAds } = useTemplates();
   const [currentCampaignId, setCurrentCampaignId] = useState<string | null>(null);
   const [selectedCampaign, setSelectedCampaign] = useState<CampaignTemplate | null>(null);
   const [showGenerationOptions, setShowGenerationOptions] = useState(false);
@@ -114,20 +114,23 @@ const AdGenerator = () => {
   };
 
   const generateAdCaption = async () => {
-    // Don't create campaign during generation, only during save
-
-    // Get relevant ad templates for the selected campaign
-    const adTemplates = selectedCampaign ? getAdTemplatesForCampaign(selectedCampaign.id) : [];
-    const templateExamples = adTemplates.slice(0, 2).map(template => template.primary_text).join('\n\n---\n\n');
+    // Get top-performing ads for this campaign
+    const topPerformingAdsPromise = selectedCampaign ? getTopPerformingAds(selectedCampaign.canonical_name) : Promise.resolve([]);
+    const topPerformingAds = await topPerformingAdsPromise;
+    
+    // Analyze patterns from top-performing ads
+    const adExamples = topPerformingAds.slice(0, 3).map(ad => 
+      `Primary Text: ${ad.primary_text}\nHeadline: ${ad.headline || 'N/A'}\nHook Type: ${ad.hook_type || 'N/A'}\nTone: ${ad.tone || 'N/A'}`
+    ).join('\n\n---\n\n');
 
     const systemPrompt = `You are an expert Meta Ads copywriter specializing in high-converting Facebook and Instagram ad captions.
 
 ${selectedCampaign ? `CAMPAIGN CONTEXT: You are creating content for a "${selectedCampaign.name}" campaign targeting ${selectedCampaign.target_audience}. ${selectedCampaign.description}` : ''}
 
-${templateExamples ? `HIGH-PERFORMING REFERENCE EXAMPLES:
-${templateExamples}
+${adExamples ? `TOP-PERFORMING ADS ANALYSIS:
+${adExamples}
 
-Use these examples as structural and tonal inspiration, but create completely original content for the user's specific brand.` : ''}
+CRITICAL: Study the structure, tone, and hook patterns from these high-performing ads. Use them as inspiration for creating your own original content that follows similar successful patterns but is completely unique and tailored to this specific brand.` : ''}
 
 Generate a compelling ad caption that follows this EXACT structure:
 
@@ -147,27 +150,26 @@ CRITICAL REQUIREMENTS:
 
 The caption should feel authentic, relatable, and motivate immediate action while staying compliant with Meta's advertising policies.`;
 
-    return await generateContent('ad_caption', systemPrompt, selectedCampaign?.canonical_name);
+    return await generateContent('ad_caption', systemPrompt, selectedCampaign?.canonical_name, topPerformingAds);
   };
 
   const generateHeadlineOptions = async () => {
-    // Don't create campaign during generation, only during save
-
-    // Get relevant ad templates for headlines
-    const adTemplates = selectedCampaign ? getAdTemplatesForCampaign(selectedCampaign.id) : [];
-    const headlineExamples = adTemplates
-      .filter(template => template.headline)
-      .slice(0, 3)
-      .map(template => template.headline)
+    // Get top-performing ads for headline analysis
+    const topPerformingAdsPromise = selectedCampaign ? getTopPerformingAds(selectedCampaign.canonical_name) : Promise.resolve([]);
+    const topPerformingAds = await topPerformingAdsPromise;
+    const headlineExamples = topPerformingAds
+      .filter(ad => ad.headline)
+      .slice(0, 5)
+      .map(ad => `"${ad.headline}" (${ad.hook_type || 'direct'} style)`)
       .join(', ');
 
     const systemPrompt = `You are an expert Meta Ads copywriter specializing in high-converting headlines for Facebook and Instagram ads.
 
 ${selectedCampaign ? `CAMPAIGN CONTEXT: You are creating headlines for a "${selectedCampaign.name}" campaign targeting ${selectedCampaign.target_audience}.` : ''}
 
-${headlineExamples ? `HIGH-PERFORMING HEADLINE EXAMPLES: ${headlineExamples}
+${headlineExamples ? `TOP-PERFORMING HEADLINES: ${headlineExamples}
 
-Use these as inspiration for tone and structure, but create original headlines for this specific brand.` : ''}
+Analyze the patterns, word choices, and hook styles from these proven headlines. Create original headlines that capture similar successful elements but are completely unique to this brand.` : ''}
 
 Generate 5 powerful headline options that are:
 
@@ -195,7 +197,7 @@ HEADLINE STYLES TO INCLUDE:
 
 CRITICAL: Each headline must be under 40 characters and comply with Meta's advertising policies.`;
 
-    return await generateContent('headline_options', systemPrompt, selectedCampaign?.canonical_name);
+    return await generateContent('headline_options', systemPrompt, selectedCampaign?.canonical_name, topPerformingAds);
   };
 
   const generateCampaignName = async () => {
@@ -233,7 +235,7 @@ FORMAT: Output ONLY the campaign names in a numbered list format (1. Name, 2. Na
 
 The names should feel fresh, exciting, and make people want to learn more.`;
 
-    return await generateContent('campaign_name', systemPrompt, selectedCampaign?.canonical_name);
+    return await generateContent('campaign_name', systemPrompt, selectedCampaign?.canonical_name, []);
   };
 
   const generateIGStoryAd = async () => {
@@ -269,7 +271,7 @@ FRAME 1: [text]
 FRAME 2: [text]
 FRAME 3: [text]`;
 
-    return await generateContent('ig_story_ad', systemPrompt, selectedCampaign?.canonical_name);
+    return await generateContent('ig_story_ad', systemPrompt, selectedCampaign?.canonical_name, []);
   };
 
   const generateCreativePrompt = async () => {
@@ -315,7 +317,7 @@ Scene: [Description]
 Text Overlay: [Suggestions] 
 CTA: [Placement and text]`;
 
-    return await generateContent('creative_prompt', systemPrompt, selectedCampaign?.canonical_name);
+    return await generateContent('creative_prompt', systemPrompt, selectedCampaign?.canonical_name, []);
   };
 
 
