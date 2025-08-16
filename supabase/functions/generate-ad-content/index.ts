@@ -96,30 +96,50 @@ function buildEnhancedPrompt(adType: string, systemPrompt: string, brandData: an
   if (campaignCanonicalName) {
     const campaignTheme = campaignCanonicalName.toLowerCase();
     
-    if (campaignTheme.includes('ladies_wanted') || campaignTheme.includes('people_wanted')) {
+    if (campaignTheme.includes('people') && campaignTheme.includes('wanted')) {
       campaignContext = `
-🎯 CAMPAIGN FOCUS: "${campaignCanonicalName}" - Local Recruitment Drive
-⚠️ CRITICAL: This is NOT a generic challenge. This is a local recruitment campaign.
-- Target local people/ladies specifically with "WANTED" language
-- Emphasize LIMITED SPOTS and local exclusivity  
-- Use recruitment tone: "We're looking for...", "Accepting applications for..."
-- Focus on community building and being "chosen" for something special
-- Headlines should reflect RECRUITMENT not generic challenges
-- Campaign names should emphasize SELECTION and LOCAL EXCLUSIVITY
-- AVOID generic "6 week challenge" language unless it specifically fits`;
-    } else if (campaignTheme.includes('transformation') || campaignTheme.includes('challenge')) {
+🎯 CAMPAIGN FOCUS: "${campaignCanonicalName}" - Local Recruitment Campaign
+⚠️ CRITICAL: This is a RECRUITMENT campaign, NOT a time-based challenge.
+- Focus on finding and recruiting specific NUMBER of people/ladies
+- Use recruitment language: "We're looking for", "Seeking", "Wanted", "Accepting applications"
+- Emphasize LOCAL community and LIMITED SPOTS available
+- Headlines should be about RECRUITMENT: "10 Ladies Wanted", "Seeking 5 People", etc.
+- Campaign names should emphasize SELECTION and EXCLUSIVITY
+- 🚫 STRICTLY AVOID: "6 week", "challenge", "transformation", "day" programs
+- 🚫 DO NOT use challenge-specific patterns or timeframes
+- ✅ USE: "wanted", "seeking", "recruiting", "looking for", "accepting", "spots available"`;
+    } else if (campaignTheme.includes('personal-training')) {
       campaignContext = `
-🎯 CAMPAIGN FOCUS: "${campaignCanonicalName}" - Transformation Challenge
-- Focus on the specific transformation/challenge type mentioned in campaign name
-- Use challenge-specific language and timelines that match the campaign
-- Emphasize transformation results specific to this campaign type
-- Headlines and names should reflect the SPECIFIC challenge theme`;
+🎯 CAMPAIGN FOCUS: "${campaignCanonicalName}" - Personal Training Service
+- Focus on EXPERT COACHING and personalized fitness guidance
+- Emphasize PROFESSIONAL service and ONE-ON-ONE attention
+- Use service-oriented language about training expertise
+- Headlines should reflect TRAINING SERVICE not recruitment or challenges
+- 🚫 AVOID: recruitment language, challenge timeframes, "wanted" terminology
+- ✅ USE: "personal training", "expert coaching", "professional guidance"`;
+    } else if (campaignTheme.includes('challenge') || campaignTheme.includes('week') || campaignTheme.includes('day')) {
+      campaignContext = `
+🎯 CAMPAIGN FOCUS: "${campaignCanonicalName}" - Time-Based Challenge
+- Focus on the SPECIFIC timeframe mentioned in the campaign name
+- Use challenge-specific language matching the exact duration
+- Emphasize transformation within the specified time period
+- Headlines should reflect the SPECIFIC challenge duration and type`;
     } else {
       campaignContext = `
 🎯 CAMPAIGN FOCUS: "${campaignCanonicalName}"
 - Stay true to this specific campaign theme and language
-- Use terminology that matches this exact campaign type
-- Avoid generic fitness language that doesn't align with campaign focus`;
+- Use terminology that exactly matches this campaign type
+- Avoid generic fitness language that doesn't align with campaign focus
+- Match the tone and positioning of this specific campaign`;
+    }
+    
+    // Add content type specific validation
+    if (adType === 'headline_options' || adType === 'campaign_name') {
+      campaignContext += `\n\n🎯 CONTENT TYPE VALIDATION for ${adType.toUpperCase()}:
+- MUST reflect the specific campaign type: "${campaignCanonicalName}"
+- Headlines/names MUST match campaign theme, NOT generic fitness patterns
+- If not a challenge campaign, DO NOT include "week", "day", "challenge" terms
+- If recruitment campaign, focus on "wanted", "seeking", "recruiting" language`;
     }
   }
 
