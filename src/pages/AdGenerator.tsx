@@ -371,7 +371,7 @@ Generate 3 SCROLL-STOPPING visual concepts that match proven patterns:
 - Add transformation themes (high-converting element)
 - Make it relatable and inspiring
 
-📝 **OUTPUT FORMAT:**
+📝 **OUTPUT FORMAT (DIRECT CONCEPTS ONLY - NO INTRO/OUTRO TEXT):**
 CONCEPT 1: [ENERGETIC Title with emojis]
 Scene: [Dynamic description with action]
 Text Overlay: [Bold suggestions with CAPS + emojis]
@@ -387,7 +387,7 @@ Scene: [Dynamic description with action]
 Text Overlay: [Bold suggestions with CAPS + emojis] 
 CTA: [Placement and direct action]
 
-Make them VIRAL-WORTHY and action-packed, using proven visual patterns!`;
+IMPORTANT: Return ONLY the 3 concepts in the format above. Do NOT add any introductory text, explanatory paragraphs, or closing statements. Just the clean concept format.`;
 
     return await generateContent('creative_prompt', systemPrompt, selectedCampaign?.canonical_name, topPerformingAds);
   };
