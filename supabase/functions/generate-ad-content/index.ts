@@ -205,8 +205,15 @@ ${Object.entries(structuralElements)
 }
 
 function detectLocalCallout(firstLine: string): boolean {
-  const locationPatterns = /\b(local|area|nearby|[A-Z][a-z]+ (ladies|women|men|people|moms|dads))\b/i;
-  return locationPatterns.test(firstLine) && firstLine.split(' ').length <= 8;
+  const locationPatterns = [
+    /\b(\d+\s+)?(local|area|nearby|[A-Z][a-z]+)\s+(ladies|women|men|people|moms|dads|entrepreneurs|business owners|professionals|busy)\b/i,
+    /(ladies|women|men|people|moms|dads)\s+of\s+[A-Z][a-z]+/i,
+    /\b\d+\s+(ladies|women|men|people|moms|dads|busy)\b/i,
+    /[A-Z][a-z]+\s+(ladies|women|men|people|moms|dads)/i,
+    /(calling all|attention)\s+(ladies|women|men|people)/i
+  ];
+  
+  return locationPatterns.some(pattern => pattern.test(firstLine));
 }
 
 function detectProblemAgitation(text: string): boolean {
@@ -264,6 +271,8 @@ function formatElementName(element: string): string {
 }
 
 function extractStructuralTemplates(topAds: any[]) {
+  console.log(`Extracting structural templates from ${topAds.length} top ads`);
+  
   // Analyze patterns across all top ads to create templates
   const localCallouts = extractPatterns(topAds, 'localCallout');
   const problemStarters = extractPatterns(topAds, 'problemAgitation');
@@ -274,56 +283,194 @@ function extractStructuralTemplates(topAds: any[]) {
   const riskReversals = extractPatterns(topAds, 'riskReversal');
   const scarcityPhrases = extractPatterns(topAds, 'scarcity');
   
+  console.log('Pattern extraction results:', {
+    localCallouts: localCallouts.length,
+    problemStarters: problemStarters.length,
+    solutionIntros: solutionIntros.length,
+    benefitPhrases: benefitPhrases.length,
+    checklistFormats: checklistFormats.length,
+    communityMentions: communityMentions.length,
+    riskReversals: riskReversals.length,
+    scarcityPhrases: scarcityPhrases.length
+  });
+  
+  // Build dynamic templates using actual extracted patterns
   const stepByStepTemplate = `
-1️⃣ LOCAL CALLOUT: "${localCallouts[0] || 'Local [TARGET AUDIENCE]'}"
-2️⃣ PROBLEM AGITATION: "Tired of [SPECIFIC FRUSTRATION]? Sick of [PAIN POINT]?"
-3️⃣ SOLUTION/OFFER: "Introducing [PROGRAM NAME] - the [SOLUTION TYPE] that [MAIN BENEFIT]"
-4️⃣ BENEFITS/TRANSFORMATION: "You'll [BENEFIT 1], [BENEFIT 2], and [BENEFIT 3]"
-5️⃣ ELIGIBILITY CHECKLIST: "Perfect if you're: ✅ [CRITERIA 1] ✅ [CRITERIA 2] ✅ [CRITERIA 3]"
-6️⃣ COMMUNITY/SUPPORT: "Join our [COMMUNITY TYPE] of [TARGET AUDIENCE] supporting each other"
-7️⃣ RISK REVERSAL: "I'm so confident you'll [OUTCOME], I [GUARANTEE/PROMISE]"
-8️⃣ SCARCITY + CTA: "Only [NUMBER] spots available. [ACTION VERB] now to secure yours!"`;
+1️⃣ LOCAL CALLOUT: Use patterns like: ${localCallouts.slice(0, 2).map(p => `"${p}"`).join(' OR ') || '"Local [TARGET AUDIENCE]"'}
+2️⃣ PROBLEM AGITATION: Use patterns like: ${problemStarters.slice(0, 2).map(p => `"${p}"`).join(' OR ') || '"Tired of [SPECIFIC FRUSTRATION]?"'}
+3️⃣ SOLUTION/OFFER: Use patterns like: ${solutionIntros.slice(0, 2).map(p => `"${p}"`).join(' OR ') || '"Introducing [PROGRAM NAME]"'}
+4️⃣ BENEFITS/TRANSFORMATION: Use patterns like: ${benefitPhrases.slice(0, 2).map(p => `"${p}"`).join(' OR ') || '"You\'ll [BENEFIT 1], [BENEFIT 2]"'}
+5️⃣ ELIGIBILITY CHECKLIST: Use formats like: ${checklistFormats.slice(0, 2).map(p => `"${p}"`).join(' OR ') || '"✅ Perfect if you\'re [CRITERIA]"'}
+6️⃣ COMMUNITY/SUPPORT: Use patterns like: ${communityMentions.slice(0, 2).map(p => `"${p}"`).join(' OR ') || '"Join our community of [TARGET AUDIENCE]"'}
+7️⃣ RISK REVERSAL: Use patterns like: ${riskReversals.slice(0, 2).map(p => `"${p}"`).join(' OR ') || '"I guarantee you\'ll [OUTCOME]"'}
+8️⃣ SCARCITY + CTA: Use patterns like: ${scarcityPhrases.slice(0, 2).map(p => `"${p}"`).join(' OR ') || '"Limited spots available. Apply now!"'}`;
 
   const patternInstructions = `
-🎯 LOCAL CALLOUT PATTERNS: ${localCallouts.slice(0, 3).join(' | ')}
-😤 PROBLEM AGITATION STARTERS: ${problemStarters.slice(0, 3).join(' | ')}
-💡 SOLUTION INTRO PHRASES: ${solutionIntros.slice(0, 3).join(' | ')}
-🚀 BENEFIT LANGUAGE: ${benefitPhrases.slice(0, 3).join(' | ')}
-✅ CHECKLIST FORMATS: ${checklistFormats.slice(0, 3).join(' | ')}
-👥 COMMUNITY MENTIONS: ${communityMentions.slice(0, 3).join(' | ')}
-🛡️ RISK REVERSAL PHRASES: ${riskReversals.slice(0, 3).join(' | ')}
-⏰ SCARCITY LANGUAGE: ${scarcityPhrases.slice(0, 3).join(' | ')}`;
+🎯 REAL LOCAL CALLOUT EXAMPLES: ${localCallouts.slice(0, 5).join(' • ') || 'No patterns found'}
+😤 REAL PROBLEM AGITATION EXAMPLES: ${problemStarters.slice(0, 5).join(' • ') || 'No patterns found'}
+💡 REAL SOLUTION OFFER EXAMPLES: ${solutionIntros.slice(0, 5).join(' • ') || 'No patterns found'}
+🚀 REAL BENEFIT EXAMPLES: ${benefitPhrases.slice(0, 5).join(' • ') || 'No patterns found'}
+✅ REAL CHECKLIST EXAMPLES: ${checklistFormats.slice(0, 5).join(' • ') || 'No patterns found'}
+👥 REAL COMMUNITY EXAMPLES: ${communityMentions.slice(0, 5).join(' • ') || 'No patterns found'}
+🛡️ REAL RISK REVERSAL EXAMPLES: ${riskReversals.slice(0, 5).join(' • ') || 'No patterns found'}
+⏰ REAL SCARCITY/CTA EXAMPLES: ${scarcityPhrases.slice(0, 5).join(' • ') || 'No patterns found'}`;
 
   return { stepByStepTemplate, patternInstructions };
 }
 
 function extractPatterns(topAds: any[], patternType: string): string[] {
-  // Extract specific patterns based on type
   const patterns: string[] = [];
   
-  topAds.forEach(ad => {
+  console.log(`Extracting ${patternType} patterns from ${topAds.length} ads`);
+  
+  topAds.forEach((ad, index) => {
     const text = ad.primary_text || '';
     const lines = text.split('\n').filter(line => line.trim());
     
     switch (patternType) {
       case 'localCallout':
-        if (lines[0] && lines[0].split(' ').length <= 8) {
-          patterns.push(lines[0].trim());
+        // Extract first line patterns with location/demographic targeting
+        if (lines[0]) {
+          const firstLine = lines[0].trim();
+          const calloutPatterns = [
+            /\b(\d+\s+)?(local|area|nearby|[A-Z][a-z]+)\s+(ladies|women|men|people|moms|dads|entrepreneurs)/i,
+            /(ladies|women|men|people|moms|dads)\s+of\s+[A-Z][a-z]+/i,
+            /\b\d+\s+(ladies|women|men|people|moms|dads|busy)/i,
+            /[A-Z][a-z]+\s+(ladies|women|men|people|moms|dads)/i
+          ];
+          
+          if (calloutPatterns.some(pattern => pattern.test(firstLine))) {
+            patterns.push(firstLine);
+            console.log(`Found local callout in ad ${index}: "${firstLine}"`);
+          }
         }
         break;
+        
       case 'problemAgitation':
-        const problemMatch = text.match(/(tired of|frustrated|struggling|sick of)[^.!?]*/i);
-        if (problemMatch) patterns.push(problemMatch[0]);
+        // Extract problem agitation phrases
+        const problemPatterns = [
+          /(tired of|frustrated with?|struggling with?|sick of|fed up with?|enough of)[^.!?\n]{1,50}/i,
+          /(can't seem to|constantly|always|never able to)[^.!?\n]{1,50}/i,
+          /(stuck|feeling|overwhelmed|stressed)[^.!?\n]{1,50}/i
+        ];
+        
+        problemPatterns.forEach(pattern => {
+          const matches = text.match(pattern);
+          if (matches) {
+            patterns.push(matches[0].trim());
+            console.log(`Found problem agitation in ad ${index}: "${matches[0].trim()}"`);
+          }
+        });
         break;
+        
+      case 'solutionOffer':
+        // Extract solution/offer introductions
+        const solutionPatterns = [
+          /(introducing|presenting|offering|announcing)[^.!?\n]{1,60}/i,
+          /(program|challenge|transformation|method|system|solution)[^.!?\n]{1,60}/i,
+          /(join|discover|experience|get access to)[^.!?\n]{1,60}/i
+        ];
+        
+        solutionPatterns.forEach(pattern => {
+          const matches = text.match(pattern);
+          if (matches) {
+            patterns.push(matches[0].trim());
+            console.log(`Found solution offer in ad ${index}: "${matches[0].trim()}"`);
+          }
+        });
+        break;
+        
+      case 'benefits':
+        // Extract benefit statements
+        const benefitPatterns = [
+          /(you'll|you will)\s+(lose|gain|build|achieve|get|feel|become|transform|improve|boost)[^.!?\n]{1,50}/i,
+          /(finally|actually|really)\s+(lose|gain|build|achieve|get|feel|become)[^.!?\n]{1,50}/i,
+          /➡️\s*[^.!?\n]{1,50}/g
+        ];
+        
+        benefitPatterns.forEach(pattern => {
+          const matches = text.match(pattern);
+          if (matches) {
+            if (Array.isArray(matches)) {
+              matches.forEach(match => patterns.push(match.trim()));
+            } else {
+              patterns.push(matches.trim());
+            }
+            console.log(`Found benefits in ad ${index}: "${matches}"`);
+          }
+        });
+        break;
+        
+      case 'checklist':
+        // Extract eligibility checklist items
+        const checklistLines = lines.filter(line => 
+          /^(✅|✓|•|\*|-|\d+\.)\s+/.test(line) ||
+          /(perfect if|ideal if|ready to|committed to|willing to|serious about)/i.test(line)
+        );
+        
+        checklistLines.forEach(line => {
+          patterns.push(line.trim());
+          console.log(`Found checklist item in ad ${index}: "${line.trim()}"`);
+        });
+        break;
+        
+      case 'community':
+        // Extract community/support mentions
+        const communityPatterns = [
+          /(join our|part of our|become part of)[^.!?\n]{1,50}/i,
+          /(community|group|team|support|together|others|members|family)[^.!?\n]{1,50}/i,
+          /(surrounded by|supported by|alongside)[^.!?\n]{1,50}/i
+        ];
+        
+        communityPatterns.forEach(pattern => {
+          const matches = text.match(pattern);
+          if (matches) {
+            patterns.push(matches[0].trim());
+            console.log(`Found community mention in ad ${index}: "${matches[0].trim()}"`);
+          }
+        });
+        break;
+        
+      case 'riskReversal':
+        // Extract risk reversal/guarantee statements
+        const riskPatterns = [
+          /(guarantee|promise|confident|certain)[^.!?\n]{1,50}/i,
+          /(money back|risk free|no risk|first.*free)[^.!?\n]{1,50}/i,
+          /(30.day|love it or|satisfaction guaranteed)[^.!?\n]{1,50}/i
+        ];
+        
+        riskPatterns.forEach(pattern => {
+          const matches = text.match(pattern);
+          if (matches) {
+            patterns.push(matches[0].trim());
+            console.log(`Found risk reversal in ad ${index}: "${matches[0].trim()}"`);
+          }
+        });
+        break;
+        
       case 'scarcity':
-        const scarcityMatch = text.match(/(limited|spots|only \d+)[^.!?]*/i);
-        if (scarcityMatch) patterns.push(scarcityMatch[0]);
+        // Extract scarcity and CTA language
+        const scarcityPatterns = [
+          /(limited|only \d+|spots|hurry|deadline|expires|closes)[^.!?\n]{1,50}/i,
+          /(click|call|text|message|apply|join|secure|book|reserve)[^.!?\n]{1,50}/i,
+          /(don't wait|act now|secure your|book your)[^.!?\n]{1,50}/i
+        ];
+        
+        scarcityPatterns.forEach(pattern => {
+          const matches = text.match(pattern);
+          if (matches) {
+            patterns.push(matches[0].trim());
+            console.log(`Found scarcity/CTA in ad ${index}: "${matches[0].trim()}"`);
+          }
+        });
         break;
-      // Add more pattern extraction logic as needed
     }
   });
   
-  return [...new Set(patterns)].slice(0, 5); // Return unique patterns, max 5
+  const uniquePatterns = [...new Set(patterns)];
+  console.log(`Extracted ${uniquePatterns.length} unique ${patternType} patterns`);
+  
+  return uniquePatterns.slice(0, 5); // Return top 5 patterns
 }
 
 serve(async (req) => {
