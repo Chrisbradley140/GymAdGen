@@ -30,50 +30,90 @@ async function loadGlobalRules() {
   }
 }
 
-async function checkOriginality(content: string, rules: any) {
+async function checkOriginality(content: string, rules: any, campaignCanonicalName?: string) {
   if (!rules?.originality_rules?.check_against_top_ads) return { isOriginal: true, violations: [] };
 
   try {
-    const { data: topAds } = await supabase
+    // Build campaign-aware query
+    let query = supabase
       .from('top_performing_ads')
-      .select('primary_text, headline');
+      .select('primary_text, headline, campaign_canonical_name');
 
-    if (!topAds) return { isOriginal: true, violations: [] };
+    // Filter by campaign if specified
+    if (campaignCanonicalName) {
+      console.log(`Checking originality against ads from campaign: ${campaignCanonicalName}`);
+      query = query.eq('campaign_canonical_name', campaignCanonicalName);
+    } else {
+      console.log('Checking originality against all campaigns (no campaign specified)');
+    }
 
-    const violations: string[] = [];
-    const maxConsecutive = rules.originality_rules.max_consecutive_words;
+    const { data: topAds } = await query;
 
-    for (const ad of topAds) {
-      const adTexts = [ad.primary_text, ad.headline].filter(Boolean);
+    if (!topAds || topAds.length === 0) {
+      // Fallback: if campaign has no ads, check against similar campaign types
+      if (campaignCanonicalName) {
+        const campaignType = getCampaignType(campaignCanonicalName);
+        console.log(`No ads found for campaign ${campaignCanonicalName}, falling back to ${campaignType} campaign types`);
+        
+        const { data: fallbackAds } = await supabase
+          .from('top_performing_ads')
+          .select('primary_text, headline, campaign_canonical_name')
+          .limit(10); // Limit fallback to prevent cross-contamination
+
+        if (fallbackAds && fallbackAds.length > 0) {
+          // Filter fallback ads by campaign type compatibility
+          const compatibleAds = fallbackAds.filter(ad => {
+            const adCampaignType = getCampaignType(ad.campaign_canonical_name);
+            return adCampaignType === campaignType;
+          });
+          
+          console.log(`Using ${compatibleAds.length} compatible ${campaignType} ads for originality check`);
+          return performOriginalityCheck(content, compatibleAds, rules.originality_rules.max_consecutive_words);
+        }
+      }
       
-      for (const adText of adTexts) {
-        if (adText) {
-          const contentWords = content.toLowerCase().split(/\s+/);
-          const adWords = adText.toLowerCase().split(/\s+/);
+      return { isOriginal: true, violations: [] };
+    }
 
-          for (let i = 0; i <= contentWords.length - maxConsecutive; i++) {
-            const phrase = contentWords.slice(i, i + maxConsecutive).join(' ');
+    console.log(`Checking originality against ${topAds.length} campaign-specific ads`);
+    return performOriginalityCheck(content, topAds, rules.originality_rules.max_consecutive_words);
+    
+  } catch (error) {
+    console.error('Error checking originality:', error);
+    return { isOriginal: true, violations: [] };
+  }
+}
+
+function performOriginalityCheck(content: string, ads: any[], maxConsecutive: number) {
+  const violations: string[] = [];
+
+  for (const ad of ads) {
+    const adTexts = [ad.primary_text, ad.headline].filter(Boolean);
+    
+    for (const adText of adTexts) {
+      if (adText) {
+        const contentWords = content.toLowerCase().split(/\s+/);
+        const adWords = adText.toLowerCase().split(/\s+/);
+
+        for (let i = 0; i <= contentWords.length - maxConsecutive; i++) {
+          const phrase = contentWords.slice(i, i + maxConsecutive).join(' ');
+          
+          for (let j = 0; j <= adWords.length - maxConsecutive; j++) {
+            const adPhrase = adWords.slice(j, j + maxConsecutive).join(' ');
             
-            for (let j = 0; j <= adWords.length - maxConsecutive; j++) {
-              const adPhrase = adWords.slice(j, j + maxConsecutive).join(' ');
-              
-              if (phrase === adPhrase) {
-                violations.push(`Matches existing ad: "${phrase}"`);
-              }
+            if (phrase === adPhrase) {
+              violations.push(`Matches existing ad: "${phrase}"`);
             }
           }
         }
       }
     }
-
-    return { 
-      isOriginal: violations.length === 0, 
-      violations: [...new Set(violations)]
-    };
-  } catch (error) {
-    console.error('Error checking originality:', error);
-    return { isOriginal: true, violations: [] };
   }
+
+  return { 
+    isOriginal: violations.length === 0, 
+    violations: [...new Set(violations)]
+  };
 }
 
 // Helper function to determine campaign type
@@ -722,9 +762,9 @@ serve(async (req) => {
         const data = await response.json();
         generatedContent = data.choices[0].message.content;
 
-        // Relaxed originality check - only check if rules exist and are strict
+        // Campaign-specific originality check - only check if rules exist and are strict
         if (globalRules?.originality_rules?.check_against_top_ads && globalRules.originality_rules.max_consecutive_words <= 4) {
-          const originalityCheck = await checkOriginality(generatedContent, globalRules);
+          const originalityCheck = await checkOriginality(generatedContent, globalRules, campaignCanonicalName);
           
           // Only fail if there are 3+ violations to be less strict
           if (originalityCheck.violations.length >= 3) {
