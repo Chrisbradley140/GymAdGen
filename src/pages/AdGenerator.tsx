@@ -203,45 +203,67 @@ Make them BOLD, ENERGETIC, and irresistible!`;
   const generateCampaignName = async () => {
     // Don't create campaign during generation, only during save
 
-    const systemPrompt = `🚀 You're creating UNFORGETTABLE campaign names based on proven fitness challenge winners! 🚀
+    // Get top-performing ads for this campaign
+    const topPerformingAdsPromise = selectedCampaign ? getTopPerformingAds(selectedCampaign.canonical_name) : Promise.resolve([]);
+    const topPerformingAds = await topPerformingAdsPromise;
 
-${selectedCampaign ? `🎯 CAMPAIGN TYPE: "${selectedCampaign.name}" targeting ${selectedCampaign.target_audience}. ${selectedCampaign.description}` : ''}
+    const getCampaignTypeContext = () => {
+      if (!selectedCampaign) return '';
+      
+      const canonicalName = selectedCampaign.canonical_name;
+      
+      if (canonicalName.includes('people-wanted') || canonicalName.includes('ladies-wanted')) {
+        return `🎯 CAMPAIGN TYPE: RECRUITMENT - "${selectedCampaign.name}" targeting ${selectedCampaign.target_audience}
+        
+🔥 RECRUITMENT NAMING PATTERNS:
+- Focus on EXCLUSIVITY and SELECTION
+- Emphasize PRIVATE/STUDIO/PERSONAL training
+- Use OPPORTUNITY and LIMITED SPOTS language
+- Create URGENCY around limited availability
 
-Generate 5 campaign names that combine TRANSFORMATION + URGENCY like top performers:
-
-🔥 PROVEN PATTERN EXAMPLES:
-- "6 Week Total Body Transformation Challenge" 
-- "The Bootybox Challenge"
-- "Feel Good Again Challenge"
-- "28 Day Body Blast"
-- "New Year New You Reset"
-
-🎯 NAME REQUIREMENTS:
-- Include TRANSFORMATION word (Challenge, Reset, Blast, Transformation)
+💡 RECRUITMENT FORMULAS:
+1. "[NUMBER] [TARGET] Wanted for [LOCATION/TYPE]"
+2. "Private [AUDIENCE] Only - [STUDIO/LOCATION]"
+3. "Exclusive [SERVICE] - Limited Spots"
+4. "[LOCATION] Seeks [NUMBER] [TARGET]"
+5. "VIP [SERVICE] - [TARGET] Wanted"`;
+      }
+      
+      if (canonicalName.includes('challenge') || canonicalName.includes('week')) {
+        return `🎯 CAMPAIGN TYPE: TRANSFORMATION CHALLENGE - "${selectedCampaign.name}" targeting ${selectedCampaign.target_audience}
+        
+🔥 CHALLENGE NAMING PATTERNS:
+- Include TRANSFORMATION words (Challenge, Reset, Blast, Transformation)
 - Add TIME URGENCY (6 Week, 28 Day, etc.)
-- Make it MEMORABLE and energetic
-- Easy to say and share
+- Focus on RESULTS and CHANGE
 - Create excitement and FOMO
 
-💡 NAMING FORMULAS:
-1. [TIME] + [BODY PART/GOAL] + "Challenge/Transformation"
-2. "The [CATCHY NAME] Challenge" 
+💡 CHALLENGE FORMULAS:
+1. "[TIME] + [BODY PART/GOAL] + Challenge/Transformation"
+2. "The [CATCHY NAME] Challenge"
 3. "[TRANSFORMATION] + [TIME PERIOD]"
 4. "[SEASON/EVENT] + Body/Life + Reset/Blast"
-5. "[LOCATION] + [TARGET] + Challenge"
+5. "[GOAL] + [TIME] + Challenge"`;
+      }
+      
+      return `🎯 CAMPAIGN TYPE: "${selectedCampaign.name}" targeting ${selectedCampaign.target_audience}
+      
+Generate names that match the campaign's specific theme and objectives.`;
+    };
+
+    const systemPrompt = `🚀 You're creating UNFORGETTABLE campaign names based on this specific campaign context! 🚀
+
+${getCampaignTypeContext()}
+
+${selectedCampaign ? `📋 CAMPAIGN DETAILS: ${selectedCampaign.description}` : ''}
+
+Generate 5 campaign names that perfectly match this campaign type and audience.
 
 FORMAT: Just numbered list - NO explanations!
 
-Example:
-1. 6 Week Total Transformation
-2. The Confidence Challenge  
-3. Summer Body Blast
-4. 28 Day Reset Challenge
-5. New You Challenge
+Make them ENERGETIC and perfectly aligned with the campaign's theme!`;
 
-Make them ENERGETIC and transformation-focused!`;
-
-    return await generateContent('campaign_name', systemPrompt, selectedCampaign?.canonical_name, []);
+    return await generateContent('campaign_name', systemPrompt, selectedCampaign?.canonical_name, topPerformingAds);
   };
 
   const generateIGStoryAd = async () => {
