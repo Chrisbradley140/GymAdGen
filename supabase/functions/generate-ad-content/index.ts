@@ -76,19 +76,61 @@ async function checkOriginality(content: string, rules: any) {
   }
 }
 
-function buildEnhancedPrompt(adType: string, systemPrompt: string, brandData: any, globalRules: any, topPerformingAds?: any[]) {
+function buildEnhancedPrompt(adType: string, systemPrompt: string, brandData: any, globalRules: any, topPerformingAds?: any[], campaignCanonicalName?: string) {
+  console.log(`Building prompt for campaign: ${campaignCanonicalName || 'generic'}, adType: ${adType}`);
+  
+  // Filter top ads specific to this campaign if available
+  const campaignSpecificAds = topPerformingAds && campaignCanonicalName 
+    ? topPerformingAds.filter(ad => ad.campaign_canonical_name === campaignCanonicalName)
+    : [];
+
+  const adsToUse = campaignSpecificAds.length > 0 ? campaignSpecificAds : (topPerformingAds || []);
+  console.log(`Using ${adsToUse.length} ads for templates (${campaignSpecificAds.length} campaign-specific, ${topPerformingAds?.length || 0} total)`);
+
   const safetyRules = globalRules?.safety_rules || {};
   const formattingRules = globalRules?.formatting_rules || {};
   const wordsToAvoid = brandData?.words_to_avoid ? brandData.words_to_avoid.split(',').map((w: string) => w.trim()) : [];
 
-  // Generate 8-step structural templates from top-performing ads
-  let structuralTemplate = '';
-  if (topPerformingAds && topPerformingAds.length > 0) {
-    const templates = extractStructuralTemplates(topPerformingAds);
+  // Build campaign-specific context at the top
+  let campaignContext = '';
+  if (campaignCanonicalName) {
+    const campaignTheme = campaignCanonicalName.toLowerCase();
     
-    const adAnalysis = topPerformingAds.slice(0, 3).map((ad, index) => {
+    if (campaignTheme.includes('ladies_wanted') || campaignTheme.includes('people_wanted')) {
+      campaignContext = `
+🎯 CAMPAIGN FOCUS: "${campaignCanonicalName}" - Local Recruitment Drive
+⚠️ CRITICAL: This is NOT a generic challenge. This is a local recruitment campaign.
+- Target local people/ladies specifically with "WANTED" language
+- Emphasize LIMITED SPOTS and local exclusivity  
+- Use recruitment tone: "We're looking for...", "Accepting applications for..."
+- Focus on community building and being "chosen" for something special
+- Headlines should reflect RECRUITMENT not generic challenges
+- Campaign names should emphasize SELECTION and LOCAL EXCLUSIVITY
+- AVOID generic "6 week challenge" language unless it specifically fits`;
+    } else if (campaignTheme.includes('transformation') || campaignTheme.includes('challenge')) {
+      campaignContext = `
+🎯 CAMPAIGN FOCUS: "${campaignCanonicalName}" - Transformation Challenge
+- Focus on the specific transformation/challenge type mentioned in campaign name
+- Use challenge-specific language and timelines that match the campaign
+- Emphasize transformation results specific to this campaign type
+- Headlines and names should reflect the SPECIFIC challenge theme`;
+    } else {
+      campaignContext = `
+🎯 CAMPAIGN FOCUS: "${campaignCanonicalName}"
+- Stay true to this specific campaign theme and language
+- Use terminology that matches this exact campaign type
+- Avoid generic fitness language that doesn't align with campaign focus`;
+    }
+  }
+
+  // Generate structural templates from relevant ads
+  let structuralTemplate = '';
+  if (adsToUse.length > 0) {
+    const templates = extractStructuralTemplates(adsToUse);
+    
+    const adAnalysis = adsToUse.slice(0, 3).map((ad, index) => {
       const structure = analyzeAdStructure(ad.primary_text);
-      return `📊 HIGH-PERFORMING AD EXAMPLE ${index + 1}:
+      return `📊 ${campaignSpecificAds.length > 0 ? 'CAMPAIGN-SPECIFIC' : 'HIGH-PERFORMING'} AD EXAMPLE ${index + 1}:
 Primary Text: "${ad.primary_text}"
 Headline: "${ad.headline || 'N/A'}"
 Hook Type: ${ad.hook_type || 'Direct'}
@@ -98,11 +140,11 @@ Tone: ${ad.tone || 'Professional'}
 
     structuralTemplate = `
 🎯 PROVEN 8-STEP STRUCTURAL FRAMEWORK:
-Based on analysis of ${topPerformingAds.length} top-performing ads, follow this exact pattern:
+Based on analysis of ${adsToUse.length} ${campaignSpecificAds.length > 0 ? 'campaign-specific' : 'top-performing'} ads, follow this exact pattern:
 
 ${templates.stepByStepTemplate}
 
-🔍 DETAILED ANALYSIS OF TOP ADS:
+🔍 DETAILED ANALYSIS OF ${campaignSpecificAds.length > 0 ? 'CAMPAIGN' : 'TOP'} ADS:
 ${adAnalysis}
 
 📋 EXTRACTED PATTERNS FOR EACH STEP:
@@ -112,6 +154,8 @@ ${templates.patternInstructions}
   }
 
   return `You are an expert copywriter specializing in ${adType}.
+
+${campaignContext}
 
 ${structuralTemplate}
 
@@ -482,12 +526,13 @@ serve(async (req) => {
   }
 
   try {
-    const { adType, systemPrompt, brandData, topPerformingAds } = await req.json();
+    const { adType, systemPrompt, brandData, topPerformingAds, campaignCanonicalName } = await req.json();
 
     console.log('Generating content for:', { 
       adType, 
       brandData: brandData?.business_name,
-      topAdsCount: topPerformingAds?.length || 0
+      topAdsCount: topPerformingAds?.length || 0,
+      campaignCanonicalName: campaignCanonicalName || 'generic'
     });
 
     // Load global rules
@@ -497,7 +542,7 @@ serve(async (req) => {
     }
 
     // Build enhanced prompt with global rules and top-performing ads
-    const enhancedPrompt = buildEnhancedPrompt(adType, systemPrompt, brandData, globalRules, topPerformingAds);
+    const enhancedPrompt = buildEnhancedPrompt(adType, systemPrompt, brandData, globalRules, topPerformingAds, campaignCanonicalName);
 
     let generatedContent = '';
     let attempts = 0;
