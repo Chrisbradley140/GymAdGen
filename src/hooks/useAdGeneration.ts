@@ -27,7 +27,14 @@ export const useAdGeneration = () => {
             business_name: brandData.business_name,
             target_market: brandData.target_market,
             voice_tone_style: brandData.voice_tone_style,
-            words_to_avoid: brandData.words_to_avoid
+            words_to_avoid: brandData.words_to_avoid,
+            coaching_style: brandData.coaching_style,
+            brand_words: brandData.brand_words,
+            main_problem: brandData.main_problem,
+            failed_solutions: brandData.failed_solutions,
+            client_words: brandData.client_words,
+            magic_wand_result: brandData.magic_wand_result,
+            website_tone_scan: brandData.website_tone_scan
           }
         }
       });

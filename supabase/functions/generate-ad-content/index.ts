@@ -266,10 +266,57 @@ ORIGINALITY REQUIREMENT:
 - Do not copy more than 3 consecutive words from any existing advertisement
 - Use the structural insights and ENERGY from top ads to inform your approach
 
-Brand Information:
+🎯 ENHANCED BRAND CONTEXT & PSYCHOLOGICAL INSIGHTS:
+
+📊 BUSINESS FOUNDATION:
 - Business: ${brandData?.business_name || 'Unknown Business'}
 - Target Market: ${brandData?.target_market || 'General audience'}
 - Voice & Tone: ${brandData?.voice_tone_style || 'Professional and friendly'}
+
+🧠 PSYCHOLOGICAL MESSAGING FRAMEWORK:
+${brandData?.main_problem ? `
+💔 PRIMARY PAIN POINT: "${brandData.main_problem}"
+   → Use this as the foundation for problem agitation (Step 2)
+   → Create emotional resonance by directly addressing this struggle` : ''}
+
+${brandData?.client_words ? `
+🗣️ AUTHENTIC CLIENT LANGUAGE: "${brandData.client_words}"
+   → Integrate these exact words/phrases into hooks and pain points
+   → These are the words clients use BEFORE signing up - mirror their language` : ''}
+
+${brandData?.failed_solutions ? `
+❌ WHAT DIDN'T WORK: "${brandData.failed_solutions}"
+   → Use for contrast and differentiation in solution presentation
+   → Address why previous attempts failed to build credibility` : ''}
+
+${brandData?.magic_wand_result ? `
+✨ ULTIMATE OUTCOME: "${brandData.magic_wand_result}"
+   → Use this for compelling CTAs and transformation promises
+   → This is their dream result - make it feel achievable` : ''}
+
+🎤 COACHING PERSONALITY INTEGRATION:
+${brandData?.coaching_style ? `
+🔥 COACHING STYLE: "${brandData.coaching_style}"
+   → Adapt tone and personality to match this style
+   → Let this guide the energy level and approach of the content` : ''}
+
+${brandData?.brand_words ? `
+💬 SIGNATURE BRAND LANGUAGE: "${brandData.brand_words}"
+   → Naturally weave these phrases throughout the content
+   → These are "you" words that define your brand voice` : ''}
+
+${brandData?.website_tone_scan ? `
+🌐 WEBSITE TONE ANALYSIS: "${brandData.website_tone_scan}"
+   → Use as additional context for voice and tone consistency
+   → Ensure generated content aligns with established brand presence` : ''}
+
+🎯 CONTENT INTEGRATION STRATEGY:
+- HOOKS: Use client_words and main_problem for authentic opening
+- PAIN AGITATION: Leverage main_problem and failed_solutions 
+- SOLUTION: Position as alternative to failed_solutions
+- BENEFITS: Connect to magic_wand_result aspirations
+- VOICE: Blend coaching_style with brand_words naturally
+- TONE: Maintain consistency with voice_tone_style and website_tone_scan
 
 Instructions: ${systemPrompt}
 
