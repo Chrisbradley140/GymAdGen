@@ -76,6 +76,59 @@ async function checkOriginality(content: string, rules: any) {
   }
 }
 
+// Helper function to determine campaign type
+const getCampaignType = (campaignCanonicalName?: string): string => {
+  if (!campaignCanonicalName) return 'generic';
+  
+  const campaign = campaignCanonicalName.toLowerCase();
+  
+  if (campaign.includes('people') && campaign.includes('wanted')) return 'recruitment';
+  if (campaign.includes('personal-training')) return 'service';
+  if (campaign.includes('challenge') || campaign.includes('week') || campaign.includes('day')) return 'challenge';
+  if (campaign.includes('transformation')) return 'transformation';
+  
+  return 'generic';
+};
+
+// Helper function to filter patterns based on campaign type
+const filterPatternsByCampaign = (patterns: any, campaignType: string): any => {
+  const incompatibleTerms = getIncompatibleTerms(campaignType);
+  
+  console.log(`Filtering patterns for ${campaignType} campaign, excluding: ${incompatibleTerms.join(', ')}`);
+  
+  const filtered = {};
+  Object.keys(patterns).forEach(key => {
+    filtered[key] = patterns[key].filter((pattern: string) => {
+      const patternLower = pattern.toLowerCase();
+      const hasIncompatibleTerm = incompatibleTerms.some(term => patternLower.includes(term));
+      
+      if (hasIncompatibleTerm) {
+        console.log(`Filtered out pattern from ${key}: "${pattern.substring(0, 50)}..." - contains incompatible term`);
+      }
+      
+      return !hasIncompatibleTerm;
+    });
+  });
+  
+  return filtered;
+};
+
+// Helper function to get incompatible terms for each campaign type
+const getIncompatibleTerms = (campaignType: string): string[] => {
+  switch (campaignType) {
+    case 'recruitment':
+      return ['week', 'day', 'challenge', 'transformation', '6 week', '30 day', 'program'];
+    case 'service':
+      return ['wanted', 'seeking', 'recruiting', 'looking for', 'week', 'challenge'];
+    case 'challenge':
+      return ['wanted', 'seeking', 'recruiting', 'looking for', 'ladies wanted', 'people wanted'];
+    case 'transformation':
+      return ['wanted', 'seeking', 'recruiting', 'looking for'];
+    default:
+      return [];
+  }
+};
+
 function buildEnhancedPrompt(adType: string, systemPrompt: string, brandData: any, globalRules: any, topPerformingAds?: any[], campaignCanonicalName?: string) {
   console.log(`Building prompt for campaign: ${campaignCanonicalName || 'generic'}, adType: ${adType}`);
   
@@ -143,10 +196,10 @@ function buildEnhancedPrompt(adType: string, systemPrompt: string, brandData: an
     }
   }
 
-  // Generate structural templates from relevant ads
+  // Generate structural templates from relevant ads with campaign awareness
   let structuralTemplate = '';
   if (adsToUse.length > 0) {
-    const templates = extractStructuralTemplates(adsToUse);
+    const templates = extractStructuralTemplates(adsToUse, campaignCanonicalName);
     
     const adAnalysis = adsToUse.slice(0, 3).map((ad, index) => {
       const structure = analyzeAdStructure(ad.primary_text);
@@ -336,50 +389,58 @@ function formatElementName(element: string): string {
   return nameMap[element] || element;
 }
 
-function extractStructuralTemplates(topAds: any[]) {
-  console.log(`Extracting structural templates from ${topAds.length} top ads`);
+function extractStructuralTemplates(topAds: any[], campaignCanonicalName?: string) {
+  console.log(`Extracting structural templates from ${topAds.length} top ads for campaign: ${campaignCanonicalName || 'generic'}`);
+
+  // Get campaign type for pattern filtering
+  const campaignType = getCampaignType(campaignCanonicalName);
   
-  // Analyze patterns across all top ads to create templates
-  const localCallouts = extractPatterns(topAds, 'localCallout');
-  const problemStarters = extractPatterns(topAds, 'problemAgitation');
-  const solutionIntros = extractPatterns(topAds, 'solutionOffer');
-  const benefitPhrases = extractPatterns(topAds, 'benefits');
-  const checklistFormats = extractPatterns(topAds, 'checklist');
-  const communityMentions = extractPatterns(topAds, 'community');
-  const riskReversals = extractPatterns(topAds, 'riskReversal');
-  const scarcityPhrases = extractPatterns(topAds, 'scarcity');
-  
-  console.log('Pattern extraction results:', {
-    localCallouts: localCallouts.length,
-    problemStarters: problemStarters.length,
-    solutionIntros: solutionIntros.length,
-    benefitPhrases: benefitPhrases.length,
-    checklistFormats: checklistFormats.length,
-    communityMentions: communityMentions.length,
-    riskReversals: riskReversals.length,
-    scarcityPhrases: scarcityPhrases.length
+  // Extract raw patterns first
+  const rawPatterns = {
+    localCallouts: extractPatterns(topAds, 'localCallout'),
+    problemStarters: extractPatterns(topAds, 'problemAgitation'),
+    solutionIntros: extractPatterns(topAds, 'solutionOffer'),
+    benefitPhrases: extractPatterns(topAds, 'benefits'),
+    checklistFormats: extractPatterns(topAds, 'checklist'),
+    communityMentions: extractPatterns(topAds, 'community'),
+    riskReversals: extractPatterns(topAds, 'riskReversal'),
+    scarcityPhrases: extractPatterns(topAds, 'scarcity')
+  };
+
+  // Filter patterns based on campaign type to prevent contamination
+  const filteredPatterns = filterPatternsByCampaign(rawPatterns, campaignType);
+
+  console.log(`Pattern extraction results for ${campaignType}:`, {
+    localCallouts: filteredPatterns.localCallouts.length,
+    problemStarters: filteredPatterns.problemStarters.length,
+    solutionIntros: filteredPatterns.solutionIntros.length,
+    benefitPhrases: filteredPatterns.benefitPhrases.length,
+    checklistFormats: filteredPatterns.checklistFormats.length,
+    communityMentions: filteredPatterns.communityMentions.length,
+    riskReversals: filteredPatterns.riskReversals.length,
+    scarcityPhrases: filteredPatterns.scarcityPhrases.length
   });
   
-  // Build dynamic templates using actual extracted patterns
+  // Build dynamic templates using filtered patterns
   const stepByStepTemplate = `
-1️⃣ LOCAL CALLOUT: Use patterns like: ${localCallouts.slice(0, 2).map(p => `"${p}"`).join(' OR ') || '"Local [TARGET AUDIENCE]"'}
-2️⃣ PROBLEM AGITATION: Use patterns like: ${problemStarters.slice(0, 2).map(p => `"${p}"`).join(' OR ') || '"Tired of [SPECIFIC FRUSTRATION]?"'}
-3️⃣ SOLUTION/OFFER: Use patterns like: ${solutionIntros.slice(0, 2).map(p => `"${p}"`).join(' OR ') || '"Introducing [PROGRAM NAME]"'}
-4️⃣ BENEFITS/TRANSFORMATION: Use patterns like: ${benefitPhrases.slice(0, 2).map(p => `"${p}"`).join(' OR ') || '"You\'ll [BENEFIT 1], [BENEFIT 2]"'}
-5️⃣ ELIGIBILITY CHECKLIST: Use formats like: ${checklistFormats.slice(0, 2).map(p => `"${p}"`).join(' OR ') || '"✅ Perfect if you\'re [CRITERIA]"'}
-6️⃣ COMMUNITY/SUPPORT: Use patterns like: ${communityMentions.slice(0, 2).map(p => `"${p}"`).join(' OR ') || '"Join our community of [TARGET AUDIENCE]"'}
-7️⃣ RISK REVERSAL: Use patterns like: ${riskReversals.slice(0, 2).map(p => `"${p}"`).join(' OR ') || '"I guarantee you\'ll [OUTCOME]"'}
-8️⃣ SCARCITY + CTA: Use patterns like: ${scarcityPhrases.slice(0, 2).map(p => `"${p}"`).join(' OR ') || '"Limited spots available. Apply now!"'}`;
+1️⃣ LOCAL CALLOUT: Use patterns like: ${filteredPatterns.localCallouts.slice(0, 2).map(p => `"${p}"`).join(' OR ') || '"Local [TARGET AUDIENCE]"'}
+2️⃣ PROBLEM AGITATION: Use patterns like: ${filteredPatterns.problemStarters.slice(0, 2).map(p => `"${p}"`).join(' OR ') || '"Tired of [SPECIFIC FRUSTRATION]?"'}
+3️⃣ SOLUTION/OFFER: Use patterns like: ${filteredPatterns.solutionIntros.slice(0, 2).map(p => `"${p}"`).join(' OR ') || '"Introducing [PROGRAM NAME]"'}
+4️⃣ BENEFITS/TRANSFORMATION: Use patterns like: ${filteredPatterns.benefitPhrases.slice(0, 2).map(p => `"${p}"`).join(' OR ') || '"You\'ll [BENEFIT 1], [BENEFIT 2]"'}
+5️⃣ ELIGIBILITY CHECKLIST: Use formats like: ${filteredPatterns.checklistFormats.slice(0, 2).map(p => `"${p}"`).join(' OR ') || '"✅ Perfect if you\'re [CRITERIA]"'}
+6️⃣ COMMUNITY/SUPPORT: Use patterns like: ${filteredPatterns.communityMentions.slice(0, 2).map(p => `"${p}"`).join(' OR ') || '"Join our community of [TARGET AUDIENCE]"'}
+7️⃣ RISK REVERSAL: Use patterns like: ${filteredPatterns.riskReversals.slice(0, 2).map(p => `"${p}"`).join(' OR ') || '"I guarantee you\'ll [OUTCOME]"'}
+8️⃣ SCARCITY + CTA: Use patterns like: ${filteredPatterns.scarcityPhrases.slice(0, 2).map(p => `"${p}"`).join(' OR ') || '"Limited spots available. Apply now!"'}`;
 
   const patternInstructions = `
-🎯 REAL LOCAL CALLOUT EXAMPLES: ${localCallouts.slice(0, 5).join(' • ') || 'No patterns found'}
-😤 REAL PROBLEM AGITATION EXAMPLES: ${problemStarters.slice(0, 5).join(' • ') || 'No patterns found'}
-💡 REAL SOLUTION OFFER EXAMPLES: ${solutionIntros.slice(0, 5).join(' • ') || 'No patterns found'}
-🚀 REAL BENEFIT EXAMPLES: ${benefitPhrases.slice(0, 5).join(' • ') || 'No patterns found'}
-✅ REAL CHECKLIST EXAMPLES: ${checklistFormats.slice(0, 5).join(' • ') || 'No patterns found'}
-👥 REAL COMMUNITY EXAMPLES: ${communityMentions.slice(0, 5).join(' • ') || 'No patterns found'}
-🛡️ REAL RISK REVERSAL EXAMPLES: ${riskReversals.slice(0, 5).join(' • ') || 'No patterns found'}
-⏰ REAL SCARCITY/CTA EXAMPLES: ${scarcityPhrases.slice(0, 5).join(' • ') || 'No patterns found'}`;
+🎯 CAMPAIGN-FILTERED LOCAL CALLOUT EXAMPLES: ${filteredPatterns.localCallouts.slice(0, 5).join(' • ') || 'No relevant patterns found'}
+😤 CAMPAIGN-FILTERED PROBLEM AGITATION EXAMPLES: ${filteredPatterns.problemStarters.slice(0, 5).join(' • ') || 'No relevant patterns found'}
+💡 CAMPAIGN-FILTERED SOLUTION OFFER EXAMPLES: ${filteredPatterns.solutionIntros.slice(0, 5).join(' • ') || 'No relevant patterns found'}
+🚀 CAMPAIGN-FILTERED BENEFIT EXAMPLES: ${filteredPatterns.benefitPhrases.slice(0, 5).join(' • ') || 'No relevant patterns found'}
+✅ CAMPAIGN-FILTERED CHECKLIST EXAMPLES: ${filteredPatterns.checklistFormats.slice(0, 5).join(' • ') || 'No relevant patterns found'}
+👥 CAMPAIGN-FILTERED COMMUNITY EXAMPLES: ${filteredPatterns.communityMentions.slice(0, 5).join(' • ') || 'No relevant patterns found'}
+🛡️ CAMPAIGN-FILTERED RISK REVERSAL EXAMPLES: ${filteredPatterns.riskReversals.slice(0, 5).join(' • ') || 'No relevant patterns found'}
+⏰ CAMPAIGN-FILTERED SCARCITY/CTA EXAMPLES: ${filteredPatterns.scarcityPhrases.slice(0, 5).join(' • ') || 'No relevant patterns found'}`;
 
   return { stepByStepTemplate, patternInstructions };
 }
