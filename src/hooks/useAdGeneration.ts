@@ -25,6 +25,8 @@ export const useAdGeneration = () => {
           topPerformingAds,
           brandData: {
             business_name: brandData.business_name,
+            business_type: brandData.business_type,
+            business_city: brandData.business_city,
             target_market: brandData.target_market,
             voice_tone_style: brandData.voice_tone_style,
             words_to_avoid: brandData.words_to_avoid,

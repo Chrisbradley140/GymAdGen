@@ -277,7 +277,7 @@ Your content MUST follow this proven pattern that appears in all top-performing 
 
 🔥 HIGH-ENERGY PROVEN FITNESS AD STRUCTURE - REPLICATE THIS EXACTLY: 🔥
 
-🚨 STEP 1: [BIG HOOK] - CAPS + emojis + location targeting ("🚨 ATTENTION [CITY] LADIES 🚨")
+🚨 STEP 1: [BIG HOOK] - CAPS + emojis + smart targeting (use city for in-person, target market for online)
 💔 STEP 2: [PAIN CALLOUT] - Hit their struggles hard with emotional, conversational language  
 🎯 STEP 3: [PROGRAM INTRO] - Present transformation challenge with clear, memorable name
 ✅ STEP 4: [BENEFIT BULLETS] - Use emoji bullets (✅ workouts ✅ nutrition ✅ community)
@@ -310,8 +310,24 @@ ORIGINALITY REQUIREMENT:
 
 📊 BUSINESS FOUNDATION:
 - Business: ${brandData?.business_name || 'Unknown Business'}
+- Business Type: ${brandData?.business_type || 'Not specified'}
+- Location: ${brandData?.business_city || 'Not specified'}
 - Target Market: ${brandData?.target_market || 'General audience'}
 - Voice & Tone: ${brandData?.voice_tone_style || 'Professional and friendly'}
+
+🎯 LOCATION TARGETING STRATEGY:
+${brandData?.business_type === 'in-person' && brandData?.business_city ? 
+  `✅ IN-PERSON BUSINESS: Use "${brandData.business_city}" in hooks and local targeting
+     → Examples: "🚨 ATTENTION ${brandData.business_city.toUpperCase()} LADIES 🚨", "${brandData.business_city} women wanted"
+     → Focus on local community and geographic exclusivity` :
+  brandData?.business_type === 'online' ?
+  `✅ ONLINE BUSINESS: Use target market demographics instead of city names
+     → Target: "${brandData?.target_market}"
+     → Examples: "🚨 ATTENTION ${(brandData?.target_market || '').toUpperCase()} 🚨", "Calling all ${brandData?.target_market}"
+     → Focus on demographic targeting, NOT geographic locations` :
+  `⚠️ BUSINESS TYPE NOT SPECIFIED: Use "[Your City]" placeholder or target market focus
+     → Avoid random city names like "Hull", "Birmingham", "Manchester"
+     → Use generic targeting or "[Your City]" as fallback`}
 
 🧠 PSYCHOLOGICAL MESSAGING FRAMEWORK:
 ${brandData?.main_problem ? `
