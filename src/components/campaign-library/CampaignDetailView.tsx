@@ -107,7 +107,7 @@ const CampaignDetailView = ({
               </div>
             </div>
             <div className="flex gap-2">
-              <Button onClick={onExportPDF} variant="outline">
+              <Button onClick={onExportPDF}>
                 <Download className="w-4 h-4 mr-1" />
                 Export PDF
               </Button>

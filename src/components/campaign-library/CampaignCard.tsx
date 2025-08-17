@@ -40,7 +40,6 @@ const CampaignCard = ({ campaign, onViewDetails, onDelete, onExportPDF }: Campai
             <Button 
               size="sm" 
               onClick={() => onExportPDF(campaign)}
-              className="bg-red-600 hover:bg-red-700 text-white"
             >
               <FileText className="w-4 h-4 mr-1" />
               Export PDF
