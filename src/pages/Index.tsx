@@ -747,214 +747,139 @@ const Index = () => {
       </section>
 
       {/* Pricing Section */}
-      <section className="py-20 px-4 bg-muted/30">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black text-foreground mb-4 font-klein">
+      <section className="py-16 px-4 bg-background">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-black text-white mb-8 font-klein">
               Professional Ads at a Fraction of Traditional Costs.
             </h2>
           </div>
 
-          {/* Pricing Cards */}
-          <div className="grid lg:grid-cols-3 gap-8 lg:gap-6 mb-12">
-            
+          {/* Clean Pricing Table */}
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
             {/* Pro Plan */}
-            <div className="group relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-muted/50 to-muted/20 rounded-3xl blur-sm group-hover:blur-md transition-all duration-300"></div>
-              <div className="relative bg-card/80 backdrop-blur-xl border border-border rounded-3xl p-8 hover:border-primary/30 transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl animate-fade-in">
-                
-                {/* Header */}
-                <div className="text-center mb-8">
-                  <h3 className="text-2xl font-bold text-foreground mb-4 font-klein">Pro</h3>
-                  <p className="text-muted-foreground text-sm mb-4">For solo coaches & single-location gyms</p>
-                  <div className="flex items-baseline justify-center gap-2">
-                    <span className="text-5xl font-black text-foreground font-klein">£99</span>
-                    <span className="text-muted-foreground">/month</span>
-                  </div>
-                </div>
-
-                {/* Features */}
-                <div className="space-y-4 mb-8">
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center">
-                      <Check className="w-4 h-4 text-green-500" />
-                    </div>
-                    <span className="text-foreground">Unlimited ad generation</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center">
-                      <Check className="w-4 h-4 text-green-500" />
-                    </div>
-                    <span className="text-foreground">Brand voice customization</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center">
-                      <Check className="w-4 h-4 text-green-500" />
-                    </div>
-                    <span className="text-foreground">Basic analytics</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center">
-                      <Check className="w-4 h-4 text-green-500" />
-                    </div>
-                    <span className="text-foreground">Single user account</span>
-                  </div>
-                </div>
-
-                {/* Button */}
-                <Button className="w-full h-12 text-base font-semibold bg-primary hover:bg-primary/90 hover:scale-105 transition-all duration-200">
-                  Get Started
-                </Button>
+            <Card className="p-8 border border-muted bg-card/50 backdrop-blur-sm hover:border-muted-foreground/20 transition-all duration-300">
+              <div className="text-center mb-6">
+                <h3 className="text-xl font-bold text-white mb-2 font-klein">Pro</h3>
+                <div className="text-4xl font-black text-white mb-2 font-klein">£99</div>
+                <p className="text-sm text-muted-foreground">per month</p>
               </div>
-            </div>
+              <div className="space-y-3 mb-8">
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Check className="w-3 h-3 text-primary" />
+                  </div>
+                  <span className="text-sm text-foreground">Unlimited ad generation</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Check className="w-3 h-3 text-primary" />
+                  </div>
+                  <span className="text-sm text-foreground">Basic analytics</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Check className="w-3 h-3 text-primary" />
+                  </div>
+                  <span className="text-sm text-foreground">Single user account</span>
+                </div>
+              </div>
+              <Button className="w-full" variant="outline">Get Started</Button>
+            </Card>
 
             {/* Scale Plan */}
-            <div className="group relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-primary/10 rounded-3xl blur-sm group-hover:blur-md transition-all duration-300"></div>
-              <div className="relative bg-card/80 backdrop-blur-xl border-2 border-primary rounded-3xl p-8 hover:border-primary/60 transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl shadow-primary/20 animate-fade-in">
-                
-                {/* Popular Badge */}
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-bold">
-                    MOST POPULAR
-                  </div>
-                </div>
-
-                {/* Header */}
-                <div className="text-center mb-8 mt-4">
-                  <h3 className="text-2xl font-bold text-foreground mb-4 font-klein">Scale</h3>
-                  <p className="text-muted-foreground text-sm mb-4">Multi-location, team accounts, advanced analytics</p>
-                  <div className="flex items-baseline justify-center gap-2">
-                    <span className="text-5xl font-black text-foreground font-klein">£199</span>
-                    <span className="text-muted-foreground">/month</span>
-                  </div>
-                </div>
-
-                {/* Features */}
-                <div className="space-y-4 mb-8">
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center">
-                      <Check className="w-4 h-4 text-green-500" />
-                    </div>
-                    <span className="text-foreground">Everything in Pro</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center">
-                      <Check className="w-4 h-4 text-green-500" />
-                    </div>
-                    <span className="text-foreground">Advanced analytics & insights</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center">
-                      <Check className="w-4 h-4 text-green-500" />
-                    </div>
-                    <span className="text-foreground">Team accounts (up to 5)</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center">
-                      <Check className="w-4 h-4 text-green-500" />
-                    </div>
-                    <span className="text-foreground">Multi-location support</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center">
-                      <Check className="w-4 h-4 text-green-500" />
-                    </div>
-                    <span className="text-foreground">Priority support</span>
-                  </div>
-                </div>
-
-                {/* Button */}
-                <Button className="w-full h-12 text-base font-semibold bg-primary hover:bg-primary/90 hover:scale-105 transition-all duration-200">
-                  Get Started
-                </Button>
+            <Card className="p-8 border border-primary bg-card/50 backdrop-blur-sm relative overflow-hidden">
+              <div className="absolute top-0 right-0 bg-primary text-primary-foreground px-3 py-1 text-xs font-medium">
+                POPULAR
               </div>
-            </div>
-
-            {/* Lifetime Deal - Highlighted */}
-            <div className="group relative lg:scale-105">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary to-primary/60 rounded-3xl blur-lg group-hover:blur-xl transition-all duration-300 opacity-40 group-hover:opacity-60"></div>
-              <div className="relative bg-gradient-to-br from-primary/10 via-card/90 to-primary/5 backdrop-blur-xl border-2 border-primary rounded-3xl p-8 hover:border-primary/80 transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl shadow-primary/30 animate-fade-in">
-                
-                {/* Limited Badge */}
-                <div className="absolute -top-3 right-4">
-                  <div className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground px-3 py-1 rounded-full text-xs font-bold shadow-lg">
-                    Limited — only 50 available at launch
-                  </div>
-                </div>
-
-                {/* Header */}
-                <div className="text-center mb-8 mt-4">
-                  <h3 className="text-2xl font-bold text-primary mb-4 font-klein">Lifetime Deal</h3>
-                  <p className="text-muted-foreground text-sm mb-4">One-time payment, lifetime access</p>
-                  <div className="flex items-baseline justify-center gap-2">
-                    <span className="text-5xl font-black text-primary font-klein">£499</span>
-                    <span className="text-primary/70">once</span>
-                  </div>
-                  <div className="mt-2">
-                    <span className="text-sm text-muted-foreground line-through">£2,388 value</span>
-                    <span className="ml-2 text-sm font-bold text-green-500">Save 79%</span>
-                  </div>
-                </div>
-
-                {/* Features */}
-                <div className="space-y-4 mb-8">
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
-                      <Check className="w-4 h-4 text-primary" />
-                    </div>
-                    <span className="text-foreground">Everything in Scale</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
-                      <Check className="w-4 h-4 text-primary" />
-                    </div>
-                    <span className="text-foreground">Lifetime access</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
-                      <Check className="w-4 h-4 text-primary" />
-                    </div>
-                    <span className="text-foreground">All future updates included</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
-                      <Check className="w-4 h-4 text-primary" />
-                    </div>
-                    <span className="text-foreground">VIP support channel</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
-                      <Check className="w-4 h-4 text-primary" />
-                    </div>
-                    <span className="text-foreground">Founder's community access</span>
-                  </div>
-                </div>
-
-                {/* Button */}
-                <Button className="w-full h-12 text-base font-semibold bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground hover:scale-105 transition-all duration-200 shadow-lg shadow-primary/30">
-                  Claim Lifetime Deal
-                </Button>
+              <div className="text-center mb-6">
+                <h3 className="text-xl font-bold text-white mb-2 font-klein">Scale</h3>
+                <div className="text-4xl font-black text-white mb-2 font-klein">£199</div>
+                <p className="text-sm text-muted-foreground">per month</p>
               </div>
-            </div>
+              <div className="space-y-3 mb-8">
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Check className="w-3 h-3 text-primary" />
+                  </div>
+                  <span className="text-sm text-foreground">Everything in Pro</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Check className="w-3 h-3 text-primary" />
+                  </div>
+                  <span className="text-sm text-foreground">Advanced analytics</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Check className="w-3 h-3 text-primary" />
+                  </div>
+                  <span className="text-sm text-foreground">Team accounts</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Check className="w-3 h-3 text-primary" />
+                  </div>
+                  <span className="text-sm text-foreground">Multi-location support</span>
+                </div>
+              </div>
+              <Button className="w-full">Get Started</Button>
+            </Card>
+
+            {/* Lifetime Deal - Highlighted in Brand Orange */}
+            <Card className="p-8 border-2 border-primary bg-primary/5 backdrop-blur-sm relative overflow-hidden glow-orange">
+              <div className="absolute top-4 left-4 bg-primary text-primary-foreground px-2 py-1 text-xs font-bold rounded-full">
+                LIMITED SPOTS
+              </div>
+              <div className="text-center mb-6 mt-6">
+                <h3 className="text-xl font-bold text-primary mb-2 font-klein">Lifetime Deal</h3>
+                <div className="text-4xl font-black text-primary mb-2 font-klein">£499</div>
+                <p className="text-sm text-primary/80">one-time payment</p>
+              </div>
+              <div className="space-y-3 mb-8">
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
+                    <Check className="w-3 h-3 text-primary-foreground" />
+                  </div>
+                  <span className="text-sm text-foreground">Everything in Scale</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
+                    <Check className="w-3 h-3 text-primary-foreground" />
+                  </div>
+                  <span className="text-sm text-foreground">Lifetime access</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
+                    <Check className="w-3 h-3 text-primary-foreground" />
+                  </div>
+                  <span className="text-sm text-foreground">Priority support</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
+                    <Check className="w-3 h-3 text-primary-foreground" />
+                  </div>
+                  <span className="text-sm text-foreground">Future updates included</span>
+                </div>
+              </div>
+              <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+                Claim Your Spot
+              </Button>
+            </Card>
           </div>
 
-          {/* Reassurance Copy */}
-          <div className="text-center mb-12">
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          {/* Reassurance Text */}
+          <div className="text-center mb-8">
+            <p className="text-lg text-muted-foreground">
               Start small. Test with £5/day. See results before you scale.
             </p>
           </div>
 
-          {/* Main CTA */}
+          {/* CTA */}
           <div className="text-center">
-            <Button 
-              className="h-14 px-12 text-lg font-bold bg-primary hover:bg-primary/90 hover:scale-105 transition-all duration-200 shadow-xl shadow-primary/20"
-              onClick={() => navigate('/auth')}
-            >
+            <CTAButton size="lg">
               Get Started Today
-            </Button>
+            </CTAButton>
           </div>
         </div>
       </section>
