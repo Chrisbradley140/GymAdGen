@@ -61,26 +61,25 @@ export const useTemplates = () => {
     try {
       setIsLoading(true);
 
-      // Fetch campaign templates
-      const { data: campaignData, error: campaignError } = await supabase
-        .from('campaign_templates')
-        .select('*')
-        .eq('is_active', true)
-        .order('sort_order');
+      // Fetch both campaign and ad templates in parallel for better performance
+      const [campaignResult, adResult] = await Promise.all([
+        supabase
+          .from('campaign_templates')
+          .select('*')
+          .eq('is_active', true)
+          .order('sort_order'),
+        supabase
+          .from('ad_templates')
+          .select('*')
+          .eq('is_active', true)
+          .order('performance_score', { ascending: false })
+      ]);
 
-      if (campaignError) throw campaignError;
+      if (campaignResult.error) throw campaignResult.error;
+      if (adResult.error) throw adResult.error;
 
-      // Fetch ad templates
-      const { data: adData, error: adError } = await supabase
-        .from('ad_templates')
-        .select('*')
-        .eq('is_active', true)
-        .order('performance_score', { ascending: false });
-
-      if (adError) throw adError;
-
-      setCampaignTemplates(campaignData || []);
-      setAdTemplates(adData || []);
+      setCampaignTemplates(campaignResult.data || []);
+      setAdTemplates(adResult.data || []);
     } catch (error) {
       console.error('Error fetching templates:', error);
     } finally {
