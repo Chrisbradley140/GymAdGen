@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -48,24 +48,8 @@ import { useNavigate } from "react-router-dom";
 
 const Index = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
-  const [liveCounter, setLiveCounter] = useState(147);
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
-
-  // Live counter effect
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setLiveCounter(prev => {
-        // Randomly increment between 1-3 every 30-60 seconds
-        const increment = Math.random() > 0.7 ? Math.floor(Math.random() * 3) + 1 : 0;
-        const newValue = prev + increment;
-        // Keep it between 147 and 199 to stay realistic
-        return Math.min(newValue, 199);
-      });
-    }, Math.random() * 30000 + 30000); // 30-60 seconds
-
-    return () => clearInterval(interval);
-  }, []);
 
   const handleAuthAction = () => {
     if (user) {
@@ -306,191 +290,70 @@ const Index = () => {
             </div>
           </div>
         </div>
-
-        {/* Micro-Proof Section at bottom of header */}
-        <div className="relative z-50 w-full mb-8">
-          <div className="container mx-auto flex justify-center">
-            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg px-6 py-3">
-              <p className="text-white text-sm font-medium font-klein text-center">
-                Already used by <span className="font-bold text-orange-400">{liveCounter}</span> UK gyms, studios, and coaches — be part of the first 200.
-              </p>
-            </div>
-          </div>
-        </div>
       </section>
 
-      {/* WHO ELSE IS USING FITNESSADS.AI Section - Redesigned */}
-      <section className="py-20 px-4 bg-gradient-to-br from-background via-background/95 to-primary/5">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black text-white mb-6 font-klein">
+      {/* WHO ELSE IS USING FITNESSADS.AI Section */}
+      <section className="py-16 px-4 bg-background">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-black text-white mb-4 font-klein">
               Who Else Is Already Winning With FitnessAds.ai?
             </h2>
-            <p className="text-xl text-white/80 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-lg text-white/80 max-w-3xl mx-auto">
               From solo PTs to multi-location studios, early adopters are getting results that would've taken weeks — now in minutes.
             </p>
           </div>
 
-          {/* Success Stories - Unique Layout */}
-          <div className="relative">
-            {/* Background decorative elements */}
-            <div className="absolute inset-0 overflow-hidden">
-              <div className="absolute top-10 left-10 w-32 h-32 bg-primary/10 rounded-full blur-xl"></div>
-              <div className="absolute bottom-10 right-10 w-40 h-40 bg-primary/5 rounded-full blur-2xl"></div>
-            </div>
-
-            <div className="grid lg:grid-cols-3 gap-8 relative z-10">
-              {/* Rorie's Success Story */}
-              <div className="group relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-3xl blur-lg group-hover:blur-xl transition-all duration-500 opacity-50 group-hover:opacity-75"></div>
-                <div className="relative bg-gradient-to-br from-card/90 to-card/50 backdrop-blur-xl border border-primary/20 rounded-3xl p-8 hover:border-primary/40 transition-all duration-500 group-hover:transform group-hover:-translate-y-2">
-                  
-                  {/* Achievement Badge */}
-                  <div className="absolute -top-4 left-8">
-                    <div className="bg-gradient-to-r from-primary to-primary/80 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">
-                      💰 Revenue Growth
-                    </div>
-                  </div>
-                  
-                  {/* Profile Section */}
-                  <div className="pt-6 pb-6 text-center">
-                    <div className="relative inline-block mb-4">
-                      <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center text-2xl font-bold text-white shadow-xl">
-                        R
-                      </div>
-                      <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
-                        ✓
-                      </div>
-                    </div>
-                    <h3 className="text-2xl font-bold text-white mb-2">Rorie</h3>
-                    <p className="text-primary/80 font-semibold text-sm mb-6">Online Coach • Semi-Pro Footballers</p>
-                  </div>
-
-                  {/* Results Card */}
-                  <div className="bg-gradient-to-r from-primary/20 via-primary/15 to-primary/10 border border-primary/30 rounded-2xl p-6 text-center backdrop-blur-sm">
-                    <div className="mb-4">
-                      <span className="text-5xl font-black bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                        £10k
-                      </span>
-                    </div>
-                    <p className="text-white font-medium text-lg leading-relaxed">
-                      per month online after launching FitnessAds.ai campaigns
-                    </p>
-                  </div>
-
-                  {/* Quote */}
-                  <div className="mt-6 p-4 bg-white/5 rounded-xl border-l-4 border-primary">
-                    <p className="text-white/90 italic text-sm">
-                      "The campaigns just work. It's like having a marketing expert who knows exactly what my audience wants."
-                    </p>
-                  </div>
+          {/* Proof Tiles Grid */}
+          <div className="grid md:grid-cols-3 gap-6 mb-12">
+            {/* Rorie - Online Coach */}
+            <Card className="p-6 bg-card border border-border hover:border-primary transition-colors">
+              <div className="text-center">
+                <div className="mb-4">
+                  <h3 className="text-xl font-bold text-white mb-2">Rorie</h3>
+                  <p className="text-sm text-muted-foreground mb-4">Online Coach for Semi Professional Footballers</p>
+                </div>
+                <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
+                  <p className="text-2xl font-bold text-primary mb-2">£10k</p>
+                  <p className="text-sm text-white">month online after launching FitnessAds.ai-generated campaigns</p>
                 </div>
               </div>
+            </Card>
 
-              {/* Vanda's Success Story */}
-              <div className="group relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-3xl blur-lg group-hover:blur-xl transition-all duration-500 opacity-50 group-hover:opacity-75"></div>
-                <div className="relative bg-gradient-to-br from-card/90 to-card/50 backdrop-blur-xl border border-primary/20 rounded-3xl p-8 hover:border-primary/40 transition-all duration-500 group-hover:transform group-hover:-translate-y-2">
-                  
-                  {/* Achievement Badge */}
-                  <div className="absolute -top-4 left-8">
-                    <div className="bg-gradient-to-r from-primary to-primary/80 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">
-                      🎯 Campaign Success
-                    </div>
-                  </div>
-                  
-                  {/* Profile Section */}
-                  <div className="pt-6 pb-6 text-center">
-                    <div className="relative inline-block mb-4">
-                      <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center text-2xl font-bold text-white shadow-xl">
-                        V
-                      </div>
-                      <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
-                        ✓
-                      </div>
-                    </div>
-                    <h3 className="text-2xl font-bold text-white mb-2">Vanda</h3>
-                    <p className="text-primary/80 font-semibold text-sm mb-6">Studio Owner • Premium Location</p>
-                  </div>
-
-                  {/* Results Card */}
-                  <div className="bg-gradient-to-r from-primary/20 via-primary/15 to-primary/10 border border-primary/30 rounded-2xl p-6 text-center backdrop-blur-sm">
-                    <div className="mb-4">
-                      <span className="text-4xl font-black bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                        £34,956
-                      </span>
-                    </div>
-                    <p className="text-white font-medium text-lg leading-relaxed">
-                      in sales from one campaign pack
-                    </p>
-                  </div>
-
-                  {/* Quote */}
-                  <div className="mt-6 p-4 bg-white/5 rounded-xl border-l-4 border-primary">
-                    <p className="text-white/90 italic text-sm">
-                      "One campaign pack generated more revenue than my previous 6 months of advertising combined."
-                    </p>
-                  </div>
+            {/* Vanda - Studio Owner */}
+            <Card className="p-6 bg-card border border-border hover:border-primary transition-colors">
+              <div className="text-center">
+                <div className="mb-4">
+                  <h3 className="text-xl font-bold text-white mb-2">Vanda</h3>
+                  <p className="text-sm text-muted-foreground mb-4">Studio Owner</p>
+                </div>
+                <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
+                  <p className="text-2xl font-bold text-primary mb-2">£34,956</p>
+                  <p className="text-sm text-white">in sales from one campaign pack</p>
                 </div>
               </div>
+            </Card>
 
-              {/* Chris's Success Story */}
-              <div className="group relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-3xl blur-lg group-hover:blur-xl transition-all duration-500 opacity-50 group-hover:opacity-75"></div>
-                <div className="relative bg-gradient-to-br from-card/90 to-card/50 backdrop-blur-xl border border-primary/20 rounded-3xl p-8 hover:border-primary/40 transition-all duration-500 group-hover:transform group-hover:-translate-y-2">
-                  
-                  {/* Achievement Badge */}
-                  <div className="absolute -top-4 left-8">
-                    <div className="bg-gradient-to-r from-primary to-primary/80 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">
-                      📈 Scale & Growth
-                    </div>
-                  </div>
-                  
-                  {/* Profile Section */}
-                  <div className="pt-6 pb-6 text-center">
-                    <div className="relative inline-block mb-4">
-                      <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center text-2xl font-bold text-white shadow-xl">
-                        C
-                      </div>
-                      <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
-                        ✓
-                      </div>
-                    </div>
-                    <h3 className="text-2xl font-bold text-white mb-2">Chris</h3>
-                    <p className="text-primary/80 font-semibold text-sm mb-6">Group PT Gym • Multi-Location</p>
-                  </div>
-
-                  {/* Results Card */}
-                  <div className="bg-gradient-to-r from-primary/20 via-primary/15 to-primary/10 border border-primary/30 rounded-2xl p-6 text-center backdrop-blur-sm">
-                    <div className="mb-4">
-                      <span className="text-5xl font-black bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                        133
-                      </span>
-                    </div>
-                    <p className="text-white font-medium text-lg leading-relaxed">
-                      SGPT members and expanding to a second site
-                    </p>
-                  </div>
-
-                  {/* Quote */}
-                  <div className="mt-6 p-4 bg-white/5 rounded-xl border-l-4 border-primary">
-                    <p className="text-white/90 italic text-sm">
-                      "From struggling to fill classes to having a waiting list. Now opening our second location!"
-                    </p>
-                  </div>
+            {/* Chris - Group PT Gym */}
+            <Card className="p-6 bg-card border border-border hover:border-primary transition-colors">
+              <div className="text-center">
+                <div className="mb-4">
+                  <h3 className="text-xl font-bold text-white mb-2">Chris</h3>
+                  <p className="text-sm text-muted-foreground mb-4">Group PT Gym</p>
+                </div>
+                <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
+                  <p className="text-2xl font-bold text-primary mb-2">133</p>
+                  <p className="text-sm text-white">SGPT members and expanding to a second site</p>
                 </div>
               </div>
-            </div>
+            </Card>
           </div>
 
-          {/* Enhanced CTA */}
-          <div className="text-center mt-16">
-            <div className="inline-flex flex-col items-center">
-              <p className="text-white/70 mb-4 text-lg">Ready to join them?</p>
-              <CTAButton size="lg" onClick={() => navigate('/auth')} className="shadow-2xl shadow-primary/20">
-                Join the Movement Now
-              </CTAButton>
-            </div>
+          {/* CTA Button */}
+          <div className="text-center">
+            <CTAButton size="lg" onClick={() => navigate('/auth')}>
+              Join the Movement Now
+            </CTAButton>
           </div>
         </div>
       </section>
@@ -687,256 +550,6 @@ const Index = () => {
       {/* Comparison Table Section */}
       <ComparisonTable />
 
-      {/* WHO ELSE WANTS TO DO THIS Section */}
-      <section className="py-20 px-4 bg-secondary/5">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black text-white mb-8 font-klein">
-              Who Else Wants More Clients Without the Guesswork?
-            </h2>
-            
-            <div className="max-w-4xl mx-auto">
-              <p className="text-xl text-white/90 leading-relaxed mb-12">
-                Right now, fitness businesses across the UK are using FitnessAds.ai to:
-              </p>
-            </div>
-          </div>
-
-          {/* Benefits Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            <div className="group relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500 opacity-50 group-hover:opacity-75"></div>
-              <div className="relative bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-xl border border-primary/20 rounded-2xl p-8 text-center hover:border-primary/40 transition-all duration-500 group-hover:transform group-hover:-translate-y-2">
-                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Users className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-lg font-bold text-white mb-3">Fill classes</h3>
-                <p className="text-white/70 text-sm">in under a week</p>
-              </div>
-            </div>
-
-            <div className="group relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500 opacity-50 group-hover:opacity-75"></div>
-              <div className="relative bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-xl border border-primary/20 rounded-2xl p-8 text-center hover:border-primary/40 transition-all duration-500 group-hover:transform group-hover:-translate-y-2">
-                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Star className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-lg font-bold text-white mb-3">Sell out</h3>
-                <p className="text-white/70 text-sm">seasonal programs</p>
-              </div>
-            </div>
-
-            <div className="group relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500 opacity-50 group-hover:opacity-75"></div>
-              <div className="relative bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-xl border border-primary/20 rounded-2xl p-8 text-center hover:border-primary/40 transition-all duration-500 group-hover:transform group-hover:-translate-y-2">
-                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <TrendingUp className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-lg font-bold text-white mb-3">Reactivate</h3>
-                <p className="text-white/70 text-sm">past members</p>
-              </div>
-            </div>
-
-            <div className="group relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500 opacity-50 group-hover:opacity-75"></div>
-              <div className="relative bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-xl border border-primary/20 rounded-2xl p-8 text-center hover:border-primary/40 transition-all duration-500 group-hover:transform group-hover:-translate-y-2">
-                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Target className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-lg font-bold text-white mb-3">Stay top of mind</h3>
-                <p className="text-white/70 text-sm">in their community</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom Statement */}
-          <div className="text-center">
-            <div className="max-w-4xl mx-auto bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30 rounded-2xl p-8">
-              <p className="text-xl text-white leading-relaxed">
-                When they launch a campaign, they're using the same system that's generated{" "}
-                <span className="font-bold text-primary">millions in tracked fitness sales</span> — and they know{" "}
-                <span className="font-bold text-white">their competitors aren't.</span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* PROOF + SOCIAL MOMENTUM Section */}
-      <section className="py-20 px-4 bg-gradient-to-br from-background to-secondary/10">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black text-white mb-8 font-klein">
-              It's Not Just a Tool. It's a Growing Network of Fitness Winners.
-            </h2>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            {/* Left Side - Live Map */}
-            <div className="relative">
-              <h3 className="text-2xl font-bold text-white mb-6 text-center">
-                Live Campaign Launches
-              </h3>
-              
-              {/* Map Container - Placeholder for now */}
-              <div className="relative bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/30 rounded-2xl overflow-hidden h-80">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent"></div>
-                
-                {/* UK Map Outline - Simple SVG representation */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="relative w-64 h-80">
-                    <svg viewBox="0 0 200 300" className="w-full h-full">
-                      <path
-                        d="M50 50 Q80 30 120 50 L150 80 Q160 120 140 160 L120 200 Q100 240 80 220 L60 180 Q40 140 50 100 Z"
-                        fill="rgba(255, 54, 0, 0.2)"
-                        stroke="rgba(255, 54, 0, 0.5)"
-                        strokeWidth="2"
-                      />
-                      
-                      {/* Animated Dots for Live Activity */}
-                      <circle cx="90" cy="120" r="3" fill="#FF3600" className="animate-pulse">
-                        <animate attributeName="r" values="3;6;3" dur="2s" repeatCount="indefinite" />
-                      </circle>
-                      <circle cx="110" cy="140" r="3" fill="#FF3600" className="animate-pulse" style={{ animationDelay: '0.5s' }}>
-                        <animate attributeName="r" values="3;6;3" dur="2s" repeatCount="indefinite" />
-                      </circle>
-                      <circle cx="75" cy="160" r="3" fill="#FF3600" className="animate-pulse" style={{ animationDelay: '1s' }}>
-                        <animate attributeName="r" values="3;6;3" dur="2s" repeatCount="indefinite" />
-                      </circle>
-                    </svg>
-                  </div>
-                </div>
-                
-                {/* Live Indicator */}
-                <div className="absolute top-4 right-4 flex items-center gap-2 bg-black/50 backdrop-blur-sm rounded-full px-3 py-1">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-white text-xs font-medium">LIVE</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Side - Recent Wins Ticker */}
-            <div className="space-y-6">
-              <h3 className="text-2xl font-bold text-white mb-6 text-center">
-                Recent Wins
-              </h3>
-              
-              <div className="space-y-4">
-                {/* Win 1 */}
-                <div className="bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30 rounded-xl p-6 hover:border-primary/50 transition-all duration-300">
-                  <div className="flex items-start gap-4">
-                    <div className="w-3 h-3 bg-green-500 rounded-full mt-2 animate-pulse"></div>
-                    <div>
-                      <p className="text-white font-medium">
-                        <span className="font-bold text-primary">Hannah in Leeds</span> generated{" "}
-                        <span className="font-bold text-white">27 leads in 48 hours</span>
-                      </p>
-                      <p className="text-white/60 text-sm mt-1">2 hours ago</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Win 2 */}
-                <div className="bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30 rounded-xl p-6 hover:border-primary/50 transition-all duration-300">
-                  <div className="flex items-start gap-4">
-                    <div className="w-3 h-3 bg-green-500 rounded-full mt-2 animate-pulse"></div>
-                    <div>
-                      <p className="text-white font-medium">
-                        <span className="font-bold text-primary">Jordan in Brighton</span> filled{" "}
-                        <span className="font-bold text-white">12 PT slots in a week</span>
-                      </p>
-                      <p className="text-white/60 text-sm mt-1">5 hours ago</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Win 3 */}
-                <div className="bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30 rounded-xl p-6 hover:border-primary/50 transition-all duration-300">
-                  <div className="flex items-start gap-4">
-                    <div className="w-3 h-3 bg-green-500 rounded-full mt-2 animate-pulse"></div>
-                    <div>
-                      <p className="text-white font-medium">
-                        <span className="font-bold text-primary">Studio in Glasgow</span> hit{" "}
-                        <span className="font-bold text-white">50% class waitlists in 3 days</span>
-                      </p>
-                      <p className="text-white/60 text-sm mt-1">8 hours ago</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Invite Framing */}
-              <div className="mt-8 p-6 bg-gradient-to-r from-primary/30 to-primary/20 border border-primary/40 rounded-2xl text-center">
-                <p className="text-white font-medium text-lg leading-relaxed">
-                  Be part of the first <span className="font-bold text-primary">100 businesses in the UK</span> building with us — before global rollout.
-                </p>
-                <div className="mt-4">
-                  <CTAButton size="default">
-                    Join the Network
-                  </CTAButton>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ROI BELIEF LOOP Section */}
-      <section className="py-20 px-4 bg-gradient-to-br from-background via-background/95 to-primary/5">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black text-white mb-8 font-klein">
-              Track Every Pound Back Into Your Business.
-            </h2>
-            <div className="max-w-4xl mx-auto">
-              <p className="text-xl text-white/90 leading-relaxed mb-8">
-                We built FitnessAds.ai to close the loop between ad creation and ad performance.
-                <br />
-                Track cost-per-lead, Return on ad spend, and campaign wins — all in one place.
-              </p>
-              
-              {/* Micro-Proof Stat */}
-              <div className="inline-flex items-center gap-3 bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30 rounded-2xl px-8 py-4">
-                <TrendingUp className="w-6 h-6 text-primary" />
-                <span className="text-white font-bold text-lg">
-                  Average early user Cost per lead drops: <span className="text-primary">32% in 10 days</span>
-                </span>
-                <Badge variant="outline" className="border-primary/50 text-primary">
-                  Verified
-                </Badge>
-              </div>
-            </div>
-          </div>
-          
-          {/* Visual Elements */}
-          <div className="grid md:grid-cols-3 gap-8 mt-12">
-            <div className="text-center group">
-              <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                <Target className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-lg font-bold text-white mb-2">Cost-Per-Lead</h3>
-              <p className="text-white/70">Track exactly what each lead costs</p>
-            </div>
-            
-            <div className="text-center group">
-              <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                <DollarSign className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-lg font-bold text-white mb-2">Return on Ad Spend</h3>
-              <p className="text-white/70">See your revenue attribution clearly</p>
-            </div>
-            
-            <div className="text-center group">
-              <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                <TrendingUp className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-lg font-bold text-white mb-2">Campaign Wins</h3>
-              <p className="text-white/70">Know which campaigns to scale</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* WHO IT'S FOR Section */}
       <section className="py-16 px-4 bg-secondary/10">
         <div className="max-w-6xl mx-auto">
@@ -1130,60 +743,6 @@ const Index = () => {
             <CTAButton size="lg">
               Get Started Today
             </CTAButton>
-          </div>
-        </div>
-      </section>
-
-      {/* Final Close / Who Else Wrap Section */}
-      <section className="py-20 px-4 bg-gradient-to-br from-background via-secondary/5 to-primary/10">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-black text-foreground mb-8 font-klein">
-            Who Else Could Be Getting Results Like This?
-          </h2>
-          
-          <div className="mb-12">
-            <p className="text-xl md:text-2xl text-muted-foreground mb-6 leading-relaxed">
-              Your competitors will see this sooner or later.
-            </p>
-            <p className="text-xl md:text-2xl text-foreground font-semibold">
-              The only question is — will they see it in your ads, or theirs?
-            </p>
-          </div>
-
-          {/* Final CTA */}
-          <div className="mb-8">
-            <CTAButton size="lg" className="rounded-2xl text-lg px-12 py-4">
-              Build My First Campaign — Start Now
-            </CTAButton>
-          </div>
-
-          {/* Micro-Reassurance */}
-          <div className="text-muted-foreground text-lg">
-            You control the budget. You control the message. We handle the heavy lifting.
-          </div>
-
-          {/* Inline Reassurance Snippets */}
-          <div className="grid md:grid-cols-2 gap-6 mt-12 text-left">
-            <div className="bg-card/50 backdrop-blur-sm border border-muted rounded-lg p-6">
-              <p className="text-muted-foreground">
-                Launch with as little as <span className="text-primary font-semibold">£5/day</span> in ad spend — start small, scale when you're ready.
-              </p>
-            </div>
-            <div className="bg-card/50 backdrop-blur-sm border border-muted rounded-lg p-6">
-              <p className="text-muted-foreground">
-                No "learning curve" — if you can post on Instagram, you can launch a campaign.
-              </p>
-            </div>
-            <div className="bg-card/50 backdrop-blur-sm border border-muted rounded-lg p-6">
-              <p className="text-muted-foreground">
-                Every campaign based on ads that have <span className="text-primary font-semibold">already worked</span> for fitness businesses.
-              </p>
-            </div>
-            <div className="bg-card/50 backdrop-blur-sm border border-muted rounded-lg p-6">
-              <p className="text-muted-foreground">
-                Clear steps. No hidden settings. Nothing to "figure out."
-              </p>
-            </div>
           </div>
         </div>
       </section>
