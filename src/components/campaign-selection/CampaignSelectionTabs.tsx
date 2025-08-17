@@ -42,7 +42,7 @@ export const CampaignSelectionTabs = ({ selectedCampaign, onCampaignSelect }: Ca
   return (
     <div className="w-full">
       <div className="mb-8 text-center">
-        <h3 className="text-2xl font-bold mb-3 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+        <h3 className="text-2xl font-bold mb-3 text-foreground">
           Most Popular Campaigns
         </h3>
         <p className="text-muted-foreground max-w-2xl mx-auto">
