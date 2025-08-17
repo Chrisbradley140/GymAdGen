@@ -60,11 +60,11 @@ const Dashboard = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
           {profile?.full_name && (
-            <p className="text-lg text-foreground mb-2">
+            <h1 className="text-3xl font-klein font-extrabold text-white mb-4">
               Welcome, {profile.full_name}
-            </p>
+            </h1>
           )}
-          <h1 className="text-3xl font-klein font-extrabold text-white mb-2">Dashboard</h1>
+          <h2 className="text-2xl font-klein font-bold text-white mb-2">Dashboard</h2>
           <p className="text-muted-foreground">
             Here's your fitness ad performance overview.
           </p>
