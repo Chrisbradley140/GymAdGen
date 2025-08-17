@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Upload, Eye } from "lucide-react";
 import { OnboardingData } from "@/hooks/useBrandSetup";
 
@@ -84,6 +85,45 @@ export const GeneralInfoSection: React.FC<GeneralInfoSectionProps> = ({
           <p className="text-muted-foreground">{data.business_name || 'Not provided'}</p>
         )}
       </div>
+
+      <div className="space-y-2">
+        <Label>Is your business primarily:</Label>
+        {isEditing ? (
+          <RadioGroup
+            value={data.business_type}
+            onValueChange={(value) => onUpdate('business_type', value)}
+            className="flex gap-6"
+          >
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="online" id="online" />
+              <Label htmlFor="online">Online</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="in-person" id="in-person" />
+              <Label htmlFor="in-person">In person</Label>
+            </div>
+          </RadioGroup>
+        ) : (
+          <p className="text-muted-foreground">
+            {data.business_type ? (data.business_type === 'online' ? 'Online' : 'In person') : 'Not specified'}
+          </p>
+        )}
+      </div>
+
+      {data.business_type === 'in-person' && (
+        <div className="space-y-2">
+          <Label>City</Label>
+          {isEditing ? (
+            <Input
+              value={data.business_city}
+              onChange={(e) => onUpdate('business_city', e.target.value)}
+              placeholder="Enter your city"
+            />
+          ) : (
+            <p className="text-muted-foreground">{data.business_city || 'Not specified'}</p>
+          )}
+        </div>
+      )}
 
       <div className="space-y-2">
         <Label>Website URL</Label>

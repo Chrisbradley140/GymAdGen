@@ -39,13 +39,6 @@ export const AudienceOfferSection: React.FC<AudienceOfferSectionProps> = ({
     "Other"
   ];
 
-  const offerTypes = [
-    "Lead Gen",
-    "Reactivation", 
-    "Launch",
-    "Challenge"
-  ];
-
   const campaignTypes = [
     "Evergreen",
     "Launch",
@@ -76,30 +69,6 @@ export const AudienceOfferSection: React.FC<AudienceOfferSectionProps> = ({
 
   return (
     <div className="space-y-6">
-
-      <div className="space-y-2">
-        <Label>Offer Type</Label>
-        {isEditing ? (
-          <Select 
-            value={data.offer_type} 
-            onValueChange={(value) => onUpdate('offer_type', value)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Select offer type" />
-            </SelectTrigger>
-            <SelectContent>
-              {offerTypes.map((type) => (
-                <SelectItem key={type} value={type}>
-                  {type}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        ) : (
-          <p className="text-muted-foreground">{data.offer_type || 'Not specified'}</p>
-        )}
-      </div>
-
       <div className="space-y-2">
         <Label>Campaign Types</Label>
         <div className="flex flex-wrap gap-2">

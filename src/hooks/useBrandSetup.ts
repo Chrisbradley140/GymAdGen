@@ -9,6 +9,8 @@ export interface OnboardingData {
   business_name: string;
   logo_url: string;
   website_url: string;
+  business_type: string;
+  business_city: string;
   brand_colors: string;
   target_market: string;
   voice_tone_style: string;
@@ -69,6 +71,8 @@ export const useBrandSetup = () => {
           business_name: onboardingData.business_name || '',
           logo_url: onboardingData.logo_url || '',
           website_url: onboardingData.website_url || '',
+          business_type: onboardingData.business_type || '',
+          business_city: onboardingData.business_city || '',
           brand_colors: onboardingData.brand_colors || '',
           target_market: onboardingData.target_market || '',
           voice_tone_style: onboardingData.voice_tone_style || '',
@@ -119,6 +123,8 @@ export const useBrandSetup = () => {
           business_name: updatedData.business_name,
           logo_url: updatedData.logo_url,
           website_url: updatedData.website_url,
+          business_type: updatedData.business_type,
+          business_city: updatedData.business_city,
           brand_colors: updatedData.brand_colors,
           target_market: updatedData.target_market,
           voice_tone_style: updatedData.voice_tone_style,
