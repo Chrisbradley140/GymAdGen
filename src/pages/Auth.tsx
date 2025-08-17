@@ -246,16 +246,6 @@ const Auth = () => {
                 </div>
               </div>
 
-              {isLogin && (
-                <div className="text-left">
-                  <button
-                    type="button"
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    Forgot Password?
-                  </button>
-                </div>
-              )}
 
               {error && (
                 <Alert variant="destructive" className="bg-destructive/20 backdrop-blur-sm border-destructive/30">
