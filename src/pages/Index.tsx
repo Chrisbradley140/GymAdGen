@@ -687,6 +687,125 @@ const Index = () => {
       {/* Comparison Table Section */}
       <ComparisonTable />
 
+      {/* PROOF + SOCIAL MOMENTUM Section */}
+      <section className="py-20 px-4 bg-gradient-to-br from-background to-secondary/10">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-8 font-klein">
+              It's Not Just a Tool. It's a Growing Network of Fitness Winners.
+            </h2>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-start">
+            {/* Left Side - Live Map */}
+            <div className="relative">
+              <h3 className="text-2xl font-bold text-white mb-6 text-center">
+                Live Campaign Launches
+              </h3>
+              
+              {/* Map Container - Placeholder for now */}
+              <div className="relative bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/30 rounded-2xl overflow-hidden h-80">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent"></div>
+                
+                {/* UK Map Outline - Simple SVG representation */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="relative w-64 h-80">
+                    <svg viewBox="0 0 200 300" className="w-full h-full">
+                      <path
+                        d="M50 50 Q80 30 120 50 L150 80 Q160 120 140 160 L120 200 Q100 240 80 220 L60 180 Q40 140 50 100 Z"
+                        fill="rgba(255, 54, 0, 0.2)"
+                        stroke="rgba(255, 54, 0, 0.5)"
+                        strokeWidth="2"
+                      />
+                      
+                      {/* Animated Dots for Live Activity */}
+                      <circle cx="90" cy="120" r="3" fill="#FF3600" className="animate-pulse">
+                        <animate attributeName="r" values="3;6;3" dur="2s" repeatCount="indefinite" />
+                      </circle>
+                      <circle cx="110" cy="140" r="3" fill="#FF3600" className="animate-pulse" style={{ animationDelay: '0.5s' }}>
+                        <animate attributeName="r" values="3;6;3" dur="2s" repeatCount="indefinite" />
+                      </circle>
+                      <circle cx="75" cy="160" r="3" fill="#FF3600" className="animate-pulse" style={{ animationDelay: '1s' }}>
+                        <animate attributeName="r" values="3;6;3" dur="2s" repeatCount="indefinite" />
+                      </circle>
+                    </svg>
+                  </div>
+                </div>
+                
+                {/* Live Indicator */}
+                <div className="absolute top-4 right-4 flex items-center gap-2 bg-black/50 backdrop-blur-sm rounded-full px-3 py-1">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-white text-xs font-medium">LIVE</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Side - Recent Wins Ticker */}
+            <div className="space-y-6">
+              <h3 className="text-2xl font-bold text-white mb-6 text-center">
+                Recent Wins
+              </h3>
+              
+              <div className="space-y-4">
+                {/* Win 1 */}
+                <div className="bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30 rounded-xl p-6 hover:border-primary/50 transition-all duration-300">
+                  <div className="flex items-start gap-4">
+                    <div className="w-3 h-3 bg-green-500 rounded-full mt-2 animate-pulse"></div>
+                    <div>
+                      <p className="text-white font-medium">
+                        <span className="font-bold text-primary">Hannah in Leeds</span> generated{" "}
+                        <span className="font-bold text-white">27 leads in 48 hours</span>
+                      </p>
+                      <p className="text-white/60 text-sm mt-1">2 hours ago</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Win 2 */}
+                <div className="bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30 rounded-xl p-6 hover:border-primary/50 transition-all duration-300">
+                  <div className="flex items-start gap-4">
+                    <div className="w-3 h-3 bg-green-500 rounded-full mt-2 animate-pulse"></div>
+                    <div>
+                      <p className="text-white font-medium">
+                        <span className="font-bold text-primary">Jordan in Brighton</span> filled{" "}
+                        <span className="font-bold text-white">12 PT slots in a week</span>
+                      </p>
+                      <p className="text-white/60 text-sm mt-1">5 hours ago</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Win 3 */}
+                <div className="bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30 rounded-xl p-6 hover:border-primary/50 transition-all duration-300">
+                  <div className="flex items-start gap-4">
+                    <div className="w-3 h-3 bg-green-500 rounded-full mt-2 animate-pulse"></div>
+                    <div>
+                      <p className="text-white font-medium">
+                        <span className="font-bold text-primary">Studio in Glasgow</span> hit{" "}
+                        <span className="font-bold text-white">50% class waitlists in 3 days</span>
+                      </p>
+                      <p className="text-white/60 text-sm mt-1">8 hours ago</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Invite Framing */}
+              <div className="mt-8 p-6 bg-gradient-to-r from-primary/30 to-primary/20 border border-primary/40 rounded-2xl text-center">
+                <p className="text-white font-medium text-lg leading-relaxed">
+                  Be part of the first <span className="font-bold text-primary">100 businesses in the UK</span> building with us — before global rollout.
+                </p>
+                <div className="mt-4">
+                  <CTAButton size="default">
+                    Join the Network
+                  </CTAButton>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ROI BELIEF LOOP Section */}
       <section className="py-20 px-4 bg-gradient-to-br from-background via-background/95 to-primary/5">
         <div className="max-w-6xl mx-auto">
