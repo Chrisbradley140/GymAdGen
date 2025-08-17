@@ -687,6 +687,62 @@ const Index = () => {
       {/* Comparison Table Section */}
       <ComparisonTable />
 
+      {/* ROI BELIEF LOOP Section */}
+      <section className="py-20 px-4 bg-gradient-to-br from-background via-background/95 to-primary/5">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-8 font-klein">
+              Track Every Pound Back Into Your Business.
+            </h2>
+            <div className="max-w-4xl mx-auto">
+              <p className="text-xl text-white/90 leading-relaxed mb-8">
+                We built FitnessAds.ai to close the loop between ad creation and ad performance.
+                <br />
+                Track cost-per-lead, Return on ad spend, and campaign wins — all in one place.
+              </p>
+              
+              {/* Micro-Proof Stat */}
+              <div className="inline-flex items-center gap-3 bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30 rounded-2xl px-8 py-4">
+                <TrendingUp className="w-6 h-6 text-primary" />
+                <span className="text-white font-bold text-lg">
+                  Average early user Cost per lead drops: <span className="text-primary">32% in 10 days</span>
+                </span>
+                <Badge variant="outline" className="border-primary/50 text-primary">
+                  Verified
+                </Badge>
+              </div>
+            </div>
+          </div>
+          
+          {/* Visual Elements */}
+          <div className="grid md:grid-cols-3 gap-8 mt-12">
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                <Target className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Cost-Per-Lead</h3>
+              <p className="text-white/70">Track exactly what each lead costs</p>
+            </div>
+            
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                <DollarSign className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Return on Ad Spend</h3>
+              <p className="text-white/70">See your revenue attribution clearly</p>
+            </div>
+            
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                <TrendingUp className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Campaign Wins</h3>
+              <p className="text-white/70">Know which campaigns to scale</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* WHO IT'S FOR Section */}
       <section className="py-16 px-4 bg-secondary/10">
         <div className="max-w-6xl mx-auto">
