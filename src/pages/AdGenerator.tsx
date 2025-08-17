@@ -475,7 +475,9 @@ IMPORTANT: Return ONLY the 3 concepts in the format above. Do NOT add any introd
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div>
-                      <CardTitle className="text-xl">{selectedCampaign.name}</CardTitle>
+                      <CardTitle className="text-xl">
+                        {selectedCampaign.name === "Football Camp" ? "Sports Ads" : selectedCampaign.name}
+                      </CardTitle>
                       <CardDescription className="mt-1">
                         {selectedCampaign.description}
                       </CardDescription>
