@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useProfile } from "@/hooks/useProfile";
 import { useDashboardStats } from "@/hooks/useDashboardStats";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,6 +9,7 @@ import { Zap, Library, Settings, Target } from "lucide-react";
 
 const Dashboard = () => {
   const { user, loading } = useAuth();
+  const { profile } = useProfile();
   const { totalAdsGenerated, isLoading: statsLoading } = useDashboardStats();
   const navigate = useNavigate();
 
@@ -57,9 +59,14 @@ const Dashboard = () => {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
+          {profile?.full_name && (
+            <p className="text-lg text-foreground mb-2">
+              Welcome, {profile.full_name}
+            </p>
+          )}
           <h1 className="text-3xl font-klein font-extrabold text-white mb-2">Dashboard</h1>
           <p className="text-muted-foreground">
-            Welcome back! Here's your fitness ad performance overview.
+            Here's your fitness ad performance overview.
           </p>
         </div>
 
