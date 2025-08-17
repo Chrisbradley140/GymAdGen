@@ -7,7 +7,6 @@ import { Input } from '@/components/ui/input';
 
 interface StepThreeProps {
   data: {
-    offer_type: string;
     campaign_types: string[];
     seasonal_launch_options: string[];
   };
@@ -15,17 +14,6 @@ interface StepThreeProps {
 }
 
 const StepThree: React.FC<StepThreeProps> = ({ data, updateData }) => {
-  const offerTypes = [
-    "Lead Gen",
-    "Launch",
-    "Challenge",
-    "Course",
-    "Coaching",
-    "Supplement",
-    "Equipment",
-    "Other"
-  ];
-
   const campaignTypes = [
     "Evergreen Lead Gen",
     "Seasonal Launch",
@@ -62,22 +50,6 @@ const StepThree: React.FC<StepThreeProps> = ({ data, updateData }) => {
 
   return (
     <div className="space-y-6">
-      <div className="space-y-2">
-        <Label htmlFor="offer_type">Offer Type</Label>
-        <Select value={data.offer_type} onValueChange={(value) => updateData({ offer_type: value })}>
-          <SelectTrigger>
-            <SelectValue placeholder="Select your offer type" />
-          </SelectTrigger>
-          <SelectContent>
-            {offerTypes.map((type) => (
-              <SelectItem key={type} value={type}>
-                {type}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
       <div className="space-y-4">
         <Label>Campaign Type (select all that apply)</Label>
         <div className="grid grid-cols-1 gap-3">
