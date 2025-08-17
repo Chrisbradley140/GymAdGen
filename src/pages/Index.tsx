@@ -884,6 +884,60 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Final Close / Who Else Wrap Section */}
+      <section className="py-20 px-4 bg-gradient-to-br from-background via-secondary/5 to-primary/10">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-black text-foreground mb-8 font-klein">
+            Who Else Could Be Getting Results Like This?
+          </h2>
+          
+          <div className="mb-12">
+            <p className="text-xl md:text-2xl text-muted-foreground mb-6 leading-relaxed">
+              Your competitors will see this sooner or later.
+            </p>
+            <p className="text-xl md:text-2xl text-foreground font-semibold">
+              The only question is — will they see it in your ads, or theirs?
+            </p>
+          </div>
+
+          {/* Final CTA */}
+          <div className="mb-8">
+            <CTAButton size="lg" className="rounded-2xl text-lg px-12 py-4">
+              Build My First Campaign — Start Now
+            </CTAButton>
+          </div>
+
+          {/* Micro-Reassurance */}
+          <div className="text-muted-foreground text-lg">
+            You control the budget. You control the message. We handle the heavy lifting.
+          </div>
+
+          {/* Inline Reassurance Snippets */}
+          <div className="grid md:grid-cols-2 gap-6 mt-12 text-left">
+            <div className="bg-card/50 backdrop-blur-sm border border-muted rounded-lg p-6">
+              <p className="text-muted-foreground">
+                Launch with as little as <span className="text-primary font-semibold">£5/day</span> in ad spend — start small, scale when you're ready.
+              </p>
+            </div>
+            <div className="bg-card/50 backdrop-blur-sm border border-muted rounded-lg p-6">
+              <p className="text-muted-foreground">
+                No "learning curve" — if you can post on Instagram, you can launch a campaign.
+              </p>
+            </div>
+            <div className="bg-card/50 backdrop-blur-sm border border-muted rounded-lg p-6">
+              <p className="text-muted-foreground">
+                Every campaign based on ads that have <span className="text-primary font-semibold">already worked</span> for fitness businesses.
+              </p>
+            </div>
+            <div className="bg-card/50 backdrop-blur-sm border border-muted rounded-lg p-6">
+              <p className="text-muted-foreground">
+                Clear steps. No hidden settings. Nothing to "figure out."
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ Section */}
       <FAQ />
 
