@@ -246,17 +246,6 @@ const Index = () => {
           </div>
         </nav>
 
-        {/* Micro-Proof Section */}
-        <div className="relative z-50 w-full mt-4">
-          <div className="container mx-auto flex justify-center">
-            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg px-6 py-3">
-              <p className="text-white text-sm font-medium font-klein text-center">
-                Already used by <span className="font-bold text-orange-400">{liveCounter}</span> UK gyms, studios, and coaches — be part of the first 200.
-              </p>
-            </div>
-          </div>
-        </div>
-
         {/* Hero Content */}
         <div className="flex-1 flex items-center justify-center relative z-10">
           <div className="max-w-5xl mx-auto text-center">
@@ -314,6 +303,17 @@ const Index = () => {
               <CTAButton size="lg">
                 Build My First Campaign
               </CTAButton>
+            </div>
+          </div>
+        </div>
+
+        {/* Micro-Proof Section at bottom of header */}
+        <div className="relative z-50 w-full mb-8">
+          <div className="container mx-auto flex justify-center">
+            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg px-6 py-3">
+              <p className="text-white text-sm font-medium font-klein text-center">
+                Already used by <span className="font-bold text-orange-400">{liveCounter}</span> UK gyms, studios, and coaches — be part of the first 200.
+              </p>
             </div>
           </div>
         </div>
