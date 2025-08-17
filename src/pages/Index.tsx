@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -48,8 +48,24 @@ import { useNavigate } from "react-router-dom";
 
 const Index = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [liveCounter, setLiveCounter] = useState(147);
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
+
+  // Live counter effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLiveCounter(prev => {
+        // Randomly increment between 1-3 every 30-60 seconds
+        const increment = Math.random() > 0.7 ? Math.floor(Math.random() * 3) + 1 : 0;
+        const newValue = prev + increment;
+        // Keep it between 147 and 199 to stay realistic
+        return Math.min(newValue, 199);
+      });
+    }, Math.random() * 30000 + 30000); // 30-60 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleAuthAction = () => {
     if (user) {
@@ -229,6 +245,17 @@ const Index = () => {
             </div>
           </div>
         </nav>
+
+        {/* Micro-Proof Section */}
+        <div className="relative z-50 w-full mt-4">
+          <div className="container mx-auto flex justify-center">
+            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg px-6 py-3">
+              <p className="text-white text-sm font-medium font-klein text-center">
+                Already used by <span className="font-bold text-orange-400">{liveCounter}</span> UK gyms, studios, and coaches — be part of the first 200.
+              </p>
+            </div>
+          </div>
+        </div>
 
         {/* Hero Content */}
         <div className="flex-1 flex items-center justify-center relative z-10">
