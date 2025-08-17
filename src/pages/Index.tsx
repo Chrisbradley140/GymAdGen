@@ -687,6 +687,81 @@ const Index = () => {
       {/* Comparison Table Section */}
       <ComparisonTable />
 
+      {/* WHO ELSE WANTS TO DO THIS Section */}
+      <section className="py-20 px-4 bg-secondary/5">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-8 font-klein">
+              Who Else Wants More Clients Without the Guesswork?
+            </h2>
+            
+            <div className="max-w-4xl mx-auto">
+              <p className="text-xl text-white/90 leading-relaxed mb-12">
+                Right now, fitness businesses across the UK are using FitnessAds.ai to:
+              </p>
+            </div>
+          </div>
+
+          {/* Benefits Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+            <div className="group relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500 opacity-50 group-hover:opacity-75"></div>
+              <div className="relative bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-xl border border-primary/20 rounded-2xl p-8 text-center hover:border-primary/40 transition-all duration-500 group-hover:transform group-hover:-translate-y-2">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Users className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-lg font-bold text-white mb-3">Fill classes</h3>
+                <p className="text-white/70 text-sm">in under a week</p>
+              </div>
+            </div>
+
+            <div className="group relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500 opacity-50 group-hover:opacity-75"></div>
+              <div className="relative bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-xl border border-primary/20 rounded-2xl p-8 text-center hover:border-primary/40 transition-all duration-500 group-hover:transform group-hover:-translate-y-2">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Star className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-lg font-bold text-white mb-3">Sell out</h3>
+                <p className="text-white/70 text-sm">seasonal programs</p>
+              </div>
+            </div>
+
+            <div className="group relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500 opacity-50 group-hover:opacity-75"></div>
+              <div className="relative bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-xl border border-primary/20 rounded-2xl p-8 text-center hover:border-primary/40 transition-all duration-500 group-hover:transform group-hover:-translate-y-2">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <TrendingUp className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-lg font-bold text-white mb-3">Reactivate</h3>
+                <p className="text-white/70 text-sm">past members</p>
+              </div>
+            </div>
+
+            <div className="group relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500 opacity-50 group-hover:opacity-75"></div>
+              <div className="relative bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-xl border border-primary/20 rounded-2xl p-8 text-center hover:border-primary/40 transition-all duration-500 group-hover:transform group-hover:-translate-y-2">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Target className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-lg font-bold text-white mb-3">Stay top of mind</h3>
+                <p className="text-white/70 text-sm">in their community</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Statement */}
+          <div className="text-center">
+            <div className="max-w-4xl mx-auto bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30 rounded-2xl p-8">
+              <p className="text-xl text-white leading-relaxed">
+                When they launch a campaign, they're using the same system that's generated{" "}
+                <span className="font-bold text-primary">millions in tracked fitness sales</span> — and they know{" "}
+                <span className="font-bold text-white">their competitors aren't.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* PROOF + SOCIAL MOMENTUM Section */}
       <section className="py-20 px-4 bg-gradient-to-br from-background to-secondary/10">
         <div className="max-w-7xl mx-auto">
