@@ -17,6 +17,8 @@ interface OnboardingData {
   business_name: string;
   logo_url: string;
   website_url: string;
+  business_type: string;
+  business_city: string;
   brand_colors: string;
   target_market: string;
   voice_tone_style: string;
@@ -40,6 +42,8 @@ const initialData: OnboardingData = {
   business_name: '',
   logo_url: '',
   website_url: '',
+  business_type: '',
+  business_city: '',
   brand_colors: '',
   target_market: '',
   voice_tone_style: '',
@@ -114,6 +118,8 @@ const OnboardingWizard: React.FC<{ onComplete: () => void; forceRestart?: boolea
           business_name: existingData.business_name || '',
           logo_url: existingData.logo_url || '',
           website_url: existingData.website_url || '',
+          business_type: existingData.business_type || '',
+          business_city: existingData.business_city || '',
           brand_colors: existingData.brand_colors || '',
           target_market: existingData.target_market || '',
           voice_tone_style: existingData.voice_tone_style || '',
@@ -281,8 +287,14 @@ const OnboardingWizard: React.FC<{ onComplete: () => void; forceRestart?: boolea
 
   const canProceed = () => {
     switch (currentStep) {
-      case 1: return data.business_name.trim() !== '' && data.website_url.trim() !== '';
-      case 2: 
+      case 1: 
+        const isBusinessTypeValid = data.business_type.trim() !== '';
+        const isCityValid = data.business_type === 'in-person' ? data.business_city.trim() !== '' : true;
+        return data.business_name.trim() !== '' && 
+               data.website_url.trim() !== '' && 
+               isBusinessTypeValid && 
+               isCityValid;
+      case 2:
         return data.brand_colors.trim() !== '' && 
                data.voice_tone_style.trim() !== '';
       case 3: 

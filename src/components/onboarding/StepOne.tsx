@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Upload, X, Loader2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -13,6 +14,8 @@ interface StepOneProps {
     business_name: string;
     logo_url: string;
     website_url: string;
+    business_type: string;
+    business_city: string;
   };
   updateData: (updates: any) => void;
 }
@@ -77,6 +80,37 @@ const StepOne: React.FC<StepOneProps> = ({ data, updateData }) => {
           className="w-full"
         />
       </div>
+
+      <div className="space-y-4">
+        <Label>Is your business primarily: *</Label>
+        <RadioGroup
+          value={data.business_type}
+          onValueChange={(value) => updateData({ business_type: value })}
+          className="flex gap-6"
+        >
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="online" id="online" />
+            <Label htmlFor="online">Online</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="in-person" id="in-person" />
+            <Label htmlFor="in-person">In person</Label>
+          </div>
+        </RadioGroup>
+      </div>
+
+      {data.business_type === 'in-person' && (
+        <div className="space-y-2">
+          <Label htmlFor="business_city">What city are you based in? *</Label>
+          <Input
+            id="business_city"
+            value={data.business_city}
+            onChange={(e) => updateData({ business_city: e.target.value })}
+            placeholder="Enter your city"
+            className="w-full"
+          />
+        </div>
+      )}
 
       <div className="space-y-2">
         <Label htmlFor="logo_upload">Logo Upload (Optional)</Label>

@@ -346,7 +346,9 @@ export type Database = {
         Row: {
           brand_colors: string | null
           brand_words: string | null
+          business_city: string | null
           business_name: string | null
+          business_type: string | null
           campaign_types: string[] | null
           client_words: string | null
           coaching_style: string | null
@@ -374,7 +376,9 @@ export type Database = {
         Insert: {
           brand_colors?: string | null
           brand_words?: string | null
+          business_city?: string | null
           business_name?: string | null
+          business_type?: string | null
           campaign_types?: string[] | null
           client_words?: string | null
           coaching_style?: string | null
@@ -402,7 +406,9 @@ export type Database = {
         Update: {
           brand_colors?: string | null
           brand_words?: string | null
+          business_city?: string | null
           business_name?: string | null
+          business_type?: string | null
           campaign_types?: string[] | null
           client_words?: string | null
           coaching_style?: string | null
