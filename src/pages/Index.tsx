@@ -331,48 +331,60 @@ const Index = () => {
             </p>
           </div>
 
-          {/* Proof Tiles Grid */}
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
+          {/* Enhanced Proof Tiles Grid */}
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
             {/* Rorie - Online Coach */}
-            <Card className="p-6 bg-card border border-border hover:border-primary transition-colors">
+            <Card className="relative p-8 bg-gradient-to-br from-card/80 to-card/40 border border-primary/20 hover:border-primary/40 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/10 backdrop-blur-sm group">
               <div className="text-center">
-                <div className="mb-4">
-                  <h3 className="text-xl font-bold text-white mb-2">Rorie</h3>
-                  <p className="text-sm text-muted-foreground mb-4">Online Coach for Semi Professional Footballers</p>
+                <div className="mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/60 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <span className="text-2xl font-bold text-white">R</span>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-primary transition-colors">Rorie</h3>
+                  <p className="text-muted-foreground font-medium">Online Coach for Semi Professional Footballers</p>
                 </div>
-                <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
-                  <p className="text-2xl font-bold text-primary mb-2">£10k</p>
-                  <p className="text-sm text-white">month online after launching FitnessAds.ai-generated campaigns</p>
+                <div className="bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30 rounded-xl p-6 backdrop-blur-sm">
+                  <p className="text-4xl font-black text-primary mb-3">£10k</p>
+                  <p className="text-white font-medium leading-relaxed">per month online after launching FitnessAds.ai-generated campaigns</p>
                 </div>
               </div>
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </Card>
 
             {/* Vanda - Studio Owner */}
-            <Card className="p-6 bg-card border border-border hover:border-primary transition-colors">
+            <Card className="relative p-8 bg-gradient-to-br from-card/80 to-card/40 border border-primary/20 hover:border-primary/40 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/10 backdrop-blur-sm group">
               <div className="text-center">
-                <div className="mb-4">
-                  <h3 className="text-xl font-bold text-white mb-2">Vanda</h3>
-                  <p className="text-sm text-muted-foreground mb-4">Studio Owner</p>
+                <div className="mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/60 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <span className="text-2xl font-bold text-white">V</span>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-primary transition-colors">Vanda</h3>
+                  <p className="text-muted-foreground font-medium">Studio Owner</p>
                 </div>
-                <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
-                  <p className="text-2xl font-bold text-primary mb-2">£34,956</p>
-                  <p className="text-sm text-white">in sales from one campaign pack</p>
+                <div className="bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30 rounded-xl p-6 backdrop-blur-sm">
+                  <p className="text-4xl font-black text-primary mb-3">£34,956</p>
+                  <p className="text-white font-medium leading-relaxed">in sales from one campaign pack</p>
                 </div>
               </div>
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </Card>
 
             {/* Chris - Group PT Gym */}
-            <Card className="p-6 bg-card border border-border hover:border-primary transition-colors">
+            <Card className="relative p-8 bg-gradient-to-br from-card/80 to-card/40 border border-primary/20 hover:border-primary/40 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/10 backdrop-blur-sm group">
               <div className="text-center">
-                <div className="mb-4">
-                  <h3 className="text-xl font-bold text-white mb-2">Chris</h3>
-                  <p className="text-sm text-muted-foreground mb-4">Group PT Gym</p>
+                <div className="mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/60 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <span className="text-2xl font-bold text-white">C</span>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-primary transition-colors">Chris</h3>
+                  <p className="text-muted-foreground font-medium">Group PT Gym</p>
                 </div>
-                <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
-                  <p className="text-2xl font-bold text-primary mb-2">133</p>
-                  <p className="text-sm text-white">SGPT members and expanding to a second site</p>
+                <div className="bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30 rounded-xl p-6 backdrop-blur-sm">
+                  <p className="text-4xl font-black text-primary mb-3">133</p>
+                  <p className="text-white font-medium leading-relaxed">SGPT members and expanding to a second site</p>
                 </div>
               </div>
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </Card>
           </div>
 
