@@ -25,7 +25,10 @@ import {
   Library,
   Settings,
   FileText,
-  Check
+  Check,
+  X,
+  MessageCircle,
+  BarChart3
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -490,6 +493,230 @@ const Index = () => {
               <CTAButton size="lg" onClick={() => navigate('/auth')} className="shadow-2xl shadow-primary/20">
                 Join the Movement Now
               </CTAButton>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Old Way vs New Way Section */}
+      <section className="py-16 px-4 bg-gradient-to-br from-background via-muted/5 to-primary/5">
+        <div className="max-w-7xl mx-auto">
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-black text-white mb-6 font-klein">
+              Why Settle for the Old Way When the New Way Exists?
+            </h2>
+            <p className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
+              The fitness industry is evolving. Here's how the game has changed.
+            </p>
+          </div>
+
+          {/* Split Screen Layout */}
+          <div className="grid lg:grid-cols-2 gap-8 mb-16">
+            {/* Left Side - Old Way (Grayscale) */}
+            <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-muted/20 to-muted/10 border border-muted/20">
+              <div className="absolute inset-0 bg-gradient-to-br from-black/40 to-black/60"></div>
+              <div className="relative p-8 min-h-[400px] flex flex-col">
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-bold text-white/70 mb-2 font-klein">THE OLD WAY</h3>
+                  <div className="w-16 h-1 bg-muted/40 mx-auto rounded-full"></div>
+                </div>
+                
+                {/* Old Way Visual Elements */}
+                <div className="flex-1 flex flex-col justify-center space-y-4">
+                  <div className="bg-white/5 border border-white/10 rounded-lg p-4 backdrop-blur-sm">
+                    <div className="flex items-center gap-3 mb-2">
+                      <Clock className="w-5 h-5 text-white/50" />
+                      <span className="text-sm text-white/70 font-medium">Weeks to launch campaigns</span>
+                    </div>
+                    <p className="text-xs text-white/50">Multiple revisions, endless back-and-forth</p>
+                  </div>
+                  
+                  <div className="bg-white/5 border border-white/10 rounded-lg p-4 backdrop-blur-sm">
+                    <div className="flex items-center gap-3 mb-2">
+                      <Target className="w-5 h-5 text-white/50" />
+                      <span className="text-sm text-white/70 font-medium">Generic templates</span>
+                    </div>
+                    <p className="text-xs text-white/50">One-size-fits-all approach</p>
+                  </div>
+                  
+                  <div className="bg-white/5 border border-white/10 rounded-lg p-4 backdrop-blur-sm">
+                    <div className="flex items-center gap-3 mb-2">
+                      <DollarSign className="w-5 h-5 text-white/50" />
+                      <span className="text-sm text-white/70 font-medium">High & unpredictable costs</span>
+                    </div>
+                    <p className="text-xs text-white/50">No clear ROI tracking</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Side - New Way (Colorful) */}
+            <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-primary/20 via-primary/10 to-primary/5 border border-primary/30">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-primary/20"></div>
+              <div className="relative p-8 min-h-[400px] flex flex-col">
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-bold text-white mb-2 font-klein">THE NEW WAY: FITNESSADS.AI</h3>
+                  <div className="w-16 h-1 bg-primary mx-auto rounded-full"></div>
+                </div>
+                
+                {/* New Way Visual Elements */}
+                <div className="flex-1 flex flex-col justify-center space-y-4">
+                  <div className="bg-primary/20 border border-primary/40 rounded-lg p-4 backdrop-blur-sm">
+                    <div className="flex items-center gap-3 mb-2">
+                      <Zap className="w-5 h-5 text-primary" />
+                      <span className="text-sm text-white font-medium">90 seconds to launch</span>
+                    </div>
+                    <p className="text-xs text-white/80">AI-powered instant generation</p>
+                  </div>
+                  
+                  <div className="bg-primary/20 border border-primary/40 rounded-lg p-4 backdrop-blur-sm">
+                    <div className="flex items-center gap-3 mb-2">
+                      <MessageCircle className="w-5 h-5 text-primary" />
+                      <span className="text-sm text-white font-medium">Matches your voice</span>
+                    </div>
+                    <p className="text-xs text-white/80">Trained on real fitness ad data</p>
+                  </div>
+                  
+                  <div className="bg-primary/20 border border-primary/40 rounded-lg p-4 backdrop-blur-sm">
+                    <div className="flex items-center gap-3 mb-2">
+                      <BarChart3 className="w-5 h-5 text-primary" />
+                      <span className="text-sm text-white font-medium">Built-in ROI tracking</span>
+                    </div>
+                    <p className="text-xs text-white/80">From £99/month, cancel anytime</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Detailed Comparison Table */}
+          <div className="bg-card/30 backdrop-blur-sm border border-muted/20 rounded-2xl overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-muted/20">
+                    <th className="text-left p-6 text-white font-klein font-bold text-lg"></th>
+                    <th className="text-center p-6 text-white/70 font-klein font-bold text-lg">The Old Way</th>
+                    <th className="text-center p-6 text-primary font-klein font-bold text-lg">The New Way: FitnessAds.ai</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b border-muted/10">
+                    <td className="p-6 text-white font-semibold flex items-center gap-3">
+                      <Target className="w-5 h-5 text-primary" />
+                      Creative
+                    </td>
+                    <td className="p-6 text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <X className="w-4 h-4 text-red-400" />
+                        <span className="text-white/70">Generic templates, recycled copy</span>
+                      </div>
+                    </td>
+                    <td className="p-6 text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <Check className="w-4 h-4 text-green-400" />
+                        <span className="text-white">Trained on £100k/month of real fitness ad spend</span>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                  <tr className="border-b border-muted/10">
+                    <td className="p-6 text-white font-semibold flex items-center gap-3">
+                      <Clock className="w-5 h-5 text-primary" />
+                      Speed
+                    </td>
+                    <td className="p-6 text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <X className="w-4 h-4 text-red-400" />
+                        <span className="text-white/70">Days/weeks to launch</span>
+                      </div>
+                    </td>
+                    <td className="p-6 text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <Check className="w-4 h-4 text-green-400" />
+                        <span className="text-white">90 seconds</span>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                  <tr className="border-b border-muted/10">
+                    <td className="p-6 text-white font-semibold flex items-center gap-3">
+                      <MessageCircle className="w-5 h-5 text-primary" />
+                      Voice
+                    </td>
+                    <td className="p-6 text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <X className="w-4 h-4 text-red-400" />
+                        <span className="text-white/70">Doesn't sound like you</span>
+                      </div>
+                    </td>
+                    <td className="p-6 text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <Check className="w-4 h-4 text-green-400" />
+                        <span className="text-white">Matches your tone via IG + website</span>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                  <tr className="border-b border-muted/10">
+                    <td className="p-6 text-white font-semibold flex items-center gap-3">
+                      <MapPin className="w-5 h-5 text-primary" />
+                      Targeting
+                    </td>
+                    <td className="p-6 text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <X className="w-4 h-4 text-red-400" />
+                        <span className="text-white/70">Broad, vague</span>
+                      </div>
+                    </td>
+                    <td className="p-6 text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <Check className="w-4 h-4 text-green-400" />
+                        <span className="text-white">Tailored by business type, offer, location</span>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                  <tr className="border-b border-muted/10">
+                    <td className="p-6 text-white font-semibold flex items-center gap-3">
+                      <DollarSign className="w-5 h-5 text-primary" />
+                      Cost
+                    </td>
+                    <td className="p-6 text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <X className="w-4 h-4 text-red-400" />
+                        <span className="text-white/70">High & unpredictable</span>
+                      </div>
+                    </td>
+                    <td className="p-6 text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <Check className="w-4 h-4 text-green-400" />
+                        <span className="text-white">From £99/month. Cancel anytime.</span>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td className="p-6 text-white font-semibold flex items-center gap-3">
+                      <BarChart3 className="w-5 h-5 text-primary" />
+                      Results Tracking
+                    </td>
+                    <td className="p-6 text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <X className="w-4 h-4 text-red-400" />
+                        <span className="text-white/70">Rare or manual</span>
+                      </div>
+                    </td>
+                    <td className="p-6 text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <Check className="w-4 h-4 text-green-400" />
+                        <span className="text-white">Built-in CPL & Return on investment tracking</span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
