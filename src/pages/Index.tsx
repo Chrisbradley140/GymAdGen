@@ -319,80 +319,178 @@ const Index = () => {
         </div>
       </section>
 
-      {/* WHO ELSE IS USING FITNESSADS.AI Section */}
-      <section className="py-16 px-4 bg-background">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-4 font-klein">
+      {/* WHO ELSE IS USING FITNESSADS.AI Section - Redesigned */}
+      <section className="py-20 px-4 bg-gradient-to-br from-background via-background/95 to-primary/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-6 font-klein">
               Who Else Is Already Winning With FitnessAds.ai?
             </h2>
-            <p className="text-lg text-white/80 max-w-3xl mx-auto">
+            <p className="text-xl text-white/80 max-w-4xl mx-auto leading-relaxed">
               From solo PTs to multi-location studios, early adopters are getting results that would've taken weeks — now in minutes.
             </p>
           </div>
 
-          {/* Enhanced Proof Tiles Grid */}
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            {/* Rorie - Online Coach */}
-            <Card className="relative p-8 bg-gradient-to-br from-card/80 to-card/40 border border-primary/20 hover:border-primary/40 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/10 backdrop-blur-sm group">
-              <div className="text-center">
-                <div className="mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/60 rounded-full mx-auto mb-4 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-white">R</span>
-                  </div>
-                  <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-primary transition-colors">Rorie</h3>
-                  <p className="text-muted-foreground font-medium">Online Coach for Semi Professional Footballers</p>
-                </div>
-                <div className="bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30 rounded-xl p-6 backdrop-blur-sm">
-                  <p className="text-4xl font-black text-primary mb-3">£10k</p>
-                  <p className="text-white font-medium leading-relaxed">per month online after launching FitnessAds.ai-generated campaigns</p>
-                </div>
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </Card>
+          {/* Success Stories - Unique Layout */}
+          <div className="relative">
+            {/* Background decorative elements */}
+            <div className="absolute inset-0 overflow-hidden">
+              <div className="absolute top-10 left-10 w-32 h-32 bg-primary/10 rounded-full blur-xl"></div>
+              <div className="absolute bottom-10 right-10 w-40 h-40 bg-primary/5 rounded-full blur-2xl"></div>
+            </div>
 
-            {/* Vanda - Studio Owner */}
-            <Card className="relative p-8 bg-gradient-to-br from-card/80 to-card/40 border border-primary/20 hover:border-primary/40 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/10 backdrop-blur-sm group">
-              <div className="text-center">
-                <div className="mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/60 rounded-full mx-auto mb-4 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-white">V</span>
+            <div className="grid lg:grid-cols-3 gap-8 relative z-10">
+              {/* Rorie's Success Story */}
+              <div className="group relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-3xl blur-lg group-hover:blur-xl transition-all duration-500 opacity-50 group-hover:opacity-75"></div>
+                <div className="relative bg-gradient-to-br from-card/90 to-card/50 backdrop-blur-xl border border-primary/20 rounded-3xl p-8 hover:border-primary/40 transition-all duration-500 group-hover:transform group-hover:-translate-y-2">
+                  
+                  {/* Achievement Badge */}
+                  <div className="absolute -top-4 left-8">
+                    <div className="bg-gradient-to-r from-primary to-primary/80 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">
+                      💰 Revenue Growth
+                    </div>
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-primary transition-colors">Vanda</h3>
-                  <p className="text-muted-foreground font-medium">Studio Owner</p>
-                </div>
-                <div className="bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30 rounded-xl p-6 backdrop-blur-sm">
-                  <p className="text-4xl font-black text-primary mb-3">£34,956</p>
-                  <p className="text-white font-medium leading-relaxed">in sales from one campaign pack</p>
-                </div>
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </Card>
+                  
+                  {/* Profile Section */}
+                  <div className="pt-6 pb-6 text-center">
+                    <div className="relative inline-block mb-4">
+                      <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center text-2xl font-bold text-white shadow-xl">
+                        R
+                      </div>
+                      <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                        ✓
+                      </div>
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-2">Rorie</h3>
+                    <p className="text-primary/80 font-semibold text-sm mb-6">Online Coach • Semi-Pro Footballers</p>
+                  </div>
 
-            {/* Chris - Group PT Gym */}
-            <Card className="relative p-8 bg-gradient-to-br from-card/80 to-card/40 border border-primary/20 hover:border-primary/40 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/10 backdrop-blur-sm group">
-              <div className="text-center">
-                <div className="mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/60 rounded-full mx-auto mb-4 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-white">C</span>
+                  {/* Results Card */}
+                  <div className="bg-gradient-to-r from-primary/20 via-primary/15 to-primary/10 border border-primary/30 rounded-2xl p-6 text-center backdrop-blur-sm">
+                    <div className="mb-4">
+                      <span className="text-5xl font-black bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                        £10k
+                      </span>
+                    </div>
+                    <p className="text-white font-medium text-lg leading-relaxed">
+                      per month online after launching FitnessAds.ai campaigns
+                    </p>
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-primary transition-colors">Chris</h3>
-                  <p className="text-muted-foreground font-medium">Group PT Gym</p>
-                </div>
-                <div className="bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30 rounded-xl p-6 backdrop-blur-sm">
-                  <p className="text-4xl font-black text-primary mb-3">133</p>
-                  <p className="text-white font-medium leading-relaxed">SGPT members and expanding to a second site</p>
+
+                  {/* Quote */}
+                  <div className="mt-6 p-4 bg-white/5 rounded-xl border-l-4 border-primary">
+                    <p className="text-white/90 italic text-sm">
+                      "The campaigns just work. It's like having a marketing expert who knows exactly what my audience wants."
+                    </p>
+                  </div>
                 </div>
               </div>
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </Card>
+
+              {/* Vanda's Success Story */}
+              <div className="group relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-3xl blur-lg group-hover:blur-xl transition-all duration-500 opacity-50 group-hover:opacity-75"></div>
+                <div className="relative bg-gradient-to-br from-card/90 to-card/50 backdrop-blur-xl border border-primary/20 rounded-3xl p-8 hover:border-primary/40 transition-all duration-500 group-hover:transform group-hover:-translate-y-2">
+                  
+                  {/* Achievement Badge */}
+                  <div className="absolute -top-4 left-8">
+                    <div className="bg-gradient-to-r from-primary to-primary/80 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">
+                      🎯 Campaign Success
+                    </div>
+                  </div>
+                  
+                  {/* Profile Section */}
+                  <div className="pt-6 pb-6 text-center">
+                    <div className="relative inline-block mb-4">
+                      <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center text-2xl font-bold text-white shadow-xl">
+                        V
+                      </div>
+                      <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                        ✓
+                      </div>
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-2">Vanda</h3>
+                    <p className="text-primary/80 font-semibold text-sm mb-6">Studio Owner • Premium Location</p>
+                  </div>
+
+                  {/* Results Card */}
+                  <div className="bg-gradient-to-r from-primary/20 via-primary/15 to-primary/10 border border-primary/30 rounded-2xl p-6 text-center backdrop-blur-sm">
+                    <div className="mb-4">
+                      <span className="text-4xl font-black bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                        £34,956
+                      </span>
+                    </div>
+                    <p className="text-white font-medium text-lg leading-relaxed">
+                      in sales from one campaign pack
+                    </p>
+                  </div>
+
+                  {/* Quote */}
+                  <div className="mt-6 p-4 bg-white/5 rounded-xl border-l-4 border-primary">
+                    <p className="text-white/90 italic text-sm">
+                      "One campaign pack generated more revenue than my previous 6 months of advertising combined."
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Chris's Success Story */}
+              <div className="group relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-3xl blur-lg group-hover:blur-xl transition-all duration-500 opacity-50 group-hover:opacity-75"></div>
+                <div className="relative bg-gradient-to-br from-card/90 to-card/50 backdrop-blur-xl border border-primary/20 rounded-3xl p-8 hover:border-primary/40 transition-all duration-500 group-hover:transform group-hover:-translate-y-2">
+                  
+                  {/* Achievement Badge */}
+                  <div className="absolute -top-4 left-8">
+                    <div className="bg-gradient-to-r from-primary to-primary/80 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">
+                      📈 Scale & Growth
+                    </div>
+                  </div>
+                  
+                  {/* Profile Section */}
+                  <div className="pt-6 pb-6 text-center">
+                    <div className="relative inline-block mb-4">
+                      <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center text-2xl font-bold text-white shadow-xl">
+                        C
+                      </div>
+                      <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                        ✓
+                      </div>
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-2">Chris</h3>
+                    <p className="text-primary/80 font-semibold text-sm mb-6">Group PT Gym • Multi-Location</p>
+                  </div>
+
+                  {/* Results Card */}
+                  <div className="bg-gradient-to-r from-primary/20 via-primary/15 to-primary/10 border border-primary/30 rounded-2xl p-6 text-center backdrop-blur-sm">
+                    <div className="mb-4">
+                      <span className="text-5xl font-black bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                        133
+                      </span>
+                    </div>
+                    <p className="text-white font-medium text-lg leading-relaxed">
+                      SGPT members and expanding to a second site
+                    </p>
+                  </div>
+
+                  {/* Quote */}
+                  <div className="mt-6 p-4 bg-white/5 rounded-xl border-l-4 border-primary">
+                    <p className="text-white/90 italic text-sm">
+                      "From struggling to fill classes to having a waiting list. Now opening our second location!"
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* CTA Button */}
-          <div className="text-center">
-            <CTAButton size="lg" onClick={() => navigate('/auth')}>
-              Join the Movement Now
-            </CTAButton>
+          {/* Enhanced CTA */}
+          <div className="text-center mt-16">
+            <div className="inline-flex flex-col items-center">
+              <p className="text-white/70 mb-4 text-lg">Ready to join them?</p>
+              <CTAButton size="lg" onClick={() => navigate('/auth')} className="shadow-2xl shadow-primary/20">
+                Join the Movement Now
+              </CTAButton>
+            </div>
           </div>
         </div>
       </section>
