@@ -493,8 +493,8 @@ IMPORTANT: Return ONLY the 3 concepts in the format above. Do NOT add any introd
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <AdBlock
-              title="Ad Caption"
-              description="Generate compelling Facebook & Instagram ad captions with proven structure"
+              title="Full Ad Script and Copy"
+              description="Generate compelling Facebook & Instagram ad scripts and captions with proven structure (recommended)"
               icon={<MessageSquare className="text-red-500" />}
               onGenerate={generateAdCaption}
               contentType="ad_caption"
