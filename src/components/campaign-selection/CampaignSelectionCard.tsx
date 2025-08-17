@@ -44,7 +44,7 @@ export const CampaignSelectionCard = ({ campaign, isSelected, onClick }: Campaig
               <CardTitle className={`text-lg leading-tight font-semibold transition-colors duration-300 ${
                 isSelected ? 'text-primary' : 'group-hover:text-primary'
               }`}>
-                {campaign.name}
+                {campaign.name === "Football Camp" ? "Sports Ads" : campaign.name}
               </CardTitle>
             </div>
             {campaign.seasonal_timing && (
