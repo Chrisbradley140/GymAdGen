@@ -687,134 +687,61 @@ const Index = () => {
       {/* Comparison Table Section */}
       <ComparisonTable />
 
-      {/* WHO IT'S FOR Section - Redesigned */}
-      <section className="py-20 px-4 bg-gradient-to-br from-background via-primary/5 to-secondary/10 relative overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute inset-0">
-          <div className="absolute top-20 left-20 w-64 h-64 bg-primary/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-20 w-80 h-80 bg-primary/5 rounded-full blur-3xl"></div>
-        </div>
-
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black text-foreground mb-6 font-klein">
-              From Solo PTs to Multi-Location Empires
+      {/* WHO IT'S FOR Section */}
+      <section className="py-16 px-4 bg-secondary/10">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-black text-white mb-8 font-klein">
+              Whether You're a Solo PT or Running 5 Locations — We've Got You Covered.
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Every fitness business is unique. That's why our AI adapts to your exact situation, audience, and goals.
-            </p>
           </div>
 
-          {/* Interactive Persona Cards */}
-          <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-8">
-            
-            {/* Solo PT */}
-            <div className="group relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500 opacity-0 group-hover:opacity-100"></div>
-              <Card className="relative bg-card/80 backdrop-blur-xl border border-muted/50 p-8 hover:border-primary/50 transition-all duration-500 group-hover:transform group-hover:-translate-y-2">
-                <div className="text-center mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <User className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-foreground mb-2 font-klein">Solo PT</h3>
-                  <p className="text-primary/80 font-medium">Ready to Break Out</p>
-                </div>
-                
-                <div className="space-y-4">
-                  <div className="bg-primary/10 rounded-lg p-4">
-                    <h4 className="font-semibold text-foreground mb-2">What You Get:</h4>
-                    <ul className="text-sm text-muted-foreground space-y-1">
-                      <li>• Personal brand voice recognition</li>
-                      <li>• Hyper-local targeting (postcode level)</li>
-                      <li>• No-funnel-needed campaigns</li>
-                    </ul>
-                  </div>
-                  
-                  <div className="bg-gradient-to-r from-primary/20 to-primary/10 rounded-lg p-4 border border-primary/20">
-                    <p className="text-sm font-medium text-foreground">
-                      "Finally, ads that sound like me and bring in real clients, not just likes."
-                    </p>
-                  </div>
-                </div>
-              </Card>
-            </div>
+          {/* Personas Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Burnt-Out Online Coach */}
+            <Card className="p-6 border border-muted hover:border-primary transition-colors">
+              <div className="mb-4">
+                <h3 className="text-lg font-bold text-primary mb-2 font-klein">Burnt-Out Online Coach</h3>
+                <Target className="w-8 h-8 text-primary mb-3" />
+                <p className="text-muted-foreground">Done-for-you ads in your voice.</p>
+              </div>
+            </Card>
 
             {/* Local Gym Owner */}
-            <div className="group relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500 opacity-0 group-hover:opacity-100"></div>
-              <Card className="relative bg-card/80 backdrop-blur-xl border border-muted/50 p-8 hover:border-primary/50 transition-all duration-500 group-hover:transform group-hover:-translate-y-2">
-                <div className="text-center mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <MapPin className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-foreground mb-2 font-klein">Local Gym Owner</h3>
-                  <p className="text-primary/80 font-medium">Community Builder</p>
-                </div>
-                
-                <div className="space-y-4">
-                  <div className="bg-primary/10 rounded-lg p-4">
-                    <h4 className="font-semibold text-foreground mb-2">What You Get:</h4>
-                    <ul className="text-sm text-muted-foreground space-y-1">
-                      <li>• Local community-focused messaging</li>
-                      <li>• Seasonal campaign alignment</li>
-                      <li>• Competition-proof differentiation</li>
-                    </ul>
-                  </div>
-                  
-                  <div className="bg-gradient-to-r from-primary/20 to-primary/10 rounded-lg p-4 border border-primary/20">
-                    <p className="text-sm font-medium text-foreground">
-                      "Our membership doubled when people started seeing us as THE local gym."
-                    </p>
-                  </div>
-                </div>
-              </Card>
-            </div>
+            <Card className="p-6 border border-muted hover:border-primary transition-colors">
+              <div className="mb-4">
+                <h3 className="text-lg font-bold text-primary mb-2 font-klein">Local Gym Owner</h3>
+                <MapPin className="w-8 h-8 text-primary mb-3" />
+                <p className="text-muted-foreground">Hyper-local ads that stand out in a crowded feed.</p>
+              </div>
+            </Card>
 
-            {/* Multi-Location Owner */}
-            <div className="group relative md:col-span-2 lg:col-span-1">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500 opacity-0 group-hover:opacity-100"></div>
-              <Card className="relative bg-card/80 backdrop-blur-xl border border-muted/50 p-8 hover:border-primary/50 transition-all duration-500 group-hover:transform group-hover:-translate-y-2">
-                <div className="text-center mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <TrendingUp className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-foreground mb-2 font-klein">Multi-Location</h3>
-                  <p className="text-primary/80 font-medium">Empire Builder</p>
-                </div>
-                
-                <div className="space-y-4">
-                  <div className="bg-primary/10 rounded-lg p-4">
-                    <h4 className="font-semibold text-foreground mb-2">What You Get:</h4>
-                    <ul className="text-sm text-muted-foreground space-y-1">
-                      <li>• Brand-consistent campaigns across sites</li>
-                      <li>• Team account management</li>
-                      <li>• Advanced analytics & reporting</li>
-                    </ul>
-                  </div>
-                  
-                  <div className="bg-gradient-to-r from-primary/20 to-primary/10 rounded-lg p-4 border border-primary/20">
-                    <p className="text-sm font-medium text-foreground">
-                      "Same powerful brand voice, perfectly adapted for each location's market."
-                    </p>
-                  </div>
-                </div>
-              </Card>
-            </div>
-          </div>
+            {/* Solo PT in Big Box Gym */}
+            <Card className="p-6 border border-muted hover:border-primary transition-colors">
+              <div className="mb-4">
+                <h3 className="text-lg font-bold text-primary mb-2 font-klein">Solo PT in Big Box Gym</h3>
+                <User className="w-8 h-8 text-primary mb-3" />
+                <p className="text-muted-foreground">Postcode-targeted campaigns, no funnel required.</p>
+              </div>
+            </Card>
 
-          {/* Bottom CTA */}
-          <div className="text-center mt-16">
-            <div className="bg-card/50 backdrop-blur-sm border border-muted rounded-2xl p-8 max-w-2xl mx-auto">
-              <h3 className="text-2xl font-bold text-foreground mb-4 font-klein">
-                Ready to See Your Business Type in Action?
-              </h3>
-              <p className="text-muted-foreground mb-6">
-                Get a free preview of what your ads could look like in under 90 seconds.
-              </p>
-              <CTAButton size="lg">
-                Generate My First Ad
-              </CTAButton>
-            </div>
+            {/* Wellness Niche Coach */}
+            <Card className="p-6 border border-muted hover:border-primary transition-colors">
+              <div className="mb-4">
+                <h3 className="text-lg font-bold text-primary mb-2 font-klein">Wellness Niche Coach</h3>
+                <Star className="w-8 h-8 text-primary mb-3" />
+                <p className="text-muted-foreground">Tone-matched ads with emotional precision.</p>
+              </div>
+            </Card>
+
+            {/* Studio Scaling Fast */}
+            <Card className="p-6 border border-muted hover:border-primary transition-colors md:col-span-2 lg:col-span-1">
+              <div className="mb-4">
+                <h3 className="text-lg font-bold text-primary mb-2 font-klein">Studio Scaling Fast</h3>
+                <TrendingUp className="w-8 h-8 text-primary mb-3" />
+                <p className="text-muted-foreground">Brand-cohesive campaigns, seasonally aligned.</p>
+              </div>
+            </Card>
           </div>
         </div>
       </section>
