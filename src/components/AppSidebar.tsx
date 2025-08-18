@@ -13,7 +13,8 @@ import {
   User,
   LogOut,
   ChevronDown,
-  ChevronRight
+  ChevronRight,
+  MessageSquare
 } from "lucide-react";
 import {
   Sidebar,
@@ -110,7 +111,23 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-border p-4">
+      <SidebarFooter className="border-t border-border p-4 space-y-4">
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild size="lg">
+              <a
+                href="https://link.monthlyrecurringrevenue.co.uk/widget/form/ukAAZuZJZSLnZY5t8cA0"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-4 w-full h-12 px-4 text-base font-medium rounded-lg transition-all hover:bg-accent hover:text-accent-foreground"
+              >
+                <MessageSquare className="w-6 h-6" />
+                {state === "expanded" && <span className="text-base">Share Feedback</span>}
+              </a>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+        
         {userLogo && state === "expanded" && (
           <div className="flex justify-center p-3">
             <img 
